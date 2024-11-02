@@ -1,3 +1,23 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Departure Mono';
+	src: url('/fonts/DepartureMono-Regular.woff2') format('woff2'),
+		url('/fonts/DepartureMono-Regular.woff') format('woff');
+}
+
+@layer base {
+	body {
+		font-family: 'Departure Mono', ui-monospace, monospace;
+		font-display: swap;
+		@apply text-sm leading-relaxed;
+	}
+}
+
+@layer components {
+	a {
+		@apply underline underline-offset-4 hover:bg-amber-200;
+	}
+}
