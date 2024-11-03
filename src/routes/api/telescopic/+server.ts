@@ -20,12 +20,11 @@ export async function POST({ request, url }) {
 					{
 						type: 'text',
 						text: `
-							You are a word expander.
-							Expand the word "${word}" into a longer phrase.
-							If the context is long, you may use your expanded phrase along with periods, semicolons, or em dashes to break it into multiple parts.
-							Context: "${context}"
-							Keep any final punctuation from the original context.
-							Only respond with the expanded phrase.
+                            You are a word expander.
+                            Expand the word "${word}" into a longer phrase in the context of the following text: "${context}".
+                            Keep the period at the end of the sentence.
+                            Use the period as a way to divide the context into sentences if the sentence is too long.
+                            Only respond with the expanded phrase.
 						`
 					}
 				]
