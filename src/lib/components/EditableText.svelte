@@ -6,6 +6,7 @@
 	}>();
 
 	let isEditing = $state(false);
+	let isCopying = $state(false);
 	let words = $derived(text.split(' '));
 
 	function handleClick() {
@@ -14,11 +15,19 @@
 			onTextChange(text);
 		}
 	}
+
+	function handleCopy() {
+		isCopying = true;
+		navigator.clipboard.writeText(text);
+		setTimeout(() => {
+			isCopying = false;
+		}, 1000);
+	}
 </script>
 
-<div class="mb-2 flex justify-between">
+<div class="mb-2 flex w-full justify-between">
 	<button
-		class="rounded {isEditing
+		class="w-full rounded {isEditing
 			? 'border border-amber-500'
 			: 'border border-amber-500 bg-amber-500 text-white'} px-3 py-1"
 		onclick={handleClick}
@@ -46,3 +55,12 @@
 		{/each}
 	</div>
 {/if}
+
+<div class="mt-2 flex w-full justify-between">
+	<button
+		class="border-black-500 w-full rounded border bg-black px-3 py-1 text-white"
+		onclick={handleCopy}
+	>
+		{isCopying ? 'Copied' : 'Copy'}
+	</button>
+</div>

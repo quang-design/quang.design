@@ -38,6 +38,14 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Quang | AI Telescopic Text</title>
+	<meta
+		name="description"
+		content="A tool to use AI to progressively expand simple sentences into more detailed narratives."
+	/>
+</svelte:head>
+
 <section class="max-w-sm">
 	<h1 class="">Welcome to AI Telescopic Text</h1>
 	<br />
