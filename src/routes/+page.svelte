@@ -9,7 +9,7 @@
 
 <section id="about">
 	<blockquote class="italic">
-		"The best person ever to exist."
+		"The best person ever to exist."<br />
 		<a href="https://www.urbandictionary.com/define.php?term=Quang#">—Urban Dictionary</a>
 	</blockquote>
 </section>
