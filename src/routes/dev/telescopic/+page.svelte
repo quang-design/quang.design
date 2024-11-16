@@ -47,7 +47,7 @@
 </svelte:head>
 
 <section class="max-w-sm">
-	<h1 class="">Welcome to AI Telescopic Text</h1>
+	<h1 class="uppercase">Welcome to AI Telescopic Text</h1>
 	<br />
 	<p>
 		Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
