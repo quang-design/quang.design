@@ -4,7 +4,7 @@
 	import { Navbar, HorizontalDivider } from '$components';
 </script>
 
-<main class="max-w-md p-4">
+<main class="h-full min-h-screen max-w-md border-r border-gray-600 p-4 pb-12">
 	<Navbar />
 	<HorizontalDivider />
 	{@render children()}

@@ -1,7 +1,6 @@
 const site = 'https://quang.design'; // change this to reflect your domain
 const pages: string[] = ['', 'design', 'blog', 'dev', 'dev/telescopic']; // populate this with all the slugs you wish to include
 
-/** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
 	const body = sitemap(pages);
 	const response = new Response(body);

@@ -1,5 +1,6 @@
 <script>
 	import { HorizontalDivider } from '$components';
+	import { avatar } from '$assets';
 </script>
 
 <svelte:head>
@@ -15,9 +16,21 @@
 </section>
 <HorizontalDivider />
 <section id="about">
+	<div class="flex items-center gap-2">
+		<img
+			src={avatar}
+			alt="Quang Design Avatar"
+			class="h-12 w-12 rounded-full border border-amber-200 transition-all hover:scale-125"
+		/>
+		<div class="inline-flex">
+			<span class="uppercase">Xin Chào! </span>
+			<span
+				class="text-sm transition-all hover:rotate-12 hover:scale-150 hover:animate-[wave_0.5s_ease-in-out_3]"
+				>👋</span
+			>
+		</div>
+	</div>
 	<p>
-		<span class="uppercase">Xin Chào! 👋</span>
-		<br />
 		<br />
 		My name is Quang - a Vietnamese Graphic Designer skilled at crafting impactful brand identities.
 		My goal is to deeply understand your vision and translate it into resonating visuals like branding
