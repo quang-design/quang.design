@@ -31,8 +31,9 @@
 		<div class="dev-wrap">
 			<a href="/dev">dev</a>
 			<button onclick={() => (isOpenDev = !isOpenDev)}>[+]</button>
-			<div class="dev-wrap-inner" class:hidden={!isOpenDev}>
+			<div class="dev-wrap-inner flex flex-col gap-1" class:hidden={!isOpenDev}>
 				<a href="/dev/telescopic">AI Telescopic Text</a>
+				<a href="/dev/microscopic">AI Microscopic Text</a>
 			</div>
 		</div>
 

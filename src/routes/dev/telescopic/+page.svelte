@@ -51,9 +51,12 @@
 	<br />
 	<p>
 		Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
-		progressively expand simple sentences into more detailed narratives. Click on
-		<span class="underline underline-offset-4">underlined</span> words to see them expand into richer
-		descriptions, transforming basic statements into vivid, detailed passages.
+		progressively expand simple sentences into more detailed narratives.
+	</p>
+	<br />
+	<p>
+		Click on <span class="underline underline-offset-4">underlined</span> words to see them expand into
+		richer descriptions, transforming basic statements into vivid, detailed passages.
 	</p>
 	<br />
 	<p>
