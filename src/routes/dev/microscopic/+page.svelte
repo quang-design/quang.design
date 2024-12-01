@@ -7,6 +7,7 @@
 
 	let selection = $state('');
 	let selectionRect = $state<DOMRect | null>(null);
+	let isEditing = $state(false);
 
 	$effect(() => {
 		if (!browser) return;
@@ -103,6 +104,10 @@
 				Zip up
 			</button>
 		{/if}
+		<!-- {#if !isEditing} -->
 		<p>{text}</p>
+		<!-- {:else}
+			<div contenteditable="true" bind:textContent={text}></div>
+		{/if} -->
 	</div>
 </section>

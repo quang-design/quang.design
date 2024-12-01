@@ -21,7 +21,7 @@ export async function POST({ request }) {
 						text: `
                     You are a semantic word zipper.
                     Zip up the text "${selection}" into a significantly shorter version while preserving these rules in order:
-                    1. Output must be at least 30% shorter than input
+                    1. Zipped text must be shorter than selection text
                     2. Always keep the subject of the sentence
                     3. Maintain grammatical structure
                     4. If it's a paragraph -> zip into one short sentence
