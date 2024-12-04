@@ -14,7 +14,7 @@
 	}, 1000);
 </script>
 
-<nav class="flex w-full flex-col gap-2 text-sm uppercase">
+<nav class="flex w-full select-none flex-col gap-2 text-sm uppercase">
 	<div class="flex flex-wrap gap-1">
 		<div class="home-wrap">
 			<a href="/">quang</a>
@@ -34,6 +34,7 @@
 			<div class="dev-wrap-inner flex flex-col gap-1" class:hidden={!isOpenDev}>
 				<a href="/dev/telescopic">AI Telescopic Text</a>
 				<a href="/dev/microscopic">AI Microscopic Text</a>
+				<a href="/dev/minesweeper">Minesweeper</a>
 			</div>
 		</div>
 
