@@ -35,6 +35,7 @@
 				<a href="/dev/telescopic">AI Telescopic Text</a>
 				<a href="/dev/microscopic">AI Microscopic Text</a>
 				<a href="/dev/minesweeper">Minesweeper</a>
+				<a href="/dev/xoai">XOAI</a>
 			</div>
 		</div>
 

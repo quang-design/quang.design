@@ -14,4 +14,5 @@
 	<li><a href="/dev/telescopic">AI Telescopic Text</a></li>
 	<li><a href="/dev/microscopic">AI Microscopic Text</a></li>
 	<li><a href="/dev/minesweeper">Minesweeper</a></li>
+	<li><a href="/dev/xoai">XOAI</a></li>
 </ul>
