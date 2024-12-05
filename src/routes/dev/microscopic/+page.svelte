@@ -9,27 +9,15 @@
 		"Yawning, and smearing my eyes with my fingers, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, checking with my hands to make sure it was cold enough (The best tea comes from the coldest water). I glanced outside for a minute at the city mist. I could almost taste the grey. I plugged the kettle in and switched it on. As the kettle began to hiss, I looked for biscuits. Anything above loose crumbs would do. Thankfully I found some fusty digestives. For some reason, biscuits are always nicer when they've gone a bit dry and stale. I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier. The kettle began grumbling fiercely so I took it from the cord, threw a teabag into my cup and poured boiling water onto it. I watched brown swirls rise up through the muted white of milky water. A few minutes passed. I removed and squeezed the teabag, then flicked it into the bin. I picked up my mug and left the kitchen with a nice, hot cup of strong tea."
 	);
 
-	// let selected = $state<string[]>([]);
 	let selection = $state('');
 	let selectionRect = $state<DOMRect | null>(null);
-	// let isEditing = $state(false);
 	let selectedIndices = $state(new Set<number>());
-	// $inspect(selectedIndices);
 
 	$effect(() => {
 		if (!browser) return;
 
 		const updateSelection = () => {
 			const sel = window.getSelection();
-			// console.log(sel);
-			// console.log(sel?.anchorNode?.parentNode?.__attributes?.for);
-			// const firstWord = sel?.anchorNode?.parentNode?.__attributes?.for;
-			// const lastWord = sel?.focusNode?.parentNode?.__attributes?.for;
-			// const firstWordIndex = firstWord ? parseInt(firstWord.split('-')[1]) : -1;
-			// const lastWordIndex = lastWord ? parseInt(lastWord.split('-')[1]) : -1;
-			// for (let i = firstWordIndex; i <= lastWordIndex; i++) {
-			// 	handleIndexSelect(i, true);
-			// }
 			selection = sel?.toString() ?? '';
 		};
 
@@ -137,21 +125,4 @@
 
 		<p>{text}</p>
 	</div>
-
-	<!-- <div class="flex w-full flex-wrap gap-2 rounded border p-3">
-		{#each text.split(' ') as word, index}
-			<div class="flex items-center gap-1">
-				<input
-					id={`word-${index}`}
-					type="checkbox"
-					checked={selectedIndices.has(index)}
-					onchange={(e) => handleIndexSelect(index, e.currentTarget.checked)}
-					class="hidden"
-				/>
-				<label for={`word-${index}`} class={selectedIndices.has(index) ? ' bg-blue-300/60' : ''}>
-					{word}
-				</label>
-			</div>
-		{/each}
-	</div> -->
 </section>

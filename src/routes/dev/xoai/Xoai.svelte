@@ -217,7 +217,7 @@
 			type="text"
 			bind:value={inputMessage}
 			placeholder="Type your message..."
-			class="flex-1 rounded border p-2 text-black"
+			class="flex-1 rounded border p-2 text-base text-black"
 			onkeydown={(e) => e.key === 'Enter' && handleSend()}
 		/>
 		<button
