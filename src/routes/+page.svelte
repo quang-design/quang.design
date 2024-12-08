@@ -17,7 +17,7 @@
 <HorizontalDivider />
 <section id="about">
 	<div class="flex items-center gap-2">
-		<img
+		<enhanced:img
 			src={avatar}
 			alt="Quang Design Avatar"
 			class="h-12 w-12 rounded-full border border-amber-200 transition-all hover:scale-125"
