@@ -2,3 +2,4 @@
 export { default as Navbar } from './Navbar.svelte';
 export { default as HorizontalDivider } from './HorizontalDivider.svelte';
 export { default as ZipUpButton } from './ZipUpButton.svelte';
+export { default as BlogPost } from './BlogPost.svelte';

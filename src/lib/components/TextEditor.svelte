@@ -12,21 +12,29 @@
 		indices: new Set()
 	});
 
-	// Selection handling
+	// Selection handling for both mouse and touch events
 	$effect(() => {
 		if (!browser) return;
 
 		const updateSelection = () => {
 			const sel = window.getSelection();
+			if (!sel?.toString()) return;
+
 			selection = {
 				...selection,
-				text: sel?.toString() ?? '',
-				rect: sel?.getRangeAt(0)?.getBoundingClientRect() ?? null
+				text: sel.toString(),
+				rect: sel.getRangeAt(0)?.getBoundingClientRect() ?? null
 			};
 		};
 
+		// Handle both mouse and touch selection events
 		document.addEventListener('selectionchange', updateSelection);
-		return () => document.removeEventListener('selectionchange', updateSelection);
+		document.addEventListener('touchend', updateSelection);
+
+		return () => {
+			document.removeEventListener('selectionchange', updateSelection);
+			document.removeEventListener('touchend', updateSelection);
+		};
 	});
 
 	async function handleZipUp() {
@@ -70,5 +78,23 @@
 	{#if selection.text}
 		<ZipUpButton onClick={handleZipUp} />
 	{/if}
-	<p class="whitespace-pre-wrap">{text}</p>
+	<p
+		class="whitespace-pre-wrap selection:bg-blue-200 dark:selection:bg-blue-800"
+		style="-webkit-user-select: text; user-select: text;"
+	>
+		{text}
+	</p>
 </div>
+
+<style>
+	/* Prevent text selection highlight from being hidden under the button on mobile */
+	.editor-container {
+		padding-bottom: 4rem;
+	}
+
+	@media (min-width: 768px) {
+		.editor-container {
+			padding-bottom: 1rem;
+		}
+	}
+</style>

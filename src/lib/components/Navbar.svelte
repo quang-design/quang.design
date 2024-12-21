@@ -1,17 +1,22 @@
 <script lang="ts">
 	let isOpenDev = $state(false);
-
-	let today = new Date().toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
-	});
+	let today = $state(
+		new Date().toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric'
+		})
+	);
 	let time = $state(new Date().toLocaleTimeString());
 
-	// Update time every second
-	setInterval(() => {
-		time = new Date().toLocaleTimeString();
-	}, 1000);
+	$effect(() => {
+		const interval = setInterval(() => {
+			time = new Date().toLocaleTimeString();
+		}, 1000);
+
+		// Cleanup interval when component is destroyed
+		return () => clearInterval(interval);
+	});
 </script>
 
 <nav class="flex w-full select-none flex-col gap-2 text-sm uppercase">
