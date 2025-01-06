@@ -38,6 +38,7 @@
 	"packageManager": "pnpm@8.14.3+sha1.872b21adeaae4e71acd5c551ba848d927d6aa446",
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.31.0",
-		"@sveltejs/enhanced-img": "^0.4.1"
+		"@sveltejs/enhanced-img": "^0.4.1",
+		"@vercel/analytics": "^1.4.1"
 	}
 }
