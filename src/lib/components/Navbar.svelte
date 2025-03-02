@@ -35,19 +35,24 @@
 <nav class="flex w-full select-none flex-col gap-3">
 	<div class="flex flex-col gap-2 text-sm uppercase">
 		<div class="home-wrap">
-			<a href="/" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>quang</a>
+			<a href="/" class="block py-1 transition-all hover:pl-1" onclick={handleNavItemClick}>quang</a
+			>
 		</div>
 
 		<div class="design-wrap">
-			<a href="/design" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>design</a>
+			<a href="/design" class="block py-1 transition-all hover:pl-1" onclick={handleNavItemClick}
+				>design</a
+			>
 		</div>
 
 		<div class="dev-wrap">
 			<div class="flex items-center">
-				<a href="/dev" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>dev</a>
+				<a href="/dev" class="block py-1 transition-all hover:pl-1" onclick={handleNavItemClick}
+					>dev</a
+				>
 				<button
 					class="ml-2 text-gray-400 hover:text-white"
-					on:click={(e) => {
+					onclick={(e) => {
 						isOpenDev = !isOpenDev;
 						handleSubmenuClick(e);
 					}}
@@ -55,20 +60,46 @@
 					{isOpenDev ? '[-]' : '[+]'}
 				</button>
 			</div>
-			<div class="dev-wrap-inner ml-4 flex flex-col gap-1 pt-1" class:hidden={!isOpenDev} on:click={handleSubmenuClick}>
-				<a href="/dev/telescopic" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
+			<div
+				class="dev-wrap-inner ml-4 flex flex-col gap-1 pt-1"
+				class:hidden={!isOpenDev}
+				onclick={handleSubmenuClick}
+			>
+				<a
+					href="/dev/telescopic"
+					class="block py-1 transition-all hover:pl-1"
+					onclick={handleNavItemClick}
+				>
 					AI Telescopic Text
 				</a>
-				<a href="/dev/microscopic" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>
+				<a
+					href="/dev/microscopic"
+					class="block py-1 transition-all hover:pl-1"
+					onclick={handleNavItemClick}
+				>
 					AI Microscopic Text
 				</a>
-				<a href="/dev/minesweeper" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}> Minesweeper </a>
-				<a href="/dev/xoai" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>XOAI</a>
+				<a
+					href="/dev/minesweeper"
+					class="block py-1 transition-all hover:pl-1"
+					onclick={handleNavItemClick}
+				>
+					Minesweeper
+				</a>
+				<a
+					href="/dev/xoai"
+					class="block py-1 transition-all hover:pl-1"
+					onclick={handleNavItemClick}>XOAI</a
+				>
 			</div>
 		</div>
 
 		<div class="blog-wrap">
-			<a href="/blog" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>blog</a>
+			<a href="/blog" class="block py-1 transition-all hover:pl-1" onclick={handleNavItemClick}
+				>blog</a
+			>
 		</div>
 	</div>
 
