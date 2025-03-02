@@ -18,7 +18,15 @@
 
 		const updateSelection = () => {
 			const sel = window.getSelection();
-			if (!sel?.toString()) return;
+			if (!sel?.toString()) {
+				// Clear selection state when no text is selected
+				selection = {
+					...selection,
+					text: '',
+					rect: null
+				};
+				return;
+			}
 
 			selection = {
 				...selection,
@@ -30,10 +38,12 @@
 		// Handle both mouse and touch selection events
 		document.addEventListener('selectionchange', updateSelection);
 		document.addEventListener('touchend', updateSelection);
+		document.addEventListener('click', updateSelection);
 
 		return () => {
 			document.removeEventListener('selectionchange', updateSelection);
 			document.removeEventListener('touchend', updateSelection);
+			document.removeEventListener('click', updateSelection);
 		};
 	});
 
@@ -52,7 +62,14 @@
 
 			const data = await response.json();
 			replaceSelection(data.content[0].text);
+
+			// Clear selection state and UI
 			window.getSelection()?.removeAllRanges();
+			selection = {
+				text: '',
+				rect: null,
+				indices: new Set()
+			};
 		} catch (error) {
 			console.error(error);
 			replaceSelection(selection.text);
@@ -74,27 +91,22 @@
 	}
 </script>
 
-<div class="editor-container relative w-full rounded border p-3">
-	{#if selection.text}
-		<ZipUpButton onClick={handleZipUp} />
-	{/if}
+<div class="w-full rounded border p-3">
 	<p
-		class="whitespace-pre-wrap selection:bg-blue-200 dark:selection:bg-blue-800"
+		class="mb-4 whitespace-pre-wrap rounded p-1 selection:bg-blue-600 focus:p-1 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:ring-opacity-30 dark:selection:bg-blue-800"
 		style="-webkit-user-select: text; user-select: text;"
+		contenteditable="true"
 	>
 		{text}
 	</p>
+
+	{#if selection.text}
+		<div class="mt-2">
+			<ZipUpButton onClick={handleZipUp} />
+		</div>
+	{/if}
 </div>
 
 <style>
-	/* Prevent text selection highlight from being hidden under the button on mobile */
-	.editor-container {
-		padding-bottom: 4rem;
-	}
-
-	@media (min-width: 768px) {
-		.editor-container {
-			padding-bottom: 1rem;
-		}
-	}
+	/* Empty style block to ensure proper PostCSS processing */
 </style>

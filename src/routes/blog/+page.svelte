@@ -1,5 +1,6 @@
-<script>
-	// let { data } = $props();
+<script lang="ts">
+	import { type PageData } from './$types';
+	let { data }: { data: PageData } = $props();
 	// let posts = $derived(data.posts);
 </script>
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+
 	let isOpenDev = $state(false);
 	let today = $state(
 		new Date().toLocaleDateString('en-US', {
@@ -9,6 +11,8 @@
 	);
 	let time = $state(new Date().toLocaleTimeString());
 
+	const dispatch = createEventDispatcher();
+
 	$effect(() => {
 		const interval = setInterval(() => {
 			time = new Date().toLocaleTimeString();
@@ -17,39 +21,59 @@
 		// Cleanup interval when component is destroyed
 		return () => clearInterval(interval);
 	});
+
+	function handleNavItemClick() {
+		dispatch('navItemClick');
+	}
+
+	function handleSubmenuClick(event) {
+		// Stop event propagation to prevent closing the mobile menu
+		event.stopPropagation();
+	}
 </script>
 
-<nav class="flex w-full select-none flex-col gap-2 text-sm uppercase">
-	<div class="flex flex-wrap gap-1">
+<nav class="flex w-full select-none flex-col gap-3">
+	<div class="flex flex-col gap-2 text-sm uppercase">
 		<div class="home-wrap">
-			<a href="/">quang</a>
+			<a href="/" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>quang</a>
 		</div>
-
-		<span>/</span>
 
 		<div class="design-wrap">
-			<a href="/design">design</a>
+			<a href="/design" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>design</a>
 		</div>
 
-		<span>/</span>
-
 		<div class="dev-wrap">
-			<a href="/dev">dev</a>
-			<button onclick={() => (isOpenDev = !isOpenDev)}>[+]</button>
-			<div class="dev-wrap-inner flex flex-col gap-1" class:hidden={!isOpenDev}>
-				<a href="/dev/telescopic">AI Telescopic Text</a>
-				<a href="/dev/microscopic">AI Microscopic Text</a>
-				<a href="/dev/minesweeper">Minesweeper</a>
-				<a href="/dev/xoai">XOAI</a>
+			<div class="flex items-center">
+				<a href="/dev" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>dev</a>
+				<button
+					class="ml-2 text-gray-400 hover:text-white"
+					on:click={(e) => {
+						isOpenDev = !isOpenDev;
+						handleSubmenuClick(e);
+					}}
+				>
+					{isOpenDev ? '[-]' : '[+]'}
+				</button>
+			</div>
+			<div class="dev-wrap-inner ml-4 flex flex-col gap-1 pt-1" class:hidden={!isOpenDev} on:click={handleSubmenuClick}>
+				<a href="/dev/telescopic" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>
+					AI Telescopic Text
+				</a>
+				<a href="/dev/microscopic" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>
+					AI Microscopic Text
+				</a>
+				<a href="/dev/minesweeper" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}> Minesweeper </a>
+				<a href="/dev/xoai" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>XOAI</a>
 			</div>
 		</div>
 
-		<span>/</span>
-
 		<div class="blog-wrap">
-			<a href="/blog">blog</a>
+			<a href="/blog" class="block py-1 transition-all hover:pl-1" on:click={handleNavItemClick}>blog</a>
 		</div>
 	</div>
-	<p>{today}</p>
-	<p>{time}</p>
+
+	<div class="mt-2 text-gray-400">
+		<p>{today}</p>
+		<p>{time}</p>
+	</div>
 </nav>
