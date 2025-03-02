@@ -36,7 +36,7 @@
 		}
 	}
 
-	function handleAsideClick(event) {
+	function handleAsideClick(event: Event) {
 		// Only close if clicking directly on the aside element (not its children)
 		if (event.target === event.currentTarget) {
 			closeMobileMenu();
@@ -65,7 +65,7 @@
 	>
 		<!-- Top section with navbar -->
 		<div class="p-4">
-			<Navbar on:navItemClick={closeMobileMenu} />
+			<Navbar onNavItemClick={closeMobileMenu} />
 			<HorizontalDivider />
 		</div>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	let { onNavItemClick } = $props();
 
 	let isOpenDev = $state(false);
 	let today = $state(
@@ -11,8 +11,6 @@
 	);
 	let time = $state(new Date().toLocaleTimeString());
 
-	const dispatch = createEventDispatcher();
-
 	$effect(() => {
 		const interval = setInterval(() => {
 			time = new Date().toLocaleTimeString();
@@ -22,11 +20,7 @@
 		return () => clearInterval(interval);
 	});
 
-	function handleNavItemClick() {
-		dispatch('navItemClick');
-	}
-
-	function handleSubmenuClick(event) {
+	function handleSubmenuClick(event: Event) {
 		// Stop event propagation to prevent closing the mobile menu
 		event.stopPropagation();
 	}
@@ -35,21 +29,18 @@
 <nav class="flex w-full select-none flex-col gap-3">
 	<div class="flex flex-col gap-2 text-sm uppercase">
 		<div class="home-wrap">
-			<a href="/" class="block py-1 transition-all hover:pl-1" onclick={handleNavItemClick}>quang</a
-			>
+			<a href="/" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>quang</a>
 		</div>
 
 		<div class="design-wrap">
-			<a href="/design" class="block py-1 transition-all hover:pl-1" onclick={handleNavItemClick}
+			<a href="/design" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}
 				>design</a
 			>
 		</div>
 
 		<div class="dev-wrap">
 			<div class="flex items-center">
-				<a href="/dev" class="block py-1 transition-all hover:pl-1" onclick={handleNavItemClick}
-					>dev</a
-				>
+				<a href="/dev" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>dev</a>
 				<button
 					class="ml-2 text-gray-400 hover:text-white"
 					onclick={(e) => {
@@ -70,36 +61,32 @@
 				<a
 					href="/dev/telescopic"
 					class="block py-1 transition-all hover:pl-1"
-					onclick={handleNavItemClick}
+					onclick={onNavItemClick}
 				>
 					AI Telescopic Text
 				</a>
 				<a
 					href="/dev/microscopic"
 					class="block py-1 transition-all hover:pl-1"
-					onclick={handleNavItemClick}
+					onclick={onNavItemClick}
 				>
 					AI Microscopic Text
 				</a>
 				<a
 					href="/dev/minesweeper"
 					class="block py-1 transition-all hover:pl-1"
-					onclick={handleNavItemClick}
+					onclick={onNavItemClick}
 				>
 					Minesweeper
 				</a>
-				<a
-					href="/dev/xoai"
-					class="block py-1 transition-all hover:pl-1"
-					onclick={handleNavItemClick}>XOAI</a
+				<a href="/dev/xoai" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}
+					>XOAI</a
 				>
 			</div>
 		</div>
 
 		<div class="blog-wrap">
-			<a href="/blog" class="block py-1 transition-all hover:pl-1" onclick={handleNavItemClick}
-				>blog</a
-			>
+			<a href="/blog" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>blog</a>
 		</div>
 	</div>
 
