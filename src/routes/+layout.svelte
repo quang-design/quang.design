@@ -71,7 +71,7 @@
 
 		<!-- Footer section at bottom -->
 		<footer class="mt-auto border-t border-gray-600 p-4 text-center text-gray-400">
-			<p>© {new Date().getFullYear()} Quang</p>
+			<p>© {new Date().getFullYear()} Quang.design</p>
 		</footer>
 	</aside>
 
@@ -79,6 +79,7 @@
 	<main
 		class="w-full flex-1 p-4 md:ml-[16rem] md:w-2/3 md:p-8"
 		class:hidden={isMobileMenuOpen && isMobile}
+		style="height: 100%;" 
 	>
 		{@render children()}
 	</main>
