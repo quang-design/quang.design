@@ -1,29 +1,24 @@
 <script lang="ts">
+	import { SvelteDate } from 'svelte/reactivity';
+
 	let { onNavItemClick } = $props();
 
+	let date = $state(new SvelteDate());
 	let isOpenDev = $state(false);
-	let today = $state(
-		new Date().toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		})
-	);
-	let time = $state(new Date().toLocaleTimeString());
+
+	function handleSubmenuClick(event: Event) {
+		event.stopPropagation();
+	}
 
 	$effect(() => {
 		const interval = setInterval(() => {
-			time = new Date().toLocaleTimeString();
+			date.setTime(Date.now());
 		}, 1000);
 
-		// Cleanup interval when component is destroyed
 		return () => clearInterval(interval);
 	});
 
-	function handleSubmenuClick(event: Event) {
-		// Stop event propagation to prevent closing the mobile menu
-		event.stopPropagation();
-	}
+	$inspect(date);
 </script>
 
 <nav class="flex w-full select-none flex-col gap-3">
@@ -79,9 +74,9 @@
 				>
 					Minesweeper
 				</a>
-				<a href="/dev/xoai" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}
-					>XOAI</a
-				>
+				<a href="/dev/xoai" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>
+					XOAI
+				</a>
 			</div>
 		</div>
 
@@ -91,7 +86,6 @@
 	</div>
 
 	<div class="mt-2 text-gray-400">
-		<p>{today}</p>
-		<p>{time}</p>
+		<p>{date}</p>
 	</div>
 </nav>
