@@ -1,22 +1,42 @@
-<script>
-	let canvas = $state();
-	let context = $state();
-	let coords = $state({ x: 0, y: 0 }); // Initialize with default coordinates
+<script lang="ts">
+	let canvas = $state<HTMLCanvasElement | undefined>();
+	let context = $state<CanvasRenderingContext2D | undefined>();
+	let coords = $state({ x: 0, y: 0 });
+
 	let isPointerDown = $state(false);
-	let mousePosition = $state({ x: 0, y: 0 }); // Track mouse position for preview
+	let mousePosition = $state({ x: 0, y: 0 });
+
+	// Add state for canvas dimensions
 	let canvasWidth = $state(0);
 	let canvasHeight = $state(0);
+	// Add state for responsive font size
+	let fontSize = $state('1rem');
 
 	const colors = ['#ff3e00', '#ff3eff', '#3effff', '#00ff3e', '#3e00ff', '#ff0077'];
+
 	let selected = $state(colors[0]);
-	let size = $state(1); // Starting with a more visible size
+	let size = $state(1);
+
+	// Define a type for events with touches
+	type TouchLike = {
+		touches?: {
+			[index: number]: {
+				clientX: number;
+				clientY: number;
+			};
+			length: number;
+		};
+	};
 
 	// Update canvas when component mounts
 	$effect(() => {
 		if (!canvas) return;
-		context = canvas.getContext('2d');
+
+		context = canvas.getContext('2d') || undefined;
 
 		function resize() {
+			if (!canvas || !context) return;
+
 			const dpr = window.devicePixelRatio || 1;
 			const rect = canvas.getBoundingClientRect();
 
@@ -28,6 +48,11 @@
 			canvasWidth = rect.width;
 			canvasHeight = rect.height;
 
+			// Calculate responsive font size based on canvas width
+			// Base size is 4vw with minimum and maximum constraints
+			const baseFontSize = Math.max(16, Math.min(canvasWidth * 0.04, 48));
+			fontSize = `${baseFontSize}px`;
+
 			// Scale the context to ensure correct drawing
 			context.scale(dpr, dpr);
 		}
@@ -36,7 +61,9 @@
 		resize();
 
 		// Track mouse movement across the entire document
-		function trackMouse(e) {
+		function trackMouse(e: MouseEvent) {
+			if (!canvas) return;
+
 			const rect = canvas.getBoundingClientRect();
 			mousePosition = {
 				x: e.clientX - rect.left,
@@ -45,32 +72,42 @@
 		}
 
 		document.addEventListener('mousemove', trackMouse);
-		document.addEventListener('touchmove', (e) => {
-			if (e.touches && e.touches[0]) {
-				trackMouse(e.touches[0]);
+
+		// Create a named handler for touchmove to properly remove it later
+		const touchMoveHandler = (e: TouchEvent) => {
+			if (e.touches && e.touches.length > 0) {
+				const touch = e.touches[0];
+				const mouseEvent = {
+					clientX: touch.clientX,
+					clientY: touch.clientY
+				} as MouseEvent;
+				trackMouse(mouseEvent);
 			}
-		});
+		};
+
+		document.addEventListener('touchmove', touchMoveHandler);
 
 		return () => {
 			window.removeEventListener('resize', resize);
 			document.removeEventListener('mousemove', trackMouse);
-			document.removeEventListener('touchmove', trackMouse);
+			document.removeEventListener('touchmove', touchMoveHandler);
 		};
 	});
 
-	function getCanvasCoordinates(e) {
+	function getCanvasCoordinates(e: MouseEvent | Touch | PointerEvent | TouchEvent) {
 		if (!canvas) return { x: 0, y: 0 };
 
 		const rect = canvas.getBoundingClientRect();
-		let clientX, clientY;
+		let clientX: number, clientY: number;
 
 		// Handle both mouse and touch events
-		if (e.touches && e.touches[0]) {
+		const isTouchEvent = 'touches' in e && e.touches;
+		if (isTouchEvent && e.touches.length > 0) {
 			clientX = e.touches[0].clientX;
 			clientY = e.touches[0].clientY;
 		} else {
-			clientX = e.clientX;
-			clientY = e.clientY;
+			clientX = 'clientX' in e ? e.clientX : 0;
+			clientY = 'clientY' in e ? e.clientY : 0;
 		}
 
 		return {
@@ -79,8 +116,10 @@
 		};
 	}
 
-	function handlePointerDown(e) {
+	function handlePointerDown(e: PointerEvent) {
 		e.preventDefault();
+		if (!context) return;
+
 		isPointerDown = true;
 
 		const newCoords = getCanvasCoordinates(e);
@@ -93,8 +132,9 @@
 		context.fill();
 	}
 
-	function handlePointerMove(e) {
+	function handlePointerMove(e: PointerEvent) {
 		e.preventDefault();
+		if (!context) return;
 
 		// Always update mouse position for preview
 		mousePosition = getCanvasCoordinates(e);
@@ -134,11 +174,11 @@
 
 	<!-- Text overlay in the center -->
 	<div
-		class="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 select-none"
+		class="pointer-events-none absolute inset-0 z-10 flex select-none items-center justify-center p-4"
 	>
 		<p
-			style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;"
-			class="whitespace-nowrap text-center text-4xl text-white"
+			style="font-family: 'Comic Sans MS', 'Comic Sans', cursive; font-size: {fontSize};"
+			class="max-w-full break-words text-center text-white"
 		>
 			graphic design is my passion
 		</p>
@@ -151,8 +191,8 @@
 	></div>
 
 	<!-- Control panel at the top right -->
-	<div class="absolute right-2 top-2 z-20">
-		<div class="rounded-lg border border-amber-500 bg-black/80 p-2 shadow-lg backdrop-blur-sm">
+	<div class="absolute left-0 top-0 z-20">
+		<div class="border border-amber-500 bg-black/80 p-2 shadow-lg backdrop-blur-sm">
 			<!-- Color selection -->
 			<div class="mb-2 grid grid-cols-3 gap-1">
 				{#each colors as color}
@@ -188,6 +228,16 @@
 			<div class="mt-1 text-center text-xs">
 				<span>{size}px</span>
 			</div>
+
+			<!-- Clear canvas button -->
+			<button
+				class="w-full rounded-lg bg-gray-700 px-2 py-1 text-xs text-white transition-all hover:bg-gray-600"
+				onclick={() => {
+					if (context && canvas) {
+						context.clearRect(0, 0, canvas.width, canvas.height);
+					}
+				}}>Clear</button
+			>
 		</div>
 	</div>
 </div>

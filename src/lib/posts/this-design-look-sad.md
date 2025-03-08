@@ -3,6 +3,7 @@ title: 'This design looks sad...'
 description: 'So, I sent my Christmas poster to the Marketing Team for their feedback today.'
 date: '2024-09-12'
 published: true
+thumbnail: '/images/this-design-look-sad/this-design-look-sad-1.png'
 ---
 
 ![This design looks sad...](/images/this-design-look-sad/this-design-look-sad-1.png)

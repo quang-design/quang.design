@@ -2,12 +2,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
-	// The content is automatically rendered by mdsvex through the layout
+	let PostContent = $derived(data.PostContent);
 </script>
-
-<!-- Content is automatically rendered by mdsvex through the layout in svelte.config.js -->
 
 <svelte:head>
 	<title>Quang :: {data.meta.title}</title>
 	<meta name="description" content={data.meta.description} />
 </svelte:head>
+
+<div class="mx-auto max-w-prose py-8">
+	{@render PostContent({ metadata: data.meta })}
+</div>

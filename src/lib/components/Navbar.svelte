@@ -17,8 +17,6 @@
 
 		return () => clearInterval(interval);
 	});
-
-	$inspect(date);
 </script>
 
 <nav class="flex w-full select-none flex-col gap-3">

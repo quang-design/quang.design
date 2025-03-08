@@ -1,7 +1,20 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
+// Define post metadata interface
+interface PostMetadata {
+	slug: string;
+	title: string;
+	description?: string | null;
+	date: string;
+	published?: boolean;
+	thumbnail?: string;
+	[key: string]: string | null | boolean | undefined; // For any other frontmatter fields
+}
+
 // This function generates the entry points for prerendering
+export const prerender = true;
+
 export const entries = async () => {
 	try {
 		// Get all markdown files from the posts directory
@@ -40,26 +53,35 @@ export const load = async () => {
 					const meta = metaMatch ? metaMatch[1] : '';
 
 					// Parse the metadata (basic implementation)
-					const metadata = {};
+					const metadata: Record<string, string> = {};
 					meta.split('\n').forEach((line) => {
 						const [key, ...valueParts] = line.split(':');
 						if (key && valueParts.length) {
-							metadata[key.trim()] = valueParts.join(':').trim();
+							metadata[key.trim()] = valueParts
+								.join(':')
+								.trim()
+								.replace(/['"](.*)['"]/g, '$1');
 						}
 					});
 
 					return {
 						slug,
-						...metadata,
-						// Add a default date if none exists
-						date: metadata.date || new Date().toISOString().split('T')[0]
-					};
+						title: metadata.title || slug,
+						description: metadata.description || '',
+						date: metadata.date || new Date().toISOString().split('T')[0],
+						thumbnail: metadata.thumbnail || '',
+						published:
+							metadata.published === 'true' || metadata.published === 'false'
+								? metadata.published === 'true'
+								: true
+					} as PostMetadata;
 				})
 		);
 
-		// Sort posts by date (newest first)
+		// Filter published posts and sort by date (newest first)
+		const publishedPosts = posts.filter((post) => post.published !== false);
 		return {
-			posts: posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+			posts: publishedPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 		};
 	} catch (error) {
 		console.error('Error loading blog posts:', error);
