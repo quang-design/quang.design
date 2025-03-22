@@ -4,8 +4,7 @@
 
 @font-face {
 	font-family: 'MTMighty Mono';
-	src: url('/Users/quang/Downloads/DEV/quang.design/static/fonts/MTMightyMono-MTMightyMonoVariable.woff2')
-		format('woff2');
+	src: url('/fonts/MTMightyMono-MTMightyMonoVariable.woff2') format('woff2');
 }
 
 @layer base {
