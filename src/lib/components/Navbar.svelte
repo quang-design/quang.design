@@ -19,16 +19,16 @@
 	});
 </script>
 
-<nav class="flex w-full select-none flex-col gap-3">
+<nav class="flex w-full flex-col gap-3 select-none">
 	<div class="flex flex-col gap-2 text-sm uppercase">
 		<div class="home-wrap">
 			<a href="/" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>quang</a>
 		</div>
 
 		<div class="design-wrap">
-			<a href="/design" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}
-				>design</a
-			>
+			<a href="/design" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>
+				design
+			</a>
 		</div>
 
 		<div class="dev-wrap">
@@ -71,9 +71,6 @@
 					onclick={onNavItemClick}
 				>
 					Minesweeper
-				</a>
-				<a href="/dev/xoai" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>
-					XOAI
 				</a>
 			</div>
 		</div>

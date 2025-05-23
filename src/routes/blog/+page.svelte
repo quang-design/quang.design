@@ -17,10 +17,10 @@
 			<li class="border-b border-gray-200 pb-6 dark:border-gray-800">
 				<a href={`/blog/${post.slug}`} class="block transition-opacity hover:opacity-80">
 					<div class="flex gap-4">
-						<div class="w-1/3 flex-shrink-0">
+						<div class="w-1/3 shrink-0">
 							<img src={post.thumbnail} alt={post.title} class="w-full object-cover" />
 						</div>
-						<div class="flex-grow">
+						<div class="grow">
 							<h2 class="mb-2 text-xl font-bold">{post.title}</h2>
 							{#if post.description}
 								<p class="mb-2 text-gray-600 dark:text-gray-400">{post.description}</p>

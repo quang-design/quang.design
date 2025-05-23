@@ -61,7 +61,7 @@
 		<h2 class="mb-4 uppercase">Honors & Awards</h2>
 		<a
 			href="https://www.brandsvietnam.com/congdong/topic/28096-vietnam-young-lions-2020-2021-danh-sach-nhung-chu-su-tu-tre-tai-nang"
-			class="block rounded p-4 transition-all hover:bg-stone-900"
+			class="block rounded-sm p-4 transition-all hover:bg-stone-900"
 		>
 			<p>Gold Winner, Film & Integrated Category</p>
 			<p class="mt-1 text-amber-500">Vietnam Young Lions · Nov 2020</p>
@@ -80,7 +80,7 @@
 				<li>
 					<a
 						href="https://www.creativeboom.com/tips/what-i-wish-id-known-before-breaking-into-the-creative-industry/"
-						class="block rounded p-2 transition-all hover:bg-gray-900"
+						class="block rounded-sm p-2 transition-all hover:bg-gray-900"
 					>
 						<p>8 things I wish I'd known before breaking into the creative industry</p>
 					</a>
@@ -94,7 +94,7 @@
 				<li>
 					<a
 						href="https://worldbranddesign.com/design-a-plus-size-clothing-brand-identity-that-support-good-change/"
-						class="block rounded p-2 transition-all hover:bg-gray-900"
+						class="block rounded-sm p-2 transition-all hover:bg-gray-900"
 					>
 						<p>Design a Plus-Size Clothing Brand Identity that Support Good Change</p>
 					</a>
@@ -102,7 +102,7 @@
 				<li>
 					<a
 						href="https://worldbranddesign.com/dream-sweets-a-nice-semblance-of-food-aesthetic/"
-						class="block rounded p-2 transition-all hover:bg-gray-900"
+						class="block rounded-sm p-2 transition-all hover:bg-gray-900"
 					>
 						<p>Dream Sweets – A Nice Semblance Of Food & Aesthetic</p>
 					</a>
@@ -116,7 +116,7 @@
 	<section id="experiences">
 		<h2 class="mb-4 uppercase">Experiences</h2>
 		<a
-			class="block rounded p-4 transition-all hover:bg-gray-900"
+			class="block rounded-sm p-4 transition-all hover:bg-gray-900"
 			href="https://youtu.be/81R_Xxc6nDk"
 		>
 			<p>The Design Kids Bootcamp · Srilanka, 2019</p>

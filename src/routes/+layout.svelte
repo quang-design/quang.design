@@ -77,7 +77,7 @@
 
 	<!-- Main content area - larger width (2/3 ratio) -->
 	<main
-		class="w-full flex-1 p-4 md:ml-[16rem] md:w-2/3 md:p-8"
+		class="w-full flex-1 p-4 md:ml-64 md:w-2/3 md:p-8"
 		class:hidden={isMobileMenuOpen && isMobile}
 		style="height: 100%;" 
 	>

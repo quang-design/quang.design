@@ -163,7 +163,7 @@
 <div class="relative h-full w-full overflow-hidden">
 	<canvas
 		bind:this={canvas}
-		class="absolute left-0 top-0 h-full w-full touch-none border border-gray-900 bg-black"
+		class="absolute top-0 left-0 h-full w-full touch-none border border-gray-900 bg-black"
 		onpointerdown={handlePointerDown}
 		onpointermove={handlePointerMove}
 		onpointerup={handlePointerUp}
@@ -174,11 +174,11 @@
 
 	<!-- Text overlay in the center -->
 	<div
-		class="pointer-events-none absolute inset-0 z-10 flex select-none items-center justify-center p-4"
+		class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-4 select-none"
 	>
 		<p
 			style="font-family: 'Comic Sans MS', 'Comic Sans', cursive; font-size: {fontSize};"
-			class="max-w-full break-words text-center text-white"
+			class="max-w-full text-center break-words text-white"
 		>
 			graphic design is my passion
 		</p>
@@ -191,13 +191,13 @@
 	></div>
 
 	<!-- Control panel at the top right -->
-	<div class="absolute left-0 top-0 z-20">
-		<div class="border border-amber-500 bg-black/80 p-2 shadow-lg backdrop-blur-sm">
+	<div class="absolute top-0 left-0 z-20">
+		<div class="border border-amber-500 bg-black/80 p-2 shadow-lg backdrop-blur-xs">
 			<!-- Color selection -->
 			<div class="mb-2 grid grid-cols-3 gap-1">
 				{#each colors as color}
 					<button
-						class="aspect-square h-4 w-4 rounded-full shadow-md transition-all duration-100 {selected ===
+						class="aspect-square size-4 rounded-full shadow-md transition-all duration-100 {selected ===
 						color
 							? 'shadow-inner ring-1 ring-white'
 							: 'hover:scale-110'}"

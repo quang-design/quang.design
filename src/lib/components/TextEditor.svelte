@@ -91,9 +91,9 @@
 	}
 </script>
 
-<div class="w-full rounded border p-3">
+<div class="w-full rounded-sm border p-3">
 	<p
-		class="mb-4 whitespace-pre-wrap rounded p-1 selection:bg-blue-600 focus:p-1 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:ring-opacity-30 dark:selection:bg-blue-800"
+		class="mb-4 whitespace-pre-wrap rounded-sm p-1 selection:bg-blue-600 focus:p-1 focus:outline-hidden focus:ring-1 focus:ring-amber-500 focus:ring-opacity-30 dark:selection:bg-blue-800"
 		style="-webkit-user-select: text; user-select: text;"
 		contenteditable="true"
 	>

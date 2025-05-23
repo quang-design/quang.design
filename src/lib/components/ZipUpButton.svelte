@@ -11,7 +11,7 @@
 
 <button
 	class="w-full rounded border border-amber-500 bg-white/5 px-3 py-1.5 text-white shadow-md
-           backdrop-blur-sm transition-all hover:bg-white/15"
+           backdrop-blur-xs transition-all hover:bg-white/15"
 	onclick={handleInteraction}
 	ontouchend={handleInteraction}
 >

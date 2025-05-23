@@ -40,10 +40,10 @@
 	<div
 		contenteditable="true"
 		bind:textContent={text}
-		class="w-full rounded border border-amber-500 p-3"
+		class="w-full rounded-sm border border-amber-500 p-3"
 	></div>
 {:else}
-	<div class="w-full rounded border p-3 text-left">
+	<div class="w-full rounded-sm border p-3 text-left">
 		{#each words as word}
 			<button
 				class="underline underline-offset-4 hover:bg-amber-200"
@@ -58,7 +58,7 @@
 
 <div class="mt-2 flex w-full justify-between">
 	<button
-		class="border-black-500 w-full rounded border bg-black px-3 py-1 text-white"
+		class="border-black-500 w-full rounded-sm border bg-black px-3 py-1 text-white"
 		onclick={handleCopy}
 	>
 		{isCopying ? 'Copied' : 'Copy'}
