@@ -23,7 +23,6 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.46.1",
 		"globals": "^15.15.0",
-		"mdsvex": "^0.12.6",
 		"prettier": "^3.5.3",
 		"prettier-plugin-svelte": "^3.4.0",
 		"prettier-plugin-tailwindcss": "^0.6.11",
@@ -38,7 +37,11 @@
 	"packageManager": "pnpm@8.14.3+sha1.872b21adeaae4e71acd5c551ba848d927d6aa446",
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.31.0",
-		"@sveltejs/enhanced-img": "^0.4.4",
-		"@vercel/analytics": "^1.5.0"
+		"@lucide/svelte": "^0.511.0",
+		"@vercel/analytics": "^1.5.0",
+		"clsx": "^2.1.1",
+		"gray-matter": "^4.0.3",
+		"svelte-exmarkdown": "^5.0.1",
+		"tailwind-merge": "^3.3.0"
 	}
 }

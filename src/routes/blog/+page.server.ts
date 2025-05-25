@@ -1,90 +1,63 @@
-import { promises as fs } from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
+import matter from 'gray-matter';
+import { error } from '@sveltejs/kit';
 
-// Define post metadata interface
-interface PostMetadata {
+export interface PostMetadata {
 	slug: string;
 	title: string;
-	description?: string | null;
-	date: string;
-	published?: boolean;
-	thumbnail?: string;
-	[key: string]: string | null | boolean | undefined; // For any other frontmatter fields
+	description: string;
+	thumbnail: string;
+	date?: string; // Optional, but good to include if available
 }
 
-// This function generates the entry points for prerendering
-export const prerender = true;
+export async function load() {
+	const postsBaseDir = path.resolve('src/routes/blog/posts');
+	let postSlugs: string[];
 
-export const entries = async () => {
 	try {
-		// Get all markdown files from the posts directory
-		const postsDir = path.join(process.cwd(), 'src/lib/posts');
-		const files = await fs.readdir(postsDir);
-
-		// Filter for markdown files and extract the slug (filename without extension)
-		const slugs = files
-			.filter((file) => file.endsWith('.md'))
-			.map((file) => ({ posts: file.replace('.md', '') }));
-
-		return slugs;
-	} catch (error) {
-		console.error('Error generating blog entries:', error);
-		return [];
+		postSlugs = await fs.readdir(postsBaseDir);
+	} catch (e) {
+		console.error('Error reading posts directory:', e);
+		throw error(500, 'Could not list blog posts.');
 	}
-};
 
-// Load blog post metadata for the index page
-export const load = async () => {
-	try {
-		const postsDir = path.join(process.cwd(), 'src/lib/posts');
-		const files = await fs.readdir(postsDir);
+	const posts: (PostMetadata | null)[] = await Promise.all(
+		postSlugs.map(async (slug) => {
+			const postDir = path.join(postsBaseDir, slug);
+			const filePath = path.join(postDir, 'post.md');
+			let mdContent: string;
 
-		// Get metadata from each post
-		const posts = await Promise.all(
-			files
-				.filter((file) => file.endsWith('.md'))
-				.map(async (file) => {
-					const slug = file.replace('.md', '');
-					const filePath = path.join(postsDir, file);
-					const content = await fs.readFile(filePath, 'utf-8');
+			try {
+				mdContent = await fs.readFile(filePath, 'utf-8');
+			} catch {
+				// Skip this entry if post.md is not found or not readable
+				console.warn(`Could not read post.md in ${postDir}, skipping.`);
+				return null;
+			}
 
-					// Extract frontmatter (simple implementation)
-					const metaMatch = content.match(/---\s*([\s\S]*?)\s*---/);
-					const meta = metaMatch ? metaMatch[1] : '';
+			const { data } = matter(mdContent);
+			const assetUrl = (filename: string) => `/blog/posts/${slug}/${filename}`;
 
-					// Parse the metadata (basic implementation)
-					const metadata: Record<string, string> = {};
-					meta.split('\n').forEach((line) => {
-						const [key, ...valueParts] = line.split(':');
-						if (key && valueParts.length) {
-							metadata[key.trim()] = valueParts
-								.join(':')
-								.trim()
-								.replace(/['"](.*)['"]/g, '$1');
-						}
-					});
+			return {
+				slug,
+				title: data.title ?? slug.replace(/-/g, ' '), // Use slug as fallback title
+				description: data.description ?? '',
+				thumbnail: data.thumbnail ? assetUrl(data.thumbnail.replace(/^\.\//, '')) : '', // Ensure './' is removed
+				date: data.date ?? ''
+			};
+		})
+	);
 
-					return {
-						slug,
-						title: metadata.title || slug,
-						description: metadata.description || '',
-						date: metadata.date || new Date().toISOString().split('T')[0],
-						thumbnail: metadata.thumbnail || '',
-						published:
-							metadata.published === 'true' || metadata.published === 'false'
-								? metadata.published === 'true'
-								: true
-					} as PostMetadata;
-				})
-		);
+	// Filter out any null entries (posts that couldn't be read)
+	const validPosts = posts.filter((post) => post !== null) as PostMetadata[];
 
-		// Filter published posts and sort by date (newest first)
-		const publishedPosts = posts.filter((post) => post.published !== false);
-		return {
-			posts: publishedPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-		};
-	} catch (error) {
-		console.error('Error loading blog posts:', error);
-		return { posts: [] };
+	// Optional: Sort posts by date if available, newest first
+	if (validPosts.every((post) => post.date)) {
+		validPosts.sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
 	}
-};
+
+	return {
+		posts: validPosts
+	};
+}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import { Navbar, HorizontalDivider } from '$components';
+	import { Navbar, HorizontalDivider } from '$lib/components';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { browser } from '$app/environment';
 
@@ -47,7 +47,7 @@
 <div class="flex min-h-screen flex-col md:flex-row">
 	<!-- Mobile menu button (only visible on small screens) -->
 	<button
-		class="fixed right-4 top-4 z-50 flex h-9 w-9 items-center justify-center border border-gray-600 bg-black text-white md:hidden"
+		class="fixed top-4 right-4 z-50 flex h-9 w-9 items-center justify-center border border-gray-600 bg-black text-white md:hidden"
 		onclick={toggleMobileMenu}
 	>
 		<span class="-mt-1 text-lg">{isMobileMenuOpen ? '✕' : '☰'}</span>
@@ -79,7 +79,7 @@
 	<main
 		class="w-full flex-1 p-4 md:ml-64 md:w-2/3 md:p-8"
 		class:hidden={isMobileMenuOpen && isMobile}
-		style="height: 100%;" 
+		style="height: 100%;"
 	>
 		{@render children()}
 	</main>

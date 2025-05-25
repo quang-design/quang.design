@@ -1,6 +1,5 @@
 <script>
-	import { HorizontalDivider } from '$components';
-	import { avatar } from '$assets';
+	import { HorizontalDivider } from '$lib/components';
 </script>
 
 <svelte:head>
@@ -18,14 +17,14 @@
 
 		<div class="mt-6 flex items-center gap-2">
 			<img
-				src={avatar}
+				src="/quang-design-avatar.jpg"
 				alt="Quang Design Avatar"
 				class="h-16 w-16 rounded-full border border-amber-200 transition-all hover:scale-125"
 			/>
 			<div class="inline-flex">
 				<span class="uppercase">Xin Chào! </span>
 				<span
-					class="transition-all hover:rotate-12 hover:scale-150 hover:animate-[wave_0.5s_ease-in-out_3]"
+					class="transition-all hover:scale-150 hover:rotate-12 hover:animate-[wave_0.5s_ease-in-out_3]"
 					>👋</span
 				>
 			</div>

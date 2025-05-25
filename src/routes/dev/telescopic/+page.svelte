@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EditableText from '$components/EditableText.svelte';
+	import EditableText from '$lib/components/EditableText.svelte';
 
 	let isLoading = $state(false);
 

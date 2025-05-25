@@ -35,6 +35,6 @@
 
 @layer components {
 	a {
-		@apply text-amber-500 hover:bg-amber-100 hover:underline hover:underline-offset-4;
+		@apply text-amber-500 hover:bg-amber-100;
 	}
 }

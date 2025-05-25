@@ -1,5 +1,5 @@
 <script>
-	import Canvas from '$components/Canvas.svelte';
+	import Canvas from '$lib/components/Canvas.svelte';
 </script>
 
 <svelte:head>
