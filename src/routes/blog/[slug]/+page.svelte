@@ -24,8 +24,8 @@
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
-<div class="flex min-h-screen flex-col font-mono text-base">
-	<div class="mx-auto w-full max-w-xl flex-1 p-4">
+<div class="flex flex-col">
+	<div class="mx-auto w-full max-w-xl p-4">
 		<h1 class="mb-2 text-2xl font-bold">{data.meta.title}</h1>
 		{#if data.meta.date}
 			<p class="mb-4 text-xs text-gray-400">{data.meta.date}</p>

@@ -1,86 +1,91 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
-
-	let { onNavItemClick } = $props();
+	import { toggleMode, mode } from 'mode-watcher';
+	import { Sun, Moon } from '@lucide/svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import * as Select from '$lib/components/ui/select/index.js';
+	import * as Avatar from '$lib/components/ui/avatar/index.js';
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 
 	let date = $state(new SvelteDate());
-	let isOpenDev = $state(false);
 
-	function handleSubmenuClick(event: Event) {
-		event.stopPropagation();
-	}
+	const formatter = new Intl.DateTimeFormat(undefined, {
+		hour: 'numeric',
+		minute: 'numeric',
+		second: 'numeric'
+	});
 
 	$effect(() => {
 		const interval = setInterval(() => {
 			date.setTime(Date.now());
 		}, 1000);
 
-		return () => clearInterval(interval);
+		return () => {
+			clearInterval(interval);
+		};
 	});
+
+	const navItems = [
+		{ label: 'Quang', href: '/' },
+		{ label: 'design', href: '/design' },
+		{ label: 'engineer', href: '/engineer' },
+		{ label: 'blog', href: '/blog' }
+	];
+
+	let currentPage = $state(page.url.pathname);
+
+	const triggerContent = $derived(navItems.find((f) => f.href === currentPage)?.label);
 </script>
 
-<nav class="flex w-full flex-col gap-3 select-none">
-	<div class="flex flex-col gap-2 text-sm uppercase">
-		<div class="home-wrap">
-			<a href="/" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>quang</a>
-		</div>
-
-		<div class="design-wrap">
-			<a href="/design" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>
-				design
-			</a>
-		</div>
-
-		<div class="dev-wrap">
-			<div class="flex items-center">
-				<a href="/dev" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>dev</a>
-				<button
-					class="ml-2 text-gray-400 hover:text-white"
-					onclick={(e) => {
-						isOpenDev = !isOpenDev;
-						handleSubmenuClick(e);
-					}}
-				>
-					{isOpenDev ? '[-]' : '[+]'}
-				</button>
-			</div>
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<!-- svelte-ignore a11y_no_static_element_interactions -->
-			<div
-				class="dev-wrap-inner ml-4 flex flex-col gap-1 pt-1"
-				class:hidden={!isOpenDev}
-				onclick={handleSubmenuClick}
+<header class="mx-auto flex w-full items-center justify-between py-4">
+	<div class="flex items-center gap-2">
+		<a href="/" aria-label="Quang Design">
+			<Avatar.Root
+				class="size-9 border-gray-600 transition-all duration-300 ease-in-out hover:scale-105"
 			>
-				<a
-					href="/dev/telescopic"
-					class="block py-1 transition-all hover:pl-1"
-					onclick={onNavItemClick}
-				>
-					AI Telescopic Text
+				<Avatar.Image src="/avatar.jpg" alt="@quang.design" />
+				<Avatar.Fallback>QN</Avatar.Fallback>
+			</Avatar.Root>
+		</a>
+		<!-- MOBILE -->
+		<nav class="block sm:hidden">
+			<Select.Root type="single" name="current-page" bind:value={currentPage}>
+				<Select.Trigger class="">
+					{triggerContent}
+				</Select.Trigger>
+				<Select.Content>
+					<Select.Group>
+						{#each navItems as item (item.href)}
+							<Select.Item value={item.href} label={item.label} onclick={() => goto(item.href)}>
+								{item.label}
+							</Select.Item>
+						{/each}
+					</Select.Group>
+				</Select.Content>
+			</Select.Root>
+		</nav>
+		<!-- DESKTOP -->
+		<nav class="hidden items-center gap-4 sm:flex">
+			{#each navItems as item, i (item.href)}
+				<a href={item.href}>
+					{item.label}
 				</a>
-				<a
-					href="/dev/microscopic"
-					class="block py-1 transition-all hover:pl-1"
-					onclick={onNavItemClick}
-				>
-					AI Microscopic Text
-				</a>
-				<a
-					href="/dev/minesweeper"
-					class="block py-1 transition-all hover:pl-1"
-					onclick={onNavItemClick}
-				>
-					Minesweeper
-				</a>
-			</div>
-		</div>
-
-		<div class="blog-wrap">
-			<a href="/blog" class="block py-1 transition-all hover:pl-1" onclick={onNavItemClick}>blog</a>
-		</div>
+				{#if i < navItems.length - 1}
+					<span class="text-muted-foreground">/</span>
+				{/if}
+			{/each}
+		</nav>
 	</div>
 
-	<div class="mt-2 text-gray-400">
-		<p>{date}</p>
+	<div class="flex items-center gap-2">
+		<p class="hidden sm:block">{formatter.format(date)}</p>
+		<Button variant="outline" size="icon" onclick={toggleMode} class="cursor-pointer">
+			{#if mode.current === 'dark'}
+				<Sun />
+			{:else}
+				<Moon />
+			{/if}
+		</Button>
 	</div>
-</nav>
+</header>

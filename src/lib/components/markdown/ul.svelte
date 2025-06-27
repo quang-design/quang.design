@@ -4,6 +4,6 @@
 	let { children, ...rest } = $props();
 </script>
 
-<ul {...rest} class={cn('ml-4 list-outside list-decimal', rest.class)}>
+<ul {...rest} class={cn('ml-4 list-outside list-disc', rest.class)}>
 	{@render children?.()}
 </ul>
