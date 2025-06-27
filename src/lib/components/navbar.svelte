@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
-	import { toggleMode, mode } from 'mode-watcher';
+	import { toggleMode } from 'mode-watcher';
 	import { Sun, Moon } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
@@ -28,12 +28,12 @@
 
 	const navItems = [
 		{ label: 'Quang', href: '/' },
-		{ label: 'design', href: '/design' },
-		{ label: 'engineer', href: '/engineer' },
-		{ label: 'blog', href: '/blog' }
+		{ label: 'Design', href: '/design' },
+		{ label: 'Engineer', href: '/engineer' },
+		{ label: 'Blog', href: '/blog' }
 	];
 
-	let currentPage = $state(page.url.pathname);
+	let currentPage = $derived(page.url.pathname);
 
 	const triggerContent = $derived(navItems.find((f) => f.href === currentPage)?.label);
 </script>
@@ -81,11 +81,14 @@
 	<div class="flex items-center gap-2">
 		<p class="hidden sm:block">{formatter.format(date)}</p>
 		<Button variant="outline" size="icon" onclick={toggleMode} class="cursor-pointer">
-			{#if mode.current === 'dark'}
-				<Sun />
-			{:else}
-				<Moon />
-			{/if}
+			<Sun
+				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 !transition-all dark:scale-0 dark:-rotate-90"
+			/>
+
+			<Moon
+				class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 !transition-all dark:scale-100 dark:rotate-0"
+			/>
+			<span class="sr-only">Toggle theme</span>
 		</Button>
 	</div>
 </header>
