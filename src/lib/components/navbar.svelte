@@ -7,6 +7,8 @@
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import Image from '$lib/components/image.svelte';
+	import { optimize } from '$lib/utils/image';
 
 	let date = $state(new SvelteDate());
 
@@ -44,7 +46,7 @@
 			<Avatar.Root
 				class="size-9 border-gray-600 transition-all duration-300 ease-in-out hover:scale-105"
 			>
-				<Avatar.Image src="/avatar.jpg" alt="@quang.design" />
+				<Avatar.Image srcset={optimize('/avatar.jpg')} alt="@quang.design" />
 				<Avatar.Fallback>QN</Avatar.Fallback>
 			</Avatar.Root>
 		</a>
