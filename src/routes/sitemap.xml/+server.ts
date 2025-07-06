@@ -16,7 +16,7 @@ export const GET: RequestHandler = () => {
 		.filter((route) => route !== '/404') // (optional) filter out any you don’t want
 		.filter((route) => !route.includes('[')); // strip dynamic routes
 
-	// now `pages` is exactly ['', '/design', '/blog', '/engineer', '/dev/telescopic', …]
+	// now `pages` is exactly ['', '/design', '/blog', '/engineer', '/engineer/telescopic', …]
 	// …you can serialize these into your sitemap XML
 	const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

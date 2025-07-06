@@ -18,8 +18,8 @@
 		<h1 class="uppercase">Welcome to AI Microscopic Text</h1>
 		<br />
 		<p>
-			Another tool inspired by <a href="/dev/telescopic">AI Telescopic Text</a>, this tool uses AI
-			to zip up long texts into short, concise words.
+			Another tool inspired by <a href="/engineer/telescopic">AI Telescopic Text</a>, this tool uses
+			AI to zip up long texts into short, concise words.
 		</p>
 		<br />
 		<p>
