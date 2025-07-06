@@ -26,16 +26,24 @@
 		};
 	});
 
-	const navItems = [
+	const navLinks = [
 		{ label: 'Quang', href: '/' },
 		{ label: 'Design', href: '/design' },
 		{ label: 'Engineer', href: '/engineer' },
 		{ label: 'Blog', href: '/blog' }
 	];
 
-	let currentPage = $derived(page.url.pathname);
+	let selectedHref = $derived.by(() => {
+		const path = page.url.pathname;
+		const link = navLinks.find((item) => item.href === path || path.startsWith(item.href + '/'));
+		return link?.href ?? '/';
+	});
 
-	const triggerContent = $derived(navItems.find((f) => f.href === currentPage)?.label);
+	const selectedLabel = $derived.by(() => {
+		const path = page.url.pathname;
+		const link = navLinks.find((item) => item.href === path || path.startsWith(item.href + '/'));
+		return link?.label ?? '';
+	});
 </script>
 
 <header class="mx-auto flex w-full items-center justify-between py-4">
@@ -51,13 +59,13 @@
 		</a>
 		<!-- MOBILE -->
 		<nav class="block sm:hidden">
-			<Select.Root type="single" name="current-page" bind:value={currentPage}>
+			<Select.Root type="single" name="current-page" bind:value={selectedHref}>
 				<Select.Trigger class="">
-					{triggerContent}
+					{selectedLabel}
 				</Select.Trigger>
 				<Select.Content>
 					<Select.Group>
-						{#each navItems as item (item.href)}
+						{#each navLinks as item (item.href)}
 							<Select.Item value={item.href} label={item.label} onclick={() => goto(item.href)}>
 								{item.label}
 							</Select.Item>
@@ -68,11 +76,11 @@
 		</nav>
 		<!-- DESKTOP -->
 		<nav class="hidden items-center gap-4 sm:flex">
-			{#each navItems as item, i (item.href)}
+			{#each navLinks as item, i (item.href)}
 				<a href={item.href}>
 					{item.label}
 				</a>
-				{#if i < navItems.length - 1}
+				{#if i < navLinks.length - 1}
 					<span class="text-muted-foreground">/</span>
 				{/if}
 			{/each}

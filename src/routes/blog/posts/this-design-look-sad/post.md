@@ -3,10 +3,10 @@ title: 'This design looks sad...'
 description: 'So, I sent my Christmas poster to the Marketing Team for their feedback today.'
 date: '2024-09-12'
 published: true
-thumbnail: './this-design-look-sad.png'
+thumbnail: './this-design-look-sad.webp'
 ---
 
-![This design looks sad...](./this-design-look-sad.png)
+![This design looks sad...](./this-design-look-sad.webp)
 
 So, I sent my Christmas poster to the Marketing Team for their feedback today. It's November 2021, and we're at the tail end of this turbulent year.
 

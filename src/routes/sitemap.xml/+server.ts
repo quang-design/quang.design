@@ -1,32 +1,36 @@
-const site = 'https://quang.design'; // change this to reflect your domain
-const pages: string[] = ['', 'design', 'blog', 'dev', 'dev/telescopic']; // populate this with all the slugs you wish to include
+import type { RequestHandler } from './$types';
 
-export async function GET({ url }) {
-	const body = sitemap(pages);
-	const response = new Response(body);
-	response.headers.set('Cache-Control', 'max-age=0, s-maxage=3600');
-	response.headers.set('Content-Type', 'application/xml');
-	return response;
-}
+export const GET: RequestHandler = () => {
+	// 1. grab every +page.svelte under src/routes
+	const modules = import.meta.glob('../../**/+page.svelte', { eager: false });
 
-const sitemap = (pages: string[]) => `<?xml version="1.0" encoding="UTF-8" ?>
-<urlset
-  xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:news="https://www.google.com/schemas/sitemap-news/0.9"
-  xmlns:xhtml="https://www.w3.org/1999/xhtml"
-  xmlns:mobile="https://www.google.com/schemas/sitemap-mobile/1.0"
-  xmlns:image="https://www.google.com/schemas/sitemap-image/1.1"
-  xmlns:video="https://www.google.com/schemas/sitemap-video/1.1"
->
-  ${pages
+	// 2. turn filenames into clean slugs
+	const pages = Object.keys(modules)
 		.map(
-			(page) => `
-  <url>
-    <loc>${site}/${page}</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  `
+			(file) =>
+				file
+					.replace('../../routes', '') // drop the src/routes prefix
+					.replace(/\/\+page\.svelte$/, '') // drop the +page.svelte suffix
+					.replace(/\/index$/, '') // turn /foo/index → /foo
 		)
-		.join('')}
-</urlset>`;
+		.filter((route) => route !== '/404') // (optional) filter out any you don’t want
+		.filter((route) => !route.includes('[')); // strip dynamic routes
+
+	// now `pages` is exactly ['', '/design', '/blog', '/engineer', '/dev/telescopic', …]
+	// …you can serialize these into your sitemap XML
+	const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    ${pages
+			.map(
+				(slug) => `<url>
+      <loc>${new URL(slug || '/', 'https://quang.design').href}</loc>
+      <lastmod>${new Date().toISOString()}</lastmod>
+    </url>`
+			)
+			.join('')}
+  </urlset>`;
+
+	return new Response(xml, {
+		headers: { 'Content-Type': 'application/xml' }
+	});
+};
