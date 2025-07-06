@@ -40,11 +40,11 @@ _March 2018 – April 2019_
 
 ### Publications
 
-##### Creative Boom
+#### Creative Boom
 
 - [8 things I wish I'd known before breaking into the creative industry](https://www.creativeboom.com/tips/what-i-wish-id-known-before-breaking-into-the-creative-industry/)
 
-##### World Brand Design Society
+#### World Brand Design Society
 
 - [Design a Plus-Size Clothing Brand Identity that Support Good Change](https://worldbranddesign.com/design-a-plus-size-clothing-brand-identity-that-support-good-change/)
 - [Dream Sweets – A Nice Semblance Of Food & Aesthetic](https://worldbranddesign.com/dream-sweets-a-nice-semblance-of-food-aesthetic/)
@@ -57,16 +57,16 @@ _March 2018 – April 2019_
 
 ### Certifications
 
-##### Machine Learning
+#### Machine Learning
 
 - Foundation of Machine Learning 07 - VietAI
 
-##### Deep Learning
+#### Deep Learning
 
 - Foundation of Deep Learning 04 - VietAI
 - Deep Learning Specialization - Coursera
 - Advances in Natural Language Processing (NLP) 05 - VietAI
 
-##### Web Development
+#### Web Development
 
 - Master Svelte 5 & SvelteKit – Build & Deploy Real-World Apps - Udemy

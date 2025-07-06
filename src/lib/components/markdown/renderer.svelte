@@ -13,7 +13,7 @@
 	import H5 from './h5.svelte';
 	import H6 from './h6.svelte';
 	import CodeBlock from './code-block.svelte';
-import P from './p.svelte';
+	import P from './p.svelte';
 	let { md }: { md: string } = $props();
 
 	const renderer: ComponentsMap = {

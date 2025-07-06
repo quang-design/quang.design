@@ -1,6 +1,8 @@
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = () => {
+	const noindex = ['/404', '/styles'];
+
 	// 1. grab every +page.svelte under src/routes
 	const modules = import.meta.glob('../../**/+page.svelte', { eager: false });
 
@@ -9,14 +11,15 @@ export const GET: RequestHandler = () => {
 		.map(
 			(file) =>
 				file
-					.replace('../../routes', '') // drop the src/routes prefix
+					.replace('..', '') // remove the relative path prefix
+					.replace(/\/\([^)]+\)/g, '') // remove layout groups
 					.replace(/\/\+page\.svelte$/, '') // drop the +page.svelte suffix
 					.replace(/\/index$/, '') // turn /foo/index → /foo
+					.replace(/\/\/+/g, '/') // collapse multiple slashes
 		)
-		.filter((route) => route !== '/404') // (optional) filter out any you don’t want
+		.filter((route) => !noindex.includes(route)) // filter out no-indexed routes
 		.filter((route) => !route.includes('[')); // strip dynamic routes
 
-	// now `pages` is exactly ['', '/design', '/blog', '/engineer', '/engineer/telescopic', …]
 	// …you can serialize these into your sitemap XML
 	const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -25,7 +28,7 @@ export const GET: RequestHandler = () => {
 				(slug) => `<url>
       <loc>${new URL(slug || '/', 'https://quang.design').href}</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
-    </url>`
+	    </url>`
 			)
 			.join('')}
   </urlset>`;
