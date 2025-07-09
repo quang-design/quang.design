@@ -31,6 +31,7 @@
 		{ label: 'Design', href: '/design' },
 		{ label: 'Engineer', href: '/engineer' },
 		{ label: 'Blog', href: '/blog' }
+		// { label: 'AI', href: '/ai' }
 	];
 
 	let selectedHref = $derived.by(() => {
