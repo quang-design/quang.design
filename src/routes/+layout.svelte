@@ -27,7 +27,7 @@
 <div class="mx-auto flex min-h-screen max-w-7xl flex-col">
 	<Navbar />
 
-	<main class="flex flex-1 flex-col">
+	<main class="flex flex-1 flex-col py-4">
 		{@render children()}
 	</main>
 

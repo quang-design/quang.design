@@ -1,7 +1,9 @@
 <script lang="ts">
-	let { children } = $props();
+	import { cn } from '$lib/utils';
+
+	let { children, ...rest } = $props();
 </script>
 
-<p class="mb-4">
+<p {...rest} class={cn('[&:not(:last-child)]:mb-4', rest.class)}>
 	{@render children()}
 </p>
