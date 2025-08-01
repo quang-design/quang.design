@@ -3,8 +3,8 @@
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
-	import Navbar from '$lib/components/navbar.svelte';
-	import Footer from '$lib/components/footer.svelte';
+	import Navbar from '$lib/components/shared/navbar.svelte';
+	import Footer from '$lib/components/shared/footer.svelte';
 	import { onMount } from 'svelte';
 
 	let { children } = $props();

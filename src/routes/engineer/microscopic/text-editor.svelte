@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import type { SelectionState } from '$lib/types/microscopic';
-	import ZipUpButton from './ZipUpButton.svelte';
+	import ZipUpButton from './zip-up-button.svelte';
 
 	let { initialText } = $props<{ initialText: string }>();
 
@@ -93,7 +93,7 @@
 
 <div class="w-full rounded-sm border p-3">
 	<p
-		class="mb-4 whitespace-pre-wrap rounded-sm p-1 selection:bg-blue-600 focus:p-1 focus:outline-hidden focus:ring-1 focus:ring-amber-500 focus:ring-opacity-30 dark:selection:bg-blue-800"
+		class="focus:ring-opacity-30 mb-4 rounded-sm p-1 whitespace-pre-wrap selection:bg-blue-600 focus:p-1 focus:ring-1 focus:ring-amber-500 focus:outline-hidden dark:selection:bg-blue-800"
 		style="-webkit-user-select: text; user-select: text;"
 		contenteditable="true"
 	>
