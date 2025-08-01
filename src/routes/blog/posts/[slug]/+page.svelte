@@ -69,7 +69,7 @@
 	<div class="mx-auto w-full max-w-xl p-4">
 		<div class="mb-4 flex">
 			<a href="/blog/posts/{page.params.slug}/llms.txt" target="_blank" rel="noopener noreferrer">
-				<Badge variant="outline" class="gap-1 text-xs hover:bg-gray-50" data-badge>
+				<Badge variant="outline" class="cursor-pointer gap-1 text-xs hover:bg-gray-50" data-badge>
 					llms.txt
 					<ArrowUpRight size={12} />
 				</Badge>

@@ -38,12 +38,16 @@ export async function load() {
 
 			const { data } = matter(mdContent);
 			const assetUrl = (filename: string) => `/blog/posts/${slug}/${filename}`;
-
+			// console.log(assetUrl(data.thumbnail.replace(/^\.\//, '')));
 			return {
 				slug,
-				title: data.title ?? slug.replace(/-/g, ' '), // Use slug as fallback title
+				title: data.title ?? slug.replace(/-/g, ' '),
 				description: data.description ?? '',
-				thumbnail: data.thumbnail ? assetUrl(data.thumbnail.replace(/^\.\//, '')) : '', // Ensure './' is removed
+				thumbnail: data.thumbnail
+					? data.thumbnail.startsWith('/blog/posts/')
+						? data.thumbnail
+						: assetUrl(data.thumbnail.replace(/^\.\//, ''))
+					: '',
 				date: data.date ?? ''
 			};
 		})

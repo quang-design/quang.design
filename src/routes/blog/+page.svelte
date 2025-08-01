@@ -6,6 +6,8 @@
 	let { data } = $props<{ data: { posts: PostMetadata[] } }>();
 
 	const posts = $derived(data.posts);
+
+	$inspect(posts);
 </script>
 
 <svelte:head>
@@ -19,7 +21,7 @@
 	<div class="grid w-full grid-cols-1 md:grid-cols-3">
 		{#each posts as post (post.slug)}
 			<a
-				href={`/blog/${post.slug}`}
+				href={`/blog/posts/${post.slug}`}
 				class="border-foreground/25 flex flex-col border-[0.5px] md:flex-row"
 			>
 				<div class="aspect-video w-full shrink-0 md:w-1/3 lg:w-2/5 xl:w-1/3">

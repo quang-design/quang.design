@@ -16,8 +16,8 @@ export async function load({ params }) {
 
 	const { content, data } = matter(md);
 
-	const assetUrl = (filename: string) => `/blog/posts/${slug}/${filename}`;
-	const processedContent = content.replace(/\(\.\//g, `(/blog/posts/${slug}/`);
+	const assetUrl = (filename: string) => `/blog/${slug}/${filename}`;
+	const processedContent = content.replace(/\(\.\//g, `(/blog/${slug}/`);
 
 	return {
 		md: processedContent,

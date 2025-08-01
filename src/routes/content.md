@@ -66,6 +66,7 @@ _March 2018 – April 2019_
 - Foundation of Deep Learning 04 - VietAI
 - Deep Learning Specialization - Coursera
 - Advances in Natural Language Processing (NLP) 05 - VietAI
+- LLMs - Industry Practices 02 - VietAI
 
 #### Web Development
 
