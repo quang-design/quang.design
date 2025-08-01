@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
 	import { toggleMode } from 'mode-watcher';
-	import { Sun, Moon } from '@lucide/svelte';
+	import { Sun, Moon, ArrowUpRight } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
@@ -28,10 +28,9 @@
 
 	const navLinks = [
 		{ label: 'Quang', href: '/' },
-		{ label: 'Design', href: '/design' },
+		{ label: 'Design', href: 'https://www.behance.net/quanglatoi', external: true },
 		{ label: 'Engineer', href: '/engineer' },
 		{ label: 'Blog', href: '/blog' }
-		// { label: 'AI', href: '/ai' }
 	];
 
 	let selectedHref = $derived.by(() => {
@@ -78,8 +77,16 @@
 		<!-- DESKTOP -->
 		<nav class="hidden items-center gap-4 sm:flex">
 			{#each navLinks as item, i (item.href)}
-				<a href={item.href}>
+				<a
+					href={item.href}
+					class="flex items-center gap-1"
+					target={item.external ? '_blank' : undefined}
+					rel={item.external ? 'noopener noreferrer' : undefined}
+				>
 					{item.label}
+					{#if item.external}
+						<ArrowUpRight class="h-3 w-3" />
+					{/if}
 				</a>
 				{#if i < navLinks.length - 1}
 					<span class="text-muted-foreground">/</span>
