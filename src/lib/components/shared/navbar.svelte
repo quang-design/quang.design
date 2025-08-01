@@ -66,8 +66,21 @@
 				<Select.Content>
 					<Select.Group>
 						{#each navLinks as item (item.href)}
-							<Select.Item value={item.href} label={item.label} onclick={() => goto(item.href)}>
+							<Select.Item
+								value={item.href}
+								label={item.label}
+								onclick={() => {
+									if (item.external) {
+										window.location.href = item.href;
+									} else {
+										goto(item.href);
+									}
+								}}
+							>
 								{item.label}
+								{#if item.external}
+									<ArrowUpRight class="h-3 w-3" />
+								{/if}
 							</Select.Item>
 						{/each}
 					</Select.Group>
