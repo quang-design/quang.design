@@ -7,7 +7,7 @@
 
 	const posts = $derived(data.posts);
 
-	$inspect(posts);
+	// $inspect(posts);
 </script>
 
 <svelte:head>
@@ -18,13 +18,13 @@
 <h1 class="mb-12 text-center text-2xl font-bold">Blog Posts</h1>
 
 {#if posts && posts.length > 0}
-	<div class="grid w-full grid-cols-1 md:grid-cols-3">
+	<div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 		{#each posts as post (post.slug)}
 			<a
 				href={`/blog/posts/${post.slug}`}
 				class="border-foreground/25 flex flex-col border-[0.5px] md:flex-row"
 			>
-				<div class="aspect-video w-full shrink-0 md:w-1/3 lg:w-2/5 xl:w-1/3">
+				<div class="aspect-square w-full shrink-0 md:w-1/3 lg:w-1/2 xl:w-1/3">
 					{#if post.thumbnail}
 						<img
 							src={post.thumbnail}
