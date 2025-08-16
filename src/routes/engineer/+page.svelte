@@ -11,4 +11,7 @@
 	<li><a href="/engineer/telescopic">AI Telescopic Text</a></li>
 	<li><a href="/engineer/microscopic">AI Microscopic Text</a></li>
 	<li><a href="/engineer/minesweeper">Minesweeper</a></li>
+	<li>
+		<a href="https://user-info-self.vercel.app/" target="_blank">User Agent Poetry Generator</a>
+	</li>
 </ul>
