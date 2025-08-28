@@ -14,7 +14,7 @@ export const GET: RequestHandler = async () => {
 		.map(
 			(file) =>
 				file
-					.replace('..', '') // remove the relative path prefix
+					.replace(/\.{2}/g, '') // remove all occurrences of the relative path prefix
 					.replace(/\/\([^)]+\)/g, '') // remove layout groups
 					.replace(/\/\+page\.svelte$/, '') // drop the +page.svelte suffix
 					.replace(/\/index$/, '') // turn /foo/index → /foo
