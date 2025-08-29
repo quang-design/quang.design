@@ -1,19 +1,24 @@
 import { error } from '@sveltejs/kit';
-import fs from 'fs/promises';
-import path from 'path';
 import matter from 'gray-matter';
 import type { RequestHandler } from './$types';
 
+// This endpoint must run at runtime (serverless) and not be prerendered
+export const prerender = false;
+
 export const GET: RequestHandler = async ({ params, url }) => {
 	const slug = params.slug;
-	const postDir = path.resolve('src/routes/blog/posts', slug);
 
-	let md: string;
-	try {
-		md = await fs.readFile(path.join(postDir, 'post.md'), 'utf-8');
-	} catch {
-		throw error(404, 'Post not found');
-	}
+	// Use Vite's import-time glob to include markdown in the bundle (deployment-safe)
+	const posts = import.meta.glob('/src/routes/blog/posts/*/post.md', {
+		as: 'raw',
+		eager: true
+	}) as Record<string, string>;
+
+	// Find the entry matching the requested slug
+	const match = Object.entries(posts).find(([key]) => key.includes(`/blog/posts/${slug}/post.md`));
+
+	if (!match) throw error(404, 'Post not found');
+	const md = match[1];
 
 	const { content, data } = matter(md);
 

@@ -153,21 +153,21 @@ ${engineeringProjects.map((project) => `- [${project.title}](${project.path}): $
 			blogPosts.length > 0
 				? `## Blog Posts
 
-${blogPosts.map((post) => `- [${post.title}](/blog/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
+${blogPosts.map((post) => `- [${post.title}](/blog/posts/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
 				: '';
 
 		const blogMarkdownSection =
 			blogPosts.length > 0
 				? `## Blog Posts (Markdown Format)
 
-${blogPosts.map((post) => `- [${post.title} (Markdown)](/blog/${post.slug}/post.md): Raw markdown content for LLM consumption`).join('\n')}`
+${blogPosts.map((post) => `- [${post.title} (Markdown)](/blog/posts/${post.slug}/post.md): Raw markdown content for LLM consumption`).join('\n')}`
 				: '';
 
 		const individualLlmsTxtSection =
 			blogPosts.length > 0
 				? `## Individual Blog Post LLMs.txt Files
 
-${blogPosts.map((post) => `- [${post.title} (LLM optimized)](/blog/${post.slug}/llms.txt): Individual llms.txt for this post`).join('\n')}`
+${blogPosts.map((post) => `- [${post.title} (LLM optimized)](/blog/posts/${post.slug}/llms.txt): Individual llms.txt for this post`).join('\n')}`
 				: '';
 
 		// Generate complete llms.txt content

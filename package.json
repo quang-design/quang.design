@@ -57,6 +57,7 @@
 		"marked": "^15.0.12",
 		"mode-watcher": "^1.1.0",
 		"neverthrow": "^8.2.0",
+		"resend": "^6.0.1",
 		"svelte-exmarkdown": "^5.0.2"
 	}
 }

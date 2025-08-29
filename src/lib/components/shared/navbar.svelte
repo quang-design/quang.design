@@ -47,10 +47,10 @@
 </script>
 
 <header class="mx-auto flex w-full items-center justify-between py-4">
-	<div class="flex items-center gap-2">
+	<div class="flex items-center gap-4">
 		<a href="/" aria-label="Quang Design">
 			<Avatar.Root
-				class="size-9 border-gray-600 transition-all duration-300 ease-in-out hover:scale-105"
+				class="border-gray-320 size-9 border transition-all duration-300 ease-in-out hover:scale-105"
 			>
 				<Avatar.Image src="/avatar.avif" alt="@quang.design" />
 

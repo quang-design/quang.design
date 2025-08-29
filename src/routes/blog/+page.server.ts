@@ -1,44 +1,29 @@
-import fs from 'fs/promises';
-import path from 'path';
 import matter from 'gray-matter';
-import { error } from '@sveltejs/kit';
 
 export interface PostMetadata {
 	slug: string;
 	title: string;
 	description: string;
 	thumbnail: string;
-	date?: string; // Optional, but good to include if available
+	date: string; // Required to match mapped object shape
 }
 
 export async function load() {
-	const postsBaseDir = path.resolve('src/routes/blog/posts');
-	let postSlugs: string[];
+	// Bundle all post markdown files at build-time (deployment-safe and avoids [slug] dir)
+	const modules = import.meta.glob('/src/routes/blog/posts/*/post.md', {
+		query: '?raw',
+		import: 'default',
+		eager: true
+	}) as Record<string, string>;
 
-	try {
-		postSlugs = await fs.readdir(postsBaseDir);
-	} catch (e) {
-		console.error('Error reading posts directory:', e);
-		throw error(500, 'Could not list blog posts.');
-	}
-
-	const posts: (PostMetadata | null)[] = await Promise.all(
-		postSlugs.map(async (slug) => {
-			const postDir = path.join(postsBaseDir, slug);
-			const filePath = path.join(postDir, 'post.md');
-			let mdContent: string;
-
-			try {
-				mdContent = await fs.readFile(filePath, 'utf-8');
-			} catch {
-				// Skip this entry if post.md is not found or not readable
-				console.warn(`Could not read post.md in ${postDir}, skipping.`);
-				return null;
-			}
-
-			const { data } = matter(mdContent);
+	const posts: PostMetadata[] = Object.entries(modules)
+		.map(([key, md]) => {
+			// Extract slug from file path
+			const match = key.match(/\/blog\/posts\/([^/]+)\/post\.md$/);
+			if (!match) return null;
+			const slug = match[1];
+			const { data } = matter(md);
 			const assetUrl = (filename: string) => `/blog/posts/${slug}/${filename}`;
-			// console.log(assetUrl(data.thumbnail.replace(/^\.\//, '')));
 			return {
 				slug,
 				title: data.title ?? slug.replace(/-/g, ' '),
@@ -46,22 +31,17 @@ export async function load() {
 				thumbnail: data.thumbnail
 					? data.thumbnail.startsWith('/blog/posts/')
 						? data.thumbnail
-						: assetUrl(data.thumbnail.replace(/^\.\//, ''))
+						: assetUrl(String(data.thumbnail).replace(/^\.\//, ''))
 					: '',
 				date: data.date ?? ''
 			};
 		})
-	);
-
-	// Filter out any null entries (posts that couldn't be read)
-	const validPosts = posts.filter((post) => post !== null) as PostMetadata[];
+		.filter((p): p is PostMetadata => p !== null);
 
 	// Optional: Sort posts by date if available, newest first
-	if (validPosts.every((post) => post.date)) {
-		validPosts.sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+	if (posts.every((post) => post.date)) {
+		posts.sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
 	}
 
-	return {
-		posts: validPosts
-	};
+	return { posts };
 }

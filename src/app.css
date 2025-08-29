@@ -4,7 +4,19 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-	--radius: 0.625rem;
+	--radius: 0;
+	--text-base: 0.85rem;
+	--text-lg: 1rem;
+	--text-xl: 1.1rem;
+	--text-2xl: 1.2rem;
+	--text-3xl: 1.3rem;
+	--text-4xl: 1.4rem;
+	--text-5xl: 1.5rem;
+	--text-6xl: 1.6rem;
+	--text-7xl: 1.7rem;
+	--text-8xl: 1.8rem;
+	--text-sm: 0.8rem;
+	--spacing: 0.2rem;
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
@@ -73,10 +85,11 @@
 }
 
 @theme inline {
-	--radius-sm: calc(var(--radius) - 4px);
-	--radius-md: calc(var(--radius) - 2px);
-	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) + 4px);
+	--font-sans: var(--font-mono);
+	--radius-sm: 0;
+	--radius-md: 0;
+	--radius-lg: 0;
+	--radius-xl: 0;
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-card: var(--card);
@@ -110,12 +123,37 @@
 	--color-sidebar-ring: var(--sidebar-ring);
 }
 
+@layer utilities {
+	.rounded,
+	.rounded-xs,
+	.rounded-sm,
+	.rounded-md,
+	.rounded-lg,
+	.rounded-xl,
+	.rounded-2xl,
+	.rounded-3xl,
+	.rounded-full {
+		border-radius: 0 !important;
+	}
+
+	.shadow,
+	.shadow-xs,
+	.shadow-sm,
+	.shadow-md,
+	.shadow-lg,
+	.shadow-xl,
+	.shadow-2xl,
+	.shadow-inner {
+		box-shadow: none !important;
+	}
+}
+
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply bg-background text-foreground px-4 font-mono text-sm font-light;
+		@apply bg-background text-foreground px-4 font-mono text-base font-light;
 	}
 	a:not(:has(img, svg:not(.lucide-arrow-up-right)), :has([data-badge])) {
 		@apply relative text-blue-500 no-underline;

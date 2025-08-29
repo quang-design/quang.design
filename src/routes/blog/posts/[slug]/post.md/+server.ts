@@ -1,19 +1,24 @@
 import { error } from '@sveltejs/kit';
-import fs from 'fs/promises';
-import path from 'path';
 import matter from 'gray-matter';
 import type { RequestHandler } from './$types';
 
+// Must run at runtime (serverless) and not be prerendered
+export const prerender = false;
+
 export const GET: RequestHandler = async ({ params }) => {
 	const slug = params.slug;
-	const postDir = path.resolve('src/routes/blog/posts', slug);
 
-	let md: string;
-	try {
-		md = await fs.readFile(path.join(postDir, 'post.md'), 'utf-8');
-	} catch {
-		throw error(404, 'Post not found');
-	}
+	// Bundle markdown at build-time for deployment safety
+	const posts = import.meta.glob('/src/routes/blog/posts/*/post.md', {
+		query: '?raw',
+		import: 'default',
+		eager: true
+	}) as Record<string, string>;
+
+	const match = Object.entries(posts).find(([key]) => key.includes(`/blog/posts/${slug}/post.md`));
+
+	if (!match) throw error(404, 'Post not found');
+	const md = match[1];
 
 	const { content, data } = matter(md);
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Markdown } from '$lib/components/markdown';
 	import content from './content.md?raw';
+
 	// Split out each column section and drop the "ColumnX" headings
 	const sections = content
 		.split(/^## Column\d+\s*/m)
@@ -14,7 +15,7 @@
 </svelte:head>
 
 <div class="w-full">
-	<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+	<div class="grid grid-cols-1 gap-8 md:grid-cols-3">
 		{#each sections as section}
 			<div class="prose max-w-none">
 				<Markdown md={section} />
