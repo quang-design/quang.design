@@ -11,6 +11,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	// Use Vite's import-time glob to include markdown in the bundle (deployment-safe)
 	const posts = import.meta.glob('/src/routes/blog/posts/*/post.md', {
 		query: '?raw',
+		import: 'default',
 		eager: true
 	}) as Record<string, string>;
 
