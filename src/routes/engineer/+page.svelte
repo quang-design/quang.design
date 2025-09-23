@@ -12,7 +12,7 @@
 	<li><a href="/engineer/microscopic">AI Microscopic Text</a></li>
 	<li><a href="/engineer/minesweeper">Minesweeper</a></li>
 	<li>
-		<a href="https://user-info-self.vercel.app/" target="_blank">User Agent Poetry Generator</a>
+		<a href="https://user-info.quang.design/" target="_blank">User Agent Poetry Generator</a>
 	</li>
 	<li>
 		<a href="https://bluesky.quang.design/" target="_blank">Bluesky Client (WIP)</a>
