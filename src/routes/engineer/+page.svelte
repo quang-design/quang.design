@@ -14,4 +14,7 @@
 	<li>
 		<a href="https://user-info-self.vercel.app/" target="_blank">User Agent Poetry Generator</a>
 	</li>
+	<li>
+		<a href="https://bluesky.quang.design/" target="_blank">Bluesky Client (WIP)</a>
+	</li>
 </ul>
