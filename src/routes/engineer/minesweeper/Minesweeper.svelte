@@ -90,7 +90,7 @@
 	});
 </script>
 
-<div class="grid grid-cols-9">
+<div class="grid grid-cols-9 gap-0">
 	{#each Array(81) as _, i}
 		<MinesweeperBlock
 			isMine={mines.includes(i)}

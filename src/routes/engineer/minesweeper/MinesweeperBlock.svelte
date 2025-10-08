@@ -51,7 +51,7 @@
 	onclick={(e) => {
 		if (e.button !== 2) handleClick(e);
 	}}
-	class="aspect-square max-h-10 max-w-10 items-center justify-center overflow-hidden
+	class="aspect-square items-center justify-center overflow-hidden
 	{propIsRevealed
 		? 'border-2 border-gray-800 bg-gray-600'
 		: 'border-b-4 border-l-4 border-r-4 border-t-4 border-gray-200 border-b-gray-600 border-r-gray-600 bg-gray-400'}
