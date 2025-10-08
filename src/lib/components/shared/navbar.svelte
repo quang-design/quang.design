@@ -8,7 +8,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 
-	let date = $state(new SvelteDate());
+	let date = new SvelteDate();
 
 	const formatter = new Intl.DateTimeFormat(undefined, {
 		hour: 'numeric',
@@ -17,13 +17,8 @@
 	});
 
 	$effect(() => {
-		const interval = setInterval(() => {
-			date.setTime(Date.now());
-		}, 1000);
-
-		return () => {
-			clearInterval(interval);
-		};
+		const interval = setInterval(() => date.setTime(Date.now()), 1000);
+		return () => clearInterval(interval);
 	});
 
 	const navLinks = [

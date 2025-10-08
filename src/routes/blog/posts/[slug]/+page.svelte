@@ -14,7 +14,7 @@
 		};
 	} = $props();
 
-	let md = $state(data.md);
+	// let md = $state(data.md);
 
 	// Generate SEO data
 	const seoData: SEOData = {
@@ -79,6 +79,6 @@
 		{#if data.meta.date}
 			<p class="mb-4 text-xs text-gray-400">{data.meta.date}</p>
 		{/if}
-		<Markdown {md} />
+		<Markdown md={data.md} />
 	</div>
 </div>
