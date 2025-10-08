@@ -1,19 +1,18 @@
 <script lang="ts">
 	import { Image, CircleAlert } from '@lucide/svelte';
-
+	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import type { PostMetadata } from './+page.server';
 
 	let { data } = $props<{ data: { posts: PostMetadata[] } }>();
 
 	const posts = $derived(data.posts);
-
-	// $inspect(posts);
 </script>
 
-<svelte:head>
-	<title>Blog</title>
-	<meta name="description" content="My thoughts on design, development, and more." />
-</svelte:head>
+<SeoHead
+	title="Blog"
+	description="My thoughts on design, development, and more."
+	canonical="https://quang.design/blog"
+/>
 
 <h1 class="mb-12 text-center text-2xl font-bold">Blog Posts</h1>
 

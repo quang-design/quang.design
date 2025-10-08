@@ -1,4 +1,5 @@
 <script lang="ts">
+	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import EditableText from './editable-text.svelte';
 
 	let isLoading = $state(false);
@@ -38,13 +39,11 @@
 	};
 </script>
 
-<svelte:head>
-	<title>Quang | AI Telescopic Text</title>
-	<meta
-		name="description"
-		content="A tool to use AI to progressively expand simple sentences into more detailed narratives."
-	/>
-</svelte:head>
+<SeoHead
+	title="Quang | AI Telescopic Text"
+	description="A tool to use AI to progressively expand simple sentences into more detailed narratives."
+	canonical="https://quang.design/engineer/telescopic"
+/>
 
 <section class="max-w-sm">
 	<h1 class="uppercase">Welcome to AI Telescopic Text</h1>

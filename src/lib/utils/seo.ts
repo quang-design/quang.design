@@ -44,32 +44,3 @@ export function generateStructuredData(data: SEOData & { url: string }) {
 	);
 }
 
-export function generateMetaTags(data: SEOData) {
-	return {
-		title: data.title,
-		description: data.description,
-		canonical: data.canonical,
-		openGraph: {
-			title: data.title,
-			description: data.description,
-			type: data.type || 'website',
-			image: data.image,
-			url: data.canonical
-		},
-		twitter: {
-			card: 'summary_large_image',
-			title: data.title,
-			description: data.description,
-			image: data.image
-		},
-		article:
-			data.type === 'article'
-				? {
-						publishedTime: data.publishedTime,
-						modifiedTime: data.modifiedTime,
-						author: data.author,
-						tags: data.tags
-					}
-				: undefined
-	};
-}

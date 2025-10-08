@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Markdown } from '$lib/components/markdown';
+	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import content from './content.md?raw';
 
 	// Split out each column section and drop the "ColumnX" headings
@@ -9,10 +10,11 @@
 		.map((section) => section.trim());
 </script>
 
-<svelte:head>
-	<title>Quang | Home</title>
-	<meta name="description" content="A Vietnamese graphic designer with passion to build things." />
-</svelte:head>
+<SeoHead
+	title="Quang | Home"
+	description="A Vietnamese graphic designer with passion to build things."
+	canonical="https://quang.design"
+/>
 
 <div class="w-full">
 	<div class="grid grid-cols-1 gap-8 md:grid-cols-3">

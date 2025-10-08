@@ -1,7 +1,12 @@
-<svelte:head>
-	<title>Quang | Engineer</title>
-	<meta name="description" content="This is a collection of all my engineering work." />
-</svelte:head>
+<script lang="ts">
+	import SeoHead from '$lib/components/shared/seo-head.svelte';
+</script>
+
+<SeoHead
+	title="Quang | Engineer"
+	description="This is a collection of all my engineering work."
+	canonical="https://quang.design/engineer"
+/>
 
 <h1>ALL THINGS ENGINEERING (WIP)</h1>
 <br />
