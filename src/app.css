@@ -155,6 +155,9 @@
 	body {
 		@apply bg-background text-foreground px-4 font-mono text-base font-light;
 	}
+	p {
+		@apply leading-7;
+	}
 	a:not(:has(img, svg:not(.lucide-arrow-up-right)), :has([data-badge])) {
 		@apply relative text-blue-500 no-underline;
 	}
