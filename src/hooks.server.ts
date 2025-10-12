@@ -1,24 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import type { Handle } from '@sveltejs/kit';
 
-const SITE_URL = 'https://quang.design';
-
-const STATIC_SECURITY_HEADERS = {
-	'X-Frame-Options': 'SAMEORIGIN',
-	'X-Content-Type-Options': 'nosniff',
-	'Referrer-Policy': 'no-referrer',
-	'Permissions-Policy':
-		'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()',
-	'Cross-Origin-Embedder-Policy': 'require-corp',
-	'Cross-Origin-Opener-Policy': 'same-origin',
-	'Cross-Origin-Resource-Policy': 'same-origin',
-	'Origin-Agent-Cluster': '?1',
-	'X-DNS-Prefetch-Control': 'off',
-	'X-Download-Options': 'noopen',
-	'X-Permitted-Cross-Domain-Policies': 'none',
-	'X-XSS-Protection': '0'
-};
-
 function buildCSP(nonce: string): string {
 	return [
 		"default-src 'self'",
@@ -44,12 +26,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		transformPageChunk: ({ html }) => addNonceToScripts(html, nonce)
 	});
 
+	// CSP requires dynamic nonce generation, so it stays in hooks.server.ts
+	// All other static security headers are configured in vercel.json
 	response.headers.set('Content-Security-Policy', buildCSP(nonce));
-	response.headers.set('Access-Control-Allow-Origin', SITE_URL);
-
-	Object.entries(STATIC_SECURITY_HEADERS).forEach(([header, value]) => {
-		response.headers.set(header, value);
-	});
 
 	return response;
 };
