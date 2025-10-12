@@ -40,7 +40,13 @@
 					defaultColor: 'light-dark()'
 				})
 					.then((html) => {
-						highlightedCode = html;
+						// Remove overflow-related inline styles from the generated HTML
+						const cleanedHtml = html
+							.replace(/style="([^"]*?)overflow[^;]*;?([^"]*)"/gi, (match, before, after) => {
+								const cleaned = (before + after).trim();
+								return cleaned ? `style="${cleaned}"` : '';
+							});
+						highlightedCode = cleanedHtml;
 					})
 					.catch((err) => {
 						console.error('Shiki highlighting failed:', err);
@@ -51,6 +57,18 @@
 	});
 </script>
 
+<style>
+	:global(.shiki-wrapper pre) {
+		margin: 0 !important;
+		padding: 0 !important;
+		background: transparent !important;
+	}
+
+	:global(.shiki-wrapper code) {
+		display: block;
+	}
+</style>
+
 {#if inline}
 	<code class={cn(`rounded-md bg-zinc-100 px-1 py-0.5 text-sm dark:bg-zinc-800`, c)} {...rest}>
 		{@render children?.()}
@@ -58,21 +76,21 @@
 {:else}
 	<div class="not-prose my-4">
 		<div
-			class="overflow-x-auto rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900"
+			class="rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900"
 		>
-			{#if highlightedCode}
-				<div class="p-4">
-					{@html highlightedCode}
-				</div>
-			{/if}
-			<pre
-				{...rest}
-				class="w-full p-4 text-sm text-zinc-900 dark:text-zinc-50"
-				class:opacity-0={highlightedCode}
-				class:absolute={highlightedCode}
-				class:pointer-events-none={highlightedCode}><code bind:this={codeElement}
-					>{text || ''}{@render children?.()}</code
+			<div class="overflow-x-auto">
+				{#if highlightedCode}
+					<div class="shiki-wrapper p-4">
+						{@html highlightedCode}
+					</div>
+				{/if}
+				<pre
+					{...rest}
+					class="w-full p-4 text-sm text-zinc-900 dark:text-zinc-50"
+					class:hidden={highlightedCode}><code bind:this={codeElement}
+						>{text || ''}{@render children?.()}</code
 				></pre>
+			</div>
 		</div>
 	</div>
 {/if}
