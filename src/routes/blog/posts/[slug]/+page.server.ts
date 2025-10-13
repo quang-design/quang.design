@@ -24,7 +24,11 @@ export async function load({ params }) {
 		meta: {
 			title: data.title ?? slug,
 			description: data.description ?? '',
-			thumbnail: data.thumbnail ? assetUrl(data.thumbnail.replace('./', '')) : '',
+			thumbnail: data.thumbnail
+				? data.thumbnail.startsWith('/blog/')
+					? data.thumbnail
+					: assetUrl(data.thumbnail.replace('./', ''))
+				: '',
 			date: data.date ?? ''
 		}
 	};
