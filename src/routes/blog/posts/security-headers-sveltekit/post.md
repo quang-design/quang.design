@@ -27,7 +27,11 @@ Let's try it. Tested quang.design and got a D. Not bad? I guess.
 
 ![my initial score - a solid D](/blog/posts/security-headers-sveltekit/initial-score.png)
 
-Here's the distribution of total scores - most sites are F anyway, so D feels kinda okay. But what's Apple's score? Good benchmark to see how far we are from the top.
+Here's the distribution of total scores - most sites are F anyway, so D feels kinda okay.
+
+![distribution of security header scores](/blog/posts/security-headers-sveltekit/score-distribution.png)
+
+But what's Apple's score? Good benchmark to see how far we are from the top.
 
 ![apple's security headers - learn from the best](/blog/posts/security-headers-sveltekit/apple-headers.png)
 
