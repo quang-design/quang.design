@@ -9,13 +9,13 @@
 <Markdown {md} plugins={[gfmPlugin()]}>
 	{#snippet ol(props)}
 		{@const { children, ...rest } = props}
-		<ol {...rest} class={cn('ml-4 list-outside list-decimal', rest.class)}>
+		<ol {...rest} class={cn('ml-6 list-outside list-decimal', rest.class)}>
 			{@render children?.()}
 		</ol>
 	{/snippet}
 	{#snippet ul(props)}
 		{@const { children, ...rest } = props}
-		<ul {...rest} class={cn('ml-4 list-outside list-decimal', rest.class)}>
+		<ul {...rest} class={cn('ml-6 list-outside list-disc', rest.class)}>
 			{@render children?.()}
 		</ul>
 	{/snippet}

@@ -229,6 +229,54 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 ```
 
+## the better way: svelte.config.js
+
+The next day, I asked for feedback and a friend who leads the [Svelte Vietnam](https://www.sveltevietnam.dev/) project showed me there's a cleaner approach. SvelteKit has built-in CSP support that handles nonce generation automatically!
+
+Instead of manually managing CSP in hooks, you can configure it directly in _svelte.config.js_:
+
+```javascript
+// svelte.config.js
+import adapter from '@sveltejs/adapter-vercel';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	extensions: ['.svelte', '.md'],
+	preprocess: [vitePreprocess()],
+
+	kit: {
+		adapter: adapter(),
+
+		// Content Security Policy configuration
+		csp: {
+			mode: 'auto', // SvelteKit handles nonce generation automatically
+			directives: {
+				'default-src': ['self'],
+				'script-src': ['self', 'wasm-unsafe-eval'],
+				'style-src': ['self', 'unsafe-inline'],
+				'img-src': ['self', 'data:', 'https:'],
+				'font-src': ['self', 'data:'],
+				'connect-src': ['self'],
+				'frame-ancestors': ['self'],
+				'base-uri': ['self'],
+				'form-action': ['self']
+			}
+		}
+	}
+};
+
+export default config;
+```
+
+With this approach, you can completely remove the CSP code from _hooks.server.ts_ (or delete the file entirely if that's all it was doing). SvelteKit's _mode: 'auto'_ automatically:
+
+- Generates unique nonces for each request
+- Injects nonces into script tags
+- Sets the Content-Security-Policy header
+
+This is much cleaner and follows SvelteKit's conventions. The static security headers stay in _vercel.json_ since they're platform-specific.
+
 ## the moment of truth
 
 Anddddddd voila!
