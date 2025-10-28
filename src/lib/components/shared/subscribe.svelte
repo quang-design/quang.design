@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { Input } from '$lib/components/ui/input/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { toast } from 'svelte-sonner';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 
 	let email = $state('');
 	let loading = $state(false);
@@ -21,10 +22,11 @@
 			});
 			const data = await res.json().catch(() => null);
 			if (!res.ok) {
-				console.error('Subscribe failed', data ?? res.statusText);
+				const errorMessage = data?.message || res.statusText;
+				toast.error(`Subscription failed: ${errorMessage}`);
 				return;
 			}
-			console.log('Subscribed', data);
+			toast.success('Successfully subscribed!');
 			email = '';
 		} finally {
 			loading = false;

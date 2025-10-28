@@ -71,7 +71,7 @@
 				indices: new Set()
 			};
 		} catch (error) {
-			console.error(error);
+			// Error zipping up text - reverting to original selection
 			replaceSelection(selection.text);
 		}
 	}

@@ -31,7 +31,7 @@
 			const expandedText = data.content[0].text;
 			text = text.replace(loadingToken, expandedText);
 		} catch (error) {
-			console.error('Error expanding text:', error);
+			// Error expanding text - reverting to original
 			text = text.replace(loadingToken, word);
 		} finally {
 			isLoading = false;

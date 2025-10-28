@@ -48,8 +48,8 @@
 							});
 						highlightedCode = cleanedHtml;
 					})
-					.catch((err) => {
-						console.error('Shiki highlighting failed:', err);
+					.catch((error) => {
+						// Shiki highlighting failed - fallback to plain code
 						highlightedCode = '';
 					});
 			}

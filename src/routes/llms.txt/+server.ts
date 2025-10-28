@@ -35,7 +35,7 @@ async function parseHomeContent(): Promise<PageInfo> {
 			content: content.substring(0, 500) + '...' // First 500 chars as preview
 		};
 	} catch (error) {
-		console.error('Error parsing home content:', error);
+		// Error parsing home content - using default description
 		return {
 			path: '/',
 			title: 'Home - Quang Design',
@@ -90,8 +90,8 @@ async function parseBlogPosts(): Promise<BlogPost[]> {
 
 	try {
 		postSlugs = await fs.readdir(postsBaseDir);
-	} catch (e) {
-		console.error('Error reading posts directory:', e);
+	} catch (error) {
+		// Error reading posts directory
 		return [];
 	}
 
@@ -206,7 +206,7 @@ Quang is a Vietnamese Graphic Designer with experience as Design Director at Fle
 			}
 		});
 	} catch (error) {
-		console.error('Error generating llms.txt:', error);
+		// Error generating llms.txt - using fallback content
 
 		// Fallback content in case of errors
 		const fallbackContent = `# Quang Design

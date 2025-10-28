@@ -51,8 +51,8 @@ export const GET: RequestHandler = async () => {
 		);
 
 		blogPosts = posts.filter((post) => post !== null);
-	} catch (e) {
-		console.error('Error reading blog posts for sitemap:', e);
+	} catch (error) {
+		// Error reading blog posts for sitemap - continuing with static pages only
 	}
 
 	// 4. Combine static pages and blog posts
