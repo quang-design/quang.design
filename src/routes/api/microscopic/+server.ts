@@ -30,8 +30,10 @@ export async function POST({ request }) {
                     7. Keep core meaning only, remove descriptive details
                     8. Keep only essential punctuation
                     9. The output must seamlessly replace the original text
+                    10. ONLY respond with the zipped text, NOT the full context
                     
                     Context: "${context}"
+                    Example: If asked to zip "Yawning, and smearing my eyes with my fingers" in the context above, respond with "Yawning" NOT "Yawning, I walked bleary..."
                     Only respond with the zipped text.
 							`
 					}

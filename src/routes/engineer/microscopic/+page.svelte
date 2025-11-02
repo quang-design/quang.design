@@ -12,7 +12,7 @@
 	canonical="https://quang.design/engineer/microscopic"
 />
 
-<section>
+<section class="max-w-sm">
 	<div class="prose prose-invert mb-8">
 		<h1 class="uppercase">Welcome to AI Microscopic Text</h1>
 		<br />

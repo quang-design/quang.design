@@ -24,7 +24,8 @@ export async function POST({ request, url }) {
                             Expand the word "${word}" into a longer phrase in the context of the following text: "${context}".
                             Keep the period at the end of the sentence.
                             Use the period as a way to divide the context into sentences if the sentence is too long.
-                            Only respond with the expanded phrase.
+                            Only respond with the expanded phrase, NOT the full sentence.
+                            For example, if asked to expand "tea" in "I made <word>.", respond with "a soothing cup of herbal tea." NOT "I made a soothing cup of herbal tea."
 						`
 					}
 				]
