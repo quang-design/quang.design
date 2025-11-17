@@ -53,20 +53,27 @@
 		});
 	}
 
-	function revealBlock(index: number) {
+	function revealBlockRecursive(index: number) {
 		if (revealedBlocks.has(index) || mines.includes(index)) return;
 
 		revealedBlocks.add(index);
 
-		// If it's a zero, reveal adjacent blocks
+		// If it's a zero, reveal adjacent blocks recursively
 		if (numbers[index] === 0) {
 			const adjacentPositions = getAdjacentPositions(index);
 			adjacentPositions.forEach((pos) => {
 				if (!revealedBlocks.has(pos)) {
-					revealBlock(pos);
+					revealBlockRecursive(pos);
 				}
 			});
 		}
+	}
+
+	function revealBlock(index: number) {
+		revealBlockRecursive(index);
+		// Reassign to trigger reactivity after all recursive calls complete
+		// This ensures the UI updates with all revealed blocks at once
+		revealedBlocks = new Set(revealedBlocks);
 	}
 
 	function generateMines() {
