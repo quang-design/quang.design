@@ -67,9 +67,6 @@
 				}
 			});
 		}
-
-		// Create new Set to trigger reactivity
-		revealedBlocks = new Set(revealedBlocks);
 	}
 
 	function generateMines() {
