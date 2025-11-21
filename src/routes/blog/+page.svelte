@@ -21,9 +21,9 @@
 		{#each posts as post (post.slug)}
 			<a
 				href={`/blog/posts/${post.slug}`}
-				class="border-foreground/25 flex flex-col border-[0.5px] md:flex-row"
+				class="border-foreground/25 flex flex-col border-[0.5px]"
 			>
-				<div class="aspect-square w-full shrink-0 md:w-1/3 lg:w-1/2 xl:w-1/3">
+				<div class="aspect-square w-full shrink-0">
 					{#if post.thumbnail}
 						<img
 							src={post.thumbnail}
@@ -36,7 +36,7 @@
 						</div>
 					{/if}
 				</div>
-				<div class="flex flex-grow flex-col justify-between p-6">
+				<div class="flex grow flex-col justify-between p-6">
 					<div>
 						<h2 class="mb-2 text-2xl font-semibold transition-colors group-hover:text-sky-400">
 							{post.title}

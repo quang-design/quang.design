@@ -26,9 +26,14 @@ Maybe the Lantern burns down her house in the middle of Tet.
 
 I don’t know too, and who am I to judge?
 
-"My bad..." I uttered, not a moment's hesitation. "I’m so... so sorry."
+"Can you be more specific? Is it the colors? The composition?
+The fact that we're making a Christmas poster during a
+pandemic that killed millions?"
 
-What can you do when your design can evoke that feeling in humans?
+What I actually said:
 
-It's all your fault,
-designers.
+"My bad... I'm so... so sorry."
+
+Because that's what designers do. We apologize for feelings
+we didn't create, fix problems we can't define, and somehow
+make it work anyway.
