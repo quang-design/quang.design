@@ -22,8 +22,10 @@
 	let codeElement: HTMLElement | undefined = $state();
 
 	// Extract language from class prop (e.g., "language-typescript")
-	const langMatch = c ? String(c).match(/language-(\w+)/) : null;
-	const lang = langMatch ? langMatch[1] : 'plaintext';
+	const lang = $derived.by(() => {
+		const langMatch = c ? String(c).match(/language-(\w+)/) : null;
+		return langMatch ? langMatch[1] : 'plaintext';
+	});
 
 	onMount(() => {
 		// Extract text from the rendered code element

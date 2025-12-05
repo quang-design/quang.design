@@ -3,6 +3,38 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+	font-family: 'CommitMono';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/CommitMono-400-Regular.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'CommitMono';
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/CommitMono-400-Italic.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'CommitMono';
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url('/fonts/CommitMono-700-Regular.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'CommitMono';
+	font-style: italic;
+	font-weight: 700;
+	font-display: swap;
+	src: url('/fonts/CommitMono-700-Italic.otf') format('opentype');
+}
+
 :root {
 	--radius: 0;
 	--text-base: 0.85rem;
@@ -48,6 +80,9 @@
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
+	--font-sans: 'CommitMono', monospace;
+	--font-serif: 'CommitMono', monospace;
+	--font-mono: 'CommitMono', monospace;
 }
 
 .dark {
@@ -159,13 +194,14 @@
 		@apply leading-7;
 	}
 	a:not(:has(img, svg:not(.lucide-arrow-up-right)), :has([data-badge])) {
-		@apply relative text-blue-500 no-underline;
+		@apply text-blue-500 no-underline;
+		background-image: linear-gradient(currentColor, currentColor);
+		background-position: 0% 100%;
+		background-repeat: no-repeat;
+		background-size: 0% 1px;
+		transition: background-size 0.3s ease-in-out;
 	}
-	a:not(:has(img, svg:not(.lucide-arrow-up-right)), :has([data-badge]))::after {
-		content: '';
-		@apply absolute -bottom-0.25 left-0 h-px w-0 bg-blue-500 transition-all duration-300 ease-in-out;
-	}
-	a:not(:has(img, svg:not(.lucide-arrow-up-right)), :has([data-badge])):hover::after {
-		@apply w-full;
+	a:not(:has(img, svg:not(.lucide-arrow-up-right)), :has([data-badge])):hover {
+		background-size: 100% 1px;
 	}
 }

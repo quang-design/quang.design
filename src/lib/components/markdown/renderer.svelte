@@ -36,7 +36,7 @@
 		{@const { children, ...rest } = props}
 		<a
 			{...rest}
-			class={cn('text-blue-500 hover:underline', rest.class)}
+			class={cn('text-blue-500', rest.class)}
 			target="_blank"
 			rel="noopener noreferrer"
 		>

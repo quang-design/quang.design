@@ -5,7 +5,13 @@
 
 	let { initialText } = $props<{ initialText: string }>();
 
-	let text = $state(initialText);
+	let text = $state<string>();
+
+	$effect(() => {
+		if (text === undefined) {
+			text = initialText;
+		}
+	});
 	let selection = $state<SelectionState>({
 		text: '',
 		rect: null,

@@ -13,22 +13,20 @@
 		tags
 	}: SEOData = $props();
 
-	const seoData: SEOData = {
-		title,
-		description,
-		canonical,
-		image,
-		type,
-		publishedTime,
-		modifiedTime,
-		author,
-		tags
-	};
-
-	const structuredData = generateStructuredData({
-		...seoData,
-		url: canonical || ''
-	});
+	const structuredData = $derived(
+		generateStructuredData({
+			title,
+			description,
+			canonical,
+			image,
+			type,
+			publishedTime,
+			modifiedTime,
+			author,
+			tags,
+			url: canonical || ''
+		})
+	);
 </script>
 
 <svelte:head>
