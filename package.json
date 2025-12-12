@@ -3,8 +3,9 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
+		"sync:blog-assets": "node scripts/sync-blog-assets.mjs",
+		"dev": "pnpm sync:blog-assets && vite dev",
+		"build": "pnpm sync:blog-assets && vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",

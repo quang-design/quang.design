@@ -1,7 +1,5 @@
 import type { RequestHandler } from './$types';
-import fs from 'fs/promises';
-import path from 'path';
-import matter from 'gray-matter';
+import { getAllPosts } from '$lib/content/blog';
 
 export const GET: RequestHandler = async () => {
 	const noindex = ['/404', '/styles'];
@@ -24,36 +22,14 @@ export const GET: RequestHandler = async () => {
 		.filter((route) => !route.includes('[')); // strip dynamic routes
 
 	// 3. Get blog posts with metadata
-	const postsBaseDir = path.resolve('src/routes/blog/posts');
-	let blogPosts: Array<{ url: string; lastmod: string; priority: string }> = [];
-
-	try {
-		const postSlugs = await fs.readdir(postsBaseDir);
-
-		const posts = await Promise.all(
-			postSlugs.map(async (slug) => {
-				const postDir = path.join(postsBaseDir, slug);
-				const filePath = path.join(postDir, 'post.md');
-
-				try {
-					const mdContent = await fs.readFile(filePath, 'utf-8');
-					const { data } = matter(mdContent);
-
-					return {
-						url: `/blog/${slug}`,
-						lastmod: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-						priority: '0.8' // Higher priority for blog posts
-					};
-				} catch {
-					return null;
-				}
-			})
-		);
-
-		blogPosts = posts.filter((post) => post !== null);
-	} catch (error) {
-		// Error reading blog posts for sitemap - continuing with static pages only
-	}
+	const blogPosts = getAllPosts().map((post) => {
+		const lastmod = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
+		return {
+			url: `/blog/posts/${post.slug}`,
+			lastmod: Number.isNaN(new Date(lastmod).getTime()) ? new Date().toISOString() : lastmod,
+			priority: '0.8'
+		};
+	});
 
 	// 4. Combine static pages and blog posts
 	const allPages = [

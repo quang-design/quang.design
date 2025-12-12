@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
-import matter from 'gray-matter';
 import type { RequestHandler } from './$types';
+import { getPostMatter } from '$lib/content/blog';
 
 // This endpoint must run at runtime (serverless) and not be prerendered
 export const prerender = false;
@@ -8,34 +8,27 @@ export const prerender = false;
 export const GET: RequestHandler = async ({ params, url }) => {
 	const slug = params.slug;
 
-	// Use Vite's import-time glob to include markdown in the bundle (deployment-safe)
-	const posts = import.meta.glob('/src/routes/blog/posts/*/post.md', {
-		query: '?raw',
-		import: 'default',
-		eager: true
-	}) as Record<string, string>;
-
-	// Find the entry matching the requested slug
-	const match = Object.entries(posts).find(([key]) => key.includes(`/blog/posts/${slug}/post.md`));
-
-	if (!match) throw error(404, 'Post not found');
-	const md = match[1];
-
-	const { content, data } = matter(md);
+	let content: string;
+	let data: Record<string, unknown>;
+	try {
+		({ content, data } = getPostMatter(slug));
+	} catch {
+		throw error(404, 'Post not found');
+	}
 
 	// Generate llms.txt content for this specific blog post
 	const baseUrl = url.origin;
 	const postUrl = `${baseUrl}/blog/posts/${slug}`;
 	const postMdUrl = `${baseUrl}/blog/posts/${slug}/post.md`;
 
-	const llmsTxt = `# ${data.title || slug}
+	const llmsTxt = `# ${String(data.title || slug)}
 
 ## About this content
 This is a blog post from quang.design.
 
-**Title:** ${data.title || slug}
-**Description:** ${data.description || 'No description available'}
-**Published:** ${data.date || 'Date not specified'}
+**Title:** ${String(data.title || slug)}
+**Description:** ${String(data.description || 'No description available')}
+**Published:** ${String(data.date || 'Date not specified')}
 **URL:** ${postUrl}
 
 ## Content
