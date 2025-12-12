@@ -18,7 +18,7 @@
 <SeoHead
 	title={data.meta.title}
 	description={data.meta.description}
-	canonical="https://quang.design/blog/{page.params.slug}"
+	canonical={`https://quang.design/blog/posts/${page.params.slug}`}
 	image={data.meta.thumbnail ? `https://quang.design${data.meta.thumbnail}` : undefined}
 	type="article"
 	publishedTime={data.meta.date ? new Date(data.meta.date).toISOString() : undefined}
@@ -28,7 +28,11 @@
 <div class="flex flex-col">
 	<div class="mx-auto w-full max-w-xl p-4">
 		<div class="mb-4 flex">
-			<a href="/blog/posts/{page.params.slug}/llms.txt" target="_blank" rel="noopener noreferrer">
+			<a
+				href={`/blog/posts/${page.params.slug}/llms.txt`}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
 				<Badge variant="outline" class="cursor-pointer gap-1 text-xs hover:bg-gray-50" data-badge>
 					llms.txt
 					<ArrowUpRight size={12} />

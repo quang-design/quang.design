@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
-import matter from 'gray-matter';
 import type { RequestHandler } from './$types';
+import { getAllPosts } from '$lib/content/blog';
 
 interface PageInfo {
 	path: string;
@@ -85,45 +85,13 @@ async function parseDesignSection(): Promise<PageInfo> {
 }
 
 async function parseBlogPosts(): Promise<BlogPost[]> {
-	const postsBaseDir = path.resolve('src/routes/blog/posts');
-	let postSlugs: string[];
-
-	try {
-		postSlugs = await fs.readdir(postsBaseDir);
-	} catch (error) {
-		// Error reading posts directory
-		return [];
-	}
-
-	// Get all blog posts with metadata
-	const posts = await Promise.all(
-		postSlugs.map(async (slug) => {
-			const postDir = path.join(postsBaseDir, slug);
-			const filePath = path.join(postDir, 'post.md');
-
-			try {
-				const mdContent = await fs.readFile(filePath, 'utf-8');
-				const { data } = matter(mdContent);
-
-				return {
-					slug,
-					title: data.title ?? slug.replace(/-/g, ' '),
-					description: data.description ?? '',
-					date: data.date ?? ''
-				};
-			} catch {
-				return null;
-			}
-		})
-	);
-
-	// Filter out null entries and sort by date
-	const validPosts = posts.filter((post): post is BlogPost => post !== null);
-	if (validPosts.every((post) => post.date)) {
-		validPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-	}
-
-	return validPosts;
+	const posts = getAllPosts();
+	return posts.map((p) => ({
+		slug: p.slug,
+		title: p.title,
+		description: p.description,
+		date: p.date
+	}));
 }
 
 export const GET: RequestHandler = async () => {
