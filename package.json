@@ -25,7 +25,7 @@
 		"@types/eslint": "^9.6.1",
 		"bits-ui": "^2.15.4",
 		"eslint": "^9.39.2",
-		"eslint-config-prettier": "^9.1.2",
+		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^2.46.1",
 		"globals": "^15.15.0",
 		"paneforge": "^1.0.2",
