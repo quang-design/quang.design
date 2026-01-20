@@ -68,6 +68,7 @@
 
 	<!-- Structured Data -->
 	{#if canonical}
-		{@html `<script type="application/ld+json">${structuredData}</script>`}
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+		{@html `<${'script'} type="application/ld+json">${structuredData}</${'script'}>`}
 	{/if}
 </svelte:head>

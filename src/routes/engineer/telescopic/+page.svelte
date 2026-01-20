@@ -30,7 +30,7 @@
 			const data = await response.json();
 			const expandedText = data.content[0].text;
 			text = text.replace(loadingToken, expandedText);
-		} catch (error) {
+		} catch (_error) {
 			// Error expanding text - reverting to original
 			text = text.replace(loadingToken, word);
 		} finally {

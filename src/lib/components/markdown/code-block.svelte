@@ -43,14 +43,16 @@
 				})
 					.then((html) => {
 						// Remove overflow-related inline styles from the generated HTML
-						const cleanedHtml = html
-							.replace(/style="([^"]*?)overflow[^;]*;?([^"]*)"/gi, (match, before, after) => {
+						const cleanedHtml = html.replace(
+							/style="([^"]*?)overflow[^;]*;?([^"]*)"/gi,
+							(match, before, after) => {
 								const cleaned = (before + after).trim();
 								return cleaned ? `style="${cleaned}"` : '';
-							});
+							}
+						);
 						highlightedCode = cleanedHtml;
 					})
-					.catch((error) => {
+					.catch((_error) => {
 						// Shiki highlighting failed - fallback to plain code
 						highlightedCode = '';
 					});
@@ -58,6 +60,30 @@
 		}
 	});
 </script>
+
+{#if inline}
+	<code class={cn(`rounded-md bg-zinc-100 px-1 py-0.5 text-sm dark:bg-zinc-800`, c)} {...rest}>
+		{@render children?.()}
+	</code>
+{:else}
+	<div class="not-prose my-4">
+		<div class="rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+			<div class="overflow-x-auto">
+				{#if highlightedCode}
+					<div class="shiki-wrapper p-4">
+						{@html highlightedCode}
+					</div>
+				{/if}
+				<pre
+					{...rest}
+					class="w-full p-4 text-sm text-zinc-900 dark:text-zinc-50"
+					class:hidden={highlightedCode}><code bind:this={codeElement}
+						>{text || ''}{@render children?.()}</code
+					></pre>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <style>
 	:global(.shiki-wrapper pre) {
@@ -70,29 +96,3 @@
 		display: block;
 	}
 </style>
-
-{#if inline}
-	<code class={cn(`rounded-md bg-zinc-100 px-1 py-0.5 text-sm dark:bg-zinc-800`, c)} {...rest}>
-		{@render children?.()}
-	</code>
-{:else}
-	<div class="not-prose my-4">
-		<div
-			class="rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900"
-		>
-			<div class="overflow-x-auto">
-				{#if highlightedCode}
-					<div class="shiki-wrapper p-4">
-						{@html highlightedCode}
-					</div>
-				{/if}
-				<pre
-					{...rest}
-					class="w-full p-4 text-sm text-zinc-900 dark:text-zinc-50"
-					class:hidden={highlightedCode}><code bind:this={codeElement}
-						>{text || ''}{@render children?.()}</code
-				></pre>
-			</div>
-		</div>
-	</div>
-{/if}

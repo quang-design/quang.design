@@ -76,7 +76,7 @@
 				rect: null,
 				indices: new Set()
 			};
-		} catch (error) {
+		} catch (_error) {
 			// Error zipping up text - reverting to original selection
 			replaceSelection(selection.text);
 		}

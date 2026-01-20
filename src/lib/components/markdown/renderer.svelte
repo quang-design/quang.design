@@ -34,12 +34,7 @@
 	{/snippet}
 	{#snippet a(props)}
 		{@const { children, ...rest } = props}
-		<a
-			{...rest}
-			class={cn('text-blue-500', rest.class)}
-			target="_blank"
-			rel="noopener noreferrer"
-		>
+		<a {...rest} class={cn('text-blue-500', rest.class)} target="_blank" rel="noopener noreferrer">
 			{@render children?.()}
 		</a>
 	{/snippet}
@@ -91,7 +86,7 @@
 		<blockquote
 			{...rest}
 			class={cn(
-				'my-4 px-4 py-3 bg-amber-100/50 border-l-4 border-amber-400 italic text-amber-950',
+				'my-4 border-l-4 border-amber-400 bg-amber-100/50 px-4 py-3 text-amber-950 italic',
 				rest.class
 			)}
 		>

@@ -34,7 +34,7 @@ async function parseHomeContent(): Promise<PageInfo> {
 			description,
 			content: content.substring(0, 500) + '...' // First 500 chars as preview
 		};
-	} catch (error) {
+	} catch (_error) {
 		// Error parsing home content - using default description
 		return {
 			path: '/',
@@ -173,7 +173,7 @@ Quang is a Vietnamese Graphic Designer with experience as Design Director at Fle
 				'Cache-Control': 'public, max-age=3600' // Cache for 1 hour
 			}
 		});
-	} catch (error) {
+	} catch (_error) {
 		// Error generating llms.txt - using fallback content
 
 		// Fallback content in case of errors

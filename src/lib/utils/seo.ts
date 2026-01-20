@@ -43,4 +43,3 @@ export function generateStructuredData(data: SEOData & { url: string }) {
 		2
 	);
 }
-

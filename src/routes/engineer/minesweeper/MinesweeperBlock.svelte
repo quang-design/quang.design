@@ -54,7 +54,7 @@
 	class="aspect-square items-center justify-center overflow-hidden
 	{propIsRevealed
 		? 'border-2 border-gray-800 bg-gray-600'
-		: 'border-b-4 border-l-4 border-r-4 border-t-4 border-gray-200 border-b-gray-600 border-r-gray-600 bg-gray-400'}
+		: 'border-t-4 border-r-4 border-b-4 border-l-4 border-gray-200 border-r-gray-600 border-b-gray-600 bg-gray-400'}
 	{isExploded ? 'border border-gray-800 bg-red-500' : ''}"
 >
 	{#if propIsRevealed || (isGameOver && isMine)}
