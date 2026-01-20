@@ -27,7 +27,7 @@
 		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^9.1.2",
 		"eslint-plugin-svelte": "^2.46.1",
-		"globals": "^15.15.0",
+		"globals": "^17.0.0",
 		"paneforge": "^1.0.2",
 		"prettier": "^3.8.0",
 		"prettier-plugin-svelte": "^3.4.1",
