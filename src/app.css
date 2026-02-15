@@ -190,18 +190,41 @@
 	body {
 		@apply bg-background text-foreground px-4 font-mono text-base font-light;
 	}
+	/* Base text elements - subtle blur */
 	p,
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	span,
+	span:not(:has(svg)),
 	li,
-	a,
-	label {
+	label,
+	small {
+		filter: blur(0.08px) url(#ink-bleed);
+	}
+	/* Links - subtle blur */
+	a {
 		filter: blur(0.1px) url(#ink-bleed);
+	}
+	/* Headings - progressive blur based on size */
+	h6 {
+		filter: blur(0.15px) url(#ink-bleed);
+	}
+	h5 {
+		filter: blur(0.18px) url(#ink-bleed);
+	}
+	h4 {
+		filter: blur(0.2px) url(#ink-bleed);
+	}
+	h3 {
+		filter: blur(0.25px) url(#ink-bleed);
+	}
+	h2 {
+		filter: blur(0.3px) url(#ink-bleed);
+	}
+	h1 {
+		filter: blur(0.4px) url(#ink-bleed);
+	}
+	/* Icons and SVGs - very subtle */
+	svg,
+	img {
+		filter: blur(0.05px) url(#ink-bleed);
 	}
 	p {
 		@apply leading-7;
