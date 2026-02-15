@@ -190,15 +190,15 @@
 	body {
 		@apply bg-background text-foreground px-4 font-mono text-base font-light;
 	}
-	/* Ink bleed effect — subtle 0.3-0.4px edge spread on final render */
+	/* Ink bleed effect: blur (spread) + contrast (threshold) on final render */
 	body::after {
 		content: '';
 		position: fixed;
 		inset: 0;
 		z-index: 2147483647;
 		pointer-events: none;
-		backdrop-filter: blur(0.4px) contrast(1.08);
-		-webkit-backdrop-filter: blur(0.4px) contrast(1.08);
+		backdrop-filter: blur(0.5px) contrast(1.5);
+		-webkit-backdrop-filter: blur(0.5px) contrast(1.5);
 	}
 	p {
 		@apply leading-7;
