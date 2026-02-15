@@ -200,9 +200,8 @@
 	span,
 	li,
 	a,
-	label,
-	button {
-		filter: blur(0.25px) url(#ink-bleed);
+	label {
+		filter: blur(0.1px) url(#ink-bleed);
 	}
 	p {
 		@apply leading-7;
