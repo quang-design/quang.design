@@ -26,7 +26,7 @@
 
 <Toaster position="top-center" />
 
-<div class="ink-bleed-container mx-auto flex min-h-screen max-w-7xl flex-col">
+<div class="mx-auto flex min-h-screen max-w-7xl flex-col">
 	<Navbar />
 
 	<main class="flex flex-1 flex-col py-4">
@@ -35,9 +35,3 @@
 
 	<Footer />
 </div>
-
-<style>
-	.ink-bleed-container {
-		filter: blur(1px) url(#ink-bleed);
-	}
-</style>

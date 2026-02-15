@@ -190,6 +190,20 @@
 	body {
 		@apply bg-background text-foreground px-4 font-mono text-base font-light;
 	}
+	p,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	span,
+	li,
+	a,
+	label,
+	button {
+		filter: blur(0.25px) url(#ink-bleed);
+	}
 	p {
 		@apply leading-7;
 	}
