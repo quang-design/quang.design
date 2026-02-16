@@ -198,8 +198,8 @@
 	small {
 		filter: blur(0.09px) url(#ink-bleed);
 	}
-	/* Links - subtle blur */
-	a {
+	/* Links - subtle blur (exclude links with images) */
+	a:not(:has(img)) {
 		filter: blur(0.1px) url(#ink-bleed);
 	}
 	/* Headings - minor progressive blur based on size */
