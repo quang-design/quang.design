@@ -196,35 +196,30 @@
 	li,
 	label,
 	small {
-		filter: blur(0.08px) url(#ink-bleed);
+		filter: blur(0.09px) url(#ink-bleed);
 	}
 	/* Links - subtle blur */
 	a {
 		filter: blur(0.1px) url(#ink-bleed);
 	}
-	/* Headings - progressive blur based on size */
-	h6 {
-		filter: blur(0.15px) url(#ink-bleed);
-	}
-	h5 {
-		filter: blur(0.18px) url(#ink-bleed);
-	}
+	/* Headings - minor progressive blur based on size */
+	h6,
+	h5,
 	h4 {
-		filter: blur(0.2px) url(#ink-bleed);
+		filter: blur(0.11px) url(#ink-bleed);
 	}
 	h3 {
-		filter: blur(0.25px) url(#ink-bleed);
+		filter: blur(0.12px) url(#ink-bleed);
 	}
 	h2 {
-		filter: blur(0.3px) url(#ink-bleed);
+		filter: blur(0.13px) url(#ink-bleed);
 	}
 	h1 {
-		filter: blur(0.4px) url(#ink-bleed);
+		filter: blur(0.15px) url(#ink-bleed);
 	}
 	/* Icons and SVGs - very subtle */
-	svg,
-	img {
-		filter: blur(0.05px) url(#ink-bleed);
+	svg {
+		filter: blur(0.08px) url(#ink-bleed);
 	}
 	p {
 		@apply leading-7;
