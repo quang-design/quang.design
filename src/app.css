@@ -217,10 +217,6 @@
 	h1 {
 		filter: blur(0.15px) url(#ink-bleed);
 	}
-	/* Icons and SVGs - very subtle */
-	svg {
-		filter: blur(0.08px) url(#ink-bleed);
-	}
 	p {
 		@apply leading-7;
 	}
