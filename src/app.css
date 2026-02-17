@@ -183,6 +183,12 @@
 	}
 }
 
+@keyframes ink-in {
+	from {
+		filter: none;
+	}
+}
+
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
@@ -197,25 +203,31 @@
 	label,
 	small {
 		filter: blur(0.09px) url(#ink-bleed);
+		animation: ink-in 2s ease-out both;
 	}
 	/* Links - subtle blur (exclude links with images) */
 	a:not(:has(img)) {
 		filter: blur(0.1px) url(#ink-bleed);
+		animation: ink-in 2s ease-out both;
 	}
 	/* Headings - minor progressive blur based on size */
 	h6,
 	h5,
 	h4 {
 		filter: blur(0.11px) url(#ink-bleed);
+		animation: ink-in 2s ease-out both;
 	}
 	h3 {
 		filter: blur(0.12px) url(#ink-bleed);
+		animation: ink-in 2s ease-out both;
 	}
 	h2 {
 		filter: blur(0.13px) url(#ink-bleed);
+		animation: ink-in 2s ease-out both;
 	}
 	h1 {
 		filter: blur(0.15px) url(#ink-bleed);
+		animation: ink-in 2s ease-out both;
 	}
 	p {
 		@apply leading-7;
