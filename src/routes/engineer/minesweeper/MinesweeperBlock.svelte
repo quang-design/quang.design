@@ -6,14 +6,14 @@
 		onGameOver,
 		isRevealed: propIsRevealed,
 		onReveal
-	} = $props<{
+	}: {
 		isMine: boolean;
 		number: number;
 		isGameOver: boolean;
 		onGameOver: () => void;
 		isRevealed: boolean;
 		onReveal: () => void;
-	}>();
+	} = $props();
 
 	let isFlagged = $state(false);
 	let isExploded = $state(false);

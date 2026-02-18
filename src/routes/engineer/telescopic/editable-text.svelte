@@ -1,9 +1,13 @@
 <script lang="ts">
-	let { text, onTextChange, onWordClick } = $props<{
+	let {
+		text,
+		onTextChange,
+		onWordClick
+	}: {
 		text: string;
 		onTextChange: (text: string) => void;
 		onWordClick: (word: string) => void;
-	}>();
+	} = $props();
 
 	let isEditing = $state(false);
 	let isCopying = $state(false);

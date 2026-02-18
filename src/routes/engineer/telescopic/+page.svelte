@@ -45,24 +45,20 @@
 	canonical="https://quang.design/engineer/telescopic"
 />
 
-<section class="max-w-sm">
+<section class="max-w-sm space-y-4">
 	<h1 class="uppercase">Welcome to AI Telescopic Text</h1>
-	<br />
 	<p>
 		Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
 		progressively expand simple sentences into more detailed narratives.
 	</p>
-	<br />
 	<p>
 		Click on <span class="underline underline-offset-4">underlined</span> words to see them expand into
 		richer descriptions, transforming basic statements into vivid, detailed passages.
 	</p>
-	<br />
 	<p>
 		For example, starting with a simple phrase like "I made tea," each click could reveal more
 		detail:
 	</p>
-	<br />
 	<EditableText {text} {onTextChange} {onWordClick} />
 </section>
 

@@ -93,6 +93,18 @@
 			{@render children?.()}
 		</blockquote>
 	{/snippet}
+	{#snippet pre(props)}
+		{@const { children } = props}
+		<div class="not-prose my-4">
+			<div
+				class="rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900"
+			>
+				<div class="overflow-x-auto">
+					{@render children?.()}
+				</div>
+			</div>
+		</div>
+	{/snippet}
 	{#snippet code(props)}
 		{@const { children, class: className, ...rest } = props}
 		<CodeBlock {...rest} class={className || undefined}>

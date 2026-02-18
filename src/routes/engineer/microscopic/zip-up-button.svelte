@@ -1,7 +1,5 @@
 <script lang="ts">
-	let { onClick } = $props<{
-		onClick: () => void;
-	}>();
+	let { onClick }: { onClick: () => void } = $props();
 
 	function handleInteraction(event: Event) {
 		event.preventDefault();

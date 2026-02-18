@@ -13,14 +13,12 @@
 />
 
 <section class="max-w-sm">
-	<div class="prose prose-invert mb-8">
+	<div class="mb-8 space-y-4 select-none">
 		<h1 class="uppercase">Welcome to AI Microscopic Text</h1>
-		<br />
 		<p>
 			Another tool inspired by <a href="/engineer/telescopic">AI Telescopic Text</a>, this tool uses
 			AI to zip up long texts into short, concise words.
 		</p>
-		<br />
 		<p>
 			Select <span class="underline underline-offset-4">text</span> to see them zip up into concise words.
 		</p>
@@ -28,9 +26,3 @@
 
 	<TextEditor {initialText} />
 </section>
-
-<style lang="postcss">
-	:global(.prose) {
-		@apply select-none;
-	}
-</style>
