@@ -18,9 +18,9 @@
 <h1 class="mb-12 text-center text-2xl font-bold">Design Work</h1>
 
 {#if posts && posts.length > 0}
-	<div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+	<div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
 		{#each posts as post (post.slug)}
-			<PostCard {post} hrefPrefix="/design" />
+			<PostCard {post} hrefPrefix="/design" aspectRatio="aspect-3/2" />
 		{/each}
 	</div>
 {:else}

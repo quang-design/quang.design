@@ -4,7 +4,6 @@
 	import { Sun, Moon } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
-	import * as Avatar from '$lib/components/ui/avatar/index.js';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 
@@ -44,13 +43,11 @@
 <header class="mx-auto flex w-full items-center justify-between py-4">
 	<div class="flex items-center gap-4">
 		<a href="/" aria-label="Quang Design">
-			<Avatar.Root
-				class="border-gray-320 size-9 border transition-all duration-300 ease-in-out hover:scale-105"
-			>
-				<Avatar.Image src="/avatar.avif" alt="@quang.design" />
-
-				<Avatar.Fallback>QN</Avatar.Fallback>
-			</Avatar.Root>
+			<img
+				src="/avatar.avif"
+				alt="Quang"
+				class="border-gray-320 size-9 rounded-full border object-cover transition-all duration-300 ease-in-out hover:scale-105"
+			/>
 		</a>
 		<!-- MOBILE -->
 		<nav class="block sm:hidden">

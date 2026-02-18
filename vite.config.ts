@@ -1,5 +1,6 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, type UserConfig } from 'vite';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { enhancedImages } from '@sveltejs/enhanced-img';
 import tailwindcss from '@tailwindcss/vite';
 import { viteStaticCopy, type Target } from 'vite-plugin-static-copy';
 import fs from 'node:fs';
@@ -38,12 +39,18 @@ const staticCopyPlugins = viteStaticCopy({
 	watch: {
 		reloadPageOnChange: true
 	}
-}) as unknown as any[];
+});
 
-export default defineConfig({
-	plugins: [sveltekit(), tailwindcss(), ...staticCopyPlugins],
+const config: UserConfig & {
+	test?: {
+		include: string[];
+	};
+} = {
+	plugins: [enhancedImages(), sveltekit(), tailwindcss(), ...staticCopyPlugins],
 
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	}
-});
+};
+
+export default defineConfig(config);

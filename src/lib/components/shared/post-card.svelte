@@ -2,14 +2,18 @@
 	import { Image } from '@lucide/svelte';
 	import type { PostMetadata } from '$lib/content/loader';
 
-	let { post, hrefPrefix }: { post: PostMetadata; hrefPrefix: string } = $props();
+	let {
+		post,
+		hrefPrefix,
+		aspectRatio = 'aspect-square'
+	}: { post: PostMetadata; hrefPrefix: string; aspectRatio?: string } = $props();
 </script>
 
 <a
 	href={`${hrefPrefix}/${post.slug}`}
 	class="border-foreground/25 group flex flex-col border-[0.5px]"
 >
-	<div class="aspect-square w-full shrink-0 overflow-hidden">
+	<div class="{aspectRatio} w-full shrink-0 overflow-hidden">
 		{#if post.thumbnail}
 			<img
 				src={post.thumbnail}
