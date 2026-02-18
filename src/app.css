@@ -192,10 +192,10 @@
 	body {
 		@apply bg-background text-foreground px-4 font-mono text-base font-light;
 	}
-	/* Base text elements */
-	p,
-	span:not(:has(svg)),
-	li,
+	/* Base text elements - exclude containers with images */
+	p:not(:has(img)),
+	span:not(:has(svg, img)),
+	li:not(:has(img)),
 	label,
 	small {
 		filter: blur(var(--ink-blur)) url(#ink-bleed);
