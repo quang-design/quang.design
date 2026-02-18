@@ -188,7 +188,8 @@
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply bg-background text-foreground px-4 font-mono text-base font-light;
+		@apply text-foreground px-4 font-mono text-base font-light;
+		background: transparent;
 	}
 	p {
 		@apply leading-7;
