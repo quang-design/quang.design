@@ -95,4 +95,9 @@
 	:global(.shiki-wrapper code) {
 		display: block;
 	}
+
+	/* Shiki wraps every token in a span — opt out of the global ink-bleed filter */
+	:global(.shiki-wrapper span) {
+		filter: none;
+	}
 </style>
