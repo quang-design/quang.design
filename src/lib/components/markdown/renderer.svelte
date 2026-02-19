@@ -3,10 +3,14 @@
 	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
 	import { cn } from '$lib/utils';
 	import CodeBlock from './code-block.svelte';
+	import { Image } from '@sveltejs/enhanced-img';
+
 	let { md }: { md: string } = $props();
+
+	const plugins = [gfmPlugin(), { renderer: { img: Image } }];
 </script>
 
-<Markdown {md} plugins={[gfmPlugin()]}>
+<Markdown {md} {plugins}>
 	{#snippet ol(props)}
 		{@const { children, ...rest } = props}
 		<ol {...rest} class={cn('ml-6 list-outside list-decimal', rest.class)}>
