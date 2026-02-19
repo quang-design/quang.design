@@ -37,6 +37,8 @@
 
 :root {
 	--radius: 0;
+	/* Ink-bleed blur scales with viewport: ~0.09px on mobile → ~0.35px on desktop */
+	--ink-blur: clamp(0.09px, 0.025vw, 0.35px);
 	--text-base: 0.85rem;
 	--text-lg: 1rem;
 	--text-xl: 1.1rem;
@@ -189,6 +191,33 @@
 	}
 	body {
 		@apply bg-background text-foreground px-4 font-mono text-base font-light;
+	}
+	/* Base text elements - exclude containers with images */
+	p:not(:has(img)),
+	span:not(:has(svg, img)),
+	li:not(:has(img)),
+	label,
+	small {
+		filter: blur(var(--ink-blur)) url(#ink-bleed);
+	}
+	/* Links - slightly more blur than base */
+	a:not(:has(img)) {
+		filter: blur(calc(var(--ink-blur) * 1.1)) url(#ink-bleed);
+	}
+	/* Headings - progressive blur proportional to size */
+	h6,
+	h5,
+	h4 {
+		filter: blur(calc(var(--ink-blur) * 1.2)) url(#ink-bleed);
+	}
+	h3 {
+		filter: blur(calc(var(--ink-blur) * 1.35)) url(#ink-bleed);
+	}
+	h2 {
+		filter: blur(calc(var(--ink-blur) * 1.45)) url(#ink-bleed);
+	}
+	h1 {
+		filter: blur(calc(var(--ink-blur) * 1.65)) url(#ink-bleed);
 	}
 	p {
 		@apply leading-7;

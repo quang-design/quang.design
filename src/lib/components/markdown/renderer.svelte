@@ -28,9 +28,9 @@
 
 	{#snippet strong(props)}
 		{@const { children, ...rest } = props}
-		<span {...rest} class={cn('font-semibold', rest.class)}>
+		<strong {...rest} class={cn('font-bold', rest.class)}>
 			{@render children?.()}
-		</span>
+		</strong>
 	{/snippet}
 	{#snippet a(props)}
 		{@const { children, ...rest } = props}
