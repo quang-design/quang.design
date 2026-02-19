@@ -20,17 +20,17 @@ The end result provides Alluvia with an elevated yet authentic brand identity de
 
 ![](./logo.jpg)
 
-![](./image.png)
+![](./image-1.png)
 
-![](./image.png)
+![](./image-2.png)
 
-![](./image.png)
+![](./image-3.png)
 
-![](./image.png)
+![](./image-4.png)
 
-![](./image.png)
+![](./image-5.png)
 
-![](./image.png)
+![](./image-6.png)
 
 ![](./mockup-stationery.jpg)
 
@@ -50,13 +50,13 @@ The end result provides Alluvia with an elevated yet authentic brand identity de
 
 ![](./color-pallete.jpg)
 
-![](./image.png)
+![](./image-7.png)
 
-![](./image.png)
+![](./image-8.png)
 
-![](./image.png)
+![](./image-9.png)
 
-![](./image.png)
+![](./image-10.png)
 
 ![](./pattern.jpg)
 

@@ -24,7 +24,7 @@ _Client: DAWG · Project: EP - Artwork · Location: Seoul, Korea · Time: 2020_
 
 ![](./EP-DAWG-2.1.png)
 
-![](./album-cover-2.jpg)
+![](./album-cover-2-white.jpg)
 
 **Split Ver.**
 

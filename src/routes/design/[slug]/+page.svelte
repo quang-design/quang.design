@@ -116,7 +116,7 @@
 	</div>
 
 	<div class="border-foreground/10 flex flex-col gap-2 border-t-[0.5px] pt-4 md:gap-8">
-		{#each galleryBlocks as block (JSON.stringify(block))}
+		{#each galleryBlocks as block, i (i)}
 			{#if block.type === 'img'}
 				<img
 					src={block.src}
