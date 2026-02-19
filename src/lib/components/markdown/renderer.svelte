@@ -3,11 +3,11 @@
 	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
 	import { cn } from '$lib/utils';
 	import CodeBlock from './code-block.svelte';
-	import { Image } from '@sveltejs/enhanced-img';
+	import MarkdownImg from './markdown-img.svelte';
 
 	let { md }: { md: string } = $props();
 
-	const plugins = [gfmPlugin(), { renderer: { img: Image } }];
+	const plugins = [gfmPlugin(), { renderer: { img: MarkdownImg } }];
 </script>
 
 <Markdown {md} {plugins}>
