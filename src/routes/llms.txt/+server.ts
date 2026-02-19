@@ -1,7 +1,9 @@
 import fs from 'fs/promises';
 import path from 'path';
 import type { RequestHandler } from './$types';
-import { getAllPosts } from '$lib/content/blog';
+import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
+import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
+import { getAllPosts as getAllEngineeringPosts } from '$lib/content/engineering';
 
 interface PageInfo {
 	path: string;
@@ -85,8 +87,25 @@ async function parseDesignSection(): Promise<PageInfo> {
 }
 
 async function parseBlogPosts(): Promise<BlogPost[]> {
-	const posts = getAllPosts();
-	return posts.map((p) => ({
+	return getAllBlogPosts().map((p) => ({
+		slug: p.slug,
+		title: p.title,
+		description: p.description,
+		date: p.date
+	}));
+}
+
+async function parseDesignPosts(): Promise<BlogPost[]> {
+	return getAllDesignPosts().map((p) => ({
+		slug: p.slug,
+		title: p.title,
+		description: p.description,
+		date: p.date
+	}));
+}
+
+async function parseEngineeringWriteups(): Promise<BlogPost[]> {
+	return getAllEngineeringPosts().map((p) => ({
 		slug: p.slug,
 		title: p.title,
 		description: p.description,
@@ -97,11 +116,20 @@ async function parseBlogPosts(): Promise<BlogPost[]> {
 export const GET: RequestHandler = async () => {
 	try {
 		// Parse all site content
-		const [homeContent, designSection, engineeringProjects, blogPosts] = await Promise.all([
+		const [
+			homeContent,
+			designSection,
+			engineeringProjects,
+			blogPosts,
+			designPosts,
+			engineeringWriteups
+		] = await Promise.all([
 			parseHomeContent(),
 			parseDesignSection(),
 			parseEngineeringProjects(),
-			parseBlogPosts()
+			parseBlogPosts(),
+			parseDesignPosts(),
+			parseEngineeringWriteups()
 		]);
 
 		// Generate sections for llms.txt
@@ -116,6 +144,20 @@ export const GET: RequestHandler = async () => {
 		const engineeringSection = `## Engineering
 
 ${engineeringProjects.map((project) => `- [${project.title}](${project.path}): ${project.description}`).join('\n')}`;
+
+		const designPostsSection =
+			designPosts.length > 0
+				? `## Design Work
+
+${designPosts.map((post) => `- [${post.title}](/design/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
+				: '';
+
+		const engineeringWriteupsSection =
+			engineeringWriteups.length > 0
+				? `## Engineering Write-ups
+
+${engineeringWriteups.map((post) => `- [${post.title}](/engineering/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
+				: '';
 
 		const blogSection =
 			blogPosts.length > 0
@@ -149,7 +191,11 @@ ${homeSection}
 
 ${designSectionText}
 
+${designPostsSection}
+
 ${engineeringSection}
+
+${engineeringWriteupsSection}
 
 ${blogSection}
 

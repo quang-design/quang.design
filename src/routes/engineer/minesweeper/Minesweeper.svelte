@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { SvelteSet } from 'svelte/reactivity';
 	import MinesweeperBlock from './MinesweeperBlock.svelte';
 
 	let mines = $state<number[]>([]);
 	let numbers = $state<number[]>(Array(81).fill(0));
 	let isGameOver = $state(false);
-	let revealedBlocks = $state(new Set<number>());
+	let revealedBlocks = new SvelteSet<number>();
 
 	function calculateNumbers() {
 		numbers = Array(81).fill(0);
@@ -71,9 +71,6 @@
 
 	function revealBlock(index: number) {
 		revealBlockRecursive(index);
-		// Reassign to trigger reactivity after all recursive calls complete
-		// This ensures the UI updates with all revealed blocks at once
-		revealedBlocks = new Set(revealedBlocks);
 	}
 
 	function generateMines() {
@@ -89,9 +86,7 @@
 		isGameOver = true;
 	}
 
-	onMount(() => {
-		generateMines();
-	});
+	generateMines();
 </script>
 
 <div class="grid grid-cols-9 gap-0">

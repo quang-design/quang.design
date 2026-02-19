@@ -3,7 +3,7 @@
 	import type { SelectionState } from '$lib/types/microscopic';
 	import ZipUpButton from './zip-up-button.svelte';
 
-	let { initialText } = $props<{ initialText: string }>();
+	let { initialText }: { initialText: string } = $props();
 
 	let text = $state<string>();
 

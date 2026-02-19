@@ -36,12 +36,45 @@ Now I'm building this site with SvelteKit, continuing to learn by doing. Every c
 
 ## Tech Stack
 
-This site is built with:
+- **Svelte 5 + SvelteKit 2** - Web framework with runes-based reactivity
+- **TypeScript** - Type safety throughout
+- **TailwindCSS v4** - Utility-first styling
+- **bits-ui** - Headless UI primitives
+- **Shiki** - Syntax highlighting for code blocks
+- **svelte-exmarkdown** - Markdown rendering
+- **gray-matter** - Frontmatter parsing for content
+- **Anthropic Claude** - AI features (telescopic/microscopic text)
+- **Resend** - Email (newsletter subscribe)
+- **Vercel** - Hosting (adapter-vercel, analytics, speed insights)
+- **mode-watcher** - Auto dark/light mode (time-based: light 6am–6pm)
 
-- **SvelteKit** - The web framework
-- **TypeScript** - Type safety and better DX
-- **TailwindCSS** - Utility-first styling
-- **Vite** - Lightning-fast build tool
+## Project Structure
+
+```
+src/
+├── content/          # Markdown content (blog/, design/)
+├── lib/
+│   ├── components/
+│   │   ├── markdown/ # Markdown renderer components
+│   │   ├── shared/   # Navbar, Footer, PostCard, SeoHead, Subscribe
+│   │   └── ui/       # bits-ui based components
+│   ├── content/      # Content loaders (blog.ts, design.ts, engineering.ts)
+│   └── utils/
+└── routes/
+    ├── /             # Home (3-column markdown layout)
+    ├── /design       # Design portfolio (markdown posts)
+    ├── /engineer     # Engineering projects index
+    │   ├── /telescopic   # AI telescopic text tool
+    │   ├── /microscopic  # AI microscopic text tool
+    │   └── /minesweeper  # Minesweeper game
+    ├── /blog         # Blog posts (markdown)
+    ├── /api/
+    │   ├── /telescopic   # Claude API endpoint
+    │   ├── /microscopic  # Claude API endpoint
+    │   └── /subscribe    # Resend email subscribe
+    ├── /llms.txt     # LLM-friendly site index
+    └── /sitemap.xml  # Auto-generated sitemap
+```
 
 ## Development
 
@@ -57,4 +90,7 @@ pnpm build
 
 # Preview production build
 pnpm preview
+
+# Type check
+pnpm check
 ```
