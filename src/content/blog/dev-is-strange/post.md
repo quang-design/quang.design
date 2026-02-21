@@ -6,10 +6,10 @@ description: >
   reasons unknown.
 date: '2025-01-14'
 published: true
-thumbnail: '/blog/posts/dev-is-strange/dev-is-strange.webp'
+thumbnail: '/blog/posts/dev-is-strange/dev-is-strange.avif'
 ---
 
-![dev is strange](/blog/posts/dev-is-strange/dev-is-strange.webp)
+![dev is strange](/blog/posts/dev-is-strange/dev-is-strange.avif)
 
 full-stack learning path  
 react framework, codecademy  

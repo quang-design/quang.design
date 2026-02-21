@@ -3,7 +3,7 @@ title: 'Her Kind - The Making of a Name'
 description: 'Naming and brand story design for Her Kind, a brand built around the spirit and strength of women.'
 date: '2022-01-01'
 published: true
-thumbnail: './wangrar-her-kind-brand-identity-design.jpg'
+thumbnail: './wangrar-her-kind-brand-identity-design.avif'
 ---
 
 What's in a name? When it comes to a fashion brand, everything. The right name can convey a whole aesthetic, ethos and style in just a few syllables.
@@ -26,6 +26,6 @@ In the poem's own words:
 
 _Client: Her Kind · Project: Naming, Brand Story · Location: Vietnam · Time: 2022_
 
-![](./wangrar-her-kind-brand-identity-design.jpg)
+![](./wangrar-her-kind-brand-identity-design.avif)
 
 Yes, we decided, this is her kind — the free-spirited, self-defined women who will wear our pieces. The name conjured up our dream customer. So in the end, "Her Kind" chose us. And with that, our collection had a name — our compass for everything we hoped to design henceforth. A name to guide us forward, one thoughtful stitch at a time.

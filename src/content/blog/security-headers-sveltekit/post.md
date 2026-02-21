@@ -6,10 +6,10 @@ description: >
   that actually works.
 date: '2025-10-12'
 published: true
-thumbnail: '/blog/posts/security-headers-sveltekit/security-headers-sveltekit.webp'
+thumbnail: '/blog/posts/security-headers-sveltekit/security-headers-sveltekit.avif'
 ---
 
-![security headers in sveltekit](/blog/posts/security-headers-sveltekit/security-headers-sveltekit.webp)
+![security headers in sveltekit](/blog/posts/security-headers-sveltekit/security-headers-sveltekit.avif)
 
 I went from D to A+ on securityheaders.com in 3 attempts. Here's what I learned about SvelteKit, Vercel's edge network, and why you need BOTH svelte.config.js AND vercel.json to make security headers actually work.
 
@@ -116,7 +116,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 Deployed and checked. Still a D.
 
-![my initial score - a solid D](/blog/posts/security-headers-sveltekit/initial-score.png)
+![my initial score - a solid D](/blog/posts/security-headers-sveltekit/initial-score.avif)
 
 Waited a day for cache to clear. Still D. Nothing's changed.
 
@@ -209,7 +209,7 @@ This is much cleaner and follows SvelteKit's conventions. The static security he
 
 **Result: A+ rating on securityheaders.com**
 
-![A+ rating - we made it!](/blog/posts/security-headers-sveltekit/final-score.png)
+![A+ rating - we made it!](/blog/posts/security-headers-sveltekit/final-score.avif)
 
 ## What I learned
 

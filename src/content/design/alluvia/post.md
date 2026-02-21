@@ -3,7 +3,7 @@ title: 'Reimagining Alluvia Chocolate - Crafting an Identity Rooted in Mekong Es
 description: 'Brand identity for Alluvia Chocolate, a handcraft bean-to-bar chocolate brand made by a two-generation family in Mekong Delta, Vietnam.'
 date: '2021-01-01'
 published: true
-thumbnail: './DSC03005.jpg'
+thumbnail: './DSC03005.avif'
 ---
 
 Alluvia Chocolate is a handcraft bean-to-bar chocolates brand made by a two-generation family in Mekong Delta, Vietnam. Together we design a brand new identity inspired from the Mekong essence. Based in Vietnam's fertile Mekong Delta region, Alluvia creates bean-to-bar chocolates using local cacao. They wanted branding that celebrated their Vietnamese heritage and communicated their commitment to quality and innovation.
@@ -16,48 +16,48 @@ The end result provides Alluvia with an elevated yet authentic brand identity de
 
 *Client: Alluvia Chocolate · Project: (re)Brand Identity, Design Consultant · Location: Vietnam · Time: 2018*
 
-![](./DSC03005.jpg)
+![](./DSC03005.avif)
 
-![](./logo.jpg)
+![](./logo.avif)
 
-![](./image-1.png)
+![](./image-1.avif)
 
-![](./image-2.png)
+![](./image-2.avif)
 
-![](./image-3.png)
+![](./image-3.avif)
 
-![](./image-4.png)
+![](./image-4.avif)
 
-![](./image-5.png)
+![](./image-5.avif)
 
-![](./image-6.png)
+![](./image-6.avif)
 
-![](./mockup-stationery.jpg)
+![](./mockup-stationery.avif)
 
-![](./mockup-envelope.jpg)
+![](./mockup-envelope.avif)
 
-![](./mockup-letterhead.jpg)
+![](./mockup-letterhead.avif)
 
-![](./mockup-businesscard.jpg)
+![](./mockup-businesscard.avif)
 
-![](./poster-1.jpg)
+![](./poster-1.avif)
 
-![](./poster-2.jpg)
+![](./poster-2.avif)
 
-![](./poster-3.jpg)
+![](./poster-3.avif)
 
-![](./typography.jpg)
+![](./typography.avif)
 
-![](./color-pallete.jpg)
+![](./color-pallete.avif)
 
-![](./image-7.png)
+![](./image-7.avif)
 
-![](./image-8.png)
+![](./image-8.avif)
 
-![](./image-9.png)
+![](./image-9.avif)
 
-![](./image-10.png)
+![](./image-10.avif)
 
-![](./pattern.jpg)
+![](./pattern.avif)
 
-![](./mockup-packaging.jpg)
+![](./mockup-packaging.avif)

@@ -3,7 +3,7 @@ title: 'Crafting an Iconic Identity for Namka Coffee'
 description: 'Brand identity for Namka Coffee, a Vietnamese coffee and roaster specialized in delivering clean & high-quality coffee products.'
 date: '2018-01-01'
 published: true
-thumbnail: './cover.jpg'
+thumbnail: './cover.avif'
 ---
 
 Namka Coffee is a Vietnamese coffee and roaster specialized in delivering clean & high-quality coffee products in Vietnam. Namka is the name of a mountain which is the symbol of Buon Ma Thuot - Viet's Capital of Coffee.
@@ -12,26 +12,26 @@ The logo I created features the silhouette of Mount Namka, an iconic peak that t
 
 _Client: Namka Coffee · Project: Brand Identity · Location: Vietnam · Time: 2018_
 
-![](./cover.jpg)
+![](./cover.avif)
 
-![](./process-1.jpg)
+![](./process-1.avif)
 
-![](./process-2.jpg)
+![](./process-2.avif)
 
-![](./logo.jpg)
+![](./logo.avif)
 
-![](./mockup-1.jpg)
+![](./mockup-1.avif)
 
-![](./mockup-3.1.jpg)
+![](./mockup-3.1.avif)
 
-![](./mockup-3.2.jpg)
+![](./mockup-3.2.avif)
 
-![](./mockup-3.3.jpg)
+![](./mockup-3.3.avif)
 
-![](./mockup-2.jpg)
+![](./mockup-2.avif)
 
-![](./mockup-4.jpg)
+![](./mockup-4.avif)
 
-![](./mockup-5.jpg)
+![](./mockup-5.avif)
 
-![](./thanks.jpg)
+![](./thanks.avif)

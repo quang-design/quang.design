@@ -3,7 +3,7 @@ title: 'Fast Satisfaction in 30 Seconds: Crafting a Provocative Identity for Fuc
 description: 'Brand identity for Fuck+Go Condoms — a fictional project exploring provocative, honest branding in the sexual health space.'
 date: '2018-01-01'
 published: true
-thumbnail: './logo.jpg'
+thumbnail: './logo.avif'
 ---
 
 What secrets are people not telling you?
@@ -12,36 +12,36 @@ That is, you can have satisfaction in sex in 30 seconds. Sound weird, but yes, i
 
 _Client: Fuck+Go Condom · Project: Brand Identity · Location: Vietnam · Time: 2018_
 
-![](./intro.jpg)
+![](./intro.avif)
 
-![](./logo.jpg)
+![](./logo.avif)
 
-![](./moodboard.jpg)
+![](./moodboard.avif)
 
-![](./logo-2.jpg)
+![](./logo-2.avif)
 
-![](./mockup-1.jpg)
+![](./mockup-1.avif)
 
-![](./letterhead-2.jpg)
+![](./letterhead-2.avif)
 
-![](./3-poster.jpg)
+![](./3-poster.avif)
 
-![](./leaflet.jpg)
+![](./leaflet.avif)
 
-![](./tag-line.jpg)
+![](./tag-line.avif)
 
-![](./condom-01.jpg)
+![](./condom-01.avif)
 
-![](./condom-02.jpg)
+![](./condom-02.avif)
 
-![](./gel.jpg)
+![](./gel.avif)
 
-![](./napkin.jpg)
+![](./napkin.avif)
 
-![](./website.jpg)
+![](./website.avif)
 
-![](./Simple-Mockup-Free-Scene.jpg)
+![](./Simple-Mockup-Free-Scene.avif)
 
-![](./break-1.jpg)
+![](./break-1.avif)
 
-![](./break-2.jpg)
+![](./break-2.avif)

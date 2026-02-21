@@ -3,29 +3,29 @@ title: 'Xuan Loc Farm - Cultivating an Authentic Brand Identity for Vietnamese A
 description: 'Brand identity for Xuan Loc Farm, celebrating authentic Vietnamese agricultural heritage with a modern visual language.'
 date: '2022-01-01'
 published: true
-thumbnail: './cover.jpg'
+thumbnail: './cover.avif'
 ---
 
 When family-owned Xuan Loc Farm approached me to develop their brand identity, they wanted to convey the realness and honesty of small-scale Vietnamese agriculture. I designed a logo, packaging, and other brand assets that evoked the 'wild and lightly cold' feeling of farming in the mountains. Through earthy textures and tones, I helped Xuan Loc Farm authentically represent Vietnamese farmers.
 
 *Client: Xuan Loc Farm · Project: Brand Identity · Location: Quang Tri, Vietnam · Time: 2018*
 
-![](./cover.jpg)
+![](./cover.avif)
 
-![](./logo.jpg)
+![](./logo.avif)
 
-![](./color-pallete.jpg)
+![](./color-pallete.avif)
 
-![](./letterhead.jpg)
+![](./letterhead.avif)
 
-![](./flyer.jpg)
+![](./flyer.avif)
 
-![](./packaging-copy.jpg)
+![](./packaging-copy.avif)
 
-![](./tote-bag.jpg)
+![](./tote-bag.avif)
 
-![](./insta.jpg)
+![](./insta.avif)
 
-![](./website-01.jpg)
+![](./website-01.avif)
 
-![](./thanks-2.jpg)
+![](./thanks-2.avif)
