@@ -200,8 +200,13 @@
 	small {
 		filter: blur(var(--ink-blur)) url(#ink-bleed);
 	}
-	/* Links - slightly more blur than base */
-	a:not(:has(img)) {
+	/* Links - slightly more blur than base.
+	   Exclude block-level containers (cards with heading/paragraph children) to prevent
+	   double-filtering: child h2/p elements get their own ink-bleed filter via the rules
+	   above. Applying it again on the container creates a stacking context that causes
+	   Safari to re-composite the already-filtered children during hover transitions,
+	   making text appear blurry instead of showing the subtle ink-bleed texture. */
+	a:not(:has(img, h1, h2, h3, h4, h5, h6, p)) {
 		filter: blur(calc(var(--ink-blur) * 1.1)) url(#ink-bleed);
 	}
 	/* Headings - progressive blur proportional to size */
