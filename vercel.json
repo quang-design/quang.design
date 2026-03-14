@@ -4,17 +4,6 @@
   "devCommand": "vite dev",
   "redirects": [
     {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.quang.design"
-        }
-      ],
-      "destination": "https://quang.design/$1",
-      "permanent": true
-    },
-    {
       "source": "/ai",
       "destination": "/engineer",
       "permanent": true
