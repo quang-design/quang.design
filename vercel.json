@@ -1,64 +1,102 @@
 {
-	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"buildCommand": "vite build",
-	"devCommand": "vite dev",
-	"headers": [
-		{
-			"source": "/(.*)",
-			"headers": [
-				{
-					"key": "X-Frame-Options",
-					"value": "SAMEORIGIN"
-				},
-				{
-					"key": "X-Content-Type-Options",
-					"value": "nosniff"
-				},
-				{
-					"key": "Referrer-Policy",
-					"value": "no-referrer"
-				},
-				{
-					"key": "Permissions-Policy",
-					"value": "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
-				},
-				{
-					"key": "Cross-Origin-Embedder-Policy",
-					"value": "require-corp"
-				},
-				{
-					"key": "Cross-Origin-Opener-Policy",
-					"value": "same-origin"
-				},
-				{
-					"key": "Cross-Origin-Resource-Policy",
-					"value": "same-origin"
-				},
-				{
-					"key": "Origin-Agent-Cluster",
-					"value": "?1"
-				},
-				{
-					"key": "X-DNS-Prefetch-Control",
-					"value": "off"
-				},
-				{
-					"key": "X-Download-Options",
-					"value": "noopen"
-				},
-				{
-					"key": "X-Permitted-Cross-Domain-Policies",
-					"value": "none"
-				},
-				{
-					"key": "X-XSS-Protection",
-					"value": "0"
-				},
-				{
-					"key": "Access-Control-Allow-Origin",
-					"value": "https://quang.design"
-				}
-			]
-		}
-	]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "vite build",
+  "devCommand": "vite dev",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.quang.design"
+        }
+      ],
+      "destination": "https://quang.design/$1",
+      "permanent": true
+    },
+    {
+      "source": "/ai",
+      "destination": "/engineer",
+      "permanent": true
+    },
+    {
+      "source": "/dev/telescopic",
+      "destination": "/engineer/telescopic",
+      "permanent": true
+    },
+    {
+      "source": "/dev/microscopic",
+      "destination": "/engineer/microscopic",
+      "permanent": true
+    },
+    {
+      "source": "/blog/this-design-look-sad",
+      "destination": "/blog/posts/this-design-look-sad",
+      "permanent": true
+    },
+    {
+      "source": "/blog/security-headers-sveltekit",
+      "destination": "/blog/posts/security-headers-sveltekit",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Origin-Agent-Cluster",
+          "value": "?1"
+        },
+        {
+          "key": "X-DNS-Prefetch-Control",
+          "value": "off"
+        },
+        {
+          "key": "X-Download-Options",
+          "value": "noopen"
+        },
+        {
+          "key": "X-Permitted-Cross-Domain-Policies",
+          "value": "none"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "0"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://quang.design"
+        }
+      ]
+    }
+  ]
 }
