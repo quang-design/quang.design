@@ -37,8 +37,8 @@
 
 :root {
 	--radius: 0;
-	/* Ink-bleed blur scales with viewport: ~0.09px on mobile → ~0.35px on desktop */
-	--ink-blur: clamp(0.09px, 0.025vw, 0.35px);
+	/* Ink-bleed blur scales with viewport: ~0.05px on mobile → ~0.2px on desktop */
+	--ink-blur: clamp(0.05px, 0.015vw, 0.2px);
 	--text-base: 0.85rem;
 	--text-lg: 1rem;
 	--text-xl: 1.1rem;
@@ -85,6 +85,13 @@
 	--font-sans: 'CommitMono', monospace;
 	--font-serif: 'CommitMono', monospace;
 	--font-mono: 'CommitMono', monospace;
+}
+
+/* Safari tends to render filter stacks heavier; use a softer ink-bleed baseline there. */
+@supports (-webkit-touch-callout: none) {
+	:root {
+		--ink-blur: clamp(0.03px, 0.01vw, 0.14px);
+	}
 }
 
 .dark {
