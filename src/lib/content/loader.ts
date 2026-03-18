@@ -40,6 +40,24 @@ function rewriteRelativeAssetLinks(md: string, urlPrefix: string, slug: string) 
 	return md.replace(/\(\.\//g, `(${urlPrefix}/${slug}/`);
 }
 
+/**
+ * Higher-level factory: pass the static glob result once and get ready-to-use
+ * getAllPosts / getPost / getPostMatter functions back. Each content file only
+ * needs the glob import (which must be static for Vite) and this one-liner.
+ */
+export function createSection(
+	section: string,
+	urlPrefix: string,
+	modules: Record<string, string>
+) {
+	const parser = createContentParser(section, urlPrefix);
+	return {
+		getAllPosts: () => parser.getAllPosts(modules),
+		getPost: (slug: string) => parser.getPost(modules, slug),
+		getPostMatter: (slug: string) => parser.getPostMatter(modules, slug)
+	};
+}
+
 export function createContentParser(section: string, urlPrefix: string) {
 	return {
 		getAllPosts(modules: Record<string, string>): PostMetadata[] {
