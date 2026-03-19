@@ -58,7 +58,7 @@ export function createSection(
 	};
 }
 
-export function createContentParser(section: string, urlPrefix: string) {
+function createContentParser(section: string, urlPrefix: string) {
 	return {
 		getAllPosts(modules: Record<string, string>): PostMetadata[] {
 			const posts: Array<PostMetadata & { published: boolean }> = Object.entries(modules)
