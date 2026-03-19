@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import type { SelectionState } from '$lib/types/microscopic';
+	import { apiPaths } from '$lib/config/api';
 	import ZipUpButton from './zip-up-button.svelte';
 
-	let { initialText }: { initialText: string } = $props();
+	let { initialText, apiPath = apiPaths.microscopic }: { initialText: string; apiPath?: string } =
+		$props();
 
 	let text = $state<string>();
 
@@ -58,7 +60,7 @@
 
 		replaceSelection('<Zipping...>');
 		try {
-			const response = await fetch(`/api/microscopic`, {
+			const response = await fetch(apiPath, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ context: text, selection: selection.text })
