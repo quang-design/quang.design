@@ -6,6 +6,7 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { navLinks } from '$lib/config/nav';
 
 	let date = new SvelteDate();
 
@@ -19,13 +20,6 @@
 		const interval = setInterval(() => date.setTime(Date.now()), 1000);
 		return () => clearInterval(interval);
 	});
-
-	const navLinks = [
-		{ label: 'Quang', href: '/' },
-		{ label: 'Design', href: '/design' },
-		{ label: 'Engineer', href: '/engineer' },
-		{ label: 'Blog', href: '/blog' }
-	];
 
 	let selectedHref = $derived.by(() => {
 		const path = page.url.pathname;

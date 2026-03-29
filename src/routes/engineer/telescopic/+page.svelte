@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { apiPaths } from '$lib/config/api';
 	import EditableText from './editable-text.svelte';
 
 	let isLoading = $state(false);
@@ -20,7 +21,7 @@
 
 		try {
 			const apiTokenizedText = text.replace(loadingToken, '<word>');
-			const response = await fetch(`/api/telescopic?expand=${word}`, {
+			const response = await fetch(`${apiPaths.telescopic}?expand=${word}`, {
 				method: 'POST',
 				body: JSON.stringify({ context: apiTokenizedText }),
 				headers: {

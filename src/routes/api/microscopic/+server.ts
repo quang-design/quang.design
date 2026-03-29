@@ -9,7 +9,7 @@ export async function POST({ request }) {
 	const { context, selection } = await request.json();
 
 	const response = await anthropic.messages.create({
-		model: 'claude-3-7-sonnet-20250219',
+		model: 'claude-sonnet-4-6',
 		max_tokens: 24,
 		temperature: 0,
 		messages: [

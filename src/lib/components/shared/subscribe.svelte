@@ -2,6 +2,7 @@
 	import { toast } from 'svelte-sonner';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
+	import { apiPaths } from '$lib/config/api';
 
 	let email = $state('');
 	let loading = $state(false);
@@ -16,7 +17,7 @@
 			// Ensure current state value is sent
 			formData.set('email', email);
 
-			const res = await fetch('/api/subscribe', {
+			const res = await fetch(apiPaths.subscribe, {
 				method: 'POST',
 				body: formData
 			});
