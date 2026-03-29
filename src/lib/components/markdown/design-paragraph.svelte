@@ -20,6 +20,10 @@
 			)
 	);
 
+	const isSingleImg = $derived(
+		imgChildren.length === 1 && (node?.children ?? []).length === 1
+	);
+
 	const isHeading = $derived(
 		(node?.children ?? []).length === 1 &&
 			node?.children?.[0]?.type === 'element' &&
@@ -29,6 +33,10 @@
 
 {#if is2col}
 	<div class="grid gap-2 md:grid-cols-2 md:gap-8">
+		{@render children?.()}
+	</div>
+{:else if isSingleImg}
+	<div>
 		{@render children?.()}
 	</div>
 {:else if isHeading}

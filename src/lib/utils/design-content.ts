@@ -24,7 +24,7 @@ export function splitDesignContent(md: string) {
 	);
 
 	if (metaLineIndex < 0) {
-		return { introMd: md, metaParts: [] as string[], galleryMd: '' };
+		return { introMd: '', metaParts: [] as string[], galleryMd: preprocessDesignMd(md) };
 	}
 
 	const introMd = lines.slice(0, metaLineIndex).join('\n').trim();
