@@ -37,8 +37,6 @@
 
 :root {
 	--radius: 0;
-	/* Ink-bleed blur scales with viewport: ~0.05px on mobile → ~0.2px on desktop */
-	--ink-blur: clamp(0.05px, 0.015vw, 0.2px);
 	--text-base: 0.85rem;
 	--text-lg: 1rem;
 	--text-xl: 1.1rem;
@@ -85,13 +83,6 @@
 	--font-sans: 'CommitMono', monospace;
 	--font-serif: 'CommitMono', monospace;
 	--font-mono: 'CommitMono', monospace;
-}
-
-/* Safari tends to render filter stacks heavier; use a much softer baseline there. */
-@supports (-webkit-touch-callout: none) {
-	:root {
-		--ink-blur: clamp(0.01px, 0.006vw, 0.08px);
-	}
 }
 
 .dark {
@@ -199,38 +190,6 @@
 	body {
 		@apply bg-background text-foreground px-4 font-mono text-base font-light;
 	}
-	/* Base text elements - exclude containers with images */
-	p:not(:has(img)),
-	span:not(:has(svg, img)),
-	li:not(:has(img)),
-	label,
-	small {
-		filter: blur(var(--ink-blur)) url(#ink-bleed);
-	}
-	/* Links - slightly more blur than base.
-	   Exclude block-level containers (cards with heading/paragraph children) to prevent
-	   double-filtering: child h2/p elements get their own ink-bleed filter via the rules
-	   above. Applying it again on the container creates a stacking context that causes
-	   Safari to re-composite the already-filtered children during hover transitions,
-	   making text appear blurry instead of showing the subtle ink-bleed texture. */
-	a:not(:has(img, h1, h2, h3, h4, h5, h6, p)) {
-		filter: blur(calc(var(--ink-blur) * 1.1)) url(#ink-bleed);
-	}
-	/* Headings - progressive blur proportional to size */
-	h6,
-	h5,
-	h4 {
-		filter: blur(calc(var(--ink-blur) * 1.2)) url(#ink-bleed);
-	}
-	h3 {
-		filter: blur(calc(var(--ink-blur) * 1.35)) url(#ink-bleed);
-	}
-	h2 {
-		filter: blur(calc(var(--ink-blur) * 1.45)) url(#ink-bleed);
-	}
-	h1 {
-		filter: blur(calc(var(--ink-blur) * 1.65)) url(#ink-bleed);
-	}
 	p {
 		@apply leading-7;
 	}
@@ -244,40 +203,5 @@
 	}
 	a:not(:has(img, svg:not(.lucide-arrow-up-right)), :has([data-badge])):hover {
 		background-size: 100% 1px;
-	}
-}
-
-@supports (-webkit-touch-callout: none) {
-	@layer base {
-		/* Safari: keep text crisp by using only a tiny blur and skipping the SVG ink filter. */
-		p:not(:has(img)),
-		span:not(:has(svg, img)),
-		li:not(:has(img)),
-		label,
-		small {
-			filter: blur(calc(var(--ink-blur) * 0.35));
-		}
-
-		a:not(:has(img, h1, h2, h3, h4, h5, h6, p)) {
-			filter: blur(calc(var(--ink-blur) * 0.45));
-		}
-
-		h6,
-		h5,
-		h4 {
-			filter: blur(calc(var(--ink-blur) * 0.5));
-		}
-
-		h3 {
-			filter: blur(calc(var(--ink-blur) * 0.55));
-		}
-
-		h2 {
-			filter: blur(calc(var(--ink-blur) * 0.6));
-		}
-
-		h1 {
-			filter: blur(calc(var(--ink-blur) * 0.7));
-		}
 	}
 }
