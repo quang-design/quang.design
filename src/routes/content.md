@@ -70,4 +70,5 @@ _March 2018 – April 2019_
 
 #### Web Development
 
-- Master Svelte 5 & SvelteKit – Build & Deploy Real-World Apps - Udemy
+- [Master Svelte 5 & SvelteKit – Build & Deploy Real-World Apps](https://www.udemy.com/course/master-svelte-5-sveltekit/) - Udemy
+- [Claude Code for Real Engineers](https://www.aihero.dev/cohorts/claude-code-for-real-engineers-2026-04) - Matt Pocock
