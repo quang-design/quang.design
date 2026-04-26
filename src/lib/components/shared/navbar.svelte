@@ -6,9 +6,11 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { navLinks } from '$lib/config/nav';
+	import { onMount } from 'svelte';
 
-	let date = new SvelteDate();
+	let date = $state<SvelteDate | null>(null);
 
 	const formatter = new Intl.DateTimeFormat(undefined, {
 		hour: 'numeric',
@@ -16,8 +18,11 @@
 		second: 'numeric'
 	});
 
-	$effect(() => {
-		const interval = setInterval(() => date.setTime(Date.now()), 1000);
+	onMount(() => {
+		date = new SvelteDate();
+
+		const interval = setInterval(() => date?.setTime(Date.now()), 1000);
+
 		return () => clearInterval(interval);
 	});
 
@@ -36,7 +41,7 @@
 
 <header class="mx-auto flex w-full items-center justify-between py-4">
 	<div class="flex items-center gap-4">
-		<a href="/" aria-label="Quang Design">
+		<a href={resolve('/')} aria-label="Quang Design">
 			<img
 				src="/avatar.avif"
 				alt="Quang"
@@ -52,7 +57,11 @@
 				<Select.Content>
 					<Select.Group>
 						{#each navLinks as item (item.href)}
-							<Select.Item value={item.href} label={item.label} onclick={() => goto(item.href)}>
+							<Select.Item
+								value={item.href}
+								label={item.label}
+								onclick={() => goto(resolve(item.href))}
+							>
 								{item.label}
 							</Select.Item>
 						{/each}
@@ -63,7 +72,7 @@
 		<!-- DESKTOP -->
 		<nav class="hidden items-center gap-4 sm:flex">
 			{#each navLinks as item, i (item.href)}
-				<a href={item.href} class="flex items-center gap-1">
+				<a href={resolve(item.href)} class="flex items-center gap-1">
 					{item.label}
 				</a>
 				{#if i < navLinks.length - 1}
@@ -74,7 +83,12 @@
 	</div>
 
 	<div class="flex items-center gap-2">
-		<p class="sm:block">{formatter.format(date)}</p>
+		<p
+			class="min-w-20 tabular-nums sm:block"
+			aria-label={date ? `Current time ${formatter.format(date)}` : undefined}
+		>
+			{date ? formatter.format(date) : '--:--:--'}
+		</p>
 		<Button variant="outline" size="icon" onclick={toggleMode} class="cursor-pointer">
 			<Sun
 				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"
