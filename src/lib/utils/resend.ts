@@ -1,22 +1,47 @@
+import { env } from '$env/dynamic/private';
 import { Resend } from 'resend';
-import { RESEND_API_KEY, RESEND_AUDIENCE_ID } from '$env/static/private';
 
-const resend = new Resend(RESEND_API_KEY);
+const resend = new Resend(env.RESEND_API_KEY);
+const defaultNotificationEmail = 'xinchao@quang.design';
 
-export async function addContact(email: string) {
-	if (!RESEND_AUDIENCE_ID) {
-		throw new Error('Missing RESEND_AUDIENCE_ID environment variable');
+export class SubscribeError extends Error {
+	statusCode: number;
+
+	constructor(message: string, statusCode = 500, name = 'subscription_error') {
+		super(message);
+		this.name = name;
+		this.statusCode = statusCode;
 	}
+}
 
-	const result = await resend.contacts.create({
-		email: email.toLowerCase().trim(),
-		unsubscribed: false,
-		audienceId: RESEND_AUDIENCE_ID
+function escapeHtml(value: string) {
+	return value
+		.replaceAll('&', '&amp;')
+		.replaceAll('<', '&lt;')
+		.replaceAll('>', '&gt;')
+		.replaceAll('"', '&quot;')
+		.replaceAll("'", '&#39;');
+}
+
+export async function sendSubscriptionNotification(email: string) {
+	const subscriberEmail = email.toLowerCase().trim();
+	const notificationEmail = env.SUBSCRIBE_NOTIFICATION_TO || defaultNotificationEmail;
+	const sentAt = new Date().toISOString();
+	const safeEmail = escapeHtml(subscriberEmail);
+	const safeSentAt = escapeHtml(sentAt);
+
+	const result = await resend.emails.send({
+		from: env.SUBSCRIBE_NOTIFICATION_FROM || `Quang Design <${defaultNotificationEmail}>`,
+		to: notificationEmail,
+		replyTo: subscriberEmail,
+		subject: `New subscriber: ${subscriberEmail}`,
+		text: `New email subscriber: ${subscriberEmail}\nSubmitted at: ${sentAt}`,
+		html: `<p>New email subscriber:</p><p><strong>${safeEmail}</strong></p><p>Submitted at: ${safeSentAt}</p>`
 	});
 
 	if (!result.error) {
 		return result;
 	}
 
-	throw new Error(result.error.message);
+	throw new SubscribeError(result.error.message, result.error.statusCode ?? 500, result.error.name);
 }
