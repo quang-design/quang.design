@@ -1,4 +1,4 @@
-import { addContact } from '$lib/utils/resend';
+import { sendSubscriptionNotification, SubscribeError } from '$lib/utils/resend';
 import type { RequestHandler } from '@sveltejs/kit';
 import { z } from 'zod';
 
@@ -35,15 +35,15 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		const email = parsed.data.email.trim();
 
-		const result = await addContact(email);
+		const result = await sendSubscriptionNotification(email);
 		return new Response(JSON.stringify({ success: true, result }), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' }
 		});
-	} catch (err: any) {
-		const status = err?.statusCode ?? 500;
-		const message = err?.message ?? 'Failed to subscribe email.';
-		const name = err?.name ?? 'internal_error';
+	} catch (err: unknown) {
+		const status = err instanceof SubscribeError ? err.statusCode : 500;
+		const message = err instanceof Error ? err.message : 'Failed to capture email.';
+		const name = err instanceof Error ? err.name : 'internal_error';
 		return new Response(JSON.stringify({ name, message, statusCode: status }), {
 			status,
 			headers: { 'Content-Type': 'application/json' }

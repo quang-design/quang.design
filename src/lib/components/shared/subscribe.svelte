@@ -27,7 +27,7 @@
 				toast.error(`Subscription failed: ${errorMessage}`);
 				return;
 			}
-			toast.success('Successfully subscribed!');
+			toast.success('Email captured — thank you!');
 			email = '';
 		} finally {
 			loading = false;
@@ -38,6 +38,6 @@
 <form action="" onsubmit={handleSubmit} class="flex items-center gap-2">
 	<Input name="email" type="email" placeholder="Enter your email" bind:value={email} required />
 	<Button type="submit" variant="default" disabled={loading}
-		>{loading ? 'Subscribing...' : 'Subscribe'}</Button
+		>{loading ? 'Capturing...' : 'Subscribe'}</Button
 	>
 </form>
