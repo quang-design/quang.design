@@ -10,7 +10,7 @@ thumbnail: './dream-sweets-1.avif'
 
 The brand identity was designed with a focus on health, wellness, and joy. The logo is inspired by a mouth and teeth, symbolizing the dream of being able to eat sweets without worries.
 
-*Client: Dream Sweets · Project: Brand Identity, Brand Story, Naming, Brand Message & Communication · Location: Canada · Time: 2021*
+_Client: Dream Sweets · Project: Brand Identity, Brand Story, Naming, Brand Message & Communication · Location: Canada · Time: 2021_
 
 ![](./dream-sweets-1.avif)
 

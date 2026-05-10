@@ -2,36 +2,7 @@
 	import { ArrowUpRight } from '@lucide/svelte';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 
-	const projects = [
-		{
-			title: 'AI Telescopic Text',
-			description:
-				'AI-powered tool that progressively expands simple sentences into more detailed narratives.',
-			href: '/engineer/telescopic'
-		},
-		{
-			title: 'AI Microscopic Text',
-			description: 'AI-powered tool that zips up long texts into short, concise words.',
-			href: '/engineer/microscopic'
-		},
-		{
-			title: 'Minesweeper',
-			description: 'A classic minesweeper game built with SvelteKit and TailwindCSS.',
-			href: '/engineer/minesweeper'
-		},
-		{
-			title: 'User Agent Poetry Generator',
-			description: 'Generates poetry from your browser user agent string.',
-			href: 'https://user-info.quang.design/',
-			external: true
-		},
-		{
-			title: 'Bluesky Client (WIP)',
-			description: 'A custom Bluesky social media client.',
-			href: 'https://bluesky.quang.design/',
-			external: true
-		}
-	];
+	import { engineeringProjects } from '$lib/content/engineering-projects';
 </script>
 
 <SeoHead
@@ -44,7 +15,7 @@
 <p class="mb-8 text-neutral-400">Most of them are built with Svelte and Tailwind CSS.</p>
 
 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-	{#each projects as project}
+	{#each engineeringProjects as project}
 		<a
 			href={project.href}
 			target={project.external ? '_blank' : undefined}

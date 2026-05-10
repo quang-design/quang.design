@@ -1,37 +1,25 @@
-import Anthropic from '@anthropic-ai/sdk';
-import { ANTHROPIC_API_KEY } from '$env/static/private';
+import { json, error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
+import { generateText } from '$lib/server/llm';
+import { createTelescopicPrompt } from '$lib/server/llm/prompts';
 
-const anthropic = new Anthropic({
-	apiKey: ANTHROPIC_API_KEY
-});
+type TelescopicRequest = {
+	context?: unknown;
+};
 
-export async function POST({ request, url }) {
-	const { context } = await request.json();
+export const POST: RequestHandler = async ({ request, url }) => {
+	const { context } = (await request.json()) as TelescopicRequest;
 	const word = url.searchParams.get('expand');
 
-	const response = await anthropic.messages.create({
-		model: 'claude-sonnet-4-6',
-		max_tokens: 24,
-		temperature: 0,
-		messages: [
-			{
-				role: 'user',
-				content: [
-					{
-						type: 'text',
-						text: `
-                            You are a word expander.
-                            Expand the word "${word}" into a longer phrase in the context of the following text: "${context}".
-                            Keep the period at the end of the sentence.
-                            Use the period as a way to divide the context into sentences if the sentence is too long.
-                            Only respond with the expanded phrase, NOT the full sentence.
-                            For example, if asked to expand "tea" in "I made <word>.", respond with "a soothing cup of herbal tea." NOT "I made a soothing cup of herbal tea."
-						`
-					}
-				]
-			}
-		]
-	});
+	if (typeof context !== 'string' || !word) {
+		throw error(400, 'Expected context body and expand query parameter');
+	}
 
-	return new Response(JSON.stringify(response));
-}
+	return json(
+		await generateText({
+			prompt: createTelescopicPrompt(context, word),
+			maxTokens: 24,
+			temperature: 0
+		})
+	);
+};

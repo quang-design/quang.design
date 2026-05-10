@@ -4,6 +4,7 @@ import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
 import { getAllPosts as getAllEngineeringPosts } from '$lib/content/engineering';
+import { engineeringProjects } from '$lib/content/engineering-projects';
 
 interface PageInfo {
 	path: string;
@@ -47,35 +48,18 @@ async function parseHomeContent(): Promise<PageInfo> {
 }
 
 async function parseEngineeringProjects(): Promise<PageInfo[]> {
-	const projects: PageInfo[] = [
+	return [
 		{
 			path: '/engineer',
 			title: 'Engineering - All Things Engineering',
 			description: 'Collection of engineering work built with Svelte and Tailwind CSS'
-		}
-	];
-
-	// Add known engineering projects
-	const engineeringProjects = [
-		{
-			path: '/engineer/telescopic',
-			title: 'AI Telescopic Text',
-			description: 'Interactive AI-powered text expansion tool'
 		},
-		{
-			path: '/engineer/microscopic',
-			title: 'AI Microscopic Text',
-			description: 'Interactive AI-powered text compression tool'
-		},
-		{
-			path: '/engineer/minesweeper',
-			title: 'Minesweeper',
-			description: 'Classic Minesweeper game implementation'
-		}
+		...engineeringProjects.map((project) => ({
+			path: project.href,
+			title: project.title,
+			description: project.description
+		}))
 	];
-
-	projects.push(...engineeringProjects);
-	return projects;
 }
 
 async function parseDesignSection(): Promise<PageInfo> {
@@ -119,7 +103,7 @@ export const GET: RequestHandler = async () => {
 		const [
 			homeContent,
 			designSection,
-			engineeringProjects,
+			engineeringProjectPages,
 			blogPosts,
 			designPosts,
 			engineeringWriteups
@@ -143,7 +127,7 @@ export const GET: RequestHandler = async () => {
 
 		const engineeringSection = `## Engineering
 
-${engineeringProjects.map((project) => `- [${project.title}](${project.path}): ${project.description}`).join('\n')}`;
+${engineeringProjectPages.map((project) => `- [${project.title}](${project.path}): ${project.description}`).join('\n')}`;
 
 		const designPostsSection =
 			designPosts.length > 0
