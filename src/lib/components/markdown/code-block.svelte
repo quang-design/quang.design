@@ -2,7 +2,6 @@
 	import { cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
-	import { codeToHtml } from 'shiki';
 	import { onMount } from 'svelte';
 
 	let {
@@ -19,41 +18,38 @@
 	let highlightedCode = $state<string>('');
 	let codeElement: HTMLElement | undefined = $state();
 
-	// Detect block vs inline: block code has a "language-*" class from the markdown parser
 	const isBlock = $derived(c ? /language-\w+/.test(String(c)) : false);
 
-	// Extract language from class prop (e.g., "language-typescript")
 	const lang = $derived.by(() => {
 		const langMatch = c ? String(c).match(/language-(\w+)/) : null;
 		return langMatch ? langMatch[1] : 'plaintext';
 	});
 
-	onMount(() => {
+	onMount(async () => {
 		if (codeElement && isBlock) {
 			const codeText = codeElement.textContent || '';
 
 			if (codeText && lang) {
-				codeToHtml(codeText, {
-					lang: lang,
-					themes: {
-						light: 'vitesse-light',
-						dark: 'night-owl'
-					},
-					defaultColor: 'light-dark()'
-				})
-					.then((html) => {
-						const cleanedHtml = html.replace(
-							/style="([^"]*?)overflow[^;]*;?([^"]*)"/gi,
-							(match, before, after) => {
-								const cleaned = (before + after).trim();
-								return cleaned ? `style="${cleaned}"` : '';
-							}
-						);
-						highlightedCode = cleanedHtml;
-					})
-					.catch((_error) => {
-						highlightedCode = '';
+				try {
+					const { codeToHtml } = await import('shiki');
+					const html = await codeToHtml(codeText, {
+						lang: lang,
+						themes: {
+							light: 'vitesse-light',
+							dark: 'night-owl'
+						},
+						defaultColor: 'light-dark()'
 					});
+					highlightedCode = html.replace(
+						/style="([^"]*?)overflow[^;]*;?([^"]*)"/gi,
+						(match, before, after) => {
+							const cleaned = (before + after).trim();
+							return cleaned ? `style="${cleaned}"` : '';
+						}
+					);
+				} catch {
+					highlightedCode = '';
+				}
 			}
 		}
 	});
