@@ -109,9 +109,7 @@
 	</p>
 
 	{#if selection.text}
-		<div class="mt-2">
-			<ZipUpButton onClick={handleZipUp} />
-		</div>
+		<ZipUpButton onClick={handleZipUp} rect={selection.rect} />
 	{/if}
 </div>
 
