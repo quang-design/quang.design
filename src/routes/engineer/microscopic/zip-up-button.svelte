@@ -28,11 +28,28 @@
 
 <button
 	bind:this={buttonEl}
-	class="animate-in slide-in-from-bottom-2 fixed z-50 max-w-sm rounded border border-amber-500
-           bg-amber-500 px-3 py-1.5 text-white shadow-md backdrop-blur-xs transition-all ease-out hover:bg-amber-600"
+	class="zip-up-enter fixed z-50 max-w-sm rounded border border-amber-500
+           bg-amber-500 px-3 py-1.5 text-white shadow-md backdrop-blur-xs hover:bg-amber-600"
 	style="top: {position?.top ?? -9999}px; left: {position?.left ?? -9999}px;"
 	onclick={handleInteraction}
 	ontouchend={handleInteraction}
 >
 	Zip up
 </button>
+
+<style>
+	@keyframes zip-up-enter {
+		from {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.zip-up-enter {
+		animation: zip-up-enter 0.15s ease-out both;
+	}
+</style>
