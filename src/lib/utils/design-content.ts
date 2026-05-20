@@ -33,7 +33,12 @@ export function splitDesignContent(md: string) {
 		.split('·')
 		.map((p) => p.trim())
 		.filter(Boolean);
-	const galleryMd = preprocessDesignMd(lines.slice(metaLineIndex + 1).join('\n').trim());
+	const galleryMd = preprocessDesignMd(
+		lines
+			.slice(metaLineIndex + 1)
+			.join('\n')
+			.trim()
+	);
 
 	return { introMd, metaParts, galleryMd };
 }

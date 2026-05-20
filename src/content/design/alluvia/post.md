@@ -14,7 +14,7 @@ At the heart of the new logo is the Vietnamese cacao pod, stylized as an A for A
 
 The end result provides Alluvia with an elevated yet authentic brand identity deeply rooted in their home region. I loved helping reshape the visuals to better convey their family's chocolate-making legacy and pride in Vietnamese cacao.
 
-*Client: Alluvia Chocolate · Project: (re)Brand Identity, Design Consultant · Location: Vietnam · Time: 2018*
+_Client: Alluvia Chocolate · Project: (re)Brand Identity, Design Consultant · Location: Vietnam · Time: 2018_
 
 ![](./DSC03005.avif)
 

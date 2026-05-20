@@ -8,7 +8,7 @@ thumbnail: './wangrar-vietnamese-graphic-designer-brand-identity-design-powder-t
 
 The name "Powder Therapy" conveys their mission to provide therapeutic benefits through powdered forms. It also connects to the idea that taking a moment for self-care can be like therapy.
 
-*Client: Powder Therapy · Project: Brand Identity, Brand Story, Naming, Brand Message & Communication · Location: Canada · Time: 2021*
+_Client: Powder Therapy · Project: Brand Identity, Brand Story, Naming, Brand Message & Communication · Location: Canada · Time: 2021_
 
 ![](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-1.avif)
 

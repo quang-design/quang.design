@@ -1,7 +1,7 @@
 import { env } from '$env/dynamic/private';
 import { Resend } from 'resend';
 
-const resend = new Resend(env.RESEND_API_KEY);
+let resend: Resend | null = null;
 const defaultNotificationEmail = 'xinchao@quang.design';
 
 export class SubscribeError extends Error {
@@ -12,6 +12,15 @@ export class SubscribeError extends Error {
 		this.name = name;
 		this.statusCode = statusCode;
 	}
+}
+
+function getResendClient() {
+	if (!env.RESEND_API_KEY) {
+		throw new SubscribeError('RESEND_API_KEY is not configured');
+	}
+
+	resend ??= new Resend(env.RESEND_API_KEY);
+	return resend;
 }
 
 function escapeHtml(value: string) {
@@ -30,7 +39,7 @@ export async function sendSubscriptionNotification(email: string) {
 	const safeEmail = escapeHtml(subscriberEmail);
 	const safeSentAt = escapeHtml(sentAt);
 
-	const result = await resend.emails.send({
+	const result = await getResendClient().emails.send({
 		from: env.SUBSCRIBE_NOTIFICATION_FROM || `Quang Design <${defaultNotificationEmail}>`,
 		to: notificationEmail,
 		replyTo: subscriberEmail,

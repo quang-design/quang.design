@@ -45,11 +45,7 @@ function rewriteRelativeAssetLinks(md: string, urlPrefix: string, slug: string) 
  * getAllPosts / getPost / getPostMatter functions back. Each content file only
  * needs the glob import (which must be static for Vite) and this one-liner.
  */
-export function createSection(
-	section: string,
-	urlPrefix: string,
-	modules: Record<string, string>
-) {
+export function createSection(section: string, urlPrefix: string, modules: Record<string, string>) {
 	const parser = createContentParser(section, urlPrefix);
 	return {
 		getAllPosts: () => parser.getAllPosts(modules),

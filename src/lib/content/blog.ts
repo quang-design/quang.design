@@ -8,4 +8,8 @@ const modules = import.meta.glob('/src/content/blog/*/post.md', {
 	eager: true
 }) as Record<string, string>;
 
-export const { getAllPosts, getPost, getPostMatter } = createSection('blog', '/blog/posts', modules);
+export const { getAllPosts, getPost, getPostMatter } = createSection(
+	'blog',
+	'/blog/posts',
+	modules
+);

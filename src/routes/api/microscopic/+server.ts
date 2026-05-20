@@ -1,46 +1,25 @@
-import Anthropic from '@anthropic-ai/sdk';
-import { ANTHROPIC_API_KEY } from '$env/static/private';
+import { json, error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
+import { generateText } from '$lib/server/llm';
+import { createMicroscopicPrompt } from '$lib/server/llm/prompts';
 
-const anthropic = new Anthropic({
-	apiKey: ANTHROPIC_API_KEY
-});
+type MicroscopicRequest = {
+	context?: unknown;
+	selection?: unknown;
+};
 
-export async function POST({ request }) {
-	const { context, selection } = await request.json();
+export const POST: RequestHandler = async ({ request }) => {
+	const { context, selection } = (await request.json()) as MicroscopicRequest;
 
-	const response = await anthropic.messages.create({
-		model: 'claude-sonnet-4-6',
-		max_tokens: 24,
-		temperature: 0,
-		messages: [
-			{
-				role: 'user',
-				content: [
-					{
-						type: 'text',
-						text: `
-                    You are a semantic word zipper.
-                    Zip up the text "${selection}" into a significantly shorter version while preserving these rules in order:
-                    1. Zipped text must be shorter than selection text
-                    2. Always keep the subject of the sentence
-                    3. Maintain grammatical structure
-                    4. If it's a paragraph -> zip into one short sentence
-                    5. If it's a sentence -> zip into a shorter sentence with fewer words
-                    6. If it's a phrase -> zip into a shorter phrase with fewer words
-                    7. Keep core meaning only, remove descriptive details
-                    8. Keep only essential punctuation
-                    9. The output must seamlessly replace the original text
-                    10. ONLY respond with the zipped text, NOT the full context
-                    
-                    Context: "${context}"
-                    Example: If asked to zip "Yawning, and smearing my eyes with my fingers" in the context above, respond with "Yawning" NOT "Yawning, I walked bleary..."
-                    Only respond with the zipped text.
-							`
-					}
-				]
-			}
-		]
-	});
+	if (typeof context !== 'string' || typeof selection !== 'string') {
+		throw error(400, 'Expected context and selection strings');
+	}
 
-	return new Response(JSON.stringify(response));
-}
+	return json(
+		await generateText({
+			prompt: createMicroscopicPrompt(context, selection),
+			maxTokens: 24,
+			temperature: 0
+		})
+	);
+};

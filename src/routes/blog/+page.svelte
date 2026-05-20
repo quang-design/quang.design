@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { CircleAlert } from '@lucide/svelte';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import PostCard from '$lib/components/shared/post-card.svelte';
+	import EmptyState from '$lib/components/shared/empty-state.svelte';
 	import type { PostMetadata } from './+page.server';
 
 	let { data }: { data: { posts: PostMetadata[] } } = $props();
@@ -24,13 +24,8 @@
 		{/each}
 	</div>
 {:else}
-	<div
-		class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-neutral-700 bg-neutral-800 p-12 text-center"
-	>
-		<CircleAlert />
-		<h2 class="text-2xl font-semibold text-white">No Posts Yet</h2>
-		<p class="mt-2 text-neutral-400">
-			It looks like there are no blog posts available at the moment. Check back soon!
-		</p>
-	</div>
+	<EmptyState
+		title="No Posts Yet"
+		description="It looks like there are no blog posts available at the moment. Check back soon!"
+	/>
 {/if}

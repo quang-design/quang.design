@@ -15,14 +15,10 @@
 
 	const is2col = $derived(
 		imgChildren.length === 2 &&
-			imgChildren.every(
-				(c: { properties?: { alt?: string } }) => c.properties?.alt === '2col'
-			)
+			imgChildren.every((c: { properties?: { alt?: string } }) => c.properties?.alt === '2col')
 	);
 
-	const isSingleImg = $derived(
-		imgChildren.length === 1 && (node?.children ?? []).length === 1
-	);
+	const isSingleImg = $derived(imgChildren.length === 1 && (node?.children ?? []).length === 1);
 
 	const isHeading = $derived(
 		(node?.children ?? []).length === 1 &&

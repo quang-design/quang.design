@@ -8,7 +8,7 @@ thumbnail: './logo.avif'
 
 This project has been developed in 6 years of love, sweat & tears. By the time you're seeing this, we are so happy to announce that we got married just fine. Thank you!!!
 
-*Client: My Wife ❤️‍🔥 · Project: Wedding Invitation · Location: HCMC, Vietnam · Time: 2019*
+_Client: My Wife ❤️‍🔥 · Project: Wedding Invitation · Location: HCMC, Vietnam · Time: 2019_
 
 ![](./logo.avif)
 
