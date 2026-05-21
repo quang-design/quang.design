@@ -45,6 +45,9 @@
 			<img
 				src="/avatar.avif"
 				alt="Quang"
+				width="36"
+				height="36"
+				fetchpriority="high"
 				class="border-gray-320 size-9 rounded-full border object-cover transition-all duration-300 ease-in-out hover:scale-105"
 			/>
 		</a>
