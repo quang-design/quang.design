@@ -1467,11 +1467,12 @@ export const sections: AnimationSection[] = [
 				description:
 					'Motion should serve a function — orient, give feedback, show relationships — not just decorate.',
 				animate: (stage) => {
-					const el = solo(stage, 22);
+					stage.innerHTML = `<div style="position:absolute;left:58px;top:37px;width:22px;height:22px;border:2px dashed ${MUT};box-sizing:border-box;"></div><div style="position:absolute;left:14px;top:37px;width:22px;height:22px;background:${FG};"></div>`;
+					const box = stage.children[1] as HTMLElement;
 					anime({
-						targets: el,
-						translateX: [-28, 28],
-						duration: 700,
+						targets: box,
+						left: [14, 58],
+						duration: 800,
 						easing: 'easeInOutCubic'
 					});
 				}
@@ -1486,14 +1487,22 @@ export const sections: AnimationSection[] = [
 						targets: el,
 						keyframes: [
 							{
-								translateX: 8,
-								duration: 200,
-								easing: 'easeInQuad'
+								translateX: 18,
+								scaleX: 0.8,
+								duration: 400,
+								easing: 'easeOutQuad'
 							},
 							{
 								translateX: -34,
-								duration: 500,
+								scaleX: 1.1,
+								duration: 450,
 								easing: 'easeOutCubic'
+							},
+							{
+								translateX: 0,
+								scaleX: 1,
+								duration: 500,
+								easing: 'easeOutElastic(1, .6)'
 							}
 						]
 					});
@@ -1504,19 +1513,20 @@ export const sections: AnimationSection[] = [
 				description:
 					'Parts of an element keep moving and settle slightly after the main motion stops, adding weight.',
 				animate: (stage) => {
-					stage.innerHTML = `<div style="width:24px;height:24px;background:${FG};"></div><div style="width:16px;height:16px;background:${MUT};opacity:0.5;margin-top:-4px;"></div>`;
-					const els = stage.querySelectorAll('div');
+					stage.innerHTML = `<div style="position:absolute;left:28px;top:38px;width:22px;height:22px;background:${FG};"></div><div style="position:absolute;left:52px;top:43px;width:12px;height:12px;background:${MUT};border-radius:50%;"></div>`;
+					const main = stage.children[0] as HTMLElement;
+					const tail = stage.children[1] as HTMLElement;
 					anime({
-						targets: els[0],
-						translateX: [-20, 20],
-						duration: 600,
+						targets: main,
+						translateX: [-30, 0],
+						duration: 500,
 						easing: 'easeOutCubic'
 					});
 					anime({
-						targets: els[1],
-						translateX: [-20, 26],
-						duration: 800,
-						easing: 'easeOutElastic(1, .6)'
+						targets: tail,
+						translateX: [-30, 0],
+						duration: 900,
+						easing: 'easeOutElastic(1, .4)'
 					});
 				}
 			},
@@ -1524,32 +1534,33 @@ export const sections: AnimationSection[] = [
 				title: 'Squash & stretch',
 				description: 'Deforming an element as it moves to convey weight, speed, and flexibility.',
 				animate: (stage) => {
-					const el = solo(stage, 24);
+					const el = solo(stage, 22, 'border-radius:50%;');
 					anime({
 						targets: el,
 						keyframes: [
 							{
-								translateY: -20,
-								scaleX: 0.9,
-								scaleY: 1.1,
-								duration: 300,
-								easing: 'easeOutQuad'
+								translateY: -26,
+								scaleX: 0.85,
+								scaleY: 1.25,
+								duration: 350,
+								easing: 'easeInQuad'
 							},
 							{
-								translateY: 10,
-								scaleX: 1.2,
-								scaleY: 0.7,
-								duration: 200,
+								translateY: 24,
+								scaleX: 1.4,
+								scaleY: 0.6,
+								duration: 300,
 								easing: 'easeInQuad'
 							},
 							{
 								translateY: 0,
 								scaleX: 1,
 								scaleY: 1,
-								duration: 400,
-								easing: 'easeOutElastic(1, .5)'
+								duration: 500,
+								easing: 'easeOutBounce'
 							}
-						]
+						],
+						loop: 2
 					});
 				}
 			},
@@ -1557,14 +1568,13 @@ export const sections: AnimationSection[] = [
 				title: 'Perceived performance',
 				description: "The right animation makes an interface feel faster, even when it isn't.",
 				animate: (stage) => {
-					const el = solo(stage, 24);
-					anime({
-						targets: el,
-						scale: [0, 1],
-						opacity: [0, 1],
-						duration: 300,
-						easing: 'easeOutCubic'
-					});
+					stage.innerHTML = `<div style="position:absolute;left:20px;top:28px;width:56px;height:10px;background:${MUT};opacity:0.2;"></div><div style="position:absolute;left:20px;top:42px;width:40px;height:10px;background:${MUT};opacity:0.2;"></div><div style="position:absolute;left:20px;top:28px;width:56px;height:10px;background:${FG};transform:scaleX(0);transform-origin:left;"></div><div style="position:absolute;left:20px;top:42px;width:40px;height:10px;background:${FG};transform:scaleX(0);transform-origin:left;"></div>`;
+					const bars = [stage.children[2] as HTMLElement, stage.children[3] as HTMLElement];
+					const tl = anime.timeline({ easing: 'easeOutCubic' });
+					tl.add({ targets: bars[0], scaleX: [0, 1], duration: 400 }).add(
+						{ targets: bars[1], scaleX: [0, 1], duration: 350 },
+						100
+					);
 				}
 			},
 			{
@@ -1572,14 +1582,12 @@ export const sections: AnimationSection[] = [
 				description:
 					'The more often a user sees an animation, the shorter and subtler it should be.',
 				animate: (stage) => {
-					const el = solo(stage, 24);
-					anime({
-						targets: el,
-						scale: [0.95, 1],
-						opacity: [0.7, 1],
-						duration: 200,
-						easing: 'easeOutQuad'
-					});
+					const el = solo(stage, 26);
+					const tl = anime.timeline({ targets: el, easing: 'easeOutCubic' });
+					tl.add({ scale: [0, 1.35], opacity: [0, 1], duration: 600 })
+						.add({ scale: [0.9, 1.15], duration: 300 }, '+=200')
+						.add({ scale: [0.95, 1.04], duration: 180 }, '+=150')
+						.add({ scale: [0.98, 1.01], duration: 120 }, '+=100');
 				}
 			},
 			{
@@ -1587,12 +1595,12 @@ export const sections: AnimationSection[] = [
 				description:
 					'Animating so an element keeps its identity and position across states, so users never lose track of where things went.',
 				animate: (stage) => {
-					const el = solo(stage, 22);
+					stage.innerHTML = `<div style="position:absolute;left:12px;top:37px;width:22px;height:22px;border:2px dashed ${MUT};box-sizing:border-box;"></div><div style="position:absolute;left:62px;top:37px;width:22px;height:22px;border:2px dashed ${MUT};box-sizing:border-box;"></div><div style="position:absolute;left:12px;top:37px;width:22px;height:22px;background:${FG};"></div>`;
+					const box = stage.children[2] as HTMLElement;
 					anime({
-						targets: el,
-						translateX: [-28, 28],
-						translateY: [14, -14],
-						duration: 1000,
+						targets: box,
+						left: [12, 62],
+						duration: 900,
 						easing: 'easeInOutCubic',
 						direction: 'alternate',
 						loop: 2
@@ -1603,13 +1611,22 @@ export const sections: AnimationSection[] = [
 				title: 'Hardware acceleration',
 				description: 'Animating transform and opacity lets the GPU keep motion smooth.',
 				animate: (stage) => {
-					const el = solo(stage, 24);
+					stage.innerHTML = `<div style="position:absolute;left:14px;top:26px;width:18px;height:18px;background:${MUT};opacity:0.35;"></div><div style="position:absolute;left:14px;top:52px;width:18px;height:18px;background:${FG};"></div>`;
+					const ghost = stage.children[0] as HTMLElement;
+					const solid = stage.children[1] as HTMLElement;
 					anime({
-						targets: el,
-						translateX: [-28, 28],
-						opacity: [0.4, 1],
-						duration: 1000,
-						easing: 'easeInOutQuad',
+						targets: ghost,
+						translateX: 46,
+						duration: 1200,
+						easing: 'steps(6)',
+						direction: 'alternate',
+						loop: 2
+					});
+					anime({
+						targets: solid,
+						translateX: 46,
+						duration: 1200,
+						easing: 'easeInOutSine',
 						direction: 'alternate',
 						loop: 2
 					});
@@ -1620,11 +1637,21 @@ export const sections: AnimationSection[] = [
 				description:
 					"Respecting the user's prefers-reduced-motion setting by toning down or removing motion.",
 				animate: (stage) => {
-					const el = solo(stage, 24);
+					stage.innerHTML = `<div style="position:absolute;left:36px;top:24px;width:24px;height:24px;background:${MUT};opacity:0;"></div><div style="position:absolute;left:36px;top:52px;width:24px;height:24px;background:${FG};opacity:0;"></div>`;
+					const ghost = stage.children[0] as HTMLElement;
+					const solid = stage.children[1] as HTMLElement;
 					anime({
-						targets: el,
+						targets: ghost,
+						translateX: [-40, 0],
+						scale: [0.4, 1],
+						opacity: [0, 0.35],
+						duration: 700,
+						easing: 'easeOutBack'
+					});
+					anime({
+						targets: solid,
 						opacity: [0, 1],
-						duration: 800,
+						duration: 1000,
 						easing: 'easeInOutQuad'
 					});
 				}
