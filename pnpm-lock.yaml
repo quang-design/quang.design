@@ -17,6 +17,9 @@ importers:
       '@vercel/speed-insights':
         specifier: ^1.3.1
         version: 1.3.1(@sveltejs/kit@2.57.1(@opentelemetry/api@1.9.0)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.4(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3)))(svelte@5.55.4(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3)))(react@19.1.0)(svelte@5.55.4(@typescript-eslint/types@8.58.2))
+      animejs:
+        specifier: 3.2.2
+        version: 3.2.2
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -57,6 +60,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.2.2
         version: 4.2.2(vite@7.3.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3))
+      '@types/animejs':
+        specifier: ^3.1.13
+        version: 3.1.13
       bits-ui:
         specifier: ^2.17.3
         version: 2.17.3(@internationalized/date@3.10.1)(@sveltejs/kit@2.57.1(@opentelemetry/api@1.9.0)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.4(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3)))(svelte@5.55.4(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3)))(svelte@5.55.4(@typescript-eslint/types@8.58.2))
@@ -1010,6 +1016,9 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
 
+  '@types/animejs@3.1.13':
+    resolution: {integrity: sha512-yWg9l1z7CAv/TKpty4/vupEh24jDGUZXv4r26StRkpUPQm04ztJaftgpto8vwdFs8SiTq6XfaPKCSI+wjzNMvQ==}
+
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
 
@@ -1216,6 +1225,9 @@ packages:
 
   ajv@6.14.0:
     resolution: {integrity: sha512-IWrosm/yrn43eiKqkfkHis7QioDleaXQHdDVPKg0FSwwd/DuvyX79TZnFOnYpB7dcsFAMmtFztZuXPDvSePkFw==}
+
+  animejs@3.2.2:
+    resolution: {integrity: sha512-Ao95qWLpDPXXM+WrmwcKbl6uNlC5tjnowlaRYtuVDHHoygjtIPfDUoK9NthrlZsQSKjZXlmji2TrBUAVbiH0LQ==}
 
   ansi-escapes@7.3.0:
     resolution: {integrity: sha512-BvU8nYgGQBxcmMuEeUEmNTvrMVjJNSH7RgW24vXexN4Ven6qCvy4TntnvlnwnMLTVlcRQQdbRY8NKnaIoeWDNg==}
@@ -3451,6 +3463,8 @@ snapshots:
       tailwindcss: 4.2.2
       vite: 7.3.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3)
 
+  '@types/animejs@3.1.13': {}
+
   '@types/chai@5.2.3':
     dependencies:
       '@types/deep-eql': 4.0.2
@@ -3672,6 +3686,8 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
+
+  animejs@3.2.2: {}
 
   ansi-escapes@7.3.0:
     dependencies:

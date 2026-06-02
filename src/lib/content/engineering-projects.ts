@@ -23,6 +23,12 @@ export const engineeringProjects: EngineeringProject[] = [
 		href: '/engineer/minesweeper'
 	},
 	{
+		title: 'Animation Vocabulary',
+		description:
+			'Interactive visual glossary of animation terms with anime.js — Entrances & Exits.',
+		href: '/engineer/animation-vocabulary'
+	},
+	{
 		title: 'User Agent Poetry Generator',
 		description: 'Generates poetry from your browser user agent string.',
 		href: 'https://user-info.quang.design/',
