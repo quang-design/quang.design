@@ -1,6 +1,7 @@
 <script lang="ts">
 	import anime from 'animejs';
 	import { onMount } from 'svelte';
+	import type { AnimateFn } from './animations';
 
 	let {
 		title,
@@ -9,39 +10,47 @@
 	}: {
 		title: string;
 		description: string;
-		animate: (target: HTMLElement) => void;
+		animate: AnimateFn;
 	} = $props();
 
-	let shapeEl: HTMLElement;
-	let mounted = $state(false);
+	let stageEl: HTMLElement;
+	let cleanup: void | (() => void);
+	let hasPlayed = false;
 
-	onMount(() => {
-		mounted = true;
-	});
-
-	function replay() {
-		if (!shapeEl) return;
-		anime.remove(shapeEl);
-		shapeEl.removeAttribute('style');
-		animateFn(shapeEl);
+	function play() {
+		if (!stageEl) return;
+		if (typeof cleanup === 'function') cleanup();
+		const kids = stageEl.querySelectorAll('*');
+		anime.remove(kids);
+		stageEl.innerHTML = '';
+		cleanup = animateFn(stageEl);
+		hasPlayed = true;
 	}
 
-	$effect(() => {
-		if (mounted && shapeEl) {
-			animateFn(shapeEl);
-		}
+	onMount(() => {
+		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting && !hasPlayed && !reduced) {
+					play();
+					observer.disconnect();
+				}
+			},
+			{ threshold: 0.3 }
+		);
+		observer.observe(stageEl);
+		return () => observer.disconnect();
 	});
 </script>
 
 <button
 	class="border-foreground/10 group flex cursor-pointer items-start gap-6 border-[0.5px] p-6 text-left transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
-	onclick={replay}
+	onclick={play}
 >
 	<div
-		class="bg-foreground/5 relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden"
-	>
-		<div bind:this={shapeEl} class="bg-foreground h-8 w-8"></div>
-	</div>
+		bind:this={stageEl}
+		class="bg-foreground/5 relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden"
+	></div>
 	<div class="flex flex-col gap-1">
 		<h3 class="text-sm font-bold">{title}</h3>
 		<p class="text-muted-foreground text-xs">{description}</p>
