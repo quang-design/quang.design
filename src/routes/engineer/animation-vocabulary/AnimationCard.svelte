@@ -1,6 +1,5 @@
 <script lang="ts">
 	import anime from 'animejs';
-	import { onMount } from 'svelte';
 	import type { AnimateFn } from './animations';
 
 	let {
@@ -27,7 +26,8 @@
 		hasPlayed = true;
 	}
 
-	onMount(() => {
+	function autoplay(el: HTMLElement) {
+		stageEl = el;
 		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		const observer = new IntersectionObserver(
 			(entries) => {
@@ -38,9 +38,9 @@
 			},
 			{ threshold: 0.3 }
 		);
-		observer.observe(stageEl);
+		observer.observe(el);
 		return () => observer.disconnect();
-	});
+	}
 </script>
 
 <button
@@ -48,7 +48,7 @@
 	onclick={play}
 >
 	<div
-		bind:this={stageEl}
+		{@attach autoplay}
 		class="bg-foreground/5 relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden"
 	></div>
 	<div class="flex flex-col gap-1">
