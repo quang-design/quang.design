@@ -1,5 +1,6 @@
 <script lang="ts">
 	import anime from 'animejs';
+	import { Button } from '$lib/components/ui/button';
 	import type { AnimateFn } from './animations';
 
 	let {
@@ -43,8 +44,9 @@
 	}
 </script>
 
-<button
-	class="border-foreground/10 group flex cursor-pointer items-start gap-6 border-[0.5px] p-6 text-left transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
+<Button
+	variant="ghost"
+	class="border-foreground/10 group flex h-auto cursor-pointer items-start gap-6 rounded-none border-[0.5px] p-6 text-left transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
 	onclick={play}
 >
 	<div
@@ -60,4 +62,4 @@
 			click to replay
 		</span>
 	</div>
-</button>
+</Button>
