@@ -42,7 +42,12 @@ export default ts.config(
 			// Disable custom element warning - we're not building custom elements
 			'svelte/valid-compile': ['error', { ignoreWarnings: true }],
 			// Allow @html for structured data (JSON-LD) - used carefully
-			'svelte/no-at-html-tags': 'warn'
+			'svelte/no-at-html-tags': 'warn',
+			// Disable rules introduced in eslint-plugin-svelte v3
+			'svelte/require-each-key': 'off',
+			'svelte/no-navigation-without-resolve': 'off',
+			'svelte/no-useless-mustaches': 'off',
+			'svelte/prefer-svelte-reactivity': 'off'
 		}
 	},
 	{
