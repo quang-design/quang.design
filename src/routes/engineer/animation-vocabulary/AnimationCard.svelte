@@ -15,16 +15,32 @@
 
 	let stageEl: HTMLElement;
 	let cleanup: void | (() => void);
-	let hasPlayed = false;
+	let loopTimer: ReturnType<typeof setTimeout>;
+	let visible = false;
 
 	function play() {
 		if (!stageEl) return;
+		clearTimeout(loopTimer);
 		if (typeof cleanup === 'function') cleanup();
 		const kids = stageEl.querySelectorAll('*');
 		anime.remove(kids);
 		stageEl.innerHTML = '';
+
+		const runningBefore = (anime as unknown as Record<string, unknown>).running as unknown[];
+		const countBefore = runningBefore.length;
 		cleanup = animateFn(stageEl);
-		hasPlayed = true;
+		const newInstances = runningBefore.slice(countBefore);
+
+		if (newInstances.length > 0 && visible) {
+			const finished = newInstances.map(
+				(a) => (a as Record<string, unknown>).finished as Promise<void>
+			);
+			Promise.all(finished)
+				.then(() => {
+					if (visible) loopTimer = setTimeout(play, 1000);
+				})
+				.catch(() => {});
+		}
 	}
 
 	function autoplay(el: HTMLElement) {
@@ -32,15 +48,20 @@
 		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		const observer = new IntersectionObserver(
 			(entries) => {
-				if (entries[0].isIntersecting && !hasPlayed && !reduced) {
+				visible = entries[0].isIntersecting;
+				if (visible && !reduced) {
 					play();
-					observer.disconnect();
+				} else {
+					clearTimeout(loopTimer);
 				}
 			},
 			{ threshold: 0.3 }
 		);
 		observer.observe(el);
-		return () => observer.disconnect();
+		return () => {
+			observer.disconnect();
+			clearTimeout(loopTimer);
+		};
 	}
 </script>
 
