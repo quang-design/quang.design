@@ -46,14 +46,14 @@
 
 <Button
 	variant="ghost"
-	class="border-foreground/10 group flex h-auto cursor-pointer items-start gap-6 rounded-none border-[0.5px] p-6 text-left transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
+	class="border-foreground/10 group flex h-auto w-full cursor-pointer flex-col items-start gap-4 overflow-hidden rounded-none border-[0.5px] p-4 text-left whitespace-normal transition-colors hover:bg-neutral-50 sm:flex-row sm:gap-6 sm:p-6 dark:hover:bg-neutral-900"
 	onclick={play}
 >
 	<div
 		{@attach autoplay}
-		class="bg-foreground/5 relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden"
+		class="bg-foreground/5 relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden sm:h-24 sm:w-24"
 	></div>
-	<div class="flex flex-col gap-1">
+	<div class="flex min-w-0 flex-col gap-1">
 		<h3 class="text-sm font-bold">{title}</h3>
 		<p class="text-muted-foreground text-xs">{description}</p>
 		<span

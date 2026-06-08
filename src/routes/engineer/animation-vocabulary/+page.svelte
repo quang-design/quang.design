@@ -10,7 +10,7 @@
 	canonical="https://quang.design/engineer/animation-vocabulary"
 />
 
-<section class="mx-auto w-full max-w-2xl space-y-16 p-4">
+<section class="mx-auto w-full max-w-2xl space-y-10 p-4 sm:space-y-16">
 	<div>
 		<h1 class="text-2xl font-bold uppercase">Animation Vocabulary</h1>
 		<p class="text-muted-foreground mt-1 text-sm">
@@ -26,14 +26,14 @@
 		</p>
 	</div>
 
-	{#each sections as section}
+	{#each sections as section (section.title)}
 		<div class="space-y-4">
 			<div>
 				<h2 class="text-lg font-bold">{section.title}</h2>
 				<p class="text-muted-foreground text-sm">{section.description}</p>
 			</div>
 			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-				{#each section.items as item}
+				{#each section.items as item (item.title)}
 					<AnimationCard title={item.title} description={item.description} animate={item.animate} />
 				{/each}
 			</div>
