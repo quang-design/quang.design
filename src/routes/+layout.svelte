@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import { onMount } from 'svelte';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	import { ModeWatcher, setMode } from 'mode-watcher';
@@ -11,7 +12,7 @@
 
 	const themeColors = { light: '#ffffff', dark: '#09090b' };
 
-	$effect(() => {
+	onMount(() => {
 		const hour = new Date().getHours();
 		if (hour >= 6 && hour < 18) setMode('light');
 		else setMode('dark');

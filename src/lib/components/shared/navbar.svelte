@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
+	import { onMount } from 'svelte';
 	import { toggleMode } from 'mode-watcher';
 	import SunIcon from '@lucide/svelte/icons/sun';
 	import MoonIcon from '@lucide/svelte/icons/moon';
@@ -17,10 +18,9 @@
 		second: 'numeric'
 	});
 
-	$effect(() => {
-		const d = new SvelteDate();
-		date = d;
-		const interval = setInterval(() => d.setTime(Date.now()), 1000);
+	onMount(() => {
+		date = new SvelteDate();
+		const interval = setInterval(() => date?.setTime(Date.now()), 1000);
 		return () => clearInterval(interval);
 	});
 
