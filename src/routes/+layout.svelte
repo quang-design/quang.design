@@ -1,12 +1,12 @@
 <script lang="ts">
 	import '../app.css';
+	import { onMount } from 'svelte';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import Navbar from '$lib/components/shared/navbar.svelte';
 	import Footer from '$lib/components/shared/footer.svelte';
-	import { onMount } from 'svelte';
 
 	let { children } = $props();
 
@@ -22,7 +22,7 @@
 	injectSpeedInsights();
 </script>
 
-<ModeWatcher defaultMode={'light'} {themeColors} />
+<ModeWatcher defaultMode="light" {themeColors} />
 
 <Toaster position="top-center" />
 

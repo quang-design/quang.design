@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
+	import { onMount } from 'svelte';
 	import { toggleMode } from 'mode-watcher';
-	import { Sun, Moon } from '@lucide/svelte';
+	import SunIcon from '@lucide/svelte/icons/sun';
+	import MoonIcon from '@lucide/svelte/icons/moon';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { navLinks } from '$lib/config/nav';
-	import { onMount } from 'svelte';
-
 	let date = $state<SvelteDate | null>(null);
 
 	const formatter = new Intl.DateTimeFormat(undefined, {
@@ -20,9 +20,7 @@
 
 	onMount(() => {
 		date = new SvelteDate();
-
 		const interval = setInterval(() => date?.setTime(Date.now()), 1000);
-
 		return () => clearInterval(interval);
 	});
 
@@ -45,26 +43,27 @@
 			<img
 				src="/avatar.avif"
 				alt="Quang"
-				width="36"
-				height="36"
+				width="32"
+				height="32"
 				fetchpriority="high"
-				class="border-gray-320 size-9 rounded-full border object-cover transition-all duration-300 ease-in-out hover:scale-105"
+				class="border-gray-320 size-8 rounded-full border object-cover transition-all duration-300 ease-in-out hover:scale-105"
 			/>
 		</a>
 		<!-- MOBILE -->
 		<nav class="block sm:hidden">
-			<Select.Root type="single" name="current-page" bind:value={selectedHref}>
+			<Select.Root
+				type="single"
+				name="current-page"
+				value={selectedHref}
+				onValueChange={(v) => goto(v)}
+			>
 				<Select.Trigger class="">
 					{selectedLabel}
 				</Select.Trigger>
 				<Select.Content>
 					<Select.Group>
 						{#each navLinks as item (item.href)}
-							<Select.Item
-								value={item.href}
-								label={item.label}
-								onclick={() => goto(resolve(item.href))}
-							>
+							<Select.Item value={item.href} label={item.label}>
 								{item.label}
 							</Select.Item>
 						{/each}
@@ -93,10 +92,10 @@
 			{date ? formatter.format(date) : '--:--:--'}
 		</p>
 		<Button variant="outline" size="icon" onclick={toggleMode} class="cursor-pointer">
-			<Sun
+			<SunIcon
 				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"
 			/>
-			<Moon
+			<MoonIcon
 				class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all! dark:scale-100 dark:rotate-0"
 			/>
 			<span class="sr-only">Toggle theme</span>

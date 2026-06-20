@@ -2,7 +2,6 @@
 	import { cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
-	import { onMount } from 'svelte';
 
 	let {
 		class: c,
@@ -25,33 +24,38 @@
 		return langMatch ? langMatch[1] : 'plaintext';
 	});
 
-	onMount(async () => {
-		if (codeElement && isBlock) {
-			const codeText = codeElement.textContent || '';
+	$effect(() => {
+		if (!codeElement || !isBlock) return;
+		const codeText = codeElement.textContent || '';
+		if (!codeText || !lang) return;
 
-			if (codeText && lang) {
-				try {
-					const { codeToHtml } = await import('shiki');
-					const html = await codeToHtml(codeText, {
-						lang: lang,
-						themes: {
-							light: 'vitesse-light',
-							dark: 'night-owl'
-						},
-						defaultColor: 'light-dark()'
-					});
-					highlightedCode = html.replace(
-						/style="([^"]*?)overflow[^;]*;?([^"]*)"/gi,
-						(match, before, after) => {
-							const cleaned = (before + after).trim();
-							return cleaned ? `style="${cleaned}"` : '';
-						}
-					);
-				} catch {
-					highlightedCode = '';
-				}
+		let cancelled = false;
+		(async () => {
+			try {
+				const { codeToHtml } = await import('shiki');
+				const html = await codeToHtml(codeText, {
+					lang: lang,
+					themes: {
+						light: 'vitesse-light',
+						dark: 'night-owl'
+					},
+					defaultColor: 'light-dark()'
+				});
+				if (cancelled) return;
+				highlightedCode = html.replace(
+					/style="([^"]*?)overflow[^;]*;?([^"]*)"/gi,
+					(_match, before, after) => {
+						const cleaned = (before + after).trim();
+						return cleaned ? `style="${cleaned}"` : '';
+					}
+				);
+			} catch {
+				if (!cancelled) highlightedCode = '';
 			}
-		}
+		})();
+		return () => {
+			cancelled = true;
+		};
 	});
 </script>
 
@@ -61,7 +65,9 @@
 	</code>
 {:else}
 	{#if highlightedCode}
-		<div class="shiki-wrapper p-4">
+		<div
+			class="p-4 [&_code]:block [&_pre]:m-0 [&_pre]:bg-transparent [&_pre]:p-0 [&_span]:!filter-none"
+		>
 			{@html highlightedCode}
 		</div>
 	{/if}
@@ -72,20 +78,3 @@
 			>{text || ''}{@render children?.()}</code
 		></pre>
 {/if}
-
-<style>
-	:global(.shiki-wrapper pre) {
-		margin: 0 !important;
-		padding: 0 !important;
-		background: transparent !important;
-	}
-
-	:global(.shiki-wrapper code) {
-		display: block;
-	}
-
-	/* Shiki wraps every token in a span — opt out of the global ink-bleed filter */
-	:global(.shiki-wrapper span) {
-		filter: none;
-	}
-</style>
