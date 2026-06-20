@@ -42,13 +42,13 @@
 					defaultColor: 'light-dark()'
 				});
 				if (cancelled) return;
-				highlightedCode = html.replace(
-					/style="([^"]*?)overflow[^;]*;?([^"]*)"/gi,
-					(_match, before, after) => {
-						const cleaned = (before + after).trim();
-						return cleaned ? `style="${cleaned}"` : '';
-					}
-				);
+				highlightedCode = html.replace(/style="([^"]*)"/gi, (_match, styles) => {
+					const cleaned = styles
+						.replace(/overflow[^;]*;?/gi, '')
+						.replace(/background-color[^;]*;?/gi, '')
+						.trim();
+					return cleaned ? `style="${cleaned}"` : '';
+				});
 			} catch {
 				if (!cancelled) highlightedCode = '';
 			}
