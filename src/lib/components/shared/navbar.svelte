@@ -51,18 +51,19 @@
 		</a>
 		<!-- MOBILE -->
 		<nav class="block sm:hidden">
-			<Select.Root type="single" name="current-page" bind:value={selectedHref}>
+			<Select.Root
+				type="single"
+				name="current-page"
+				value={selectedHref}
+				onValueChange={(v) => goto(v)}
+			>
 				<Select.Trigger class="">
 					{selectedLabel}
 				</Select.Trigger>
 				<Select.Content>
 					<Select.Group>
 						{#each navLinks as item (item.href)}
-							<Select.Item
-								value={item.href}
-								label={item.label}
-								onclick={() => goto(resolve(item.href))}
-							>
+							<Select.Item value={item.href} label={item.label}>
 								{item.label}
 							</Select.Item>
 						{/each}
