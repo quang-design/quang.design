@@ -167,6 +167,7 @@
 	.rounded-xl,
 	.rounded-2xl,
 	.rounded-3xl,
+	.rounded-4xl,
 	.rounded-full {
 		border-radius: 0 !important;
 	}
