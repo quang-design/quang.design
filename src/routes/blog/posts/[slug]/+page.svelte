@@ -27,7 +27,7 @@
 
 <div class="flex flex-col">
 	<div class="mx-auto w-full max-w-xl p-4">
-		<div class="mb-4 flex">
+		<div class="mb-4 flex gap-2">
 			<a
 				href={`/blog/posts/${page.params.slug}/llms.txt`}
 				target="_blank"
@@ -35,6 +35,12 @@
 			>
 				<Badge variant="outline" class="cursor-pointer gap-1 text-xs hover:bg-gray-50" data-badge>
 					llms.txt
+					<ArrowUpRightIcon size={12} />
+				</Badge>
+			</a>
+			<a href={`/blog/posts/${page.params.slug}/post.md`} target="_blank" rel="noopener noreferrer">
+				<Badge variant="outline" class="cursor-pointer gap-1 text-xs hover:bg-gray-50" data-badge>
+					post.md
 					<ArrowUpRightIcon size={12} />
 				</Badge>
 			</a>
