@@ -43,10 +43,10 @@
 			<img
 				src="/avatar.avif"
 				alt="Quang"
-				width="36"
-				height="36"
+				width="32"
+				height="32"
 				fetchpriority="high"
-				class="border-gray-320 size-9 rounded-full border object-cover transition-all duration-300 ease-in-out hover:scale-105"
+				class="border-gray-320 size-8 rounded-full border object-cover transition-all duration-300 ease-in-out hover:scale-105"
 			/>
 		</a>
 		<!-- MOBILE -->
