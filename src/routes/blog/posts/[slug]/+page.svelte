@@ -2,7 +2,7 @@
 	import { Markdown } from '$lib/components/markdown';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { Badge } from '$lib/components/ui/badge';
-	import { ArrowUpRight } from '@lucide/svelte';
+	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import { page } from '$app/state';
 
 	let {
@@ -35,7 +35,7 @@
 			>
 				<Badge variant="outline" class="cursor-pointer gap-1 text-xs hover:bg-gray-50" data-badge>
 					llms.txt
-					<ArrowUpRight size={12} />
+					<ArrowUpRightIcon size={12} />
 				</Badge>
 			</a>
 		</div>

@@ -6,13 +6,12 @@
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import Navbar from '$lib/components/shared/navbar.svelte';
 	import Footer from '$lib/components/shared/footer.svelte';
-	import { onMount } from 'svelte';
 
 	let { children } = $props();
 
 	const themeColors = { light: '#ffffff', dark: '#09090b' };
 
-	onMount(() => {
+	$effect(() => {
 		const hour = new Date().getHours();
 		if (hour >= 6 && hour < 18) setMode('light');
 		else setMode('dark');
@@ -22,7 +21,7 @@
 	injectSpeedInsights();
 </script>
 
-<ModeWatcher defaultMode={'light'} {themeColors} />
+<ModeWatcher defaultMode="light" {themeColors} />
 
 <Toaster position="top-center" />
 

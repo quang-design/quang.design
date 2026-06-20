@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
 	import { toggleMode } from 'mode-watcher';
-	import { Sun, Moon } from '@lucide/svelte';
+	import SunIcon from '@lucide/svelte/icons/sun';
+	import MoonIcon from '@lucide/svelte/icons/moon';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { navLinks } from '$lib/config/nav';
-	import { onMount } from 'svelte';
-
 	let date = $state<SvelteDate | null>(null);
 
 	const formatter = new Intl.DateTimeFormat(undefined, {
@@ -18,11 +17,10 @@
 		second: 'numeric'
 	});
 
-	onMount(() => {
-		date = new SvelteDate();
-
-		const interval = setInterval(() => date?.setTime(Date.now()), 1000);
-
+	$effect(() => {
+		const d = new SvelteDate();
+		date = d;
+		const interval = setInterval(() => d.setTime(Date.now()), 1000);
 		return () => clearInterval(interval);
 	});
 
@@ -93,10 +91,10 @@
 			{date ? formatter.format(date) : '--:--:--'}
 		</p>
 		<Button variant="outline" size="icon" onclick={toggleMode} class="cursor-pointer">
-			<Sun
+			<SunIcon
 				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"
 			/>
-			<Moon
+			<MoonIcon
 				class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all! dark:scale-100 dark:rotate-0"
 			/>
 			<span class="sr-only">Toggle theme</span>
