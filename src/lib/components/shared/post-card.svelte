@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Image } from '@lucide/svelte';
+	import ImageIcon from '@lucide/svelte/icons/image';
 	import type { PostMetadata } from '$lib/content/loader';
 
 	let {
@@ -24,7 +24,7 @@
 			/>
 		{:else}
 			<div class="flex h-full w-full items-center justify-center bg-neutral-700">
-				<Image />
+				<ImageIcon />
 			</div>
 		{/if}
 	</div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ArrowUpRight } from '@lucide/svelte';
+	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 
 	import { engineeringProjects } from '$lib/content/engineering-projects';
@@ -26,7 +26,7 @@
 				<h2 class="mb-2 flex items-center gap-1 text-lg font-semibold">
 					{project.title}
 					{#if project.external}
-						<ArrowUpRight class="h-4 w-4" />
+						<ArrowUpRightIcon class="h-4 w-4" />
 					{/if}
 				</h2>
 				<p class="text-sm text-neutral-400">{project.description}</p>

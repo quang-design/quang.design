@@ -10,12 +10,12 @@
 		const buttonWidth = buttonEl.offsetWidth;
 		const buttonHeight = buttonEl.offsetHeight;
 
-		let top = rect.bottom + gap;
+		let top = rect.top - buttonHeight - gap;
 		let left = rect.left + rect.width / 2 - buttonWidth / 2;
 
 		if (left < 8) left = 8;
 		if (left + buttonWidth > window.innerWidth - 8) left = window.innerWidth - buttonWidth - 8;
-		if (top + buttonHeight > window.innerHeight - 8) top = rect.top - buttonHeight - gap;
+		if (top < 8) top = rect.bottom + gap;
 
 		return { top, left };
 	});

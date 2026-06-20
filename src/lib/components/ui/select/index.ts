@@ -1,5 +1,4 @@
 import { Select as SelectPrimitive } from 'bits-ui';
-
 import Group from './select-group.svelte';
 import Label from './select-label.svelte';
 import Item from './select-item.svelte';
@@ -9,6 +8,7 @@ import Separator from './select-separator.svelte';
 import ScrollDownButton from './select-scroll-down-button.svelte';
 import ScrollUpButton from './select-scroll-up-button.svelte';
 import GroupHeading from './select-group-heading.svelte';
+import Portal from './select-portal.svelte';
 
 const Root = SelectPrimitive.Root;
 
@@ -23,6 +23,7 @@ export {
 	ScrollDownButton,
 	ScrollUpButton,
 	GroupHeading,
+	Portal,
 	//
 	Root as Select,
 	Group as SelectGroup,
@@ -33,5 +34,6 @@ export {
 	Separator as SelectSeparator,
 	ScrollDownButton as SelectScrollDownButton,
 	ScrollUpButton as SelectScrollUpButton,
-	GroupHeading as SelectGroupHeading
+	GroupHeading as SelectGroupHeading,
+	Portal as SelectPortal
 };
