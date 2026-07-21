@@ -4,6 +4,7 @@
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	import { ModeWatcher, setMode } from 'mode-watcher';
+	import { page } from '$app/state';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import Navbar from '$lib/components/shared/navbar.svelte';
 	import Footer from '$lib/components/shared/footer.svelte';
@@ -11,6 +12,8 @@
 	let { children } = $props();
 
 	const themeColors = { light: '#ffffff', dark: '#09090b' };
+
+	const fullBleed = $derived(page.url.pathname.startsWith('/anh-nhi'));
 
 	onMount(() => {
 		const hour = new Date().getHours();
@@ -26,12 +29,16 @@
 
 <Toaster position="top-center" />
 
-<div class="mx-auto flex min-h-screen max-w-7xl flex-col">
-	<Navbar />
+{#if fullBleed}
+	{@render children()}
+{:else}
+	<div class="mx-auto flex min-h-screen max-w-7xl flex-col">
+		<Navbar />
 
-	<main class="flex flex-1 flex-col py-4">
-		{@render children()}
-	</main>
+		<main class="flex flex-1 flex-col py-4">
+			{@render children()}
+		</main>
 
-	<Footer />
-</div>
+		<Footer />
+	</div>
+{/if}
