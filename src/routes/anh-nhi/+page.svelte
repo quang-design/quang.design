@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import headingRaw from '$lib/assets/happy-birthday.svg?raw';
 
@@ -14,9 +15,12 @@
 
 	const lang = $derived(page.url.searchParams.get('lang') === 'vi' ? 'vi' : 'en');
 
+	const invitee = $derived(page.url.searchParams.get('to') ?? '');
+
 	let guestName = $state(page.url.searchParams.get('to') ?? '');
 	let guests = $state(1);
 	let submitted = $state(false);
+	let submitting = $state(false);
 
 	const t = $derived(
 		lang === 'vi'
@@ -63,10 +67,6 @@
 		if (guests < 20) guests += 1;
 	}
 
-	function rsvp() {
-		submitted = true;
-	}
-
 	function reset() {
 		submitted = false;
 	}
@@ -99,6 +99,7 @@
 		<span class="sr-only">{t.nameAria}</span>
 		<input
 			type="text"
+			name="name"
 			bind:value={guestName}
 			placeholder={t.namePlaceholder}
 			aria-label={t.nameAria}
@@ -130,7 +131,21 @@
 			/>
 
 			{#if !submitted}
-				<div class="form">
+				<form
+					class="form"
+					method="POST"
+					use:enhance={() => {
+						submitting = true;
+						return async ({ update }) => {
+							await update({ reset: false });
+							submitting = false;
+							submitted = true;
+						};
+					}}
+				>
+					<input type="hidden" name="guests" value={guests} />
+					<input type="hidden" name="lang" value={lang} />
+					<input type="hidden" name="invitee" value={invitee} />
 					{#if lang === 'vi'}
 						<p class="message">
 							Chúng mình rất mong {@render nameField()} đến chung vui tiệc sinh nhật 1 tuổi của Anh Nhi
@@ -166,8 +181,8 @@
 						</div>
 					</div>
 
-					<button type="button" class="rsvp" onclick={rsvp}>{t.rsvp}</button>
-				</div>
+					<button type="submit" class="rsvp" disabled={submitting}>{t.rsvp}</button>
+				</form>
 			{:else}
 				<div class="thanks">
 					<p class="thanks-title">{t.thanksTitle} {displayName}!</p>
