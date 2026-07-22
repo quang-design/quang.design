@@ -57,7 +57,8 @@
 					guestsAria: 'Số lượng khách',
 					addAria: 'Thêm một người',
 					removeAria: 'Bớt một người',
-					yes: 'Có, chúng mình sẽ đến',
+					yesPlural: 'Có, chúng mình sẽ đến',
+					yesSingular: 'Có, mình sẽ đến',
 					no: 'Không thể đến',
 					confirm: 'Xác nhận',
 					back: 'Đổi câu trả lời',
@@ -75,7 +76,8 @@
 					guestsAria: 'Number of guests',
 					addAria: 'Add one guest',
 					removeAria: 'Remove one guest',
-					yes: "Yes, we'll be there",
+					yesPlural: "Yes, we'll be there",
+					yesSingular: "Yes, I'll be there",
 					no: "Can't make it",
 					confirm: 'Confirm',
 					back: 'Change answer',
@@ -89,11 +91,12 @@
 	);
 
 	const displayName = $derived(guestName.trim() || t.fallbackName);
+	const personalized = $derived(initialName.trim().length > 0);
+	const yesLabel = $derived(guests > 1 ? t.yesPlural : t.yesSingular);
 
 	function setLang(next: 'en' | 'vi') {
 		const url = new URL(page.url);
-		if (next === 'vi') url.searchParams.set('lang', 'vi');
-		else url.searchParams.delete('lang');
+		url.searchParams.set('lang', next);
 		goto(url, { replaceState: true, keepFocus: true, noScroll: true });
 	}
 
@@ -138,16 +141,21 @@
 {/snippet}
 
 {#snippet nameField()}
-	<label class="field-inline">
-		<span class="sr-only">{t.nameAria}</span>
-		<input
-			type="text"
-			name="name"
-			bind:value={guestName}
-			placeholder={t.namePlaceholder}
-			aria-label={t.nameAria}
-		/>
-	</label>
+	{#if personalized}
+		<span class="you">{guestName}</span>
+		<input type="hidden" name="name" value={guestName} />
+	{:else}
+		<label class="field-inline">
+			<span class="sr-only">{t.nameAria}</span>
+			<input
+				type="text"
+				name="name"
+				bind:value={guestName}
+				placeholder={t.namePlaceholder}
+				aria-label={t.nameAria}
+			/>
+		</label>
+	{/if}
 {/snippet}
 
 <div class="invite">
@@ -200,7 +208,7 @@
 								onclick={() => {
 									attending = 'yes';
 									step = 'count';
-								}}>{t.yes}</button
+								}}>{yesLabel}</button
 							>
 							<button
 								type="submit"
@@ -411,6 +419,12 @@
 
 	.field-inline input:focus {
 		border-bottom-color: var(--pink-deep);
+	}
+
+	.you {
+		color: var(--pink-deep);
+		border-bottom: 2px dotted var(--pink);
+		padding-bottom: 0.05em;
 	}
 
 	.venue {
