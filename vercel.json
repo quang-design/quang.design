@@ -4,6 +4,12 @@
 	"devCommand": "vite dev",
 	"redirects": [
 		{
+			"source": "/",
+			"has": [{ "type": "host", "value": "1st.quang.design" }],
+			"destination": "/anh-nhi",
+			"permanent": false
+		},
+		{
 			"source": "/ai",
 			"destination": "/engineer",
 			"permanent": true
