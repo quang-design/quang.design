@@ -13,6 +13,13 @@
 	const MAPS_URL =
 		'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(RESTAURANT);
 
+	// Event details — edit these to change the invitation's date/time.
+	const EVENT = {
+		time: '12:00 PM',
+		dateEn: 'Saturday, 25 July 2026',
+		dateVi: 'thứ Bảy, 25/07/2026'
+	};
+
 	const lang = $derived(page.url.searchParams.get('lang') === 'vi' ? 'vi' : 'en');
 
 	const invitee = $derived(page.url.searchParams.get('to') ?? '');
@@ -34,7 +41,9 @@
 					rsvp: 'Xác nhận',
 					editRsvp: 'Chỉnh sửa',
 					thanksTitle: 'Tuyệt vời! Hẹn gặp bạn nhé',
-					fallbackName: 'các bạn'
+					fallbackName: 'các bạn',
+					date: EVENT.dateVi,
+					time: EVENT.time
 				}
 			: {
 					guestsLabel: 'How many of you?',
@@ -46,7 +55,9 @@
 					rsvp: 'RSVP',
 					editRsvp: 'Edit RSVP',
 					thanksTitle: 'Yay! See you there',
-					fallbackName: 'friends'
+					fallbackName: 'friends',
+					date: EVENT.dateEn,
+					time: EVENT.time
 				}
 	);
 
@@ -149,12 +160,12 @@
 					{#if lang === 'vi'}
 						<p class="message">
 							Chúng mình rất mong {@render nameField()} đến chung vui tiệc sinh nhật 1 tuổi của Anh Nhi
-							tại {@render venue()} vào trưa thứ Bảy này.
+							vào {t.date} lúc {t.time} tại {@render venue()}.
 						</p>
 					{:else}
 						<p class="message">
 							We'd love for {@render nameField()} to join us for Anh Nhi's 1<sup>st</sup> birthday
-							party at {@render venue()} this Saturday for lunch.
+							lunch on {t.date} at {t.time}, at {@render venue()}.
 						</p>
 					{/if}
 
@@ -188,14 +199,16 @@
 					<p class="thanks-title">{t.thanksTitle} {displayName}!</p>
 					{#if lang === 'vi'}
 						<p class="thanks-body">
-							Đã giữ {guests} chỗ cho tiệc sinh nhật 1 tuổi của Anh Nhi tại {@render venue()}, trưa
-							thứ Bảy này.
+							Đã giữ {guests} chỗ cho tiệc sinh nhật 1 tuổi của Anh Nhi vào {t.date} lúc {t.time},
+							tại
+							{@render venue()}.
 						</p>
 					{:else}
 						<p class="thanks-body">
 							{guests}
-							{guests === 1 ? 'seat' : 'seats'} reserved for Anh Nhi's 1<sup>st</sup> birthday at
-							{@render venue()}, this Saturday lunch.
+							{guests === 1 ? 'seat' : 'seats'} reserved for Anh Nhi's 1<sup>st</sup> birthday lunch
+							on
+							{t.date} at {t.time}, at {@render venue()}.
 						</p>
 					{/if}
 					<button type="button" class="rsvp secondary" onclick={reset}>{t.editRsvp}</button>
