@@ -1,13 +1,59 @@
 <script lang="ts">
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import headingRaw from '$lib/assets/happy-birthday.svg?raw';
 
-	let guestName = $state('');
-	let restaurant = $state('');
+	// Tag each letter path with an index so it can be revealed in sequence.
+	let letterIndex = 0;
+	const heading = headingRaw.replace(/style="fill:/g, () => `style="--d:${letterIndex++};fill:`);
+
+	const RESTAURANT = 'Lá Lốt Vietnamese Cuisine';
+	const MAPS_URL =
+		'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(RESTAURANT);
+
+	const lang = $derived(page.url.searchParams.get('lang') === 'vi' ? 'vi' : 'en');
+
+	let guestName = $state(page.url.searchParams.get('to') ?? '');
 	let guests = $state(1);
 	let submitted = $state(false);
 
-	const displayName = $derived(guestName.trim() || 'friends');
-	const displayVenue = $derived(restaurant.trim() || 'our favourite spot');
+	const t = $derived(
+		lang === 'vi'
+			? {
+					guestsLabel: 'Bao nhiêu người tham dự?',
+					namePlaceholder: 'tên của bạn',
+					nameAria: 'Tên của bạn',
+					guestsAria: 'Số lượng khách',
+					addAria: 'Thêm một người',
+					removeAria: 'Bớt một người',
+					rsvp: 'Xác nhận',
+					editRsvp: 'Chỉnh sửa',
+					thanksTitle: 'Tuyệt vời! Hẹn gặp bạn nhé',
+					fallbackName: 'các bạn'
+				}
+			: {
+					guestsLabel: 'How many of you?',
+					namePlaceholder: 'your name',
+					nameAria: 'Your name',
+					guestsAria: 'Number of guests',
+					addAria: 'Add one guest',
+					removeAria: 'Remove one guest',
+					rsvp: 'RSVP',
+					editRsvp: 'Edit RSVP',
+					thanksTitle: 'Yay! See you there',
+					fallbackName: 'friends'
+				}
+	);
+
+	const displayName = $derived(guestName.trim() || t.fallbackName);
+
+	function setLang(next: 'en' | 'vi') {
+		const url = new URL(page.url);
+		if (next === 'vi') url.searchParams.set('lang', 'vi');
+		else url.searchParams.delete('lang');
+		goto(url, { replaceState: true, keepFocus: true, noScroll: true });
+	}
 
 	function decrement() {
 		if (guests > 1) guests -= 1;
@@ -33,16 +79,45 @@
 	image="https://quang.design/anh-nhi/duck.webp"
 />
 
+{#snippet pin()}
+	<svg class="pin" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+		<path
+			d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"
+			fill="currentColor"
+		/>
+	</svg>
+{/snippet}
+
+{#snippet venue()}
+	<a class="venue" href={MAPS_URL} target="_blank" rel="noopener noreferrer">
+		{@render pin()}{RESTAURANT}
+	</a>
+{/snippet}
+
+{#snippet nameField()}
+	<label class="field-inline">
+		<span class="sr-only">{t.nameAria}</span>
+		<input
+			type="text"
+			bind:value={guestName}
+			placeholder={t.namePlaceholder}
+			aria-label={t.nameAria}
+		/>
+	</label>
+{/snippet}
+
 <div class="invite">
+	<div class="lang" role="group" aria-label="Language">
+		<button type="button" class:active={lang === 'en'} onclick={() => setLang('en')}>EN</button>
+		<button type="button" class:active={lang === 'vi'} onclick={() => setLang('vi')}>VI</button>
+	</div>
+
 	<div class="frame">
 		<div class="card">
-			<img
-				class="heading"
-				src="/anh-nhi/happy-birthday.svg"
-				alt="Happy 1st Birthday"
-				width="2135"
-				height="731"
-			/>
+			<div class="heading" role="img" aria-label="Happy 1st Birthday">
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html heading}
+			</div>
 
 			<p class="name">ANH NHI</p>
 
@@ -56,37 +131,25 @@
 
 			{#if !submitted}
 				<div class="form">
-					<p class="message">
-						We'd love for
-						<label class="field-inline">
-							<span class="sr-only">Your name</span>
-							<input
-								type="text"
-								bind:value={guestName}
-								placeholder="your name"
-								aria-label="Your name"
-							/>
-						</label>
-						to join us for Anh Nhi's 1<sup>st</sup> birthday party at
-						<label class="field-inline">
-							<span class="sr-only">Restaurant</span>
-							<input
-								type="text"
-								bind:value={restaurant}
-								placeholder="restaurant name"
-								aria-label="Restaurant"
-							/>
-						</label>
-						this Saturday for lunch.
-					</p>
+					{#if lang === 'vi'}
+						<p class="message">
+							Chúng mình rất mong {@render nameField()} đến chung vui tiệc sinh nhật 1 tuổi của Anh Nhi
+							tại {@render venue()} vào trưa thứ Bảy này.
+						</p>
+					{:else}
+						<p class="message">
+							We'd love for {@render nameField()} to join us for Anh Nhi's 1<sup>st</sup> birthday
+							party at {@render venue()} this Saturday for lunch.
+						</p>
+					{/if}
 
 					<div class="guests">
-						<span class="guests-label">How many of you?</span>
-						<div class="stepper" role="group" aria-label="Number of guests">
+						<span class="guests-label">{t.guestsLabel}</span>
+						<div class="stepper" role="group" aria-label={t.guestsAria}>
 							<button
 								type="button"
 								onclick={decrement}
-								aria-label="Remove one guest"
+								aria-label={t.removeAria}
 								disabled={guests <= 1}
 							>
 								&minus;
@@ -95,7 +158,7 @@
 							<button
 								type="button"
 								onclick={increment}
-								aria-label="Add one guest"
+								aria-label={t.addAria}
 								disabled={guests >= 20}
 							>
 								+
@@ -103,17 +166,24 @@
 						</div>
 					</div>
 
-					<button type="button" class="rsvp" onclick={rsvp}>RSVP</button>
+					<button type="button" class="rsvp" onclick={rsvp}>{t.rsvp}</button>
 				</div>
 			{:else}
 				<div class="thanks">
-					<p class="thanks-title">Yay! See you there {displayName}!</p>
-					<p class="thanks-body">
-						{guests}
-						{guests === 1 ? 'seat' : 'seats'} reserved for Anh Nhi's 1<sup>st</sup> birthday at
-						{displayVenue}, this Saturday lunch.
-					</p>
-					<button type="button" class="rsvp secondary" onclick={reset}>Edit RSVP</button>
+					<p class="thanks-title">{t.thanksTitle} {displayName}!</p>
+					{#if lang === 'vi'}
+						<p class="thanks-body">
+							Đã giữ {guests} chỗ cho tiệc sinh nhật 1 tuổi của Anh Nhi tại {@render venue()}, trưa
+							thứ Bảy này.
+						</p>
+					{:else}
+						<p class="thanks-body">
+							{guests}
+							{guests === 1 ? 'seat' : 'seats'} reserved for Anh Nhi's 1<sup>st</sup> birthday at
+							{@render venue()}, this Saturday lunch.
+						</p>
+					{/if}
+					<button type="button" class="rsvp secondary" onclick={reset}>{t.editRsvp}</button>
 				</div>
 			{/if}
 		</div>
@@ -126,15 +196,45 @@
 		--pink-deep: #ee8fab;
 		--checker: #f8d7e1;
 		--ink: #6b5560;
-		min-height: 100vh;
+		min-height: 100dvh;
 		width: 100%;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: clamp(0.75rem, 3vw, 2.5rem);
+		gap: clamp(0.5rem, 2vh, 1.25rem);
+		padding: clamp(0.6rem, 2.5vh, 2rem) clamp(0.75rem, 3vw, 2.5rem);
 		background: #ffffff;
 		font-family: 'Tenor Sans', ui-sans-serif, system-ui, sans-serif;
 		color: var(--ink);
+	}
+
+	.lang {
+		display: inline-flex;
+		padding: 0.2rem;
+		gap: 0.15rem;
+		background: var(--checker);
+		border-radius: 9999px !important;
+	}
+
+	.lang button {
+		font: inherit;
+		font-size: 0.8rem;
+		letter-spacing: 0.08em;
+		padding: 0.3em 0.95em;
+		color: var(--pink-deep);
+		background: transparent;
+		border: none;
+		border-radius: 9999px !important;
+		cursor: pointer;
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
+	}
+
+	.lang button.active {
+		color: #fff;
+		background: var(--pink);
 	}
 
 	.frame {
@@ -150,17 +250,26 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: clamp(0.75rem, 2.5vw, 1.5rem);
-		padding: clamp(1.25rem, 5vw, 2.75rem) clamp(1rem, 5vw, 2.5rem);
+		gap: clamp(0.6rem, 2vh, 1.5rem);
+		padding: clamp(1rem, 4vh, 2.75rem) clamp(1rem, 5vw, 2.5rem);
 		background: #ffffff;
 		text-align: center;
 	}
 
 	.heading {
 		width: min(88%, 460px);
+	}
+
+	.heading :global(svg) {
+		display: block;
+		width: 100%;
 		height: auto;
-		transform-origin: center;
-		animation: heading-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	.heading :global(path) {
+		opacity: 0;
+		animation: letter-in 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+		animation-delay: calc(var(--d) * 55ms);
 	}
 
 	.name {
@@ -169,15 +278,15 @@
 		letter-spacing: 0.22em;
 		text-indent: 0.22em;
 		color: var(--pink);
-		animation: rise-in 0.7s ease-out 0.35s both;
+		animation: rise-in 0.7s ease-out 0.95s both;
 	}
 
 	.duck {
-		width: min(62%, 300px);
+		width: min(52%, 260px);
 		height: auto;
 		animation:
-			rise-in 0.8s ease-out 0.5s both,
-			float 4.5s ease-in-out 1.3s infinite;
+			rise-in 0.8s ease-out 1.1s both,
+			float 4.5s ease-in-out 1.9s infinite;
 	}
 
 	.form,
@@ -185,9 +294,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: clamp(1rem, 3vw, 1.5rem);
+		gap: clamp(0.85rem, 2.5vh, 1.5rem);
 		width: 100%;
-		animation: rise-in 0.7s ease-out 0.7s both;
+		animation: rise-in 0.7s ease-out 1.25s both;
 	}
 
 	.message {
@@ -222,6 +331,28 @@
 
 	.field-inline input:focus {
 		border-bottom-color: var(--pink-deep);
+	}
+
+	.venue {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.2em;
+		color: var(--pink-deep);
+		text-decoration: none;
+		border-bottom: 2px dotted var(--pink);
+		transition: color 0.2s ease;
+	}
+
+	.venue:hover {
+		color: var(--pink);
+	}
+
+	.pin {
+		width: 0.85em;
+		height: 0.85em;
+		flex: none;
+		align-self: center;
+		color: var(--pink);
 	}
 
 	sup {
@@ -346,18 +477,12 @@
 		border: 0;
 	}
 
-	@keyframes heading-in {
-		0% {
+	@keyframes letter-in {
+		from {
 			opacity: 0;
-			transform: translateY(18px) scale(0.82);
 		}
-		60% {
+		to {
 			opacity: 1;
-			transform: translateY(0) scale(1.04);
-		}
-		100% {
-			opacity: 1;
-			transform: translateY(0) scale(1);
 		}
 	}
 
@@ -383,12 +508,13 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.heading,
+		.heading :global(path),
 		.name,
 		.duck,
 		.form,
 		.thanks {
 			animation: none;
+			opacity: 1;
 		}
 	}
 </style>
