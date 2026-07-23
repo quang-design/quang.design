@@ -40,7 +40,7 @@
 		return initialLang;
 	});
 
-	const canonical = $derived('https://quang.design' + page.url.pathname);
+	const canonical = $derived(page.url.origin + page.url.pathname);
 
 	let guestName = $state(untrack(() => initialName));
 	let guests = $state(untrack(() => defaultGuests));
@@ -122,7 +122,7 @@
 	title="Anh Nhi's 1st Birthday"
 	description="You're invited to celebrate Anh Nhi's first birthday — Saturday lunch."
 	{canonical}
-	image="https://quang.design/anh-nhi/duck.webp"
+	image={page.url.origin + '/anh-nhi/duck.webp'}
 />
 
 {#snippet pin()}
