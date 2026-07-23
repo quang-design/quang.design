@@ -35,6 +35,14 @@
 	src: url('/fonts/CommitMono-700-Italic.woff2') format('woff2');
 }
 
+@font-face {
+	font-family: 'Tenor Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/TenorSans-Regular.woff2') format('woff2');
+}
+
 :root {
 	--radius: 0;
 	--text-base: 0.85rem;
