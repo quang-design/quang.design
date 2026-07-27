@@ -3,7 +3,6 @@ import path from 'path';
 import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
-import { getAllPosts as getAllEngineeringPosts } from '$lib/content/engineering';
 import { engineeringProjects } from '$lib/content/engineering-projects';
 
 interface PageInfo {
@@ -88,33 +87,17 @@ async function parseDesignPosts(): Promise<BlogPost[]> {
 	}));
 }
 
-async function parseEngineeringWriteups(): Promise<BlogPost[]> {
-	return getAllEngineeringPosts().map((p) => ({
-		slug: p.slug,
-		title: p.title,
-		description: p.description,
-		date: p.date
-	}));
-}
-
 export const GET: RequestHandler = async () => {
 	try {
 		// Parse all site content
-		const [
-			homeContent,
-			designSection,
-			engineeringProjectPages,
-			blogPosts,
-			designPosts,
-			engineeringWriteups
-		] = await Promise.all([
-			parseHomeContent(),
-			parseDesignSection(),
-			parseEngineeringProjects(),
-			parseBlogPosts(),
-			parseDesignPosts(),
-			parseEngineeringWriteups()
-		]);
+		const [homeContent, designSection, engineeringProjectPages, blogPosts, designPosts] =
+			await Promise.all([
+				parseHomeContent(),
+				parseDesignSection(),
+				parseEngineeringProjects(),
+				parseBlogPosts(),
+				parseDesignPosts()
+			]);
 
 		// Generate sections for llms.txt
 		const homeSection = `## Home Page
@@ -134,13 +117,6 @@ ${engineeringProjectPages.map((project) => `- [${project.title}](${project.path}
 				? `## Design Work
 
 ${designPosts.map((post) => `- [${post.title}](/design/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
-				: '';
-
-		const engineeringWriteupsSection =
-			engineeringWriteups.length > 0
-				? `## Engineering Write-ups
-
-${engineeringWriteups.map((post) => `- [${post.title}](/engineering/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
 				: '';
 
 		const blogSection =
@@ -178,8 +154,6 @@ ${designSectionText}
 ${designPostsSection}
 
 ${engineeringSection}
-
-${engineeringWriteupsSection}
 
 ${blogSection}
 

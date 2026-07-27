@@ -58,7 +58,7 @@ src/
 │   │   ├── markdown/ # Markdown renderer components
 │   │   ├── shared/   # Navbar, Footer, PostCard, SeoHead, Subscribe
 │   │   └── ui/       # bits-ui based components
-│   ├── content/      # Content loaders (blog.ts, design.ts, engineering.ts)
+│   ├── content/      # Content loaders (blog.ts, design.ts)
 │   ├── server/       # Server-only integrations (LLM providers, prompts)
 │   └── utils/
 └── routes/
