@@ -3,7 +3,7 @@ import path from 'path';
 import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
-import { engineeringProjects } from '$lib/content/engineering-projects';
+import { engineerProjects } from '$lib/content/engineer';
 
 interface PageInfo {
 	path: string;
@@ -46,14 +46,14 @@ async function parseHomeContent(): Promise<PageInfo> {
 	}
 }
 
-async function parseEngineeringProjects(): Promise<PageInfo[]> {
+async function parseEngineerProjects(): Promise<PageInfo[]> {
 	return [
 		{
 			path: '/engineer',
 			title: 'Engineering - All Things Engineering',
 			description: 'Collection of engineering work built with Svelte and Tailwind CSS'
 		},
-		...engineeringProjects.map((project) => ({
+		...engineerProjects.map((project) => ({
 			path: project.href,
 			title: project.title,
 			description: project.description
@@ -90,11 +90,11 @@ async function parseDesignPosts(): Promise<BlogPost[]> {
 export const GET: RequestHandler = async () => {
 	try {
 		// Parse all site content
-		const [homeContent, designSection, engineeringProjectPages, blogPosts, designPosts] =
+		const [homeContent, designSection, engineerProjectPages, blogPosts, designPosts] =
 			await Promise.all([
 				parseHomeContent(),
 				parseDesignSection(),
-				parseEngineeringProjects(),
+				parseEngineerProjects(),
 				parseBlogPosts(),
 				parseDesignPosts()
 			]);
@@ -108,9 +108,9 @@ export const GET: RequestHandler = async () => {
 
 - [${designSection.title}](${designSection.path}): ${designSection.description}`;
 
-		const engineeringSection = `## Engineering
+		const engineerSection = `## Engineering
 
-${engineeringProjectPages.map((project) => `- [${project.title}](${project.path}): ${project.description}`).join('\n')}`;
+${engineerProjectPages.map((project) => `- [${project.title}](${project.path}): ${project.description}`).join('\n')}`;
 
 		const designPostsSection =
 			designPosts.length > 0
@@ -153,7 +153,7 @@ ${designSectionText}
 
 ${designPostsSection}
 
-${engineeringSection}
+${engineerSection}
 
 ${blogSection}
 

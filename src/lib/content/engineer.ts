@@ -1,11 +1,11 @@
-export type EngineeringProject = {
+export type EngineerProject = {
 	title: string;
 	description: string;
 	href: string;
 	external?: boolean;
 };
 
-export const engineeringProjects: EngineeringProject[] = [
+export const engineerProjects: EngineerProject[] = [
 	{
 		title: 'AI Telescopic Text',
 		description:
