@@ -2,7 +2,7 @@
 	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 
-	import { engineeringProjects } from '$lib/content/engineering-projects';
+	import { engineerProjects } from '$lib/content/engineer';
 </script>
 
 <SeoHead
@@ -15,7 +15,7 @@
 <p class="mb-8 text-neutral-400">Most of them are built with Svelte and Tailwind CSS.</p>
 
 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-	{#each engineeringProjects as project}
+	{#each engineerProjects as project}
 		<a
 			href={project.href}
 			target={project.external ? '_blank' : undefined}

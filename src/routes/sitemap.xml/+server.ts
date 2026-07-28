@@ -1,7 +1,6 @@
 import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
-import { getAllPosts as getAllEngineeringPosts } from '$lib/content/engineering';
 
 export const GET: RequestHandler = async () => {
 	const noindex = ['/404', '/styles'];
@@ -26,8 +25,7 @@ export const GET: RequestHandler = async () => {
 	// 3. Get content posts with metadata
 	const contentPosts = [
 		...getAllBlogPosts().map((post) => ({ ...post, urlPrefix: '/blog/posts' })),
-		...getAllDesignPosts().map((post) => ({ ...post, urlPrefix: '/design' })),
-		...getAllEngineeringPosts().map((post) => ({ ...post, urlPrefix: '/engineering' }))
+		...getAllDesignPosts().map((post) => ({ ...post, urlPrefix: '/design' }))
 	].map((post) => {
 		const lastmod = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
 		return {

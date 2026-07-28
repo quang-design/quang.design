@@ -3,8 +3,7 @@ import path from 'path';
 import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
-import { getAllPosts as getAllEngineeringPosts } from '$lib/content/engineering';
-import { engineeringProjects } from '$lib/content/engineering-projects';
+import { engineerProjects } from '$lib/content/engineer';
 
 interface PageInfo {
 	path: string;
@@ -47,14 +46,14 @@ async function parseHomeContent(): Promise<PageInfo> {
 	}
 }
 
-async function parseEngineeringProjects(): Promise<PageInfo[]> {
+async function parseEngineerProjects(): Promise<PageInfo[]> {
 	return [
 		{
 			path: '/engineer',
 			title: 'Engineering - All Things Engineering',
 			description: 'Collection of engineering work built with Svelte and Tailwind CSS'
 		},
-		...engineeringProjects.map((project) => ({
+		...engineerProjects.map((project) => ({
 			path: project.href,
 			title: project.title,
 			description: project.description
@@ -88,33 +87,17 @@ async function parseDesignPosts(): Promise<BlogPost[]> {
 	}));
 }
 
-async function parseEngineeringWriteups(): Promise<BlogPost[]> {
-	return getAllEngineeringPosts().map((p) => ({
-		slug: p.slug,
-		title: p.title,
-		description: p.description,
-		date: p.date
-	}));
-}
-
 export const GET: RequestHandler = async () => {
 	try {
 		// Parse all site content
-		const [
-			homeContent,
-			designSection,
-			engineeringProjectPages,
-			blogPosts,
-			designPosts,
-			engineeringWriteups
-		] = await Promise.all([
-			parseHomeContent(),
-			parseDesignSection(),
-			parseEngineeringProjects(),
-			parseBlogPosts(),
-			parseDesignPosts(),
-			parseEngineeringWriteups()
-		]);
+		const [homeContent, designSection, engineerProjectPages, blogPosts, designPosts] =
+			await Promise.all([
+				parseHomeContent(),
+				parseDesignSection(),
+				parseEngineerProjects(),
+				parseBlogPosts(),
+				parseDesignPosts()
+			]);
 
 		// Generate sections for llms.txt
 		const homeSection = `## Home Page
@@ -125,22 +108,15 @@ export const GET: RequestHandler = async () => {
 
 - [${designSection.title}](${designSection.path}): ${designSection.description}`;
 
-		const engineeringSection = `## Engineering
+		const engineerSection = `## Engineering
 
-${engineeringProjectPages.map((project) => `- [${project.title}](${project.path}): ${project.description}`).join('\n')}`;
+${engineerProjectPages.map((project) => `- [${project.title}](${project.path}): ${project.description}`).join('\n')}`;
 
 		const designPostsSection =
 			designPosts.length > 0
 				? `## Design Work
 
 ${designPosts.map((post) => `- [${post.title}](/design/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
-				: '';
-
-		const engineeringWriteupsSection =
-			engineeringWriteups.length > 0
-				? `## Engineering Write-ups
-
-${engineeringWriteups.map((post) => `- [${post.title}](/engineering/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
 				: '';
 
 		const blogSection =
@@ -177,9 +153,7 @@ ${designSectionText}
 
 ${designPostsSection}
 
-${engineeringSection}
-
-${engineeringWriteupsSection}
+${engineerSection}
 
 ${blogSection}
 
