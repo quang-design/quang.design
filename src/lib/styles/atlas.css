@@ -1,0 +1,129 @@
+/*
+ * Atlas: scoped design-token layer for the terminal-atlas aesthetic.
+ * Nothing here applies globally — tokens live on `.atlas` and cascade to
+ * descendants only, so the layer can be previewed beside the current site.
+ */
+
+.atlas {
+	--paper: oklch(0.817 0.058 97.6);
+	--paper-shade: oklch(0.751 0.059 97.7);
+	--ink: oklch(0.155 0.032 86.6);
+
+	--ink-60: color-mix(in oklab, var(--ink) 60%, var(--paper));
+	--ink-40: color-mix(in oklab, var(--ink) 40%, var(--paper));
+	--ink-25: color-mix(in oklab, var(--ink) 25%, var(--paper));
+	--ink-10: color-mix(in oklab, var(--ink) 10%, var(--paper));
+
+	--fs-micro: 0.625rem;
+	--fs-row: 0.6875rem;
+	--fs-body: 0.8125rem;
+	--fs-display: 1.5rem;
+
+	--tracking-label: 0.08em;
+	--lh-tight: 1.15;
+	--lh-body: 1.55;
+
+	--step: 0.25rem;
+	--hair: 1px;
+
+	background-color: var(--paper);
+	color: var(--ink);
+	font-family: 'CommitMono', monospace;
+	font-size: var(--fs-body);
+	font-weight: 400;
+	line-height: var(--lh-body);
+	font-variant-numeric: tabular-nums;
+
+	/* Bridge to the app's semantic tokens so nested Tailwind utilities inherit. */
+	--background: var(--paper);
+	--foreground: var(--ink);
+	--card: var(--paper);
+	--card-foreground: var(--ink);
+	--muted: var(--ink-10);
+	--muted-foreground: var(--ink-60);
+	--primary: var(--ink);
+	--primary-foreground: var(--paper);
+	--border: var(--ink-25);
+	--input: var(--ink-25);
+	--ring: var(--ink-40);
+}
+
+/* Inverted counterpart: ink surface, paper marks. */
+.atlas-ink {
+	--paper: oklch(0.155 0.032 86.6);
+	--paper-shade: oklch(0.225 0.032 90);
+	--ink: oklch(0.817 0.058 97.6);
+}
+
+.atlas * {
+	border-color: var(--ink-25);
+	border-radius: 0;
+	box-shadow: none;
+	transition: none;
+}
+
+/* Links carry no hue here: the underline and inversion do the work. */
+.atlas a {
+	color: inherit;
+	background-image: none;
+	text-decoration-color: var(--ink-40);
+	text-underline-offset: 3px;
+}
+
+.atlas-label {
+	font-size: var(--fs-micro);
+	line-height: var(--lh-tight);
+	letter-spacing: var(--tracking-label);
+	text-transform: uppercase;
+	color: var(--ink-60);
+}
+
+.atlas-display {
+	font-size: var(--fs-display);
+	line-height: 1.2;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+.atlas-row {
+	font-size: var(--fs-row);
+	line-height: var(--lh-tight);
+	letter-spacing: var(--tracking-label);
+	text-transform: uppercase;
+}
+
+.atlas-hair {
+	border: var(--hair) solid var(--ink-25);
+}
+
+.atlas-hair-dashed {
+	border: var(--hair) dashed var(--ink-25);
+}
+
+.atlas-mark {
+	background-color: var(--ink);
+	color: var(--paper);
+	padding: 0 0.15em;
+}
+
+/* 45° hatch — the reference's stand-in for fill colour. */
+.atlas-hatch {
+	background-image: repeating-linear-gradient(
+		45deg,
+		var(--ink-40) 0 var(--hair),
+		transparent var(--hair) 4px
+	);
+}
+
+/* Faint orthogonal grid for canvas surfaces. */
+.atlas-grid {
+	background-image:
+		linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
+		linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+	background-size: 24px 24px;
+}
+
+.atlas-invert:hover {
+	background-color: var(--ink);
+	color: var(--paper);
+}
