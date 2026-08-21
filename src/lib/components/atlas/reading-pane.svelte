@@ -37,7 +37,7 @@
 		{#each sections as section (section.label)}
 			<section class="flex flex-col gap-2">
 				<MicroLabel>{section.label}</MicroLabel>
-				{@render section.body()}
+				<div class="atlas-read flex flex-col gap-2">{@render section.body()}</div>
 			</section>
 		{/each}
 	</div>

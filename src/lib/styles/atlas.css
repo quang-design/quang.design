@@ -14,17 +14,21 @@
 	--ink-25: color-mix(in oklab, var(--ink) 25%, var(--paper));
 	--ink-10: color-mix(in oklab, var(--ink) 10%, var(--paper));
 
-	--fs-micro: 0.625rem;
-	--fs-row: 0.6875rem;
-	--fs-body: 0.8125rem;
-	--fs-display: 1.5rem;
+	/* Modular 1.2 scale rounded to whole pixels; 12px UI body, 13px reserved for
+	   long-form reading so prose never drops below the comfortable minimum. */
+	--fs-micro: 0.625rem; /* 10px — labels, counts */
+	--fs-row: 0.6875rem; /* 11px — row meta, descriptions */
+	--fs-body: 0.75rem; /* 12px — UI body */
+	--fs-read: 0.8125rem; /* 13px — prose only */
+	--fs-display: 1.375rem; /* 22px */
 
 	--tracking-label: 0.08em;
 	--lh-tight: 1.15;
-	--lh-body: 1.55;
+	--lh-body: 1.5;
+	--lh-read: 1.6;
 
 	--step: 0.25rem;
-	--hair: 1px;
+	--hair: 0.5px;
 
 	background-color: var(--paper);
 	color: var(--ink);
@@ -85,11 +89,38 @@
 	letter-spacing: -0.01em;
 }
 
+/* Long-form prose steps up one size from UI body. */
+.atlas-read {
+	font-size: var(--fs-read);
+	line-height: var(--lh-read);
+}
+
 .atlas-row {
 	font-size: var(--fs-row);
 	line-height: var(--lh-tight);
 	letter-spacing: var(--tracking-label);
 	text-transform: uppercase;
+}
+
+/* Row title and its date share one size; the description sits one step down. */
+.atlas-row-title {
+	font-size: var(--fs-body);
+	line-height: var(--lh-tight);
+	letter-spacing: var(--tracking-label);
+	text-transform: uppercase;
+}
+
+.atlas-row-meta {
+	font-size: var(--fs-body);
+	line-height: var(--lh-tight);
+	color: var(--ink-60);
+	font-variant-numeric: tabular-nums;
+}
+
+.atlas-row-desc {
+	font-size: var(--fs-row);
+	line-height: 1.4;
+	color: var(--ink-60);
 }
 
 .atlas-hair {
@@ -100,6 +131,30 @@
 	border: var(--hair) dashed var(--ink-25);
 }
 
+/*
+ * Emphasis without thickening: a second hairline inset 2px from the first,
+ * drawn with inset rings so the box keeps its 0.5px outer edge.
+ */
+.atlas-hair-double {
+	border: var(--hair) solid var(--ink-40);
+	box-shadow:
+		inset 0 0 0 2px var(--paper),
+		inset 0 0 0 2.5px var(--ink-40);
+}
+
+/*
+ * Collapses adjacent hairlines onto a single shared line: stacked children pull
+ * up by one hairline, side-by-side children pull left, so no two rules ever sit
+ * next to each other.
+ */
+.atlas-stack > * + * {
+	margin-top: calc(var(--hair) * -1);
+}
+
+.atlas-stack-x > * + * {
+	margin-left: calc(var(--hair) * -1);
+}
+
 .atlas-mark {
 	background-color: var(--ink);
 	color: var(--paper);
@@ -108,18 +163,14 @@
 
 /* 45° hatch — the reference's stand-in for fill colour. */
 .atlas-hatch {
-	background-image: repeating-linear-gradient(
-		45deg,
-		var(--ink-40) 0 var(--hair),
-		transparent var(--hair) 4px
-	);
+	background-image: repeating-linear-gradient(45deg, var(--ink-40) 0 1px, transparent 1px 4px);
 }
 
 /* Faint orthogonal grid for canvas surfaces. */
 .atlas-grid {
 	background-image:
-		linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
-		linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+		linear-gradient(to right, var(--ink-10) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--ink-10) 1px, transparent 1px);
 	background-size: 24px 24px;
 }
 

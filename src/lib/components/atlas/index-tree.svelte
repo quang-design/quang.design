@@ -10,13 +10,14 @@
 
 <nav class={cn('flex flex-col gap-3 py-2', className)}>
 	{#each groups as group (group.label)}
-		<div class="flex flex-col gap-1">
-			<MicroLabel class="px-2">{group.label}</MicroLabel>
+		<div class="atlas-stack flex flex-col">
+			<MicroLabel class="px-2 pb-1">{group.label}</MicroLabel>
 			{#each group.rows as row (row.code)}
+				<!-- Nesting indents the label, not the box, so every rule stays on one line. -->
 				<div
 					class={cn(
-						'atlas-hair atlas-invert flex items-start gap-2 px-2 py-1.5',
-						row.nested && 'ml-3'
+						'atlas-hair atlas-invert flex items-center gap-2 py-1.5 pr-2',
+						row.nested ? 'pl-6' : 'pl-2'
 					)}
 				>
 					<KeySlot code={row.code} />

@@ -26,32 +26,50 @@
 	let ink = $state(false);
 	let copied = $state(false);
 
+	let now = $state(new Date());
+	$effect(() => {
+		const id = setInterval(() => (now = new Date()), 1000);
+		return () => clearInterval(id);
+	});
+
+	const localTime = $derived(
+		new Intl.DateTimeFormat('en-GB', {
+			timeZone: 'Asia/Ho_Chi_Minh',
+			hour: '2-digit',
+			minute: '2-digit',
+			second: '2-digit',
+			hour12: false
+		}).format(now)
+	);
+	const place = 'Nha Trang, Vietnam';
+
 	const samplePost = {
 		slug: 'doppio-kaffe',
 		title: "5 Years of Crafting Doppio Kaffè's Cozy Character",
 		description:
 			'As a designer and loyal patron, it&rsquo;s been my privilege to help shape the branding for Doppio Kaffè over the past 5 years.',
-		thumbnail: '',
+		thumbnail: '/design/posts/doppio/doppio_1.avif',
 		date: '2023-01-01'
 	};
 
+	/* Mirrors the real route tree: navLinks plus the /engineer sub-routes. */
 	const treeGroups = [
 		{
-			label: 'The Work',
+			label: 'Index',
 			rows: [
+				{ code: 'Q', label: 'Quang' },
 				{ code: 'D', label: 'Design', count: 8 },
-				{ code: 'D1', label: 'Brand Identity', count: 5, nested: true },
-				{ code: 'D2', label: 'Editorial', count: 3, nested: true },
 				{ code: 'E', label: 'Engineer', count: 4 },
+				{ code: 'E1', label: 'Telescopic Text', nested: true },
+				{ code: 'E2', label: 'Microscopic Text', nested: true },
+				{ code: 'E3', label: 'Animation Vocabulary', nested: true },
+				{ code: 'E4', label: 'Minesweeper', nested: true },
 				{ code: 'B', label: 'Blog', count: 12 }
 			]
 		},
 		{
-			label: 'Supporting',
-			rows: [
-				{ code: 'S', label: 'Styles', count: 1 },
-				{ code: 'T', label: 'Telescopic Text', count: 2 }
-			]
+			label: 'Reference',
+			rows: [{ code: 'S', label: 'Styles' }]
 		}
 	];
 
@@ -168,7 +186,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		id="T3"
 		group="tokens"
 		title="Hierarchy by case + tracking, not size or weight"
-		why="Reference keeps one weight and 4 sizes; hierarchy comes from UPPERCASE + 0.08em tracking on labels. Current renderer uses font-semibold on h1–h6 with near-identical sizes, so headings read as noise."
+		why="Revised scale: 10 / 11 / 12 / 22px at one weight, plus a 13px prose step used only in reading columns. Hierarchy comes from UPPERCASE + 0.08em tracking. Current renderer uses font-semibold on h1–h6 with near-identical sizes, so headings read as noise."
 		{ink}
 	>
 		{#snippet before()}
@@ -183,7 +201,11 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 				<MicroLabel>Rivers of Empire</MicroLabel>
 				<h1 class="atlas-display">The Evolution Harness</h1>
 				<MicroLabel>What this is</MicroLabel>
-				<p>Body sits at 13px / 1.55 with a single weight.</p>
+				<p>UI body is 12px / 1.5 — labels 10px, row meta 11px, display 22px, one weight.</p>
+				<p class="atlas-read">
+					Prose steps up to 13px / 1.6 so long-form reading stays comfortable while the interface
+					stays dense.
+				</p>
 				<MicroLabel>How to read it</MicroLabel>
 			</div>
 		{/snippet}
@@ -192,8 +214,8 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 	<ReviewItem
 		id="T4"
 		group="tokens"
-		title="Hairlines: 1px solid + dashed = latent"
-		why="Reference separates every cell with a 1px ink@25% rule and uses dashed for latent/not-wired things. Current site mixes 0.5px borders, border-foreground/25, gray-600 dashed and a !important layer that flattens radius and shadow."
+		title="Hairlines: 0.5px solid, dashed = latent, double = emphasis"
+		why="Revised: every rule is 0.5px (--hair) and emphasis is a second hairline inset 2px instead of a thicker line. Stacked boxes collapse onto a shared rule (atlas-stack) so two lines never sit next to each other. Current site mixes 0.5px borders, border-foreground/25 and hardcoded gray-600 dashed."
 		{ink}
 	>
 		{#snippet before()}
@@ -205,13 +227,19 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		{/snippet}
 		{#snippet after()}
 			<div class="flex flex-col gap-3">
-				<div class="atlas-hair p-3">solid — wired</div>
-				<Rule />
-				<div class="atlas-hair-dashed p-3">dashed — latent / not switched on</div>
-				<div class="flex items-stretch gap-3">
-					<span>vertical</span>
-					<Rule orientation="vertical" />
-					<span>separator</span>
+				<div class="atlas-hair p-3">0.5px solid — wired</div>
+				<div class="atlas-hair-dashed p-3">0.5px dashed — latent / not switched on</div>
+				<div class="atlas-hair-double p-3">double hairline — emphasis, no thicker line</div>
+				<MicroLabel>Stacked cells share one rule</MicroLabel>
+				<div class="atlas-stack flex flex-col">
+					<div class="atlas-hair px-3 py-1.5">row one</div>
+					<div class="atlas-hair px-3 py-1.5">row two</div>
+					<div class="atlas-hair px-3 py-1.5">row three</div>
+				</div>
+				<div class="atlas-stack-x flex">
+					<div class="atlas-hair grow px-3 py-1.5">cell</div>
+					<div class="atlas-hair grow px-3 py-1.5">cell</div>
+					<div class="atlas-hair grow px-3 py-1.5">cell</div>
 				</div>
 			</div>
 		{/snippet}
@@ -276,7 +304,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 			</div>
 		{/snippet}
 		{#snippet after()}
-			<div class="flex flex-col gap-1">
+			<div class="atlas-stack flex flex-col">
 				{#each ['Strategy Archive', 'Parent Selection', 'Doctrine Writers'] as row, i (row)}
 					<div class="atlas-hair flex items-center gap-2 px-2 py-1.5">
 						<KeySlot code={['P', 'S', 'D'][i]} />
@@ -296,7 +324,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		id="A1"
 		group="primitives"
 		title="MicroLabel + StatCell"
-		why="The uppercase micro-label is the backbone of the reference UI; stat cells pair it with a value. Closest thing today is small muted text and the navbar clock."
+		why="Revised per note: the stat group is now location / country / live local time (Asia/Ho_Chi_Minh) — the measured facts the site actually has. Closest thing today is small muted text and the navbar clock."
 		{ink}
 	>
 		{#snippet before()}
@@ -307,11 +335,11 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		{/snippet}
 		{#snippet after()}
 			<div class="flex items-stretch gap-3">
-				<StatCell label="Runs" value="18 · 8 in era 4" />
+				<StatCell label="Location" value="Nha Trang" />
 				<Rule orientation="vertical" />
-				<StatCell label="Games on record" value="41,340" />
+				<StatCell label="Country" value="Vietnam" />
 				<Rule orientation="vertical" />
-				<StatCell label="Local time" value="03:22:41" />
+				<StatCell label="Local time" value={localTime} />
 			</div>
 		{/snippet}
 	</ReviewItem>
@@ -331,7 +359,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 			</ul>
 		{/snippet}
 		{#snippet after()}
-			<div class="flex flex-col gap-1">
+			<div class="atlas-stack flex flex-col">
 				{#each [['D', 'Design', 8], ['E', 'Engineer', 4], ['B', 'Blog', 12]] as row (row[1])}
 					<div class="atlas-hair flex items-center gap-2 px-2 py-1.5">
 						<KeySlot code={String(row[0])} />
@@ -412,7 +440,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 				stats={[
 					{ label: 'Design', value: '8 projects' },
 					{ label: 'Blog', value: '12 posts' },
-					{ label: 'Local time', value: '03:22:41' }
+					{ label: place, value: localTime }
 				]}
 				actions={['Ink theme']}
 			/>
@@ -443,7 +471,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		id="M3"
 		group="assemblies"
 		title="IndexRow replaces the post card"
-		why="Reference lists things as dense addressable rows. post-card.svelte is a bordered box with p-6, a square thumbnail and a scale-105 hover."
+		why="Revised per note: rows carry a thumbnail, the date now matches the title size (12px) and the description drops one step (11px). Two orders are shown — title first and description first — pick one. post-card.svelte is a bordered box with p-6 and a scale-105 hover."
 		{ink}
 	>
 		{#snippet before()}
@@ -452,20 +480,49 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 			</div>
 		{/snippet}
 		{#snippet after()}
-			<div class="flex flex-col gap-1">
-				<IndexRow
-					code="D1"
-					title="Doppio Kaffè"
-					date="2023-01-01"
-					description="Five years of brand character for a Hanoi coffee shop."
-				/>
-				<IndexRow
-					code="D2"
-					title="Wedding Invitation"
-					date="2023-01-01"
-					description="Typographic care for six years of love and commitment."
-				/>
-				<IndexRow code="D3" title="Dream Sweets" date="2022-11-04" />
+			<div class="flex flex-col gap-4">
+				<div class="flex flex-col gap-1">
+					<MicroLabel>Option A — title, then description</MicroLabel>
+					<div class="atlas-stack flex flex-col">
+						<IndexRow
+							code="D1"
+							thumbnail="/design/posts/doppio/doppio_1.avif"
+							title="Doppio Kaffè"
+							date="2023-01-01"
+							description="Five years of brand character for a coffee shop."
+						/>
+						<IndexRow
+							code="D2"
+							thumbnail="/design/posts/doppio/doppio_5.avif"
+							title="Wedding Invitation"
+							date="2023-01-01"
+							description="Typographic care for six years of love and commitment."
+						/>
+						<IndexRow placeholder code="D3" title="Dream Sweets" date="2022-11-04" />
+					</div>
+				</div>
+				<div class="flex flex-col gap-1">
+					<MicroLabel>Option B — description, then title</MicroLabel>
+					<div class="atlas-stack flex flex-col">
+						<IndexRow
+							reverse
+							code="D1"
+							thumbnail="/design/posts/doppio/doppio_1.avif"
+							title="Doppio Kaffè"
+							date="2023-01-01"
+							description="Five years of brand character for a coffee shop."
+						/>
+						<IndexRow
+							reverse
+							code="D2"
+							thumbnail="/design/posts/doppio/doppio_5.avif"
+							title="Wedding Invitation"
+							date="2023-01-01"
+							description="Typographic care for six years of love and commitment."
+						/>
+						<IndexRow reverse placeholder code="D3" title="Dream Sweets" date="2022-11-04" />
+					</div>
+				</div>
 			</div>
 		{/snippet}
 	</ReviewItem>
@@ -502,7 +559,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 				</p>
 			{/snippet}
 			{#snippet work()}
-				<div class="flex flex-col gap-1">
+				<div class="atlas-stack flex flex-col">
 					<IndexRow code="01" title="Design Director @FlexOS" date="2023 — now" />
 					<IndexRow code="02" title="Design Manager @FlexOS" date="2022 — 2023" />
 				</div>
@@ -517,7 +574,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		id="P1"
 		group="pages"
 		title="Four-zone shell (status / index / canvas / reading / hints)"
-		why="This is the whole reference layout applied to the site: StatusBar on top, IndexTree left, canvas centre, ReadingPane right, HintBar bottom. Compare with the current centered max-w-7xl column."
+		why="Revised per note: the index mirrors the real routes (telescopic / microscopic / animation vocabulary / minesweeper nested under Engineer), body drops to 12px, every rule is 0.5px, and each zone contributes only one dividing line so no two rules ever run next to each other. Compare with the current centered max-w-7xl column."
 		stacked
 		{ink}
 	>
@@ -539,7 +596,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 						{ label: 'Design', value: '8' },
 						{ label: 'Engineer', value: '4' },
 						{ label: 'Blog', value: '12' },
-						{ label: 'Local time', value: '03:22:41' }
+						{ label: place, value: localTime }
 					]}
 					actions={['Ink theme']}
 				/>
