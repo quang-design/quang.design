@@ -50,10 +50,20 @@
 		{ label: 'Local time', value: localTime }
 	]);
 
+	const engineerCodes: Record<string, string> = {
+		'/engineer/telescopic': 'E1',
+		'/engineer/microscopic': 'E2',
+		'/engineer/animation-vocabulary': 'E3',
+		'/engineer/minesweeper': 'E4'
+	};
+
 	const designRows = $derived(design.slice(0, 6));
 	const blogRows = $derived(blog);
 	const selectedDesign = $derived(design[0]);
-	const selectedPost = $derived(blog[0]);
+	const latestPost = $derived(blog[0]);
+	const selectedPost = $derived(
+		blog.find((post) => post.slug === 'this-design-look-sad') ?? blog[0]
+	);
 
 	const mineMask = [
 		0, 1, 0, 0, 2, 9, 1, 0, 0, 1, 1, 0, 2, 2, 1, 0, 1, 2, 1, 0, 0, 0, 0, 0, 9, 2, 1, 1, 1, 1, 0, 0,
@@ -109,9 +119,9 @@
 	</p>
 {/snippet}
 {#snippet blogLatest()}
-	{#if selectedPost}
-		<p>{selectedPost.description}</p>
-		<p class="atlas-label">{selectedPost.date}</p>
+	{#if latestPost}
+		<p>{latestPost.description}</p>
+		<p class="atlas-label">{latestPost.date}</p>
 	{/if}
 {/snippet}
 {#snippet postOpen()}
@@ -167,7 +177,7 @@
 			<div class="atlas-stack atlas-stack-flush flex flex-col">
 				{#each engineer as project, i (project.href)}
 					<IndexRow
-						code="E{i + 1}"
+						code={engineerCodes[project.href] ?? `E${i + 1}`}
 						placeholder
 						title={project.title}
 						description={project.description}
