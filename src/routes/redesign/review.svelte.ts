@@ -3,7 +3,7 @@ import { browser } from '$app/environment';
 export type Verdict = 'pending' | 'approved' | 'revise';
 export type ReviewEntry = { verdict: Verdict; note: string };
 
-const STORAGE_KEY = 'atlas-review-v1';
+const STORAGE_KEY = 'atlas-review-v2';
 
 export type ReviewMeta = { id: string; title: string; group: string };
 

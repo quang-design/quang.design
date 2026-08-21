@@ -14,21 +14,25 @@
 	--ink-25: color-mix(in oklab, var(--ink) 25%, var(--paper));
 	--ink-10: color-mix(in oklab, var(--ink) 10%, var(--paper));
 
-	/* Modular 1.2 scale rounded to whole pixels; 12px UI body, 13px reserved for
-	   long-form reading so prose never drops below the comfortable minimum. */
+	/*
+	 * Modular 1.2 scale, rounded to whole pixels.
+	 * UI chrome stays dense (10–12); long-form reading is the only step up.
+	 * Global `p { leading-7 }` and heading sizes are reset below so they cannot leak.
+	 */
 	--fs-micro: 0.625rem; /* 10px — labels, counts */
-	--fs-row: 0.6875rem; /* 11px — row meta, descriptions */
+	--fs-row: 0.6875rem; /* 11px — descriptions, captions */
 	--fs-body: 0.75rem; /* 12px — UI body */
 	--fs-read: 0.8125rem; /* 13px — prose only */
-	--fs-display: 1.375rem; /* 22px */
+	--fs-display: 1.25rem; /* 20px — page titles */
 
 	--tracking-label: 0.08em;
 	--lh-tight: 1.15;
-	--lh-body: 1.5;
-	--lh-read: 1.6;
+	--lh-body: 1.45;
+	--lh-read: 1.55;
 
 	--step: 0.25rem;
 	--hair: 0.5px;
+	--hair-gap: 2px;
 
 	background-color: var(--paper);
 	color: var(--ink);
@@ -38,7 +42,6 @@
 	line-height: var(--lh-body);
 	font-variant-numeric: tabular-nums;
 
-	/* Bridge to the app's semantic tokens so nested Tailwind utilities inherit. */
 	--background: var(--paper);
 	--foreground: var(--ink);
 	--card: var(--paper);
@@ -52,7 +55,6 @@
 	--ring: var(--ink-40);
 }
 
-/* Inverted counterpart: ink surface, paper marks. */
 .atlas-ink {
 	--paper: oklch(0.155 0.032 86.6);
 	--paper-shade: oklch(0.225 0.032 90);
@@ -62,16 +64,36 @@
 .atlas * {
 	border-color: var(--ink-25);
 	border-radius: 0;
-	box-shadow: none;
 	transition: none;
 }
 
-/* Links carry no hue here: the underline and inversion do the work. */
 .atlas a {
 	color: inherit;
 	background-image: none;
 	text-decoration-color: var(--ink-40);
 	text-underline-offset: 3px;
+}
+
+.atlas p,
+.atlas li,
+.atlas blockquote {
+	font-size: inherit;
+	line-height: var(--lh-body);
+	margin: 0;
+}
+
+.atlas h1,
+.atlas h2,
+.atlas h3,
+.atlas h4,
+.atlas h5,
+.atlas h6 {
+	font-size: inherit;
+	font-weight: 400;
+	line-height: var(--lh-tight);
+	margin: 0;
+	letter-spacing: var(--tracking-label);
+	text-transform: uppercase;
 }
 
 .atlas-label {
@@ -87,10 +109,12 @@
 	line-height: 1.2;
 	font-weight: 700;
 	letter-spacing: -0.01em;
+	text-transform: none;
 }
 
-/* Long-form prose steps up one size from UI body. */
-.atlas-read {
+.atlas-read,
+.atlas-read p,
+.atlas-read li {
 	font-size: var(--fs-read);
 	line-height: var(--lh-read);
 }
@@ -102,7 +126,6 @@
 	text-transform: uppercase;
 }
 
-/* Row title and its date share one size; the description sits one step down. */
 .atlas-row-title {
 	font-size: var(--fs-body);
 	line-height: var(--lh-tight);
@@ -121,6 +144,8 @@
 	font-size: var(--fs-row);
 	line-height: 1.4;
 	color: var(--ink-60);
+	text-transform: none;
+	letter-spacing: 0;
 }
 
 .atlas-hair {
@@ -131,28 +156,38 @@
 	border: var(--hair) dashed var(--ink-25);
 }
 
-/*
- * Emphasis without thickening: a second hairline inset 2px from the first,
- * drawn with inset rings so the box keeps its 0.5px outer edge.
- */
 .atlas-hair-double {
 	border: var(--hair) solid var(--ink-40);
-	box-shadow:
-		inset 0 0 0 2px var(--paper),
-		inset 0 0 0 2.5px var(--ink-40);
+	padding: var(--hair-gap);
+	box-shadow: inset 0 0 0 var(--hair) var(--ink-40);
 }
 
-/*
- * Collapses adjacent hairlines onto a single shared line: stacked children pull
- * up by one hairline, side-by-side children pull left, so no two rules ever sit
- * next to each other.
- */
+.atlas-stack {
+	border: var(--hair) solid var(--ink-25);
+}
+
+.atlas-stack > * {
+	border: 0;
+}
+
 .atlas-stack > * + * {
-	margin-top: calc(var(--hair) * -1);
+	border-top: var(--hair) solid var(--ink-25);
+}
+
+.atlas-stack-x {
+	border: var(--hair) solid var(--ink-25);
+}
+
+.atlas-stack-x > * {
+	border: 0;
 }
 
 .atlas-stack-x > * + * {
-	margin-left: calc(var(--hair) * -1);
+	border-left: var(--hair) solid var(--ink-25);
+}
+
+.atlas-stack-flush {
+	border: 0;
 }
 
 .atlas-mark {
@@ -161,12 +196,10 @@
 	padding: 0 0.15em;
 }
 
-/* 45° hatch — the reference's stand-in for fill colour. */
 .atlas-hatch {
 	background-image: repeating-linear-gradient(45deg, var(--ink-40) 0 1px, transparent 1px 4px);
 }
 
-/* Faint orthogonal grid for canvas surfaces. */
 .atlas-grid {
 	background-image:
 		linear-gradient(to right, var(--ink-10) 1px, transparent 1px),
@@ -174,7 +207,66 @@
 	background-size: 24px 24px;
 }
 
-.atlas-invert:hover {
+.atlas-invert:hover,
+.atlas-invert:focus-visible {
 	background-color: var(--ink);
 	color: var(--paper);
+}
+
+.atlas-active {
+	background-color: var(--ink);
+	color: var(--paper);
+}
+
+.atlas-active .atlas-label {
+	color: inherit;
+}
+
+.atlas-rule-b {
+	border-bottom: var(--hair) solid var(--ink-25);
+}
+
+.atlas-shell {
+	border: var(--hair) solid var(--ink-40);
+	padding: var(--hair-gap);
+	box-shadow: inset 0 0 0 var(--hair) var(--ink-40);
+	display: flex;
+	flex-direction: column;
+	min-height: 28rem;
+}
+
+.atlas-shell-head {
+	border-bottom: var(--hair) solid var(--ink-25);
+}
+
+.atlas-shell-body {
+	display: grid;
+	grid-template-columns: 12.5rem minmax(0, 1fr) 17.5rem;
+	flex: 1;
+	min-height: 0;
+}
+
+.atlas-shell-body > * + * {
+	border-left: var(--hair) solid var(--ink-25);
+}
+
+.atlas-shell-foot {
+	border-top: var(--hair) solid var(--ink-25);
+}
+
+.atlas-shell-canvas,
+.atlas-shell-reading {
+	min-width: 0;
+	min-height: 16rem;
+}
+
+@media (max-width: 767px) {
+	.atlas-shell-body {
+		grid-template-columns: 1fr;
+	}
+
+	.atlas-shell-body > * + * {
+		border-left: 0;
+		border-top: var(--hair) solid var(--ink-25);
+	}
 }

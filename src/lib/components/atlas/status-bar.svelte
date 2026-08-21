@@ -15,7 +15,7 @@
 	} = $props();
 </script>
 
-<header class={cn('atlas-hair flex items-stretch border-x-0 border-t-0', className)}>
+<header class={cn('flex items-stretch', className)}>
 	<div class="flex flex-col justify-center gap-1 px-3 py-2">
 		<span class="atlas-label">Repository</span>
 		<span class="leading-none">{title}</span>

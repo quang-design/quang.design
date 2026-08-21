@@ -16,12 +16,21 @@
 		Tab,
 		Action,
 		Hatch,
-		GridBackdrop,
-		HintKey
+		HintKey,
+		GridBackdrop
 	} from '$lib/components/primitives';
-	import { StatusBar, IndexTree, ReadingPane, HintBar, IndexRow } from '$lib/components/atlas';
+	import { StatusBar, IndexTree, ReadingPane, IndexRow } from '$lib/components/atlas';
 	import ReviewItem from './review-item.svelte';
 	import { review } from './review.svelte';
+	import LiveFrame from './live-frame.svelte';
+	import PreviewScreen from './preview-screen.svelte';
+	import type { EngineerProject } from '$lib/content/engineer';
+	import type { PostMetadata } from '$lib/content/loader';
+
+	let {
+		data
+	}: { data: { design: PostMetadata[]; blog: PostMetadata[]; engineer: EngineerProject[] } } =
+		$props();
 
 	let ink = $state(false);
 	let copied = $state(false);
@@ -47,31 +56,30 @@
 		slug: 'doppio-kaffe',
 		title: "5 Years of Crafting Doppio Kaffè's Cozy Character",
 		description:
-			'As a designer and loyal patron, it&rsquo;s been my privilege to help shape the branding for Doppio Kaffè over the past 5 years.',
+			"As a designer and loyal patron, it's been my privilege to help shape the branding for Doppio Kaffè over the past 5 years.",
 		thumbnail: '/design/posts/doppio/doppio_1.avif',
 		date: '2023-01-01'
 	};
 
-	/* Mirrors the real route tree: navLinks plus the /engineer sub-routes. */
-	const treeGroups = [
+	const treeGroups = $derived([
 		{
 			label: 'Index',
 			rows: [
 				{ code: 'Q', label: 'Quang' },
-				{ code: 'D', label: 'Design', count: 8 },
-				{ code: 'E', label: 'Engineer', count: 4 },
+				{ code: 'D', label: 'Design', count: data.design.length },
+				{ code: 'E', label: 'Engineer', count: data.engineer.length },
 				{ code: 'E1', label: 'Telescopic Text', nested: true },
 				{ code: 'E2', label: 'Microscopic Text', nested: true },
 				{ code: 'E3', label: 'Animation Vocabulary', nested: true },
 				{ code: 'E4', label: 'Minesweeper', nested: true },
-				{ code: 'B', label: 'Blog', count: 12 }
+				{ code: 'B', label: 'Blog', count: data.blog.length }
 			]
 		},
 		{
 			label: 'Reference',
 			rows: [{ code: 'S', label: 'Styles' }]
 		}
-	];
+	]);
 
 	const homeMd = `## Xin Chào!
 
@@ -79,6 +87,24 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 
 - Design Director @FlexOS
 - Design Manager @FlexOS`;
+
+	const typeScale = [
+		{ token: '--fs-micro', px: '10', use: 'labels, counts', sample: 'LOCATION' },
+		{
+			token: '--fs-row',
+			px: '11',
+			use: 'captions, descriptions',
+			sample: 'Five years of brand character.'
+		},
+		{ token: '--fs-body', px: '12', use: 'UI body, row titles, dates', sample: 'Design Engineer' },
+		{
+			token: '--fs-read',
+			px: '13',
+			use: 'long-form prose only',
+			sample: 'A Vietnamese graphic designer who builds the things he designs.'
+		},
+		{ token: '--fs-display', px: '20', use: 'page titles', sample: 'The Evolution Harness' }
+	];
 
 	async function copySummary() {
 		await navigator.clipboard.writeText(review.summary);
@@ -102,6 +128,17 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 				'pending'
 			)} pending
 		</p>
+		<nav
+			class="text-muted-foreground flex flex-wrap items-center gap-2 text-xs tracking-widest uppercase"
+		>
+			<a href="#tokens">Tokens</a>
+			<span>/</span>
+			<a href="#primitives">Primitives</a>
+			<span>/</span>
+			<a href="#assemblies">Assemblies</a>
+			<span>/</span>
+			<a href="#screens">Screens</a>
+		</nav>
 		<div class="ml-auto flex items-center gap-2">
 			<Button variant="outline" size="sm" class="cursor-pointer" onclick={() => (ink = !ink)}>
 				{ink ? 'Paper theme' : 'Ink theme'}
@@ -116,13 +153,11 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 	</header>
 
 	<p class="text-muted-foreground max-w-3xl text-xs">
-		Throwaway route. Left column is the current site, right column is the proposed Atlas layer
-		(tokens scoped to <code>.atlas</code>, nothing global changed). Approve or mark revise on each
-		item, add notes, then hit “Copy review” and paste it back to me.
+		Throwaway route. Left column is the current site (live iframe on screens), right column is Atlas
+		(tokens scoped to <code>.atlas</code>). Approve or mark revise, add notes, then “Copy review”.
 	</p>
 
-	<!-- ============================ SUB-ATOMIC ============================ -->
-	<h2 class="mt-4 text-sm tracking-widest uppercase">1 &middot; Sub-atomic — tokens</h2>
+	<h2 id="tokens" class="mt-4 text-sm tracking-widest uppercase">1 · Sub-atomic — tokens</h2>
 
 	<ReviewItem
 		id="T1"
@@ -186,7 +221,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		id="T3"
 		group="tokens"
 		title="Hierarchy by case + tracking, not size or weight"
-		why="Revised scale: 10 / 11 / 12 / 22px at one weight, plus a 13px prose step used only in reading columns. Hierarchy comes from UPPERCASE + 0.08em tracking. Current renderer uses font-semibold on h1–h6 with near-identical sizes, so headings read as noise."
+		why="UI body is 12px (Tailwind text-xs). Labels 10, captions 11, prose 13, titles 20 — a 1.2 modular scale at one weight. Hierarchy is UPPERCASE + 0.08em tracking. Global heading sizes and leading-7 are reset inside .atlas so they cannot leak."
 		{ink}
 	>
 		{#snippet before()}
@@ -194,19 +229,29 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 				<h1 class="mt-0 mb-2 text-3xl font-semibold">The Evolution Harness</h1>
 				<h2 class="mt-4 mb-2 text-2xl font-semibold">What this is</h2>
 				<h3 class="mt-4 mb-2 text-xl font-semibold">How to read it</h3>
+				<p class="leading-7">
+					Body today is ~13.6px / leading-7, with semibold headings a few pixels apart.
+				</p>
 			</div>
 		{/snippet}
 		{#snippet after()}
 			<div class="flex flex-col gap-3">
+				<div class="atlas-stack flex flex-col">
+					{#each typeScale as row (row.token)}
+						<div class="flex items-baseline gap-3 px-2 py-1.5">
+							<code class="atlas-label w-28 shrink-0">{row.token}</code>
+							<span class="atlas-label w-8 shrink-0">{row.px}</span>
+							<span class="atlas-row-desc grow">{row.use}</span>
+						</div>
+					{/each}
+				</div>
 				<MicroLabel>Rivers of Empire</MicroLabel>
 				<h1 class="atlas-display">The Evolution Harness</h1>
-				<MicroLabel>What this is</MicroLabel>
-				<p>UI body is 12px / 1.5 — labels 10px, row meta 11px, display 22px, one weight.</p>
+				<p>UI body is 12px / 1.45 — one weight, case and tracking do the rest.</p>
 				<p class="atlas-read">
-					Prose steps up to 13px / 1.6 so long-form reading stays comfortable while the interface
-					stays dense.
+					Prose steps up to 13px / 1.55 so long-form reading stays comfortable while chrome stays
+					dense.
 				</p>
-				<MicroLabel>How to read it</MicroLabel>
 			</div>
 		{/snippet}
 	</ReviewItem>
@@ -215,7 +260,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		id="T4"
 		group="tokens"
 		title="Hairlines: 0.5px solid, dashed = latent, double = emphasis"
-		why="Revised: every rule is 0.5px (--hair) and emphasis is a second hairline inset 2px instead of a thicker line. Stacked boxes collapse onto a shared rule (atlas-stack) so two lines never sit next to each other. Current site mixes 0.5px borders, border-foreground/25 and hardcoded gray-600 dashed."
+		why="Every rule is 0.5px (--hair). Emphasis is a second hairline inset 2px (atlas-hair-double), never a thicker stroke. Stacked and side-by-side groups draw the outer frame once and share internal rules, so two lines never sit next to each other."
 		{ink}
 	>
 		{#snippet before()}
@@ -229,17 +274,17 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 			<div class="flex flex-col gap-3">
 				<div class="atlas-hair p-3">0.5px solid — wired</div>
 				<div class="atlas-hair-dashed p-3">0.5px dashed — latent / not switched on</div>
-				<div class="atlas-hair-double p-3">double hairline — emphasis, no thicker line</div>
+				<div class="atlas-hair-double p-3">double hairline — emphasis, 2px paper gap</div>
 				<MicroLabel>Stacked cells share one rule</MicroLabel>
 				<div class="atlas-stack flex flex-col">
-					<div class="atlas-hair px-3 py-1.5">row one</div>
-					<div class="atlas-hair px-3 py-1.5">row two</div>
-					<div class="atlas-hair px-3 py-1.5">row three</div>
+					<div class="px-3 py-1.5">row one</div>
+					<div class="px-3 py-1.5">row two</div>
+					<div class="px-3 py-1.5">row three</div>
 				</div>
 				<div class="atlas-stack-x flex">
-					<div class="atlas-hair grow px-3 py-1.5">cell</div>
-					<div class="atlas-hair grow px-3 py-1.5">cell</div>
-					<div class="atlas-hair grow px-3 py-1.5">cell</div>
+					<div class="grow px-3 py-1.5">cell</div>
+					<div class="grow px-3 py-1.5">cell</div>
+					<div class="grow px-3 py-1.5">cell</div>
 				</div>
 			</div>
 		{/snippet}
@@ -257,8 +302,8 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		{/snippet}
 		{#snippet after()}
 			<GridBackdrop class="atlas-hair flex h-32 items-end gap-3 p-3">
-				<Hatch class="h-16 w-24" />
-				<Hatch class="h-24 w-16" />
+				<Hatch class="atlas-hair h-16 w-24" />
+				<Hatch class="atlas-hair h-24 w-16" />
 				<div class="atlas-hair-dashed h-10 w-20"></div>
 			</GridBackdrop>
 		{/snippet}
@@ -306,25 +351,24 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		{#snippet after()}
 			<div class="atlas-stack flex flex-col">
 				{#each ['Strategy Archive', 'Parent Selection', 'Doctrine Writers'] as row, i (row)}
-					<div class="atlas-hair flex items-center gap-2 px-2 py-1.5">
+					<div class="flex items-center gap-2 px-2 py-1.5">
 						<KeySlot code={['P', 'S', 'D'][i]} />
 						<span class="atlas-row grow">{row}</span>
 						<Count value={i + 1} />
 					</div>
 				{/each}
-				<MicroLabel>--step: 0.25rem · padding 8/12 · leading 1.15</MicroLabel>
 			</div>
+			<MicroLabel class="pt-2">--step: 0.25rem · padding 8/12 · leading 1.15</MicroLabel>
 		{/snippet}
 	</ReviewItem>
 
-	<!-- ============================ ATOMIC ============================ -->
-	<h2 class="mt-8 text-sm tracking-widest uppercase">2 &middot; Atomic — primitives</h2>
+	<h2 id="primitives" class="mt-8 text-sm tracking-widest uppercase">2 · Atomic — primitives</h2>
 
 	<ReviewItem
 		id="A1"
 		group="primitives"
 		title="MicroLabel + StatCell"
-		why="Revised per note: the stat group is now location / country / live local time (Asia/Ho_Chi_Minh) — the measured facts the site actually has. Closest thing today is small muted text and the navbar clock."
+		why="The stat group is location / country / live local time (Asia/Ho_Chi_Minh) — the measured facts the site actually has. Closest thing today is small muted text and the navbar clock."
 		{ink}
 	>
 		{#snippet before()}
@@ -360,8 +404,8 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		{/snippet}
 		{#snippet after()}
 			<div class="atlas-stack flex flex-col">
-				{#each [['D', 'Design', 8], ['E', 'Engineer', 4], ['B', 'Blog', 12]] as row (row[1])}
-					<div class="atlas-hair flex items-center gap-2 px-2 py-1.5">
+				{#each [['D', 'Design', data.design.length], ['E', 'Engineer', data.engineer.length], ['B', 'Blog', data.blog.length]] as row (row[1])}
+					<div class="flex items-center gap-2 px-2 py-1.5">
 						<KeySlot code={String(row[0])} />
 						<span class="atlas-row grow">{row[1]}</span>
 						<Count value={Number(row[2])} />
@@ -420,14 +464,13 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		{/snippet}
 	</ReviewItem>
 
-	<!-- ============================ MOLECULAR ============================ -->
-	<h2 class="mt-8 text-sm tracking-widest uppercase">3 &middot; Molecular — assemblies</h2>
+	<h2 id="assemblies" class="mt-8 text-sm tracking-widest uppercase">3 · Molecular — assemblies</h2>
 
 	<ReviewItem
 		id="M1"
 		group="assemblies"
 		title="StatusBar replaces the navbar"
-		why="Reference frames the page with a stat bar: repository cell, measured values, command group. The current navbar is avatar + slash-separated links + clock + theme toggle."
+		why="Reference frames the page with a stat bar: repository cell, location, country, live local time, command group. The current navbar is avatar + slash-separated links + clock + theme toggle."
 		stacked
 		{ink}
 	>
@@ -435,15 +478,17 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 			<Navbar />
 		{/snippet}
 		{#snippet after()}
-			<StatusBar
-				title="quang.design"
-				stats={[
-					{ label: 'Design', value: '8 projects' },
-					{ label: 'Blog', value: '12 posts' },
-					{ label: place, value: localTime }
-				]}
-				actions={['Ink theme']}
-			/>
+			<div class="atlas-hair">
+				<StatusBar
+					title="quang.design"
+					stats={[
+						{ label: 'Location', value: 'Nha Trang' },
+						{ label: 'Country', value: 'Vietnam' },
+						{ label: place, value: localTime }
+					]}
+					actions={['Ink theme']}
+				/>
+			</div>
 		{/snippet}
 	</ReviewItem>
 
@@ -451,7 +496,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		id="M2"
 		group="assemblies"
 		title="IndexTree replaces flat nav"
-		why="Reference navigates through a grouped tree with codes and counts; nesting is indent only. Site nav is four inline links."
+		why="Reference navigates through a grouped tree with codes and counts; nesting is indent only so every rule stays on one line. Telescopic / microscopic / animation vocabulary / minesweeper sit under Engineer."
 		{ink}
 	>
 		{#snippet before()}
@@ -463,7 +508,9 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 			</nav>
 		{/snippet}
 		{#snippet after()}
-			<IndexTree groups={treeGroups} />
+			<div class="atlas-hair">
+				<IndexTree groups={treeGroups} active="E1" />
+			</div>
 		{/snippet}
 	</ReviewItem>
 
@@ -471,7 +518,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 		id="M3"
 		group="assemblies"
 		title="IndexRow replaces the post card"
-		why="Revised per note: rows carry a thumbnail, the date now matches the title size (12px) and the description drops one step (11px). Two orders are shown — title first and description first — pick one. post-card.svelte is a bordered box with p-6 and a scale-105 hover."
+		why="Rows carry a thumbnail, the date matches the title size (12px) and the description drops one step (11px). Two orders are shown — title first and description first — pick one. post-card.svelte is a bordered box with p-6 and a scale-105 hover."
 		{ink}
 	>
 		{#snippet before()}
@@ -493,7 +540,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 						/>
 						<IndexRow
 							code="D2"
-							thumbnail="/design/posts/doppio/doppio_5.avif"
+							thumbnail="/design/posts/wedding/logo.avif"
 							title="Wedding Invitation"
 							date="2023-01-01"
 							description="Typographic care for six years of love and commitment."
@@ -515,7 +562,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 						<IndexRow
 							reverse
 							code="D2"
-							thumbnail="/design/posts/doppio/doppio_5.avif"
+							thumbnail="/design/posts/wedding/logo.avif"
 							title="Wedding Invitation"
 							date="2023-01-01"
 							description="Typographic care for six years of love and commitment."
@@ -526,6 +573,19 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 			</div>
 		{/snippet}
 	</ReviewItem>
+
+	{#snippet whatThisIs()}
+		<p>
+			A Vietnamese graphic designer who <Mark>builds the things he designs</Mark>. Brand systems,
+			naming, story — then the site that carries them.
+		</p>
+	{/snippet}
+	{#snippet work()}
+		<div class="atlas-stack flex flex-col">
+			<IndexRow code="01" title="Design Director @FlexOS" date="2023 — now" />
+			<IndexRow code="02" title="Design Manager @FlexOS" date="2022 — 2023" />
+		</div>
+	{/snippet}
 
 	<ReviewItem
 		id="M4"
@@ -541,105 +601,217 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 			</div>
 		{/snippet}
 		{#snippet after()}
-			<ReadingPane
-				class="atlas-hair"
-				tabs={['What it does', "How it's built"]}
-				eyebrow="Quang Nguyen"
-				title="Design Engineer"
-				subtitle="how a brand gets designed, built and shipped"
-				sections={[
-					{ label: 'What this is', body: whatThisIs },
-					{ label: 'Work', body: work }
-				]}
-			/>
-			{#snippet whatThisIs()}
-				<p>
-					A Vietnamese graphic designer who <Mark>builds the things he designs</Mark>. Brand
-					systems, naming, story — then the site that carries them.
-				</p>
-			{/snippet}
-			{#snippet work()}
-				<div class="atlas-stack flex flex-col">
-					<IndexRow code="01" title="Design Director @FlexOS" date="2023 — now" />
-					<IndexRow code="02" title="Design Manager @FlexOS" date="2022 — 2023" />
-				</div>
-			{/snippet}
+			<div class="atlas-hair">
+				<ReadingPane
+					tabs={['What it does', "How it's built"]}
+					eyebrow="Quang Nguyen"
+					title="Design Engineer"
+					subtitle="how a brand gets designed, built and shipped"
+					sections={[
+						{ label: 'What this is', body: whatThisIs },
+						{ label: 'Work', body: work }
+					]}
+				/>
+			</div>
 		{/snippet}
 	</ReviewItem>
 
-	<!-- ============================ TEMPLATE ============================ -->
-	<h2 class="mt-8 text-sm tracking-widest uppercase">4 &middot; Template — full page shell</h2>
+	<h2 id="screens" class="mt-8 text-sm tracking-widest uppercase">
+		4 · Screens — live site vs atlas
+	</h2>
+
+	<p class="text-muted-foreground max-w-3xl text-xs">
+		Each card is a real route on the left and the same page composed in the four-zone shell on the
+		right. The shell owns the outer double hairline and the column rules; zones never draw a second
+		line on a shared edge.
+	</p>
 
 	<ReviewItem
 		id="P1"
 		group="pages"
-		title="Four-zone shell (status / index / canvas / reading / hints)"
-		why="Revised per note: the index mirrors the real routes (telescopic / microscopic / animation vocabulary / minesweeper nested under Engineer), body drops to 12px, every rule is 0.5px, and each zone contributes only one dividing line so no two rules ever run next to each other. Compare with the current centered max-w-7xl column."
+		title="Home — four-zone shell"
+		why="Status / index / canvas / reading / hints. Telescopic sits under Engineer. Body is 12px, prose 13px, every rule 0.5px, double frame for the page. Compare with the current centered max-w-7xl column."
 		stacked
 		{ink}
 	>
 		{#snippet before()}
-			<div class="border-foreground/25 flex flex-col border-[0.5px]">
-				<Navbar />
-				<div class="grid grid-cols-1 gap-6 p-3 text-sm md:grid-cols-3">
-					<div class="prose max-w-none"><Markdown md={homeMd} /></div>
-					<div class="prose max-w-none"><Markdown md={homeMd} /></div>
-					<div class="prose max-w-none"><Markdown md={homeMd} /></div>
-				</div>
-			</div>
+			<LiveFrame src="/" title="Current home" />
 		{/snippet}
 		{#snippet after()}
-			<div class="atlas-hair flex flex-col">
-				<StatusBar
-					title="quang.design · portfolio"
-					stats={[
-						{ label: 'Design', value: '8' },
-						{ label: 'Engineer', value: '4' },
-						{ label: 'Blog', value: '12' },
-						{ label: place, value: localTime }
-					]}
-					actions={['Ink theme']}
-				/>
-				<div class="grid grid-cols-1 md:grid-cols-[13rem_1fr_20rem]">
-					<IndexTree groups={treeGroups} class="atlas-hair border-y-0 border-l-0" />
-					<GridBackdrop class="flex min-h-64 items-end gap-4 p-4">
-						<Hatch class="h-24 w-32" />
-						<Hatch class="h-32 w-24" />
-						<Hatch class="h-16 w-40" />
-						<div class="atlas-hair-dashed h-12 w-24"></div>
-					</GridBackdrop>
-					<ReadingPane
-						class="atlas-hair border-y-0 border-r-0"
-						tabs={['What it does', "How it's built"]}
-						eyebrow="Quang Nguyen"
-						title="Design Engineer"
-						subtitle="brand systems, built end to end"
-						sections={[{ label: 'What this is', body: shellBody }]}
-					/>
-					{#snippet shellBody()}
-						<p>
-							Every page is one <Mark>index</Mark> plus one reading column. Hover anything for a plain
-							description; the tab gives the implementation.
-						</p>
-					{/snippet}
-				</div>
-				<Rule />
-				<HintBar
-					hints={[
-						{ glyph: '→', label: 'Go inside' },
-						{ glyph: '←', label: 'Come back out' },
-						{ glyph: '↓↑', label: 'Move' },
-						{ glyph: '·', label: 'Hover to read' }
-					]}
-				/>
-			</div>
+			<PreviewScreen
+				screen="home"
+				{localTime}
+				groups={treeGroups}
+				design={data.design}
+				blog={data.blog}
+				engineer={data.engineer}
+			/>
+		{/snippet}
+	</ReviewItem>
+
+	<ReviewItem
+		id="P2"
+		group="pages"
+		title="Design index"
+		why="The design grid of PostCards becomes IndexRows with thumbnails. Date matches title size; description is one step down."
+		stacked
+		{ink}
+	>
+		{#snippet before()}
+			<LiveFrame src="/design" title="Current design index" />
+		{/snippet}
+		{#snippet after()}
+			<PreviewScreen
+				screen="design"
+				{localTime}
+				groups={treeGroups}
+				design={data.design}
+				blog={data.blog}
+				engineer={data.engineer}
+			/>
+		{/snippet}
+	</ReviewItem>
+
+	<ReviewItem
+		id="P3"
+		group="pages"
+		title="Design project — Doppio Kaffè"
+		why="Gallery lives on the canvas as a flush image grid; the reading column holds title, story and meta. No extra frame around the images — the shell column is the only vertical rule."
+		stacked
+		{ink}
+	>
+		{#snippet before()}
+			<LiveFrame src="/design/doppio" title="Current Doppio project" />
+		{/snippet}
+		{#snippet after()}
+			<PreviewScreen
+				screen="project"
+				{localTime}
+				groups={treeGroups}
+				design={data.design}
+				blog={data.blog}
+				engineer={data.engineer}
+			/>
+		{/snippet}
+	</ReviewItem>
+
+	<ReviewItem
+		id="P4"
+		group="pages"
+		title="Engineer index"
+		why="Project cards become IndexRows. Nested tools stay in the tree under Engineer so the page structure matches the real routes."
+		stacked
+		{ink}
+	>
+		{#snippet before()}
+			<LiveFrame src="/engineer" title="Current engineer index" />
+		{/snippet}
+		{#snippet after()}
+			<PreviewScreen
+				screen="engineer"
+				{localTime}
+				groups={treeGroups}
+				design={data.design}
+				blog={data.blog}
+				engineer={data.engineer}
+			/>
+		{/snippet}
+	</ReviewItem>
+
+	<ReviewItem
+		id="P5"
+		group="pages"
+		title="Telescopic Text"
+		why="The tool sits on the canvas, under Engineer in the tree (E1). Instructions stay in the reading column so the sentence has room to grow."
+		stacked
+		{ink}
+	>
+		{#snippet before()}
+			<LiveFrame src="/engineer/telescopic" title="Current telescopic text" />
+		{/snippet}
+		{#snippet after()}
+			<PreviewScreen
+				screen="telescopic"
+				{localTime}
+				groups={treeGroups}
+				design={data.design}
+				blog={data.blog}
+				engineer={data.engineer}
+			/>
+		{/snippet}
+	</ReviewItem>
+
+	<ReviewItem
+		id="P6"
+		group="pages"
+		title="Blog index"
+		why="Post cards collapse to IndexRows with thumbnails. Same row language as Design, different code prefix."
+		stacked
+		{ink}
+	>
+		{#snippet before()}
+			<LiveFrame src="/blog" title="Current blog index" />
+		{/snippet}
+		{#snippet after()}
+			<PreviewScreen
+				screen="blog"
+				{localTime}
+				groups={treeGroups}
+				design={data.design}
+				blog={data.blog}
+				engineer={data.engineer}
+			/>
+		{/snippet}
+	</ReviewItem>
+
+	<ReviewItem
+		id="P7"
+		group="pages"
+		title="Blog post"
+		why="Thumbnail on the canvas, opening on the reading column. Date sits in the eyebrow at body size, not as a tiny caption."
+		stacked
+		{ink}
+	>
+		{#snippet before()}
+			<LiveFrame src="/blog/posts/this-design-look-sad" title="Current blog post" />
+		{/snippet}
+		{#snippet after()}
+			<PreviewScreen
+				screen="post"
+				{localTime}
+				groups={treeGroups}
+				design={data.design}
+				blog={data.blog}
+				engineer={data.engineer}
+			/>
+		{/snippet}
+	</ReviewItem>
+
+	<ReviewItem
+		id="P8"
+		group="pages"
+		title="Minesweeper"
+		why="The board is the canvas. Cells share 0.5px gaps (the gap is the rule, not a second border). Mines are hatch, numbers are labels, empty stays paper."
+		stacked
+		{ink}
+	>
+		{#snippet before()}
+			<LiveFrame src="/engineer/minesweeper" title="Current minesweeper" />
+		{/snippet}
+		{#snippet after()}
+			<PreviewScreen
+				screen="minesweeper"
+				{localTime}
+				groups={treeGroups}
+				design={data.design}
+				blog={data.blog}
+				engineer={data.engineer}
+			/>
 		{/snippet}
 	</ReviewItem>
 
 	<details class="border-foreground/25 mt-8 border-[0.5px] p-3 text-xs">
-		<summary class="cursor-pointer tracking-widest uppercase"
-			>Review summary (paste to Devin)</summary
-		>
+		<summary class="cursor-pointer tracking-widest uppercase">Review summary</summary>
 		<pre class="mt-3 whitespace-pre-wrap">{review.summary}</pre>
 	</details>
 </div>

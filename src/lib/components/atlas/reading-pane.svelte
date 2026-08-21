@@ -24,13 +24,13 @@
 
 <article class={cn('flex flex-col', className)}>
 	{#if tabs.length}
-		<div class="atlas-hair flex border-x-0 border-t-0">
+		<div class="atlas-rule-b flex">
 			{#each tabs as tab, i (tab)}
 				<Tab active={i === activeTab} onclick={() => (activeTab = i)}>{tab}</Tab>
 			{/each}
 		</div>
 	{/if}
-	<div class="flex flex-col gap-4 px-4 py-4">
+	<div class="flex flex-col gap-3 px-3 py-3">
 		{#if eyebrow}<MicroLabel>{eyebrow}</MicroLabel>{/if}
 		<h1 class="atlas-display">{title}</h1>
 		{#if subtitle}<p class="text-[var(--ink-60)]">{subtitle}</p>{/if}

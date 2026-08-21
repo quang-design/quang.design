@@ -5,4 +5,4 @@
 	let { children, class: className }: { children?: Snippet; class?: string } = $props();
 </script>
 
-<div class={cn('atlas-hatch atlas-hair', className)}>{@render children?.()}</div>
+<div class={cn('atlas-hatch', className)}>{@render children?.()}</div>
