@@ -50,7 +50,6 @@
 			hour12: false
 		}).format(now)
 	);
-	const place = 'Nha Trang, Vietnam';
 
 	const samplePost = {
 		slug: 'doppio-kaffe',
@@ -484,7 +483,7 @@ My name is Quang – a Vietnamese Graphic Designer skilled at crafting **impactf
 					stats={[
 						{ label: 'Location', value: 'Nha Trang' },
 						{ label: 'Country', value: 'Vietnam' },
-						{ label: place, value: localTime }
+						{ label: 'Local time', value: localTime }
 					]}
 					actions={['Ink theme']}
 				/>
