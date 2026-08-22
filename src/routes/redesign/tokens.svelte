@@ -9,9 +9,9 @@
 <h2 id="tokens" class="mt-4 scroll-mt-28 text-sm tracking-widest uppercase">1 · Design tokens</h2>
 <p class="text-muted-foreground max-w-3xl text-xs">
 	shadcn-svelte theming: CSS variables on a root, then semantic aliases so
-	<code>ui/</code> components restyle without class rewrites. Atomic design calls this sub-atomic.
-	Atlas scopes the same map to <code>.atlas</code> (paper/ink, OKLCH, Tailwind v4
-	<code>@theme inline</code>).
+	<code>ui/</code> components restyle without class rewrites. Atlas only retunes the keys Tailwind
+	already exposes (<code>--text-*</code>, <code>--spacing</code>,
+	<code>--radius</code>, <code>--background</code>…). No parallel px scale.
 </p>
 
 <ReviewItem
@@ -81,15 +81,17 @@
 <ReviewItem
 	id="T3"
 	group="tokens"
-	title="Type — hierarchy by case + tracking"
-	why="UI body 12px. Labels 10 / captions 11 / prose 13 / titles 20. One weight. Global heading sizes and leading-7 are reset inside .atlas."
+	title="Type — theme Tailwind --text-*, don't invent a scale"
+	why="The site already shrinks --text-sm / --text-base on :root. Atlas retunes those same keys on .atlas so text-xs…text-xl and shadcn Button/Input (text-sm) pick it up. No --fs-micro parallel scale."
 	{ink}
 >
 	{#snippet before()}
-		<div class="text-sm">
-			<h1 class="mt-0 mb-2 text-3xl font-semibold">The Evolution Harness</h1>
-			<h2 class="mt-4 mb-2 text-2xl font-semibold">What this is</h2>
-			<p class="leading-7">Body today is ~13.6px / leading-7.</p>
+		<div class="flex flex-col gap-2 text-sm">
+			<p class="text-xs">text-xs — --text-sm on :root is 0.8rem</p>
+			<p class="text-sm">text-sm</p>
+			<p class="text-base">text-base — 0.85rem</p>
+			<h1 class="mt-0 text-3xl font-semibold">text-3xl heading</h1>
+			<p class="leading-7">Body leading-7</p>
 		</div>
 	{/snippet}
 	{#snippet after()}
@@ -97,16 +99,16 @@
 			<div class="atlas-stack">
 				{#each typeScale as row (row.token)}
 					<div class="flex items-baseline gap-3 px-2 py-1.5">
-						<code class="atlas-label w-28 shrink-0">{row.token}</code>
+						<code class="atlas-label w-28 shrink-0">{row.utility}</code>
 						<span class="atlas-label w-8 shrink-0">{row.px}</span>
 						<span class="atlas-row-desc grow">{row.use}</span>
 					</div>
 				{/each}
 			</div>
-			<MicroLabel>Rivers of Empire</MicroLabel>
-			<h1 class="atlas-display">The Evolution Harness</h1>
-			<p>UI body is 12px / 1.45.</p>
-			<p class="atlas-read">Prose steps up to 13px / 1.55.</p>
+			<MicroLabel>text-xs — Rivers of Empire</MicroLabel>
+			<h1 class="text-xl font-bold tracking-tight">The Evolution Harness</h1>
+			<p class="text-base">text-base UI body.</p>
+			<p class="text-lg leading-relaxed">text-lg prose.</p>
 		</div>
 	{/snippet}
 </ReviewItem>
@@ -136,21 +138,22 @@
 <ReviewItem
 	id="T5"
 	group="tokens"
-	title="Spacing — 4px grid"
-	why="--step: 0.25rem. Current --spacing is 0.2rem (off-grid). Cards use p-6, prose leading-7."
+	title="Spacing — theme Tailwind --spacing"
+	why="Tailwind and shadcn already space with --spacing (p-2, gap-3, h-8). The site sets 0.2rem. Atlas sets 0.25rem — Tailwind's own default — so the 4px grid is theirs, not a parallel --step."
 	{ink}
 >
 	{#snippet before()}
-		<div class="border-foreground/25 border-[0.5px] p-6 text-sm">p-6, --spacing: 0.2rem</div>
+		<div class="border-foreground/25 flex flex-col gap-2 border-[0.5px] p-6 text-sm">
+			<p>--spacing: 0.2rem</p>
+			<p>p-6 is 1.2rem off a 4px grid</p>
+		</div>
 	{/snippet}
 	{#snippet after()}
-		<div class="atlas-stack">
-			{#each ['8', '12', '16'] as pad (pad)}
-				<div class="flex items-center gap-2 px-2 py-1.5">
-					<span class="atlas-label w-8">{pad}</span>
-					<span class="atlas-row grow">{pad}px padding</span>
-				</div>
-			{/each}
+		<div class="flex flex-col gap-2">
+			<div class="atlas-hair p-2">p-2</div>
+			<div class="atlas-hair p-3">p-3</div>
+			<div class="atlas-hair p-4">p-4</div>
+			<MicroLabel>--spacing: 0.25rem</MicroLabel>
 		</div>
 	{/snippet}
 </ReviewItem>
