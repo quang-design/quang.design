@@ -1,5 +1,9 @@
 <script lang="ts">
 	import ReviewItem from './review-item.svelte';
+	import { toast } from 'svelte-sonner';
+	import { toggleMode } from 'mode-watcher';
+	import SunIcon from '@lucide/svelte/icons/sun';
+	import MoonIcon from '@lucide/svelte/icons/moon';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Textarea } from '$lib/components/ui/textarea/index.js';
@@ -26,21 +30,19 @@
 	let { ink = false }: { ink?: boolean } = $props();
 </script>
 
-<h2 id="components" class="mt-8 text-sm tracking-widest uppercase">
-	2 · Components — atoms (shadcn ui + atlas)
-</h2>
+<h2 id="atoms" class="mt-8 scroll-mt-28 text-sm tracking-widest uppercase">3 · Atoms</h2>
 <p class="text-muted-foreground max-w-3xl text-xs">
-	Latest shadcn-svelte: Svelte 5 runes, <code>data-slot</code>, OKLCH, Tailwind v4
-	<code>@theme inline</code>, <code>tv()</code> variants. After panes render the real
-	<code>ui/</code> components inside <code>.atlas</code> so tokens do the restyle. Atlas-only atoms sit
-	beside them.
+	shadcn-svelte <code>ui/</code>: Svelte 5 runes, <code>data-slot</code>, OKLCH, Tailwind v4,
+	<code>tv()</code> variants. After panes render the real components inside <code>.atlas</code> so tokens
+	do the restyle. Atlas-only atoms sit beside them. Label/Field are not installed — MicroLabel covers
+	that slot.
 </p>
 
 <ReviewItem
-	id="C1"
-	group="components"
+	id="A1"
+	group="atoms"
 	title="Button"
-	why="ui/button — data-slot, tv variants, cursor default in latest shadcn. Atlas: hairline, uppercase, instant invert, cursor-pointer. Default maps to ink/paper via --primary."
+	why="ui/button — data-slot, tv variants, default cursor in latest shadcn. Atlas: hairline, uppercase, instant invert, cursor-pointer. Default maps to ink/paper via --primary."
 	{ink}
 >
 	{#snippet before()}
@@ -68,10 +70,10 @@
 </ReviewItem>
 
 <ReviewItem
-	id="C2"
-	group="components"
+	id="A2"
+	group="atoms"
 	title="Input + Textarea"
-	why="Subscribe and forms. Latest: h-8, rounded-lg, ring-3. Atlas: 0.5px hair, no radius, hairline focus outline. Same components, token restyle."
+	why="Subscribe and forms. Latest: h-8 / min-h-16, rounded-lg, ring-3, field-sizing-content. Atlas: 0.5px hair, no radius, hairline focus outline. Same components, token restyle."
 	{ink}
 >
 	{#snippet before()}
@@ -91,8 +93,8 @@
 </ReviewItem>
 
 <ReviewItem
-	id="C3"
-	group="components"
+	id="A3"
+	group="atoms"
 	title="Badge + Kbd"
 	why="Blog post llms.txt / post.md badges. Kbd is the closest shadcn analog to HintKey. Atlas drops the pill radius; kbd becomes a tracked label."
 	{ink}
@@ -115,8 +117,8 @@
 </ReviewItem>
 
 <ReviewItem
-	id="C4"
-	group="components"
+	id="A4"
+	group="atoms"
 	title="Avatar + Separator + Spinner"
 	why="Navbar avatar (round, scale on hover). Separator is 1px bg-border. Spinner spins. Atlas: square hair, 0.5px rule, spinner static."
 	{ink}
@@ -148,10 +150,10 @@
 </ReviewItem>
 
 <ReviewItem
-	id="C5"
-	group="components"
+	id="A5"
+	group="atoms"
 	title="Select"
-	why="Mobile navbar. Latest select-trigger: rounded-lg, ring-3, chevron. Atlas restyles the trigger; desktop nav is IndexTree, not a select."
+	why="Mobile navbar. Latest select-trigger: rounded-lg, ring-3, chevron, portal to body. Atlas restyles the trigger; preview disables the portal so tokens reach the menu. Desktop nav is IndexTree."
 	{ink}
 >
 	{#snippet before()}
@@ -174,7 +176,7 @@
 				<Select.Trigger>
 					{navLinks[0].label}
 				</Select.Trigger>
-				<Select.Content>
+				<Select.Content portalProps={{ disabled: true }}>
 					<Select.Group>
 						{#each navLinks as item (item.href)}
 							<Select.Item value={item.href} label={item.label}>{item.label}</Select.Item>
@@ -188,10 +190,10 @@
 </ReviewItem>
 
 <ReviewItem
-	id="C6"
-	group="components"
+	id="A6"
+	group="atoms"
 	title="Label, Mark, Tab, KeySlot, Count"
-	why="Atlas atoms with no shadcn twin. Mark is inversion (not hue). Tabs invert when active. KeySlot + Count address every index row."
+	why="Atlas atoms with no shadcn twin (Label/Field not installed). Mark is inversion, not hue. Tabs invert when active. KeySlot + Count address every index row."
 	{ink}
 >
 	{#snippet before()}
@@ -203,7 +205,7 @@
 	{/snippet}
 	{#snippet after()}
 		<div class="flex flex-col gap-3">
-			<div class="flex items-stretch gap-3">
+			<div class="flex flex-wrap items-stretch gap-3">
 				<StatCell label="Location" value="Nha Trang" />
 				<Rule orientation="vertical" />
 				<StatCell label="Country" value="Vietnam" />
@@ -213,7 +215,7 @@
 				<Tab active>What it does</Tab>
 				<Tab>How it's built</Tab>
 			</div>
-			<div class="atlas-stack flex flex-col">
+			<div class="atlas-stack">
 				<div class="flex items-center gap-2 px-2 py-1.5">
 					<KeySlot code="D" />
 					<span class="atlas-row grow">Design</span>
@@ -226,5 +228,48 @@
 				</div>
 			</div>
 		</div>
+	{/snippet}
+</ReviewItem>
+
+<ReviewItem
+	id="A7"
+	group="atoms"
+	title="Sonner toast"
+	why="ui/sonner uses lucide status icons and a spinning loader. Atlas: inverted Mark, no hue, no spin. Lives in +layout.svelte — restyle via tokens when Atlas ships."
+	{ink}
+>
+	{#snippet before()}
+		<Button variant="outline" size="sm" onclick={() => toast.success('Subscribed.')}>
+			Show toast
+		</Button>
+	{/snippet}
+	{#snippet after()}
+		<div class="atlas-mark w-fit px-3 py-2">
+			<MicroLabel class="text-[var(--paper)]">Notice</MicroLabel>
+			<p>Subscribed.</p>
+		</div>
+	{/snippet}
+</ReviewItem>
+
+<ReviewItem
+	id="A8"
+	group="atoms"
+	title="Theme toggle"
+	why="Navbar icon button tweens sun/moon. Atlas paper/ink is a single invert — Action, no rotate, no scale."
+	{ink}
+>
+	{#snippet before()}
+		<Button variant="outline" size="icon" onclick={toggleMode} class="cursor-pointer">
+			<SunIcon
+				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"
+			/>
+			<MoonIcon
+				class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all! dark:scale-100 dark:rotate-0"
+			/>
+			<span class="sr-only">Toggle theme</span>
+		</Button>
+	{/snippet}
+	{#snippet after()}
+		<Action>Ink theme</Action>
 	{/snippet}
 </ReviewItem>

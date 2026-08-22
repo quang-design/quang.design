@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+	import type { PathnameWithSearchOrHash } from '$app/types';
 	import { cn } from '$lib/utils';
 	import { KeySlot, Hatch } from '$lib/components/primitives';
 
@@ -23,15 +25,14 @@
 		href?: string;
 		class?: string;
 	} = $props();
+
+	const rowClass = $derived(
+		cn('atlas-invert flex flex-col gap-1 px-3 py-2 sm:flex-row sm:items-center sm:gap-3', className)
+	);
+	const route = $derived(href.startsWith('/') ? (href as PathnameWithSearchOrHash) : null);
 </script>
 
-<a
-	{href}
-	class={cn(
-		'atlas-invert flex flex-col gap-1 px-3 py-2 sm:flex-row sm:items-center sm:gap-3',
-		className
-	)}
->
+{#snippet body()}
 	<KeySlot {code} />
 	{#if thumbnail}
 		<img src={thumbnail} alt="" width="40" height="40" class="atlas-hair size-10 object-cover" />
@@ -48,4 +49,10 @@
 		{/if}
 	</span>
 	{#if date}<span class="atlas-row-meta shrink-0 sm:ml-auto">{date}</span>{/if}
-</a>
+{/snippet}
+
+{#if route}
+	<a href={resolve(route as '/')} class={rowClass}>{@render body()}</a>
+{:else}
+	<div class={rowClass}>{@render body()}</div>
+{/if}

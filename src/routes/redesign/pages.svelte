@@ -32,11 +32,11 @@
 	});
 </script>
 
-<h2 id="templates" class="mt-8 text-sm tracking-widest uppercase">4 · Templates — layout</h2>
+<h2 id="templates" class="mt-8 scroll-mt-28 text-sm tracking-widest uppercase">6 · Templates</h2>
 <p class="text-muted-foreground max-w-3xl text-xs">
-	Responsive four-zone shell: stacked on small screens, index + canvas at 768px, full three columns
-	at 1024px. Status bar scrolls horizontally. Zones share 0.5px rules; the page frame is a double
-	hairline.
+	shadcn examples / atomic templates. Responsive four-zone shell: stacked on small screens, index +
+	canvas at 768px, full three columns at 1024px. Status bar scrolls horizontally. Zones share 0.5px
+	rules; the page frame is a double hairline.
 </p>
 
 <ReviewItem
@@ -55,7 +55,9 @@
 	{/snippet}
 </ReviewItem>
 
-<h2 id="pages" class="mt-8 text-sm tracking-widest uppercase">5 · Pages — every route</h2>
+<h2 id="pages" class="mt-8 scroll-mt-28 text-sm tracking-widest uppercase">
+	7 · Pages — every route
+</h2>
 <p class="text-muted-foreground max-w-3xl text-xs">
 	Live iframe of the current route on the left. Atlas composition on the right. Anh Nhi stays
 	full-bleed and out of Atlas.

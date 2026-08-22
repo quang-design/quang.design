@@ -1,12 +1,15 @@
 <script lang="ts">
 	import '$lib/styles/atlas.css';
+	import { resolve } from '$app/paths';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { review } from './review.svelte';
-	import Foundation from './foundation.svelte';
-	import Components from './components.svelte';
-	import Blocks from './blocks.svelte';
+	import Tokens from './tokens.svelte';
+	import Subatomic from './subatomic.svelte';
+	import Atoms from './atoms.svelte';
+	import Molecules from './molecules.svelte';
+	import Organisms from './organisms.svelte';
 	import Pages from './pages.svelte';
-	import { inventory } from './catalog';
+	import { catalogNav, inventory } from './catalog';
 	import type { EngineerProject } from '$lib/content/engineer';
 	import type { PostMetadata } from '$lib/content/loader';
 
@@ -68,28 +71,27 @@
 
 <div class="flex w-full flex-col gap-6 pb-16">
 	<header
-		class="border-foreground/25 bg-background sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b-[0.5px] py-3"
+		class="border-foreground/25 bg-background sticky top-0 z-10 flex flex-col gap-3 border-b-[0.5px] py-3 md:flex-row md:flex-wrap md:items-center"
 	>
-		<h1 class="text-lg">Atlas redesign review</h1>
-		<p class="text-muted-foreground text-xs">
-			{review.count('approved')} approved / {review.count('revise')} revise / {review.count(
-				'pending'
-			)} pending
-		</p>
+		<div class="flex min-w-0 flex-wrap items-baseline gap-3">
+			<h1 class="text-lg">Atlas redesign review</h1>
+			<p class="text-muted-foreground text-xs">
+				{review.count('approved')} approved / {review.count('revise')} revise / {review.count(
+					'pending'
+				)} pending
+			</p>
+		</div>
 		<nav
-			class="text-muted-foreground flex flex-wrap items-center gap-2 text-xs tracking-widest uppercase"
+			class="-mx-4 flex items-center gap-2 overflow-x-auto px-4 text-xs tracking-widest uppercase md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
 		>
-			<a href="#foundation">Foundation</a>
-			<span>/</span>
-			<a href="#components">Components</a>
-			<span>/</span>
-			<a href="#blocks">Blocks</a>
-			<span>/</span>
-			<a href="#templates">Templates</a>
-			<span>/</span>
-			<a href="#pages">Pages</a>
+			{#each catalogNav as item, i (item.href)}
+				{#if i > 0}<span class="text-muted-foreground">/</span>{/if}
+				<a href="{resolve('/redesign')}{item.href}" class="shrink-0">
+					{item.label}
+				</a>
+			{/each}
 		</nav>
-		<div class="ml-auto flex items-center gap-2">
+		<div class="flex flex-wrap items-center gap-2 md:ml-auto">
 			<Button variant="outline" size="sm" class="cursor-pointer" onclick={() => (ink = !ink)}>
 				{ink ? 'Paper theme' : 'Ink theme'}
 			</Button>
@@ -103,16 +105,17 @@
 	</header>
 
 	<p class="text-muted-foreground max-w-3xl text-xs">
-		Catalog follows shadcn-svelte: tokens first, then <code>ui/</code> components (data-slot, OKLCH,
-		Tailwind v4), then blocks, templates, pages. After panes are scoped to
-		<code>.atlas</code>. Resize for the responsive shell (stack → two column → three column).
+		Catalog follows atomic design, mapped to shadcn-svelte: tokens (theme CSS variables) →
+		sub-atomic rules → <code>ui/</code> atoms → molecules (blocks) → organisms → templates → pages.
+		After panes are scoped to <code>.atlas</code>. Resize for the responsive shell (stack → two
+		column → three column).
 	</p>
 
 	<section id="inventory" class="border-foreground/25 overflow-x-auto border-[0.5px]">
 		<header class="border-foreground/25 border-b-[0.5px] px-3 py-2">
 			<h2 class="text-sm tracking-widest uppercase">What has to change</h2>
 		</header>
-		<table class="w-full text-left text-xs">
+		<table class="w-full min-w-[36rem] text-left text-xs">
 			<thead>
 				<tr class="text-muted-foreground tracking-widest uppercase">
 					<th class="px-3 py-1.5 font-normal">Layer</th>
@@ -132,9 +135,11 @@
 		</table>
 	</section>
 
-	<Foundation {ink} />
-	<Components {ink} />
-	<Blocks {ink} {localTime} {treeGroups} />
+	<Tokens {ink} />
+	<Subatomic {ink} />
+	<Atoms {ink} />
+	<Molecules {ink} />
+	<Organisms {ink} {localTime} {treeGroups} />
 	<Pages
 		{ink}
 		{localTime}

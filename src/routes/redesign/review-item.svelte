@@ -34,9 +34,10 @@
 		<div class="flex items-center gap-2">
 			<button
 				type="button"
-				class="border-foreground/25 cursor-pointer border-[0.5px] px-2 py-1 text-xs uppercase"
-				class:bg-foreground={entry.verdict === 'approved'}
-				class:text-background={entry.verdict === 'approved'}
+				class={[
+					'border-foreground/25 cursor-pointer border-[0.5px] px-2 py-1 text-xs uppercase',
+					entry.verdict === 'approved' && 'bg-foreground text-background'
+				]}
 				onclick={() =>
 					review.set(id, { verdict: entry.verdict === 'approved' ? 'pending' : 'approved' })}
 			>
@@ -44,9 +45,10 @@
 			</button>
 			<button
 				type="button"
-				class="border-foreground/25 cursor-pointer border-[0.5px] px-2 py-1 text-xs uppercase"
-				class:bg-foreground={entry.verdict === 'revise'}
-				class:text-background={entry.verdict === 'revise'}
+				class={[
+					'border-foreground/25 cursor-pointer border-[0.5px] px-2 py-1 text-xs uppercase',
+					entry.verdict === 'revise' && 'bg-foreground text-background'
+				]}
 				onclick={() =>
 					review.set(id, { verdict: entry.verdict === 'revise' ? 'pending' : 'revise' })}
 			>
@@ -72,7 +74,7 @@
 			<span class="text-muted-foreground px-3 pt-3 text-xs tracking-widest uppercase">
 				After &mdash; atlas
 			</span>
-			<div class="atlas p-3" class:atlas-ink={ink}>{@render after()}</div>
+			<div class={['atlas p-3', ink && 'atlas-ink']}>{@render after()}</div>
 		</div>
 	</div>
 
