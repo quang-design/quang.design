@@ -5,4 +5,4 @@
 	let { children, class: className }: { children: Snippet; class?: string } = $props();
 </script>
 
-<span class={cn('atlas-label block', className)}>{@render children()}</span>
+<span class={cn('atlas-label block', className)} data-slot="label">{@render children()}</span>

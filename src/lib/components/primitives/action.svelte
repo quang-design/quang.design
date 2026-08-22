@@ -13,7 +13,11 @@
 <button
 	type="button"
 	{onclick}
-	class={cn('atlas-hair atlas-row atlas-invert flex items-center gap-2 px-3 py-1.5', className)}
+	data-slot="button"
+	class={cn(
+		'atlas-hair atlas-row atlas-invert flex cursor-pointer items-center gap-2 px-3 py-1.5',
+		className
+	)}
 >
 	<span aria-hidden="true">{glyph}</span>
 	{@render children()}

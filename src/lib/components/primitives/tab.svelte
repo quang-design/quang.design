@@ -13,9 +13,10 @@
 <button
 	type="button"
 	{onclick}
+	data-slot="tab"
 	aria-pressed={active}
 	class={cn(
-		'atlas-row grow px-3 py-2 text-center',
+		'atlas-row grow cursor-pointer px-3 py-2 text-center',
 		active ? 'bg-[var(--ink)] text-[var(--paper)]' : 'atlas-invert',
 		className
 	)}

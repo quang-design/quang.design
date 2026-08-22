@@ -34,6 +34,8 @@
 	--hair: 0.5px;
 	--hair-gap: 2px;
 
+	--radius: 0;
+
 	background-color: var(--paper);
 	color: var(--ink);
 	font-family: 'CommitMono', monospace;
@@ -46,13 +48,28 @@
 	--foreground: var(--ink);
 	--card: var(--paper);
 	--card-foreground: var(--ink);
-	--muted: var(--ink-10);
-	--muted-foreground: var(--ink-60);
+	--popover: var(--paper);
+	--popover-foreground: var(--ink);
 	--primary: var(--ink);
 	--primary-foreground: var(--paper);
+	--secondary: var(--ink-10);
+	--secondary-foreground: var(--ink);
+	--muted: var(--ink-10);
+	--muted-foreground: var(--ink-60);
+	--accent: var(--ink);
+	--accent-foreground: var(--paper);
+	--destructive: var(--ink);
 	--border: var(--ink-25);
 	--input: var(--ink-25);
 	--ring: var(--ink-40);
+	--sidebar: var(--paper);
+	--sidebar-foreground: var(--ink);
+	--sidebar-primary: var(--ink);
+	--sidebar-primary-foreground: var(--paper);
+	--sidebar-accent: var(--ink-10);
+	--sidebar-accent-foreground: var(--ink);
+	--sidebar-border: var(--ink-25);
+	--sidebar-ring: var(--ink-40);
 }
 
 .atlas-ink {
@@ -226,6 +243,32 @@
 	border-bottom: var(--hair) solid var(--ink-25);
 }
 
+.atlas [data-slot='button'],
+.atlas [data-slot='input'],
+.atlas [data-slot='textarea'],
+.atlas [data-slot='badge'],
+.atlas [data-slot='kbd'],
+.atlas [data-slot='select-trigger'],
+.atlas [data-slot='avatar'] {
+	border-radius: 0;
+	box-shadow: none;
+	transition: none;
+}
+
+.atlas [data-slot='button']:focus-visible,
+.atlas [data-slot='input']:focus-visible,
+.atlas [data-slot='textarea']:focus-visible,
+.atlas [data-slot='select-trigger']:focus-visible {
+	outline: var(--hair) solid var(--ink);
+	outline-offset: calc(var(--hair-gap));
+	box-shadow: none;
+}
+
+.atlas [data-slot='spinner'] {
+	animation: none;
+	color: var(--ink);
+}
+
 .atlas-shell {
 	border: var(--hair) solid var(--ink-40);
 	padding: var(--hair-gap);
@@ -237,36 +280,79 @@
 
 .atlas-shell-head {
 	border-bottom: var(--hair) solid var(--ink-25);
+	overflow-x: auto;
 }
 
 .atlas-shell-body {
 	display: grid;
-	grid-template-columns: 12.5rem minmax(0, 1fr) 17.5rem;
 	flex: 1;
 	min-height: 0;
+	grid-template-columns: 1fr;
+	grid-template-areas:
+		'index'
+		'canvas'
+		'reading';
 }
 
-.atlas-shell-body > * + * {
-	border-left: var(--hair) solid var(--ink-25);
+.atlas-shell-index {
+	grid-area: index;
+	max-height: 14rem;
+	overflow: auto;
+}
+
+.atlas-shell-canvas {
+	grid-area: canvas;
+	min-width: 0;
+	min-height: 12rem;
+	border-top: var(--hair) solid var(--ink-25);
+}
+
+.atlas-shell-reading {
+	grid-area: reading;
+	min-width: 0;
+	min-height: 12rem;
+	border-top: var(--hair) solid var(--ink-25);
 }
 
 .atlas-shell-foot {
 	border-top: var(--hair) solid var(--ink-25);
 }
 
-.atlas-shell-canvas,
-.atlas-shell-reading {
-	min-width: 0;
-	min-height: 16rem;
-}
-
-@media (max-width: 767px) {
+@media (min-width: 768px) {
 	.atlas-shell-body {
-		grid-template-columns: 1fr;
+		grid-template-columns: 12.5rem minmax(0, 1fr);
+		grid-template-areas:
+			'index canvas'
+			'reading reading';
 	}
 
-	.atlas-shell-body > * + * {
-		border-left: 0;
+	.atlas-shell-index {
+		max-height: none;
+		border-right: var(--hair) solid var(--ink-25);
+	}
+
+	.atlas-shell-canvas {
+		border-top: 0;
+	}
+
+	.atlas-shell-reading {
 		border-top: var(--hair) solid var(--ink-25);
+	}
+}
+
+@media (min-width: 1024px) {
+	.atlas-shell-body {
+		grid-template-columns: 12.5rem minmax(0, 1fr) 17.5rem;
+		grid-template-areas: 'index canvas reading';
+	}
+
+	.atlas-shell-reading {
+		border-top: 0;
+		border-left: var(--hair) solid var(--ink-25);
+		min-height: 16rem;
+	}
+
+	.atlas-shell-canvas {
+		min-height: 16rem;
 	}
 }

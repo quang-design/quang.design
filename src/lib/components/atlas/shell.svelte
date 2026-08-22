@@ -40,7 +40,9 @@
 		<StatusBar {title} {stats} {actions} />
 	</div>
 	<div class="atlas-shell-body">
-		<IndexTree {groups} {active} />
+		<div class="atlas-shell-index">
+			<IndexTree {groups} {active} />
+		</div>
 		<div class="atlas-shell-canvas">{@render canvas()}</div>
 		<div class="atlas-shell-reading">{@render reading()}</div>
 	</div>

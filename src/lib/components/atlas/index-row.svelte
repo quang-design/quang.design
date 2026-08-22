@@ -25,7 +25,13 @@
 	} = $props();
 </script>
 
-<a {href} class={cn('atlas-invert flex items-center gap-3 px-3 py-2', className)}>
+<a
+	{href}
+	class={cn(
+		'atlas-invert flex flex-col gap-1 px-3 py-2 sm:flex-row sm:items-center sm:gap-3',
+		className
+	)}
+>
 	<KeySlot {code} />
 	{#if thumbnail}
 		<img src={thumbnail} alt="" width="40" height="40" class="atlas-hair size-10 object-cover" />
@@ -41,5 +47,5 @@
 			{#if description}<span class="atlas-row-desc line-clamp-2">{description}</span>{/if}
 		{/if}
 	</span>
-	{#if date}<span class="atlas-row-meta shrink-0">{date}</span>{/if}
+	{#if date}<span class="atlas-row-meta shrink-0 sm:ml-auto">{date}</span>{/if}
 </a>

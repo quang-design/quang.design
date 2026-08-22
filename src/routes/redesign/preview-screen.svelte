@@ -19,9 +19,12 @@
 			| 'project'
 			| 'engineer'
 			| 'telescopic'
+			| 'microscopic'
+			| 'animation'
 			| 'blog'
 			| 'post'
-			| 'minesweeper';
+			| 'minesweeper'
+			| 'styles';
 		localTime: string;
 		groups: TreeGroup[];
 		design: PostMetadata[];
@@ -37,9 +40,12 @@
 				project: 'D',
 				engineer: 'E',
 				telescopic: 'E1',
+				microscopic: 'E2',
+				animation: 'E3',
 				blog: 'B',
 				post: 'B',
-				minesweeper: 'E4'
+				minesweeper: 'E4',
+				styles: 'S'
 			} as const
 		)[screen]
 	);
@@ -58,7 +64,6 @@
 	};
 
 	const designRows = $derived(design.slice(0, 6));
-	const blogRows = $derived(blog);
 	const selectedDesign = $derived(design[0]);
 	const latestPost = $derived(blog[0]);
 	const selectedPost = $derived(
@@ -137,6 +142,18 @@
 		radius, no shadow.
 	</p>
 {/snippet}
+{#snippet microHow()}
+	<p>Select a span on the canvas. Zip collapses it in place. The reading column does not move.</p>
+{/snippet}
+{#snippet animHow()}
+	<p>
+		Replay is inversion, not tween. Click a term — it inverts. Motion elsewhere on the site is
+		removed.
+	</p>
+{/snippet}
+{#snippet stylesHow()}
+	<p>Headings are labels. Body is 13px. Code sits in a hairline box with no Shiki background.</p>
+{/snippet}
 
 <Shell title="quang.design" {stats} actions={['Ink theme']} {groups} {active}>
 	{#snippet canvas()}
@@ -198,7 +215,7 @@
 			</div>
 		{:else if screen === 'blog'}
 			<div class="atlas-stack atlas-stack-flush flex flex-col">
-				{#each blogRows as post, i (post.slug)}
+				{#each blog as post, i (post.slug)}
 					<IndexRow
 						code="B{i + 1}"
 						thumbnail={post.thumbnail}
@@ -220,6 +237,35 @@
 					/>
 				{/if}
 			</GridBackdrop>
+		{:else if screen === 'microscopic'}
+			<div class="flex h-full flex-col justify-center gap-4 p-4">
+				<MicroLabel>Canvas · select, then zip</MicroLabel>
+				<p class="atlas-read">
+					Yawning, I walked into the kitchen and filled the kettle. I glanced at the city mist. I
+					could almost taste the grey.
+				</p>
+				<Action>Zip selection</Action>
+			</div>
+		{:else if screen === 'animation'}
+			<div class="atlas-stack atlas-stack-flush grid grid-cols-2">
+				{#each ['Fade', 'Scale', 'Slide', 'Stagger'] as term (term)}
+					<button type="button" class="atlas-invert flex flex-col gap-1 p-3 text-left">
+						<Hatch class="atlas-hair h-12 w-full" />
+						<span class="atlas-row-title">{term}</span>
+					</button>
+				{/each}
+			</div>
+		{:else if screen === 'styles'}
+			<div class="flex h-full flex-col gap-3 p-4">
+				<h1 class="atlas-display">Markdown specimen</h1>
+				<p class="atlas-read">
+					Normal paragraph with <Mark>inverted emphasis</Mark> and
+					<span class="underline decoration-[var(--ink-40)] underline-offset-4">a link</span>.
+				</p>
+				<div class="atlas-hair p-3">
+					<code class="atlas-label">{'function greet() {}'}</code>
+				</div>
+			</div>
 		{:else}
 			<div class="flex h-full flex-col justify-center gap-3 p-4">
 				<MicroLabel>Minesweeper · 8 × 8</MicroLabel>
@@ -285,6 +331,27 @@
 				title="Telescopic Text"
 				subtitle="Click a word. It grows."
 				sections={[{ label: 'How to read it', body: teleHow }]}
+			/>
+		{:else if screen === 'microscopic'}
+			<ReadingPane
+				eyebrow="Engineer · E2"
+				title="Microscopic Text"
+				subtitle="Select a span. It zips."
+				sections={[{ label: 'How to read it', body: microHow }]}
+			/>
+		{:else if screen === 'animation'}
+			<ReadingPane
+				eyebrow="Engineer · E3"
+				title="Animation Vocabulary"
+				subtitle="Replay is inversion, not tween."
+				sections={[{ label: 'Rules', body: animHow }]}
+			/>
+		{:else if screen === 'styles'}
+			<ReadingPane
+				eyebrow="Reference · S"
+				title="Styles"
+				subtitle="The markdown specimen for Atlas."
+				sections={[{ label: 'How to read it', body: stylesHow }]}
 			/>
 		{:else if screen === 'blog'}
 			<ReadingPane
