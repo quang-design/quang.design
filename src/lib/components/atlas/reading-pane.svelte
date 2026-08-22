@@ -33,7 +33,7 @@
 	<div class="flex flex-col gap-3 px-3 py-3">
 		{#if eyebrow}<MicroLabel>{eyebrow}</MicroLabel>{/if}
 		<h1 class="atlas-display">{title}</h1>
-		{#if subtitle}<p class="text-[var(--ink-60)]">{subtitle}</p>{/if}
+		{#if subtitle}<p class="text-muted-foreground">{subtitle}</p>{/if}
 		{#each sections as section (section.label)}
 			<section class="flex flex-col gap-2">
 				<MicroLabel>{section.label}</MicroLabel>

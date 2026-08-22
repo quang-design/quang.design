@@ -9,11 +9,11 @@ export const catalogNav = [
 ];
 
 export const typeScale = [
-	{ token: '--fs-micro', px: '10', use: 'labels, counts, hint glyphs' },
-	{ token: '--fs-row', px: '11', use: 'captions, descriptions' },
-	{ token: '--fs-body', px: '12', use: 'UI body, row titles, dates' },
-	{ token: '--fs-read', px: '13', use: 'long-form prose only' },
-	{ token: '--fs-display', px: '20', use: 'page titles' }
+	{ token: '--text-xs', utility: 'text-xs', px: '10', use: 'labels, counts, descriptions' },
+	{ token: '--text-sm', utility: 'text-sm', px: '12', use: 'shadcn chrome — Button, Input, Badge' },
+	{ token: '--text-base', utility: 'text-base', px: '12', use: 'UI body, row titles, dates' },
+	{ token: '--text-lg', utility: 'text-lg', px: '13', use: 'long-form prose' },
+	{ token: '--text-xl', utility: 'text-xl', px: '20', use: 'page titles' }
 ];
 
 export const semanticTokens = [
@@ -60,7 +60,7 @@ export const inventory = [
 	{
 		layer: 'Tokens',
 		current: 'blue-500 links + 0.3s underline; p leading-7; --spacing 0.2rem',
-		atlas: 'inherit + inversion; 12/13 type; --step 4px'
+		atlas: 'inherit + inversion; retheme --text-* and --spacing (no parallel --fs scale)'
 	},
 	{
 		layer: 'Tokens',
@@ -120,7 +120,7 @@ export const inventory = [
 	{
 		layer: 'Molecules',
 		current: 'shared/post-card (scale thumbnail, p-6, text-2xl)',
-		atlas: 'IndexRow — thumb, date = title, desc 11px'
+		atlas: 'IndexRow — thumb, date = title (text-base), desc text-xs'
 	},
 	{
 		layer: 'Molecules',
@@ -150,7 +150,7 @@ export const inventory = [
 	{
 		layer: 'Organisms',
 		current: 'markdown/renderer + design-renderer (semibold h, blue a, amber quote)',
-		atlas: 'ReadingPane — labels, Mark, 13px prose'
+		atlas: 'ReadingPane — labels, Mark, text-lg prose'
 	},
 	{
 		layer: 'Templates',

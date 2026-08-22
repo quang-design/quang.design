@@ -107,8 +107,9 @@
 	<p class="text-muted-foreground max-w-3xl text-xs">
 		Catalog follows atomic design, mapped to shadcn-svelte: tokens (theme CSS variables) →
 		sub-atomic rules → <code>ui/</code> atoms → molecules (blocks) → organisms → templates → pages.
-		After panes are scoped to <code>.atlas</code>. Resize for the responsive shell (stack → two
-		column → three column).
+		Type and space retune Tailwind <code>--text-*</code> and <code>--spacing</code> so utilities and
+		<code>ui/</code> inherit. After panes are scoped to <code>.atlas</code>. Resize for the
+		responsive shell (stack → two column → three column).
 	</p>
 
 	<section id="inventory" class="border-foreground/25 overflow-x-auto border-[0.5px]">

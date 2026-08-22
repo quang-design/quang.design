@@ -14,34 +14,46 @@
 	--ink-25: color-mix(in oklab, var(--ink) 25%, var(--paper));
 	--ink-10: color-mix(in oklab, var(--ink) 10%, var(--paper));
 
-	/*
-	 * Modular 1.2 scale, rounded to whole pixels.
-	 * UI chrome stays dense (10–12); long-form reading is the only step up.
-	 * Global `p { leading-7 }` and heading sizes are reset below so they cannot leak.
-	 */
-	--fs-micro: 0.625rem; /* 10px — labels, counts */
-	--fs-row: 0.6875rem; /* 11px — descriptions, captions */
-	--fs-body: 0.75rem; /* 12px — UI body */
-	--fs-read: 0.8125rem; /* 13px — prose only */
-	--fs-display: 1.25rem; /* 20px — page titles */
+	--spacing: 0.25rem;
 
-	--tracking-label: 0.08em;
-	--lh-tight: 1.15;
-	--lh-body: 1.45;
-	--lh-read: 1.55;
+	--text-xs: 0.625rem;
+	--text-xs--line-height: 1.15;
+	--text-sm: 0.75rem;
+	--text-sm--line-height: 1.25;
+	--text-base: 0.75rem;
+	--text-base--line-height: 1.45;
+	--text-lg: 0.8125rem;
+	--text-lg--line-height: 1.55;
+	--text-xl: 1.25rem;
+	--text-xl--line-height: 1.2;
+	--text-2xl: 1.25rem;
+	--text-3xl: 1.25rem;
+	--text-4xl: 1.25rem;
+	--text-5xl: 1.25rem;
+	--text-6xl: 1.25rem;
+	--text-7xl: 1.25rem;
+	--text-8xl: 1.25rem;
 
-	--step: 0.25rem;
+	--leading-tight: 1.15;
+	--leading-snug: 1.45;
+	--leading-normal: 1.45;
+	--leading-relaxed: 1.55;
+
+	--tracking-widest: 0.08em;
+
+	--font-weight-medium: 400;
+	--font-weight-semibold: 400;
+
 	--hair: 0.5px;
-	--hair-gap: 2px;
 
 	--radius: 0;
 
 	background-color: var(--paper);
 	color: var(--ink);
-	font-family: 'CommitMono', monospace;
-	font-size: var(--fs-body);
-	font-weight: 400;
-	line-height: var(--lh-body);
+	font-family: var(--font-mono);
+	font-size: var(--text-base);
+	font-weight: var(--font-weight-normal, 400);
+	line-height: var(--leading-normal);
 	font-variant-numeric: tabular-nums;
 
 	--background: var(--paper);
@@ -101,7 +113,7 @@
 .atlas li,
 .atlas blockquote {
 	font-size: inherit;
-	line-height: var(--lh-body);
+	line-height: var(--leading-normal);
 	margin: 0;
 }
 
@@ -112,63 +124,63 @@
 .atlas h5,
 .atlas h6 {
 	font-size: inherit;
-	font-weight: 400;
-	line-height: var(--lh-tight);
+	font-weight: var(--font-weight-normal, 400);
+	line-height: var(--leading-tight);
 	margin: 0;
-	letter-spacing: var(--tracking-label);
+	letter-spacing: var(--tracking-widest);
 	text-transform: uppercase;
 }
 
 .atlas-label {
-	font-size: var(--fs-micro);
-	line-height: var(--lh-tight);
-	letter-spacing: var(--tracking-label);
+	font-size: var(--text-xs);
+	line-height: var(--leading-tight);
+	letter-spacing: var(--tracking-widest);
 	text-transform: uppercase;
-	color: var(--ink-60);
+	color: var(--muted-foreground);
 }
 
 .atlas-display {
-	font-size: var(--fs-display);
-	line-height: 1.2;
-	font-weight: 700;
-	letter-spacing: -0.01em;
+	font-size: var(--text-xl);
+	line-height: var(--text-xl--line-height);
+	font-weight: var(--font-weight-bold, 700);
+	letter-spacing: var(--tracking-tight);
 	text-transform: none;
 }
 
 .atlas-read,
 .atlas-read p,
 .atlas-read li {
-	font-size: var(--fs-read);
-	line-height: var(--lh-read);
+	font-size: var(--text-lg);
+	line-height: var(--leading-relaxed);
 }
 
 .atlas-row {
-	font-size: var(--fs-row);
-	line-height: var(--lh-tight);
-	letter-spacing: var(--tracking-label);
+	font-size: var(--text-sm);
+	line-height: var(--leading-tight);
+	letter-spacing: var(--tracking-widest);
 	text-transform: uppercase;
 }
 
 .atlas-row-title {
-	font-size: var(--fs-body);
-	line-height: var(--lh-tight);
-	letter-spacing: var(--tracking-label);
+	font-size: var(--text-base);
+	line-height: var(--leading-tight);
+	letter-spacing: var(--tracking-widest);
 	text-transform: uppercase;
 }
 
 .atlas-row-meta {
-	font-size: var(--fs-body);
-	line-height: var(--lh-tight);
-	color: var(--ink-60);
+	font-size: var(--text-base);
+	line-height: var(--leading-tight);
+	color: var(--muted-foreground);
 	font-variant-numeric: tabular-nums;
 }
 
 .atlas-row-desc {
-	font-size: var(--fs-row);
-	line-height: 1.4;
-	color: var(--ink-60);
+	font-size: var(--text-xs);
+	line-height: var(--leading-snug);
+	color: var(--muted-foreground);
 	text-transform: none;
-	letter-spacing: 0;
+	letter-spacing: var(--tracking-normal);
 }
 
 .atlas-hair {
@@ -181,7 +193,7 @@
 
 .atlas-hair-double {
 	border: var(--hair) solid var(--ink-40);
-	padding: var(--hair-gap);
+	padding: calc(var(--spacing) * 0.5);
 	box-shadow: inset 0 0 0 var(--hair) var(--ink-40);
 }
 
@@ -220,14 +232,18 @@
 }
 
 .atlas-hatch {
-	background-image: repeating-linear-gradient(45deg, var(--ink-40) 0 1px, transparent 1px 4px);
+	background-image: repeating-linear-gradient(
+		45deg,
+		var(--ink-40) 0 1px,
+		transparent 1px var(--spacing)
+	);
 }
 
 .atlas-grid {
 	background-image:
 		linear-gradient(to right, var(--ink-10) 1px, transparent 1px),
 		linear-gradient(to bottom, var(--ink-10) 1px, transparent 1px);
-	background-size: 24px 24px;
+	background-size: calc(var(--spacing) * 6) calc(var(--spacing) * 6);
 }
 
 .atlas-invert:hover,
@@ -271,8 +287,7 @@
 .atlas [data-slot='button'] {
 	cursor: pointer;
 	text-transform: uppercase;
-	letter-spacing: var(--tracking-label);
-	font-size: var(--fs-body);
+	letter-spacing: var(--tracking-widest);
 }
 
 .atlas [data-slot='button']:focus-visible,
@@ -280,7 +295,7 @@
 .atlas [data-slot='textarea']:focus-visible,
 .atlas [data-slot='select-trigger']:focus-visible {
 	outline: var(--hair) solid var(--ink);
-	outline-offset: var(--hair-gap);
+	outline-offset: calc(var(--spacing) * 0.5);
 	box-shadow: none;
 }
 
@@ -307,16 +322,9 @@
 	color: var(--ink);
 }
 
-.atlas [data-slot='input'],
-.atlas [data-slot='textarea'],
-.atlas [data-slot='select-trigger'] {
-	font-size: var(--fs-body);
-	line-height: var(--lh-body);
-}
-
 .atlas [data-slot='label'] {
-	font-size: var(--fs-micro);
-	letter-spacing: var(--tracking-label);
+	font-size: var(--text-xs);
+	letter-spacing: var(--tracking-widest);
 	text-transform: uppercase;
 }
 
@@ -328,7 +336,7 @@
 
 .atlas-shell {
 	border: var(--hair) solid var(--ink-40);
-	padding: var(--hair-gap);
+	padding: calc(var(--spacing) * 0.5);
 	box-shadow: inset 0 0 0 var(--hair) var(--ink-40);
 	display: flex;
 	flex-direction: column;

@@ -55,7 +55,7 @@
 	id="M2"
 	group="molecules"
 	title="IndexRow replaces the post card"
-	why="Thumbnail, date = title size (12px), description one step down (11px). Stacks on small screens. Two orders: title first and description first."
+	why="Thumbnail, date = title (text-base). Description is text-xs. Stacks on small screens. Two orders: title first and description first."
 	{ink}
 >
 	{#snippet before()}
