@@ -70,6 +70,12 @@
 	--sidebar-accent-foreground: var(--ink);
 	--sidebar-border: var(--ink-25);
 	--sidebar-ring: var(--ink-40);
+
+	--chart-1: var(--ink);
+	--chart-2: var(--ink-60);
+	--chart-3: var(--ink-40);
+	--chart-4: var(--ink-25);
+	--chart-5: var(--ink-10);
 }
 
 .atlas-ink {
@@ -235,7 +241,10 @@
 	color: var(--paper);
 }
 
-.atlas-active .atlas-label {
+.atlas-active .atlas-label,
+.atlas-mark .atlas-label,
+.atlas-invert:hover .atlas-label,
+.atlas-invert:focus-visible .atlas-label {
 	color: inherit;
 }
 
@@ -249,10 +258,21 @@
 .atlas [data-slot='badge'],
 .atlas [data-slot='kbd'],
 .atlas [data-slot='select-trigger'],
-.atlas [data-slot='avatar'] {
+.atlas [data-slot='select-content'],
+.atlas [data-slot='select-item'],
+.atlas [data-slot='avatar'],
+.atlas [data-slot='separator'] {
 	border-radius: 0;
 	box-shadow: none;
 	transition: none;
+	animation: none;
+}
+
+.atlas [data-slot='button'] {
+	cursor: pointer;
+	text-transform: uppercase;
+	letter-spacing: var(--tracking-label);
+	font-size: var(--fs-body);
 }
 
 .atlas [data-slot='button']:focus-visible,
@@ -260,13 +280,50 @@
 .atlas [data-slot='textarea']:focus-visible,
 .atlas [data-slot='select-trigger']:focus-visible {
 	outline: var(--hair) solid var(--ink);
-	outline-offset: calc(var(--hair-gap));
+	outline-offset: var(--hair-gap);
 	box-shadow: none;
 }
 
 .atlas [data-slot='spinner'] {
 	animation: none;
 	color: var(--ink);
+}
+
+.atlas [data-slot='separator'][data-orientation='horizontal'] {
+	height: var(--hair);
+}
+
+.atlas [data-slot='separator'][data-orientation='vertical'] {
+	width: var(--hair);
+}
+
+.atlas [data-slot='avatar']::after {
+	border-radius: 0;
+}
+
+.atlas [data-slot='select-content'] {
+	border: var(--hair) solid var(--ink-25);
+	background: var(--paper);
+	color: var(--ink);
+}
+
+.atlas [data-slot='input'],
+.atlas [data-slot='textarea'],
+.atlas [data-slot='select-trigger'] {
+	font-size: var(--fs-body);
+	line-height: var(--lh-body);
+}
+
+.atlas [data-slot='label'] {
+	font-size: var(--fs-micro);
+	letter-spacing: var(--tracking-label);
+	text-transform: uppercase;
+}
+
+.atlas [data-slot='kbd'] {
+	background: transparent;
+	border: var(--hair) solid var(--ink-25);
+	font-family: inherit;
 }
 
 .atlas-shell {

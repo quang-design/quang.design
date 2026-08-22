@@ -24,7 +24,7 @@
 
 <article class={cn('flex flex-col', className)}>
 	{#if tabs.length}
-		<div class="atlas-rule-b flex">
+		<div class="atlas-rule-b flex flex-wrap">
 			{#each tabs as tab, i (tab)}
 				<Tab active={i === activeTab} onclick={() => (activeTab = i)}>{tab}</Tab>
 			{/each}
