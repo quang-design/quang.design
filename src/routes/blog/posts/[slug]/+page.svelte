@@ -51,4 +51,15 @@
 		{/if}
 		<Markdown md={data.md} />
 	</div>
+	{#if page.params.slug === 'design-engineer-roadmap'}
+		<figure class="mx-auto w-full max-w-[1000px] overflow-x-auto p-4">
+			<img
+				src="/blog/posts/design-engineer-roadmap/diagram.svg"
+				alt="Design Engineer roadmap diagram"
+				width="968"
+				height="2800"
+				class="mx-auto h-auto w-[968px] max-w-none bg-white"
+			/>
+		</figure>
+	{/if}
 </div>
