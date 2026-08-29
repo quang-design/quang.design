@@ -13,7 +13,9 @@
 
 	const themeColors = { light: '#ffffff', dark: '#09090b' };
 
-	const fullBleed = $derived(page.url.pathname.startsWith('/anh-nhi'));
+	const fullBleed = $derived(
+		page.url.pathname.startsWith('/anh-nhi') || page.url.pathname.startsWith('/redesign')
+	);
 
 	onMount(() => {
 		const hour = new Date().getHours();

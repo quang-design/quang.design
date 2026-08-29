@@ -1,15 +1,14 @@
 <script lang="ts">
-	import '$lib/styles/atlas.css';
 	import { resolve } from '$app/paths';
-	import { Button } from '$lib/components/ui/button/index.js';
 	import { review } from './review.svelte';
+	import { Action } from '$lib/components/primitives';
 	import Tokens from './tokens.svelte';
 	import Subatomic from './subatomic.svelte';
 	import Atoms from './atoms.svelte';
 	import Molecules from './molecules.svelte';
 	import Organisms from './organisms.svelte';
 	import Pages from './pages.svelte';
-	import { catalogNav, inventory } from './catalog';
+	import { catalogNav, siteCoverage } from './catalog';
 	import type { EngineerProject } from '$lib/content/engineer';
 	import type { PostMetadata } from '$lib/content/loader';
 
@@ -18,7 +17,6 @@
 	}: { data: { design: PostMetadata[]; blog: PostMetadata[]; engineer: EngineerProject[] } } =
 		$props();
 
-	let ink = $state(false);
 	let copied = $state(false);
 
 	let now = $state(new Date());
@@ -65,17 +63,17 @@
 </script>
 
 <svelte:head>
-	<title>Atlas redesign review</title>
+	<title>Paper design catalog</title>
 	<meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
-<div class="flex w-full flex-col gap-6 pb-16">
+<div class="flex w-full flex-col gap-6 p-4 pb-16 md:p-6">
 	<header
-		class="border-foreground/25 bg-background sticky top-0 z-10 flex flex-col gap-3 border-b-[0.5px] py-3 md:flex-row md:flex-wrap md:items-center"
+		class="atlas-hair sticky top-0 z-10 flex flex-col gap-3 bg-[var(--paper)] py-3 md:flex-row md:flex-wrap md:items-center"
 	>
 		<div class="flex min-w-0 flex-wrap items-baseline gap-3">
-			<h1 class="text-lg">Atlas redesign review</h1>
-			<p class="text-muted-foreground text-xs">
+			<h1 class="atlas-display text-xl">Paper design catalog</h1>
+			<p class="atlas-row-desc">
 				{review.count('approved')} approved / {review.count('revise')} revise / {review.count(
 					'pending'
 				)} pending
@@ -85,73 +83,57 @@
 			class="-mx-4 flex items-center gap-2 overflow-x-auto px-4 text-xs tracking-widest uppercase md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
 		>
 			{#each catalogNav as item, i (item.href)}
-				{#if i > 0}<span class="text-muted-foreground">/</span>{/if}
-				<a href="{resolve('/redesign')}{item.href}" class="shrink-0">
+				{#if i > 0}<span class="atlas-row-desc">/</span>{/if}
+				<a href="{resolve('/redesign')}{item.href}" class="atlas-row shrink-0 hover:underline">
 					{item.label}
 				</a>
 			{/each}
 		</nav>
 		<div class="flex flex-wrap items-center gap-2 md:ml-auto">
-			<Button variant="outline" size="sm" class="cursor-pointer" onclick={() => (ink = !ink)}>
-				{ink ? 'Paper theme' : 'Ink theme'}
-			</Button>
-			<Button variant="outline" size="sm" class="cursor-pointer" onclick={copySummary}>
-				{copied ? 'Copied' : 'Copy review'}
-			</Button>
-			<Button variant="ghost" size="sm" class="cursor-pointer" onclick={() => review.reset()}>
-				Reset
-			</Button>
+			<Action onclick={copySummary}>{copied ? 'Copied' : 'Copy review'}</Action>
+			<Action glyph="↺" onclick={() => review.reset()}>Reset</Action>
 		</div>
 	</header>
 
-	<p class="text-muted-foreground max-w-3xl text-xs">
-		Catalog follows atomic design, mapped to shadcn-svelte: tokens (theme CSS variables) →
-		sub-atomic rules → <code>ui/</code> atoms → molecules (blocks) → organisms → templates → pages.
-		Type and space retune Tailwind <code>--text-*</code> and <code>--spacing</code> so utilities and
-		<code>ui/</code> inherit. After panes are scoped to <code>.atlas</code>. Resize for the
-		responsive shell (stack → two column → three column).
+	<p class="atlas-row-desc max-w-3xl">
+		Atomic design catalog for the Atlas redesign. Review from lowest level (tokens) through full
+		pages. Everything renders in Paper so you can finalize the design here before applying to the
+		live site. Resize for the responsive shell (stack → two column → three column).
 	</p>
 
-	<section id="inventory" class="border-foreground/25 overflow-x-auto border-[0.5px]">
-		<header class="border-foreground/25 border-b-[0.5px] px-3 py-2">
-			<h2 class="text-sm tracking-widest uppercase">What has to change</h2>
+	<section id="coverage" class="atlas-hair overflow-x-auto">
+		<header class="atlas-rule-b p-3">
+			<h2 class="text-sm tracking-widest uppercase">Site coverage</h2>
 		</header>
 		<table class="w-full min-w-[36rem] text-left text-xs">
 			<thead>
-				<tr class="text-muted-foreground tracking-widest uppercase">
+				<tr class="atlas-row-desc tracking-widest uppercase">
 					<th class="px-3 py-1.5 font-normal">Layer</th>
-					<th class="px-3 py-1.5 font-normal">Current</th>
-					<th class="px-3 py-1.5 font-normal">Atlas</th>
+					<th class="px-3 py-1.5 font-normal">Route / item</th>
+					<th class="px-3 py-1.5 font-normal">ID</th>
 				</tr>
 			</thead>
 			<tbody>
-				{#each inventory as row, i (row.current)}
-					<tr class={['border-foreground/25 border-t-[0.5px]', i % 2 === 1 && 'bg-muted']}>
+				{#each siteCoverage as row, i (row.id + row.item)}
+					<tr class={['atlas-rule-b', i % 2 === 1 && 'bg-[var(--ink-10)]']}>
 						<td class="px-3 py-1.5 whitespace-nowrap">{row.layer}</td>
-						<td class="px-3 py-1.5">{row.current}</td>
-						<td class="px-3 py-1.5">{row.atlas}</td>
+						<td class="px-3 py-1.5">{row.item}</td>
+						<td class="atlas-label px-3 py-1.5">{row.id}</td>
 					</tr>
 				{/each}
 			</tbody>
 		</table>
 	</section>
 
-	<Tokens {ink} />
-	<Subatomic {ink} />
-	<Atoms {ink} />
-	<Molecules {ink} />
-	<Organisms {ink} {localTime} {treeGroups} />
-	<Pages
-		{ink}
-		{localTime}
-		{treeGroups}
-		design={data.design}
-		blog={data.blog}
-		engineer={data.engineer}
-	/>
+	<Tokens />
+	<Subatomic />
+	<Atoms />
+	<Molecules />
+	<Organisms {localTime} {treeGroups} />
+	<Pages {localTime} {treeGroups} design={data.design} blog={data.blog} engineer={data.engineer} />
 
-	<details class="border-foreground/25 mt-8 border-[0.5px] p-3 text-xs">
-		<summary class="cursor-pointer tracking-widest uppercase">Review summary</summary>
-		<pre class="mt-3 whitespace-pre-wrap">{review.summary}</pre>
+	<details class="atlas-hair mt-8 p-3 text-xs">
+		<summary class="atlas-row cursor-pointer tracking-widest uppercase">Review summary</summary>
+		<pre class="atlas-read mt-3 whitespace-pre-wrap">{review.summary}</pre>
 	</details>
 </div>
