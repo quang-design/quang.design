@@ -155,7 +155,7 @@
 	<p>Headings are labels. Body is 13px. Code sits in a hairline box with no Shiki background.</p>
 {/snippet}
 
-<Shell title="quang.design" {stats} actions={['Subscribe']} {groups} {active}>
+<Shell title="quang.design" {stats} actions={['Ink theme']} {groups} {active}>
 	{#snippet canvas()}
 		{#if screen === 'home'}
 			<GridBackdrop class="flex h-full min-h-64 flex-col justify-end gap-3 p-3">

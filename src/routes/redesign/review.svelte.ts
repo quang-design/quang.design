@@ -3,7 +3,7 @@ import { browser } from '$app/environment';
 export type Verdict = 'pending' | 'approved' | 'revise';
 export type ReviewEntry = { verdict: Verdict; note: string };
 
-const STORAGE_KEY = 'atlas-review-v6';
+const STORAGE_KEY = 'atlas-review-v5';
 
 export type ReviewMeta = { id: string; title: string; group: string };
 
@@ -51,7 +51,7 @@ class Review {
 	}
 
 	get summary() {
-		const lines = ['# Paper design catalog', ''];
+		const lines = ['# Atlas redesign review', ''];
 		for (const item of this.items) {
 			const { verdict, note } = this.entry(item.id);
 			const glyph = verdict === 'approved' ? 'x' : ' ';

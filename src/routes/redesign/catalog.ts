@@ -51,27 +51,125 @@ export const semanticTokens = [
 	{ token: '--radius', maps: '0' }
 ];
 
-export const siteCoverage = [
-	{ layer: 'Tokens', item: 'Paper / ink, shadcn map, type, spacing, radius', id: 'T1–T5' },
-	{ layer: 'Sub-atomic', item: 'Hairlines, hatch, grid, inversion, focus', id: 'S1–S4' },
-	{ layer: 'Atoms', item: 'ui/* + Atlas primitives (Action, Mark, Tab…)', id: 'A1–A8' },
+export const inventory = [
+	{
+		layer: 'Tokens',
+		current: 'src/app.css :root / .dark / @theme inline',
+		atlas: '.atlas fills the full shadcn-svelte variable set (OKLCH, charts, sidebar)'
+	},
+	{
+		layer: 'Tokens',
+		current: 'blue-500 links + 0.3s underline; p leading-7; --spacing 0.2rem',
+		atlas: 'inherit + inversion; retheme --text-* and --spacing (no parallel --fs scale)'
+	},
+	{
+		layer: 'Tokens',
+		current: '--radius 0 already, but ui still uses rounded-lg / ring-3 / shadow-md',
+		atlas: '--radius 0 + data-slot overrides (no ring, no radius, no shadow)'
+	},
+	{
+		layer: 'Sub-atomic',
+		current: 'shared/horizontal-divider (1px)',
+		atlas: 'Rule 0.5px; stacks share one line; double = emphasis'
+	},
+	{
+		layer: 'Atoms',
+		current: 'ui/button (tv, data-slot, ring-3, default cursor)',
+		atlas: 'token restyle + Action (uppercase, pointer, invert)'
+	},
+	{
+		layer: 'Atoms',
+		current: 'ui/input, ui/textarea (h-8, rounded-lg, ring-3)',
+		atlas: '0.5px hair, 0 radius, hairline outline'
+	},
+	{
+		layer: 'Atoms',
+		current: 'ui/badge, ui/kbd, ui/kbd-group (pill / rounded-sm)',
+		atlas: 'square badge; HintKey for shortcuts'
+	},
+	{
+		layer: 'Atoms',
+		current: 'ui/avatar* (round, after-border), ui/separator 1px, ui/spinner spin',
+		atlas: 'square hair; 0.5px rule; spinner static'
+	},
+	{
+		layer: 'Atoms',
+		current: 'ui/select* (portal, rounded-lg, animate-in) — mobile navbar',
+		atlas: 'token restyle, portal disabled in preview; desktop uses IndexTree'
+	},
+	{
+		layer: 'Atoms',
+		current: 'ui/sonner (lucide status icons, spin loader)',
+		atlas: 'inverted Mark toast, no hue, no spin'
+	},
+	{
+		layer: 'Atoms',
+		current: 'navbar sun/moon Button (scale + rotate)',
+		atlas: 'Action “Ink theme” — instant invert, no tween'
+	},
+	{
+		layer: 'Atoms',
+		current: 'shadcn Label / Field not installed',
+		atlas: 'MicroLabel is the label atom; Field is composed in molecules'
+	},
 	{
 		layer: 'Molecules',
-		item: 'Field, IndexRow, engineer row, empty, code, design gallery',
-		id: 'M1–M6'
+		current: 'shared/subscribe (Input + Button + toast)',
+		atlas: 'MicroLabel + Input + Action (shadcn Field pattern)'
 	},
-	{ layer: 'Organisms', item: 'StatusBar, IndexTree, ReadingPane, HintBar', id: 'O1–O4' },
-	{ layer: 'Templates', item: 'Four-zone shell', id: 'L1' },
-	{ layer: 'Pages', item: '/', id: 'P1' },
-	{ layer: 'Pages', item: '/design', id: 'P2' },
-	{ layer: 'Pages', item: '/design/[slug] — Doppio sample', id: 'P3' },
-	{ layer: 'Pages', item: '/engineer', id: 'P4' },
-	{ layer: 'Pages', item: '/engineer/telescopic', id: 'P5' },
-	{ layer: 'Pages', item: '/engineer/microscopic', id: 'P6' },
-	{ layer: 'Pages', item: '/engineer/animation-vocabulary', id: 'P7' },
-	{ layer: 'Pages', item: '/engineer/minesweeper', id: 'P8' },
-	{ layer: 'Pages', item: '/blog', id: 'P9' },
-	{ layer: 'Pages', item: '/blog/posts/[slug]', id: 'P10' },
-	{ layer: 'Pages', item: '/styles', id: 'P11' },
-	{ layer: 'Out of scope', item: '/anh-nhi — birthday invitation, not site chrome', id: '—' }
+	{
+		layer: 'Molecules',
+		current: 'shared/post-card (scale thumbnail, p-6, text-2xl)',
+		atlas: 'IndexRow — thumb, date = title (text-base), desc text-xs'
+	},
+	{
+		layer: 'Molecules',
+		current: 'engineer/+page.svelte cards (ArrowUpRight, hover fill)',
+		atlas: 'IndexRow + KeySlot codes E1–E4'
+	},
+	{
+		layer: 'Molecules',
+		current: 'shared/empty-state (dashed-2, rounded, lucide)',
+		atlas: 'dashed 0.5px + hatch'
+	},
+	{
+		layer: 'Molecules',
+		current: 'markdown/code-block (Shiki, zinc chrome, rounded-xl)',
+		atlas: 'hairline box, no theme background'
+	},
+	{
+		layer: 'Organisms',
+		current: 'shared/navbar (avatar, slash links, clock, theme)',
+		atlas: 'StatusBar'
+	},
+	{
+		layer: 'Organisms',
+		current: 'shared/footer (quote, copyright, Subscribe)',
+		atlas: 'HintBar; subscribe moves to a field'
+	},
+	{
+		layer: 'Organisms',
+		current: 'markdown/renderer + design-renderer (semibold h, blue a, amber quote)',
+		atlas: 'ReadingPane — labels, Mark, text-lg prose'
+	},
+	{
+		layer: 'Templates',
+		current: '+layout.svelte max-w-7xl column + Navbar/Footer',
+		atlas: 'four-zone Shell — stack / 768 / 1024'
+	},
+	{
+		layer: 'Pages',
+		current: '/ /design /design/[slug] /engineer + tools /blog /blog/posts /styles',
+		atlas: 'P1–P11'
+	},
+	{
+		layer: 'Out of scope',
+		current: '/anh-nhi and /anh-nhi/[slug] (Tenor Sans, full-bleed)',
+		atlas: 'unchanged — no site chrome, no Atlas tokens'
+	},
+	{
+		layer: 'Out of scope',
+		current: 'shared/seo-head',
+		atlas: 'no visual change'
+	}
 ];

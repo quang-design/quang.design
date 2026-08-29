@@ -7,15 +7,19 @@
 		group,
 		title,
 		why,
-		fullWidth = false,
-		children
+		stacked = false,
+		ink = false,
+		before,
+		after
 	}: {
 		id: string;
 		group: string;
 		title: string;
 		why: string;
-		fullWidth?: boolean;
-		children: Snippet;
+		stacked?: boolean;
+		ink?: boolean;
+		before: Snippet;
+		after: Snippet;
 	} = $props();
 
 	$effect(() => review.register({ id, group, title }));
@@ -23,16 +27,16 @@
 	const entry = $derived(review.entry(id));
 </script>
 
-<section {id} class="atlas-hair flex flex-col">
-	<header class="atlas-rule-b flex flex-wrap items-baseline gap-3 p-3">
-		<span class="atlas-label">{id}</span>
-		<h3 class="atlas-row-title grow normal-case">{title}</h3>
+<section {id} class="border-foreground/25 flex flex-col border-[0.5px]">
+	<header class="border-foreground/25 flex flex-wrap items-baseline gap-3 border-b-[0.5px] p-3">
+		<span class="text-muted-foreground text-xs tracking-widest uppercase">{id}</span>
+		<h3 class="grow text-base">{title}</h3>
 		<div class="flex items-center gap-2">
 			<button
 				type="button"
 				class={[
-					'atlas-hair atlas-row cursor-pointer px-2 py-1',
-					entry.verdict === 'approved' && 'atlas-active'
+					'border-foreground/25 cursor-pointer border-[0.5px] px-2 py-1 text-xs uppercase',
+					entry.verdict === 'approved' && 'bg-foreground text-background'
 				]}
 				onclick={() =>
 					review.set(id, { verdict: entry.verdict === 'approved' ? 'pending' : 'approved' })}
@@ -42,8 +46,8 @@
 			<button
 				type="button"
 				class={[
-					'atlas-hair atlas-row cursor-pointer px-2 py-1',
-					entry.verdict === 'revise' && 'atlas-active'
+					'border-foreground/25 cursor-pointer border-[0.5px] px-2 py-1 text-xs uppercase',
+					entry.verdict === 'revise' && 'bg-foreground text-background'
 				]}
 				onclick={() =>
 					review.set(id, { verdict: entry.verdict === 'revise' ? 'pending' : 'revise' })}
@@ -53,16 +57,33 @@
 		</div>
 	</header>
 
-	<p class="atlas-row-desc border-b border-[var(--ink-25)] p-3">{why}</p>
+	<p class="text-muted-foreground border-foreground/25 border-b-[0.5px] p-3 text-xs">{why}</p>
 
-	<div class={fullWidth ? 'p-0' : 'p-3'}>{@render children()}</div>
+	<div class="grid grid-cols-1 {stacked ? '' : 'md:grid-cols-2'}">
+		<div
+			class="border-foreground/25 flex flex-col border-b-[0.5px] {stacked
+				? ''
+				: 'md:border-r-[0.5px] md:border-b-0'}"
+		>
+			<span class="text-muted-foreground px-3 pt-3 text-xs tracking-widest uppercase">
+				Before &mdash; current site
+			</span>
+			<div class="p-3">{@render before()}</div>
+		</div>
+		<div class="flex flex-col">
+			<span class="text-muted-foreground px-3 pt-3 text-xs tracking-widest uppercase">
+				After &mdash; atlas
+			</span>
+			<div class={['atlas p-3', ink && 'atlas-ink']}>{@render after()}</div>
+		</div>
+	</div>
 
-	<label class="atlas-rule-b flex flex-col gap-1 p-3">
-		<span class="atlas-label">Note</span>
+	<label class="border-foreground/25 flex flex-col gap-1 border-t-[0.5px] p-3">
+		<span class="text-muted-foreground text-xs tracking-widest uppercase">Note for Devin</span>
 		<textarea
 			rows="2"
 			placeholder="What to change…"
-			class="atlas-hair w-full bg-[var(--paper)] p-2 text-base"
+			class="border-foreground/25 bg-background w-full border-[0.5px] p-2 text-xs"
 			value={entry.note}
 			oninput={(e) => review.set(id, { note: e.currentTarget.value })}
 		></textarea>
