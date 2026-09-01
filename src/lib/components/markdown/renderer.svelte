@@ -1,9 +1,28 @@
 <script lang="ts">
 	import Markdown from 'svelte-exmarkdown';
 	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
+	import { getContext } from 'svelte';
 	import { cn } from '$lib/utils';
+	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
 	import CodeBlock from './code-block.svelte';
 	let { md }: { md: string } = $props();
+
+	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
+
+	function enter(event: Event) {
+		const a = event.currentTarget as HTMLAnchorElement;
+		const href = a.getAttribute('href') ?? a.href;
+		preview?.setHover({
+			eyebrow: 'Link',
+			title: a.textContent?.trim() || href,
+			subtitle: href,
+			href
+		});
+	}
+
+	function leave() {
+		preview?.clearHover();
+	}
 </script>
 
 <Markdown {md} plugins={[gfmPlugin()]}>
@@ -39,6 +58,10 @@
 			class={cn('underline decoration-[var(--ink-40)] underline-offset-4', rest.class)}
 			target="_blank"
 			rel="noopener noreferrer"
+			onmouseenter={enter}
+			onmouseleave={leave}
+			onfocus={enter}
+			onblur={leave}
 		>
 			{@render children?.()}
 		</a>
