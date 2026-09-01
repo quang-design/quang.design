@@ -6,7 +6,6 @@
 	let {
 		class: className,
 		role = 'status',
-		// we add name, color, and stroke for compatibility with different icon libraries props
 		name,
 		color,
 		stroke,
@@ -21,6 +20,7 @@
 	color={color === null ? undefined : color}
 	stroke={stroke === null ? undefined : stroke}
 	aria-label={ariaLabel}
+	data-slot="spinner"
 	class={cn('size-4 animate-spin', className)}
 	{...restProps}
 />

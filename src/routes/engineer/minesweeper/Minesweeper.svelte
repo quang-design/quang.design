@@ -1,103 +1,135 @@
 <script lang="ts">
 	import { SvelteSet } from 'svelte/reactivity';
-	import MinesweeperBlock from './MinesweeperBlock.svelte';
+	import { Action, MicroLabel } from '$lib/components/primitives';
 
-	let mines = $state<number[]>([]);
-	let numbers = $state<number[]>(Array(81).fill(0));
-	let isGameOver = $state(false);
-	let revealedBlocks = new SvelteSet<number>();
+	const SIZE = 9;
+	const MINE_COUNT = 10;
+	const TOTAL = SIZE * SIZE;
 
-	function calculateNumbers() {
-		numbers = Array(81).fill(0);
-		for (const mine of mines) {
-			const adjacentPositions = [
-				mine - 10,
-				mine - 9,
-				mine - 8, // top row
-				mine - 1,
-				mine + 1, // middle row
-				mine + 8,
-				mine + 9,
-				mine + 10 // bottom row
-			];
+	let mines = $state<Set<number>>(new Set());
+	let numbers = $state<number[]>(Array(TOTAL).fill(0));
+	let revealed = new SvelteSet<number>();
+	let flagged = new SvelteSet<number>();
+	let exploded = $state<number | null>(null);
+	let started = $state(false);
 
-			adjacentPositions.forEach((pos) => {
-				if (pos >= 0 && pos < 81) {
-					const currentRow = Math.floor(mine / 9);
-					const posRow = Math.floor(pos / 9);
-					if (Math.abs(currentRow - posRow) <= 1) {
-						numbers[pos]++;
-					}
+	const lost = $derived(exploded !== null);
+	const won = $derived(!lost && started && revealed.size === TOTAL - MINE_COUNT);
+	const over = $derived(lost || won);
+
+	function neighbors(index: number) {
+		const row = Math.floor(index / SIZE);
+		const col = index % SIZE;
+		const out: number[] = [];
+		for (let dr = -1; dr <= 1; dr++) {
+			for (let dc = -1; dc <= 1; dc++) {
+				if (dr === 0 && dc === 0) continue;
+				const r = row + dr;
+				const c = col + dc;
+				if (r < 0 || r >= SIZE || c < 0 || c >= SIZE) continue;
+				out.push(r * SIZE + c);
+			}
+		}
+		return out;
+	}
+
+	function placeMines(safeIndex: number) {
+		const forbidden = new Set([safeIndex, ...neighbors(safeIndex)]);
+		const next = new Set<number>();
+		while (next.size < MINE_COUNT) {
+			const n = Math.floor(Math.random() * TOTAL);
+			if (!forbidden.has(n) && !next.has(n)) next.add(n);
+		}
+		const counts = Array(TOTAL).fill(0);
+		for (const mine of next) {
+			for (const pos of neighbors(mine)) counts[pos]++;
+		}
+		mines = next;
+		numbers = counts;
+		started = true;
+	}
+
+	function revealFrom(index: number) {
+		if (revealed.has(index) || flagged.has(index) || over) return;
+		if (!started) placeMines(index);
+		if (mines.has(index)) {
+			exploded = index;
+			for (const mine of mines) revealed.add(mine);
+			return;
+		}
+		const stack = [index];
+		while (stack.length) {
+			const current = stack.pop()!;
+			if (revealed.has(current) || flagged.has(current) || mines.has(current)) continue;
+			revealed.add(current);
+			if (numbers[current] === 0) {
+				for (const pos of neighbors(current)) {
+					if (!revealed.has(pos)) stack.push(pos);
 				}
-			});
+			}
 		}
 	}
 
-	function getAdjacentPositions(index: number) {
-		const adjacentPositions = [
-			index - 10,
-			index - 9,
-			index - 8, // top row
-			index - 1,
-			index + 1, // middle row
-			index + 8,
-			index + 9,
-			index + 10 // bottom row
-		];
-
-		return adjacentPositions.filter((pos) => {
-			if (pos < 0 || pos >= 81) return false;
-			const currentRow = Math.floor(index / 9);
-			const posRow = Math.floor(pos / 9);
-			return Math.abs(currentRow - posRow) <= 1;
-		});
+	function toggleFlag(index: number) {
+		if (revealed.has(index) || over) return;
+		if (flagged.has(index)) flagged.delete(index);
+		else flagged.add(index);
 	}
 
-	function revealBlockRecursive(index: number) {
-		if (revealedBlocks.has(index) || mines.includes(index)) return;
-
-		revealedBlocks.add(index);
-
-		// If it's a zero, reveal adjacent blocks recursively
-		if (numbers[index] === 0) {
-			const adjacentPositions = getAdjacentPositions(index);
-			adjacentPositions.forEach((pos) => {
-				if (!revealedBlocks.has(pos)) {
-					revealBlockRecursive(pos);
-				}
-			});
-		}
+	function reset() {
+		mines = new Set();
+		numbers = Array(TOTAL).fill(0);
+		revealed.clear();
+		flagged.clear();
+		exploded = null;
+		started = false;
 	}
 
-	function revealBlock(index: number) {
-		revealBlockRecursive(index);
+	function cellLabel(index: number) {
+		if (flagged.has(index) && !revealed.has(index)) return 'Flagged';
+		if (!revealed.has(index)) return 'Hidden';
+		if (mines.has(index)) return 'Mine';
+		if (numbers[index] > 0) return `${numbers[index]} nearby`;
+		return 'Empty';
 	}
-
-	function generateMines() {
-		const minePositions = new Set<number>();
-		while (minePositions.size < 10) {
-			minePositions.add(Math.floor(Math.random() * 81));
-		}
-		mines = Array.from(minePositions);
-		calculateNumbers();
-	}
-
-	function handleGameOver() {
-		isGameOver = true;
-	}
-
-	generateMines();
 </script>
 
-<div class="grid grid-cols-9 gap-0">
-	{#each Array(81) as _, i}
-		<MinesweeperBlock
-			isMine={mines.includes(i)}
-			number={numbers[i]}
-			{isGameOver}
-			onGameOver={handleGameOver}
-			isRevealed={revealedBlocks.has(i)}
-			onReveal={() => revealBlock(i)}
-		/>
-	{/each}
+<div class="flex flex-col gap-3">
+	<div class="flex flex-wrap items-center gap-3">
+		<MicroLabel>
+			{#if won}Cleared
+			{:else if lost}Mine
+			{:else}{MINE_COUNT - flagged.size} mines left{/if}
+		</MicroLabel>
+		<Action onclick={reset}>Reset</Action>
+	</div>
+	<div
+		class="grid w-fit grid-cols-9 gap-[length:var(--hair)] bg-[var(--ink-25)] p-[length:var(--hair)]"
+	>
+		{#each Array(TOTAL) as _, i (i)}
+			<button
+				type="button"
+				aria-label={cellLabel(i)}
+				oncontextmenu={(e) => {
+					e.preventDefault();
+					toggleFlag(i);
+				}}
+				onclick={() => revealFrom(i)}
+				class={[
+					'flex size-8 items-center justify-center',
+					revealed.has(i) ? 'bg-[var(--paper)]' : 'ink-invert bg-[var(--paper)]',
+					mines.has(i) && revealed.has(i) && 'hatch',
+					exploded === i && 'bg-[var(--ink)] text-[var(--paper)]'
+				]}
+			>
+				{#if flagged.has(i) && !revealed.has(i)}
+					<span class="ink-label">F</span>
+				{:else if revealed.has(i) && mines.has(i)}
+					<span class="ink-label">M</span>
+				{:else if revealed.has(i) && numbers[i] > 0}
+					<span class="ink-label">{numbers[i]}</span>
+				{/if}
+			</button>
+		{/each}
+	</div>
 </div>

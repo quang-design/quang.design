@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Markdown } from '$lib/components/markdown';
+	import PagePreview from '$lib/components/layout/page-preview.svelte';
 
 	const md = `
 # Markdown Test Document
@@ -60,4 +61,15 @@ function greet(name) {
 `;
 </script>
 
-<Markdown {md} />
+<PagePreview
+	value={{
+		eyebrow: 'Reference · S',
+		title: 'Styles',
+		subtitle: 'Markdown specimen',
+		description: 'The live markdown renderer, restyled. Headings are labels. Code sits in a hairline box. Quotes are dashed, not amber.'
+	}}
+/>
+
+<div class="ink-read mx-auto w-full max-w-xl p-4">
+	<Markdown {md} />
+</div>

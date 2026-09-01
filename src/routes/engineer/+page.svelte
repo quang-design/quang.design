@@ -1,8 +1,24 @@
 <script lang="ts">
 	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
+	import Maximize2Icon from '@lucide/svelte/icons/maximize-2';
+	import Minimize2Icon from '@lucide/svelte/icons/minimize-2';
+	import SparklesIcon from '@lucide/svelte/icons/sparkles';
+	import LayoutGridIcon from '@lucide/svelte/icons/layout-grid';
+	import UserIcon from '@lucide/svelte/icons/user';
+	import CloudIcon from '@lucide/svelte/icons/cloud';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
-
+	import { IndexRow } from '$lib/components/layout';
 	import { engineerProjects } from '$lib/content/engineer';
+	import { engineerCode } from '$lib/config/tree';
+
+	const icons = {
+		'/engineer/telescopic': Maximize2Icon,
+		'/engineer/microscopic': Minimize2Icon,
+		'/engineer/animation-vocabulary': SparklesIcon,
+		'/engineer/minesweeper': LayoutGridIcon,
+		'https://user-info.quang.design/': UserIcon,
+		'https://bluesky.quang.design/': CloudIcon
+	};
 </script>
 
 <SeoHead
@@ -11,26 +27,32 @@
 	canonical="https://quang.design/engineer"
 />
 
-<h1 class="mb-4 text-2xl font-bold uppercase">All Things Engineering</h1>
-<p class="mb-8 text-neutral-400">Most of them are built with Svelte and Tailwind CSS.</p>
-
-<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-	{#each engineerProjects as project}
-		<a
+<div class="stack stack-flush flex flex-col">
+	{#each engineerProjects as project, i (project.href)}
+		{@const Icon = icons[project.href as keyof typeof icons]}
+		<IndexRow
+			code={engineerCode(project.href, i)}
+			title={project.title}
+			description={project.description}
 			href={project.href}
-			target={project.external ? '_blank' : undefined}
-			rel={project.external ? 'noopener noreferrer' : undefined}
-			class="border-foreground/25 flex flex-col justify-between border-[0.5px] p-6 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
+			external={project.external}
+			placeholder={!Icon}
+			preview={{
+				eyebrow: 'Engineer',
+				title: project.title,
+				description: project.description,
+				href: project.href,
+				meta: project.external ? ['External project'] : undefined
+			}}
 		>
-			<div>
-				<h2 class="mb-2 flex items-center gap-1 text-lg font-semibold">
-					{project.title}
+			{#snippet icon()}
+				{#if Icon}
+					<Icon class="size-4" />
 					{#if project.external}
-						<ArrowUpRightIcon class="h-4 w-4" />
+						<ArrowUpRightIcon class="size-3" />
 					{/if}
-				</h2>
-				<p class="text-sm text-neutral-400">{project.description}</p>
-			</div>
-		</a>
+				{/if}
+			{/snippet}
+		</IndexRow>
 	{/each}
 </div>

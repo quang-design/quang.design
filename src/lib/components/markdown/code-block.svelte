@@ -60,20 +60,18 @@
 </script>
 
 {#if !isBlock}
-	<code class={cn(`rounded-md bg-zinc-100 px-1 py-0.5 text-sm dark:bg-zinc-800`, c)} {...rest}>
+	<code class={cn('ink-mark px-1 py-0.5 text-sm', c)} {...rest}>
 		{@render children?.()}
 	</code>
 {:else}
 	{#if highlightedCode}
-		<div
-			class="p-4 [&_code]:block [&_pre]:m-0 [&_pre]:bg-transparent [&_pre]:p-0 [&_span]:!filter-none"
-		>
+		<div class="p-3 [&_code]:block [&_pre]:m-0 [&_pre]:bg-transparent [&_pre]:p-0 [&_span]:!filter-none">
 			{@html highlightedCode}
 		</div>
 	{/if}
 	<pre
 		{...rest}
-		class="w-full p-4 text-sm text-zinc-900 dark:text-zinc-50"
+		class="w-full p-3 text-sm"
 		class:hidden={highlightedCode}><code bind:this={codeElement}
 			>{text || ''}{@render children?.()}</code
 		></pre>

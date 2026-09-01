@@ -2,6 +2,7 @@
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { apiPaths } from '$lib/config/api';
 	import EditableText from './editable-text.svelte';
+	import PagePreview from '$lib/components/layout/page-preview.svelte';
 
 	let isLoading = $state(false);
 
@@ -32,7 +33,6 @@
 			const expandedText = data.content[0].text;
 			text = text.replace(loadingToken, expandedText);
 		} catch (_error) {
-			// Error expanding text - reverting to original
 			text = text.replace(loadingToken, word);
 		} finally {
 			isLoading = false;
@@ -46,20 +46,18 @@
 	canonical="https://quang.design/engineer/telescopic"
 />
 
-<section class="max-w-sm space-y-4">
-	<h1 class="uppercase">Welcome to AI Telescopic Text</h1>
-	<p>
-		Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
-		progressively expand simple sentences into more detailed narratives.
-	</p>
-	<p>
-		Click on <span class="underline underline-offset-4">underlined</span> words to see them expand into
-		richer descriptions, transforming basic statements into vivid, detailed passages.
-	</p>
-	<p>
-		For example, starting with a simple phrase like "I made tea," each click could reveal more
-		detail:
-	</p>
+<PagePreview
+	value={{
+		eyebrow: 'Engineer · E1',
+		title: 'AI Telescopic Text',
+		subtitle: 'Click a word. It grows.',
+		description:
+			'Inspired by Telescopic Text, this tool uses AI to progressively expand simple sentences into more detailed narratives. Click underlined words to see them expand into richer descriptions. For example, starting with "I made tea," each click can reveal more detail.',
+		links: [{ label: 'Telescopic Text', href: 'https://www.telescopictext.org' }]
+	}}
+/>
+
+<section class="max-w-sm space-y-4 p-4">
 	<EditableText {text} {onTextChange} {onWordClick} />
 </section>
 

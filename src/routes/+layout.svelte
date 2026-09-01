@@ -6,14 +6,22 @@
 	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { page } from '$app/state';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
-	import Navbar from '$lib/components/shared/navbar.svelte';
-	import Footer from '$lib/components/shared/footer.svelte';
+	import Shell from '$lib/components/layout/shell.svelte';
+	import type { EngineerProject } from '$lib/content/engineer';
+	import type { PostMetadata } from '$lib/content/loader';
 
-	let { children } = $props();
+	let {
+		children,
+		data
+	}: {
+		children: import('svelte').Snippet;
+		data: { nav: { design: PostMetadata[]; blog: PostMetadata[]; engineer: EngineerProject[] } };
+	} = $props();
 
-	const themeColors = { light: '#ffffff', dark: '#09090b' };
+	const themeColors = { light: '#d4c4a0', dark: '#1a1610' };
 
 	const fullBleed = $derived(page.url.pathname.startsWith('/anh-nhi'));
+	const catalog = $derived(page.url.pathname.startsWith('/redesign'));
 
 	onMount(() => {
 		const hour = new Date().getHours();
@@ -31,14 +39,12 @@
 
 {#if fullBleed}
 	{@render children()}
+{:else if catalog}
+	<div class="site px-4 py-4">{@render children()}</div>
 {:else}
-	<div class="mx-auto flex min-h-screen max-w-7xl flex-col">
-		<Navbar />
-
-		<main class="flex flex-1 flex-col py-4">
+	<div class="site">
+		<Shell nav={data.nav}>
 			{@render children()}
-		</main>
-
-		<Footer />
+		</Shell>
 	</div>
 {/if}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import Minesweeper from './Minesweeper.svelte';
+	import PagePreview from '$lib/components/layout/page-preview.svelte';
 </script>
 
 <SeoHead
@@ -9,10 +10,17 @@
 	canonical="https://quang.design/engineer/minesweeper"
 />
 
-<section class="max-w-sm space-y-4">
-	<h1 class="uppercase">Welcome to Minesweeper</h1>
-	<p>A simple minesweeper game built with SvelteKit and TailwindCSS.</p>
-	<p>Click on a cell to reveal what's underneath. If it's a mine, you lose!</p>
-	<p>Otherwise, keep going until you've revealed all the cells that aren't mines.</p>
+<PagePreview
+	value={{
+		eyebrow: 'Engineer · E4',
+		title: 'Minesweeper',
+		subtitle: 'A classic, drawn with hatch.',
+		description:
+			'Click a cell to reveal it. Right-click to flag. Numbers count neighbouring mines. Hatch is a mine. First click is always safe. Clear every empty cell to win.',
+		meta: ['9 × 9', '10 mines', 'Left click reveal', 'Right click flag']
+	}}
+/>
+
+<section class="p-4">
 	<Minesweeper />
 </section>
