@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import type { PathnameWithSearchOrHash } from '$app/types';
 	import type { Snippet } from 'svelte';
 	import { getContext } from 'svelte';
 	import { cn } from '$lib/utils';
@@ -70,7 +69,7 @@
 
 {#if route}
 	<a
-		href={resolve(route as PathnameWithSearchOrHash)}
+		href={resolve(route as '/')}
 		class={rowClass}
 		onmouseenter={enter}
 		onmouseleave={leave}
@@ -93,12 +92,7 @@
 		{@render body()}
 	</a>
 {:else}
-	<div
-		class={rowClass}
-		role="presentation"
-		onmouseenter={enter}
-		onmouseleave={leave}
-	>
+	<div class={rowClass} role="presentation" onmouseenter={enter} onmouseleave={leave}>
 		{@render body()}
 	</div>
 {/if}

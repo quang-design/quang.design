@@ -39,15 +39,11 @@
 </div>
 
 {#if isEditing}
-	<div
-		contenteditable="true"
-		bind:textContent={text}
-		class="hair w-full p-3"
-	></div>
+	<div contenteditable="true" bind:textContent={text} class="hair w-full p-3"></div>
 {:else}
 	<div class="hair w-full p-3 text-left">
 		{#each words as word}
-			<button class="underline underline-offset-4 ink-invert" onclick={() => onWordClick(word)}>
+			<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(word)}>
 				{word}
 			</button>
 			{' '}
@@ -56,7 +52,10 @@
 {/if}
 
 <div class="mt-2 flex w-full justify-between">
-	<button class="hair ink-invert w-full bg-[var(--ink)] px-3 py-1 text-[var(--paper)]" onclick={handleCopy}>
+	<button
+		class="hair ink-invert w-full bg-[var(--ink)] px-3 py-1 text-[var(--paper)]"
+		onclick={handleCopy}
+	>
 		{isCopying ? 'Copied' : 'Copy'}
 	</button>
 </div>

@@ -5,6 +5,7 @@
 	const SIZE = 9;
 	const MINE_COUNT = 10;
 	const TOTAL = SIZE * SIZE;
+	const cells = Array.from({ length: TOTAL }, (_, i) => i);
 
 	let mines = $state<Set<number>>(new Set());
 	let numbers = $state<number[]>(Array(TOTAL).fill(0));
@@ -103,10 +104,8 @@
 		</MicroLabel>
 		<Action onclick={reset}>Reset</Action>
 	</div>
-	<div
-		class="grid w-fit grid-cols-9 gap-[length:var(--hair)] bg-[var(--ink-25)] p-[length:var(--hair)]"
-	>
-		{#each Array(TOTAL) as _, i (i)}
+	<div class="grid w-fit grid-cols-9">
+		{#each cells as i (i)}
 			<button
 				type="button"
 				aria-label={cellLabel(i)}
@@ -116,8 +115,8 @@
 				}}
 				onclick={() => revealFrom(i)}
 				class={[
-					'flex size-8 items-center justify-center',
-					revealed.has(i) ? 'bg-[var(--paper)]' : 'ink-invert bg-[var(--paper)]',
+					'flex size-8 items-center justify-center border-[length:var(--hair)] border-[var(--ink-25)]',
+					revealed.has(i) ? 'bg-[var(--paper)]' : 'ink-invert bg-[var(--ink-10)]',
 					mines.has(i) && revealed.has(i) && 'hatch',
 					exploded === i && 'bg-[var(--ink)] text-[var(--paper)]'
 				]}

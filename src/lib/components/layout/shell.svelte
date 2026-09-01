@@ -45,9 +45,7 @@
 		</div>
 	</div>
 	<div class="shell-foot">
-		<div
-			class="grid grid-cols-1 items-stretch sm:grid-cols-[minmax(0,1fr)_calc(var(--grid)*14)]"
-		>
+		<div class="grid grid-cols-1 items-stretch sm:grid-cols-[minmax(0,1fr)_calc(var(--grid)*14)]">
 			<div class="flex flex-col justify-center gap-2 px-3 py-3">
 				<blockquote class="italic">
 					"The best person ever to exist."

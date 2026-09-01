@@ -12,22 +12,39 @@
 
 	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
 
-	function onOver(event: MouseEvent) {
-		const a = (event.target as HTMLElement | null)?.closest?.('a');
-		if (!a) return;
-		const href = a.getAttribute('href') ?? '';
-		preview?.setHover({
-			eyebrow: 'Link',
-			title: a.textContent?.trim() || href,
-			subtitle: href,
-			href
-		});
-	}
+	function linkPreview(node: HTMLElement) {
+		if (!preview) return;
 
-	function onOut(event: MouseEvent) {
-		const related = event.relatedTarget as HTMLElement | null;
-		if (related?.closest?.('a')) return;
-		preview?.clearHover();
+		function enter(event: Event) {
+			const a = event.currentTarget as HTMLAnchorElement;
+			preview?.setHover({
+				eyebrow: 'Link',
+				title: a.textContent?.trim() || a.href,
+				subtitle: a.getAttribute('href') ?? a.href,
+				href: a.getAttribute('href') ?? a.href
+			});
+		}
+
+		function leave() {
+			preview?.clearHover();
+		}
+
+		const links = [...node.querySelectorAll('a')];
+		for (const a of links) {
+			a.addEventListener('mouseenter', enter);
+			a.addEventListener('mouseleave', leave);
+			a.addEventListener('focus', enter);
+			a.addEventListener('blur', leave);
+		}
+
+		return () => {
+			for (const a of links) {
+				a.removeEventListener('mouseenter', enter);
+				a.removeEventListener('mouseleave', leave);
+				a.removeEventListener('focus', enter);
+				a.removeEventListener('blur', leave);
+			}
+		};
 	}
 </script>
 
@@ -37,9 +54,9 @@
 	canonical="https://quang.design"
 />
 
-<div class="w-full p-3" onmouseover={onOver} onmouseout={onOut} role="presentation">
+<div {@attach linkPreview} class="w-full p-3">
 	<div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-		{#each sections as section}
+		{#each sections as section, i (i)}
 			<div class="ink-read max-w-none">
 				<Markdown md={section} />
 			</div>

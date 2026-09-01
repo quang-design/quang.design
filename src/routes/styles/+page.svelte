@@ -66,7 +66,8 @@ function greet(name) {
 		eyebrow: 'Reference · S',
 		title: 'Styles',
 		subtitle: 'Markdown specimen',
-		description: 'The live markdown renderer, restyled. Headings are labels. Code sits in a hairline box. Quotes are dashed, not amber.'
+		description:
+			'The live markdown renderer, restyled. Headings are labels. Code sits in a hairline box. Quotes are dashed, not amber.'
 	}}
 />
 

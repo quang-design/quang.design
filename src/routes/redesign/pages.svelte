@@ -30,9 +30,7 @@
 	stacked
 >
 	{#snippet before()}
-		<p class="text-muted-foreground text-xs">
-			Previous layout: max-w-7xl column, navbar, footer.
-		</p>
+		<p class="text-muted-foreground text-xs">Previous layout: max-w-7xl column, navbar, footer.</p>
 	{/snippet}
 	{#snippet after()}
 		<LiveFrame src="/" title="Live shell" />
@@ -64,7 +62,13 @@
 	{/snippet}
 </ReviewItem>
 
-<ReviewItem id="P3" group="pages" title="Design project — Doppio Kaffè" why="/design/doppio" stacked>
+<ReviewItem
+	id="P3"
+	group="pages"
+	title="Design project — Doppio Kaffè"
+	why="/design/doppio"
+	stacked
+>
 	{#snippet before()}
 		<p class="text-muted-foreground text-xs">Intro + meta + gallery.</p>
 	{/snippet}
@@ -133,13 +137,7 @@
 	{/snippet}
 </ReviewItem>
 
-<ReviewItem
-	id="P10"
-	group="pages"
-	title="Blog post"
-	why="/blog/posts/this-design-look-sad"
-	stacked
->
+<ReviewItem id="P10" group="pages" title="Blog post" why="/blog/posts/this-design-look-sad" stacked>
 	{#snippet before()}
 		<p class="text-muted-foreground text-xs">Title + date + markdown in one column.</p>
 	{/snippet}

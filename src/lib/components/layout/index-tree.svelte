@@ -1,10 +1,5 @@
-<script lang="ts" module>
-	export type { TreeGroup, TreeRow } from '$lib/config/tree';
-</script>
-
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import type { PathnameWithSearchOrHash } from '$app/types';
 	import { getContext } from 'svelte';
 	import { cn } from '$lib/utils';
 	import { MicroLabel, KeySlot, Count } from '$lib/components/primitives';
@@ -27,7 +22,7 @@
 			<div class="stack stack-flush flex flex-col">
 				{#each group.rows as row (row.code)}
 					<a
-						href={row.external ? row.href : resolve(row.href as PathnameWithSearchOrHash)}
+						href={row.external ? row.href : resolve(row.href as '/')}
 						target={row.external ? '_blank' : undefined}
 						rel={row.external ? 'noopener noreferrer' : undefined}
 						class={cn(

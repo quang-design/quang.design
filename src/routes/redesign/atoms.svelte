@@ -35,8 +35,8 @@
 
 <h2 id="atoms" class="mt-8 scroll-mt-28 text-sm tracking-widest uppercase">3 · Atoms</h2>
 <p class="text-muted-foreground max-w-3xl text-xs">
-	Live <code>ui/</code> components. Ghost has no border. Spinner spins. Kbd is only for shortcuts.
-	Select is not part of the site chrome.
+	Live <code>ui/</code> components. Ghost has no border. Spinner spins. Kbd is only for shortcuts. Select
+	is not part of the site chrome.
 </p>
 
 <ReviewItem
@@ -76,7 +76,8 @@
 	{#snippet before()}
 		<div class="flex max-w-sm flex-col gap-2">
 			<input class="h-8 rounded-lg border px-2.5" placeholder="Enter your email" />
-			<textarea class="min-h-16 rounded-lg border px-2.5 py-2" placeholder="Note…" rows={2}></textarea>
+			<textarea class="min-h-16 rounded-lg border px-2.5 py-2" placeholder="Note…" rows={2}
+			></textarea>
 		</div>
 	{/snippet}
 	{#snippet after()}

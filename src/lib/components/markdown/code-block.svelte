@@ -65,14 +65,13 @@
 	</code>
 {:else}
 	{#if highlightedCode}
-		<div class="p-3 [&_code]:block [&_pre]:m-0 [&_pre]:bg-transparent [&_pre]:p-0 [&_span]:!filter-none">
+		<div
+			class="p-3 [&_code]:block [&_pre]:m-0 [&_pre]:bg-transparent [&_pre]:p-0 [&_span]:!filter-none"
+		>
 			{@html highlightedCode}
 		</div>
 	{/if}
-	<pre
-		{...rest}
-		class="w-full p-3 text-sm"
-		class:hidden={highlightedCode}><code bind:this={codeElement}
-			>{text || ''}{@render children?.()}</code
+	<pre {...rest} class="w-full p-3 text-sm" class:hidden={highlightedCode}><code
+			bind:this={codeElement}>{text || ''}{@render children?.()}</code
 		></pre>
 {/if}

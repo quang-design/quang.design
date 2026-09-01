@@ -6,7 +6,6 @@
 	import Subscribe from '$lib/components/shared/subscribe.svelte';
 	import { Markdown } from '$lib/components/markdown';
 	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
-	import { MicroLabel } from '$lib/components/primitives';
 	import { IndexRow } from '$lib/components/layout';
 
 	const samplePost = {
@@ -110,12 +109,7 @@
 	{/snippet}
 </ReviewItem>
 
-<ReviewItem
-	id="M4"
-	group="molecules"
-	title="Empty state"
-	why="Dashed 0.5px hair, hatch, label."
->
+<ReviewItem id="M4" group="molecules" title="Empty state" why="Dashed 0.5px hair, hatch, label.">
 	{#snippet before()}
 		<div class="rounded-lg border-2 border-dashed border-neutral-300 p-12 text-center">
 			<p>No Posts Yet</p>

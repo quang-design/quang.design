@@ -81,7 +81,12 @@
 		{#if shown.links.length}
 			<section class="flex flex-wrap gap-2">
 				{#each shown.links as link (link.href)}
-					<a href={link.href} target="_blank" rel="noopener noreferrer" class="hair ink-invert px-2 py-1">
+					<a
+						href={link.href}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="hair ink-invert px-2 py-1"
+					>
 						{link.label}
 					</a>
 				{/each}

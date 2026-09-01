@@ -60,7 +60,9 @@
 	<p class="text-muted-foreground rule-b p-3 text-xs">{why}</p>
 
 	<div class="grid grid-cols-1 {stacked ? '' : 'md:grid-cols-2'}">
-		<div class="rule-b flex flex-col {stacked ? '' : 'md:border-r-[length:var(--hair)] md:border-b-0'}">
+		<div
+			class="rule-b flex flex-col {stacked ? '' : 'md:border-r-[length:var(--hair)] md:border-b-0'}"
+		>
 			<span class="ink-label px-3 pt-3">Before</span>
 			<div class="p-3">{@render before()}</div>
 		</div>

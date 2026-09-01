@@ -34,7 +34,12 @@
 	{/snippet}
 	{#snippet a(props)}
 		{@const { children, ...rest } = props}
-		<a {...rest} class={cn('underline decoration-[var(--ink-40)] underline-offset-4', rest.class)} target="_blank" rel="noopener noreferrer">
+		<a
+			{...rest}
+			class={cn('underline decoration-[var(--ink-40)] underline-offset-4', rest.class)}
+			target="_blank"
+			rel="noopener noreferrer"
+		>
 			{@render children?.()}
 		</a>
 	{/snippet}

@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { toast } from 'svelte-sonner';
 	import MailIcon from '@lucide/svelte/icons/mail';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
 	import { apiPaths } from '$lib/config/api';
 	import { MicroLabel } from '$lib/components/primitives';
 
@@ -38,18 +36,74 @@
 
 <form action="" onsubmit={handleSubmit} class="flex w-full flex-col gap-1">
 	<MicroLabel>Email</MicroLabel>
-	<div class="stack-x flex h-8 w-full items-stretch">
-		<Input
+	<div class="field">
+		<input
 			name="email"
 			type="email"
 			placeholder="xinchao@quang.design"
 			bind:value={email}
 			required
-			class="h-8 min-w-0 flex-1 border-0"
 		/>
-		<Button type="submit" variant="default" disabled={loading} class="h-8 shrink-0 border-0">
+		<button type="submit" disabled={loading}>
 			<MailIcon class="size-3.5" />
 			{loading ? 'Capturing...' : 'Subscribe'}
-		</Button>
+		</button>
 	</div>
 </form>
+
+<style>
+	.field {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		height: calc(var(--spacing) * 8);
+		border: var(--hair) solid var(--ink-25);
+		align-items: stretch;
+	}
+
+	.field input,
+	.field button {
+		height: 100%;
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		font-size: var(--text-sm);
+		line-height: 1;
+		letter-spacing: var(--tracking-widest);
+		outline: none;
+	}
+
+	.field input {
+		min-width: 0;
+		padding: 0 calc(var(--spacing) * 3);
+		text-transform: none;
+		letter-spacing: var(--tracking-normal);
+	}
+
+	.field button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: calc(var(--spacing) * 2);
+		padding: 0 calc(var(--spacing) * 3);
+		border-left: var(--hair) solid var(--ink-25);
+		background: var(--ink);
+		color: var(--paper);
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+
+	.field button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.field input:focus-visible,
+	.field button:focus-visible {
+		outline: var(--hair) solid var(--ink);
+		outline-offset: calc(var(--spacing) * -1);
+	}
+</style>

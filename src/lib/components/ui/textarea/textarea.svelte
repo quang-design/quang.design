@@ -15,7 +15,7 @@
 	bind:this={ref}
 	data-slot={dataSlot}
 	class={cn(
-		'placeholder:text-muted-foreground disabled:bg-input/50 aria-invalid:border-destructive flex field-sizing-content min-h-16 w-full border-[length:var(--hair)] border-input bg-transparent px-2.5 py-2 text-base outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+		'placeholder:text-muted-foreground disabled:bg-input/50 aria-invalid:border-destructive border-input flex field-sizing-content min-h-16 w-full border-[length:var(--hair)] bg-transparent px-2.5 py-2 text-base outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
 		className
 	)}
 	bind:value

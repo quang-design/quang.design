@@ -40,7 +40,9 @@
 </svelte:head>
 
 <div class="flex w-full flex-col gap-6 pb-16">
-	<header class="rule-b bg-background sticky top-0 z-10 flex flex-col gap-3 py-3 md:flex-row md:flex-wrap md:items-center">
+	<header
+		class="rule-b bg-background sticky top-0 z-10 flex flex-col gap-3 py-3 md:flex-row md:flex-wrap md:items-center"
+	>
 		<div class="flex min-w-0 flex-wrap items-baseline gap-3">
 			<h1 class="text-lg">Redesign review</h1>
 			<p class="text-muted-foreground text-xs">
