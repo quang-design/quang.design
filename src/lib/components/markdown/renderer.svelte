@@ -69,37 +69,37 @@
 
 	{#snippet h1(props)}
 		{@const { children, ...rest } = props}
-		<h1 {...rest} class={cn('ink-display mt-8 mb-4', rest.class)}>
+		<h1 {...rest} class={cn('ink-h1 mt-8 mb-4', rest.class)}>
 			{@render children?.()}
 		</h1>
 	{/snippet}
 	{#snippet h2(props)}
 		{@const { children, ...rest } = props}
-		<h2 {...rest} class={cn('ink-label mt-8 mb-4', rest.class)}>
+		<h2 {...rest} class={cn('ink-h2 mt-8 mb-3', rest.class)}>
 			{@render children?.()}
 		</h2>
 	{/snippet}
 	{#snippet h3(props)}
 		{@const { children, ...rest } = props}
-		<h3 {...rest} class={cn('ink-label mt-6 mb-3', rest.class)}>
+		<h3 {...rest} class={cn('ink-h3 mt-6 mb-2', rest.class)}>
 			{@render children?.()}
 		</h3>
 	{/snippet}
 	{#snippet h4(props)}
 		{@const { children, ...rest } = props}
-		<h4 {...rest} class={cn('ink-label mt-6 mb-3', rest.class)}>
+		<h4 {...rest} class={cn('ink-h4 mt-6 mb-2', rest.class)}>
 			{@render children?.()}
 		</h4>
 	{/snippet}
 	{#snippet h5(props)}
 		{@const { children, ...rest } = props}
-		<h5 {...rest} class={cn('ink-label mt-4 mb-2', rest.class)}>
+		<h5 {...rest} class={cn('ink-h5 mt-4 mb-2', rest.class)}>
 			{@render children?.()}
 		</h5>
 	{/snippet}
 	{#snippet h6(props)}
 		{@const { children, ...rest } = props}
-		<h6 {...rest} class={cn('ink-label mt-4 mb-2', rest.class)}>
+		<h6 {...rest} class={cn('ink-h6 mt-4 mb-2', rest.class)}>
 			{@render children?.()}
 		</h6>
 	{/snippet}
@@ -118,11 +118,9 @@
 	{#snippet pre(props)}
 		{@const { children } = props}
 		<div class="not-prose my-4">
-			<div class="ink-code hair">
-				<div class="overflow-x-auto">
+			<div class="hair ink-code overflow-x-auto p-3">
 					{@render children?.()}
 				</div>
-			</div>
 		</div>
 	{/snippet}
 	{#snippet code(props)}

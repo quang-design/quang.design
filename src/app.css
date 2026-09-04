@@ -303,11 +303,37 @@
 	}
 
 	.ink-display {
-		font-size: var(--text-xl);
-		line-height: var(--text-xl--line-height);
-		font-weight: var(--font-weight-bold, 700);
-		letter-spacing: var(--tracking-tight);
+		font-size: var(--text-lg);
+		line-height: var(--text-lg--line-height);
+		font-weight: 700;
+		letter-spacing: var(--tracking-normal);
 		text-transform: none;
+	}
+
+	.ink-h1 {
+		font-size: var(--text-lg);
+		line-height: var(--text-lg--line-height);
+		font-weight: 700;
+	}
+
+	.ink-h2 {
+		font-size: var(--text-base);
+		line-height: var(--text-base--line-height);
+		font-weight: 700;
+	}
+
+	.ink-h3 {
+		font-size: var(--text-base);
+		line-height: var(--text-base--line-height);
+		font-weight: 400;
+	}
+
+	.ink-h4,
+	.ink-h5,
+	.ink-h6 {
+		font-size: var(--text-sm);
+		line-height: var(--text-sm--line-height);
+		font-weight: 400;
 	}
 
 	.ink-read,
@@ -338,14 +364,8 @@
 	}
 
 	.ink-code {
-		background-color: #fff;
+		background-color: var(--ink-10);
 		background-image: none;
-		isolation: isolate;
-	}
-
-	.dark .ink-code {
-		background-color: #011627;
-		color: #d6deeb;
 	}
 
 	.ink-code pre,
@@ -429,12 +449,6 @@
 	.site {
 		background-color: var(--paper);
 		color: var(--ink);
-		background-image:
-			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
-			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
-		background-size: var(--grid) var(--grid);
-		background-attachment: fixed;
-		background-position: 0 0;
 		min-height: 100dvh;
 	}
 
@@ -508,35 +522,44 @@
 	.shell {
 		display: flex;
 		flex-direction: column;
-		min-height: 100dvh;
+		width: 100%;
+		width: round(down, 100%, var(--grid));
+		height: round(down, 100dvh, var(--grid));
+		min-height: round(down, 100dvh, var(--grid));
+		margin-inline: auto;
 		border: var(--hair) solid var(--ink-40);
-		box-shadow:
-			inset 0 0 0 calc(var(--spacing) * 0.5 + var(--hair)) var(--paper),
-			inset 0 0 0 calc(var(--spacing) * 0.5 + var(--hair) * 2) var(--ink-40);
+		background-color: var(--paper);
+		background-image:
+			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
+			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+		background-size: var(--grid) var(--grid);
+		background-position: 0 0;
 	}
 
 	.shell-head {
 		display: flex;
 		align-items: stretch;
-		border-bottom: var(--hair) solid var(--ink-25);
-		overflow-x: auto;
+		height: calc(var(--grid) * 2);
 		min-height: calc(var(--grid) * 2);
+		overflow-x: auto;
+		overflow-y: hidden;
+		border-bottom: var(--hair) solid var(--ink-25);
 	}
 
 	.shell-body {
 		display: grid;
 		flex: 1;
 		min-height: 0;
+		overflow: auto;
+		container-type: size;
 		grid-template-columns: 1fr;
 		grid-template-areas:
 			'index'
-			'canvas'
-			'reading';
+			'canvas';
 	}
 
 	.shell-index {
 		grid-area: index;
-		max-height: calc(var(--grid) * 10);
 		overflow: auto;
 	}
 
@@ -549,49 +572,52 @@
 	}
 
 	.shell-reading {
+		display: none;
 		grid-area: reading;
 		min-width: 0;
-		min-height: calc(var(--grid) * 10);
-		border-top: var(--hair) solid var(--ink-25);
-		overflow: auto;
+	}
+
+	.reading-pane {
+		min-height: 0;
 	}
 
 	.shell-foot {
+		height: calc(var(--grid) * 4);
+		min-height: calc(var(--grid) * 4);
+		overflow: auto;
 		border-top: var(--hair) solid var(--ink-25);
-		min-height: calc(var(--grid) * 3);
-	}
-
-	@media (min-width: 768px) {
-		.shell-body {
-			grid-template-columns: var(--index-col) minmax(0, 1fr);
-			grid-template-areas:
-				'index canvas'
-				'index reading';
-		}
-
-		.shell-index {
-			max-height: none;
-			border-right: var(--hair) solid var(--ink-25);
-		}
-
-		.shell-canvas {
-			border-top: 0;
-			min-height: calc(var(--grid) * 16);
-		}
-
-		.shell-reading {
-			border-top: var(--hair) solid var(--ink-25);
-		}
 	}
 
 	@media (min-width: 1024px) {
 		.shell-body {
 			grid-template-columns: var(--index-col) minmax(0, 1fr) var(--reading-col);
 			grid-template-areas: 'index canvas reading';
+			align-items: start;
+		}
+
+		.shell-index {
+			position: sticky;
+			top: 0;
+			align-self: start;
+			max-height: 100cqb;
+			overflow: auto;
+			border-right: var(--hair) solid var(--ink-25);
+		}
+
+		.shell-canvas {
+			border-top: 0;
+			min-height: calc(var(--grid) * 16);
+			overflow: visible;
 		}
 
 		.shell-reading {
-			border-top: 0;
+			display: flex;
+			flex-direction: column;
+			position: sticky;
+			top: 0;
+			align-self: start;
+			max-height: 100cqb;
+			overflow: auto;
 			border-left: var(--hair) solid var(--ink-25);
 			min-height: calc(var(--grid) * 16);
 		}

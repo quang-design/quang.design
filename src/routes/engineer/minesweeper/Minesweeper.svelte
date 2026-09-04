@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { SvelteSet } from 'svelte/reactivity';
+	import FlagIcon from '@lucide/svelte/icons/flag';
+	import BombIcon from '@lucide/svelte/icons/bomb';
 	import { Action, MicroLabel } from '$lib/components/primitives';
 
 	const SIZE = 9;
@@ -78,6 +80,7 @@
 	}
 
 	function reset() {
+		if (!over) return;
 		mines = new Set();
 		numbers = Array(TOTAL).fill(0);
 		revealed.clear();
@@ -102,7 +105,7 @@
 			{:else if lost}Mine
 			{:else}{MINE_COUNT - flagged.size} mines left{/if}
 		</MicroLabel>
-		<Action onclick={reset}>Reset</Action>
+		<Action onclick={reset} disabled={!over}>Reset</Action>
 	</div>
 	<div class="grid w-fit grid-cols-9">
 		{#each cells as i (i)}
@@ -117,14 +120,14 @@
 				class={[
 					'flex size-8 items-center justify-center border-[length:var(--hair)] border-[var(--ink-25)]',
 					revealed.has(i) ? 'bg-[var(--paper)]' : 'ink-invert bg-[var(--ink-10)]',
-					mines.has(i) && revealed.has(i) && 'hatch',
-					exploded === i && 'bg-[var(--ink)] text-[var(--paper)]'
+					lost && mines.has(i) && 'bg-red-600 text-white',
+					exploded === i && 'bg-red-700 text-white'
 				]}
 			>
 				{#if flagged.has(i) && !revealed.has(i)}
-					<span class="ink-label">F</span>
+					<FlagIcon class="size-3.5" />
 				{:else if revealed.has(i) && mines.has(i)}
-					<span class="ink-label">M</span>
+					<BombIcon class="size-3.5" />
 				{:else if revealed.has(i) && numbers[i] > 0}
 					<span class="ink-label">{numbers[i]}</span>
 				{/if}

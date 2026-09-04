@@ -65,11 +65,11 @@
 	</code>
 {:else}
 	{#if highlightedCode}
-		<div class="p-3 [&_code]:block [&_pre]:m-0 [&_pre]:p-0 [&_span]:!filter-none">
+		<div class="ink-code p-3 [&_code]:block [&_pre]:m-0 [&_pre]:p-0 [&_span]:!filter-none">
 			{@html highlightedCode}
 		</div>
 	{/if}
-	<pre {...rest} class="w-full p-3 text-sm" class:hidden={highlightedCode}><code
+	<pre {...rest} class="ink-code w-full p-3 text-sm" class:hidden={highlightedCode}><code
 			bind:this={codeElement}>{text || ''}{@render children?.()}</code
 		></pre>
 {/if}

@@ -51,7 +51,7 @@
 	);
 </script>
 
-<article class={cn('flex flex-col', className)}>
+<article class={cn('reading-pane flex flex-col', className)}>
 	{#if tabs.length}
 		<div class="rule-b flex flex-wrap">
 			{#each tabs as tab, i (tab)}

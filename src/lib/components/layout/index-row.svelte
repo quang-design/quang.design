@@ -17,6 +17,7 @@
 		external = false,
 		preview: previewData = null,
 		icon,
+		thumb = 'square',
 		class: className
 	}: {
 		code: string;
@@ -29,10 +30,15 @@
 		external?: boolean;
 		preview?: Preview;
 		icon?: Snippet;
+		thumb?: 'square' | 'wide';
 		class?: string;
 	} = $props();
 
 	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
+	const thumbClass = $derived(
+		thumb === 'wide' ? 'hair h-10 w-[3.75rem] shrink-0 object-cover' : 'hair size-10 shrink-0 object-cover'
+	);
+	const thumbSize = $derived(thumb === 'wide' ? { width: 60, height: 40 } : { width: 40, height: 40 });
 	const rowClass = $derived(
 		cn('ink-invert flex flex-col gap-1 px-3 py-2 sm:flex-row sm:items-center sm:gap-3', className)
 	);
@@ -50,13 +56,19 @@
 {#snippet body()}
 	<KeySlot {code} />
 	{#if thumbnail}
-		<img src={thumbnail} alt="" width="60" height="40" class="hair h-10 w-[3.75rem] shrink-0 object-cover" />
+		<img
+			src={thumbnail}
+			alt=""
+			width={thumbSize.width}
+			height={thumbSize.height}
+			class={thumbClass}
+		/>
 	{:else if icon}
 		<div class="hair flex size-10 shrink-0 items-center justify-center">
 			{@render icon()}
 		</div>
 	{:else if placeholder}
-		<Hatch class="hair h-10 w-[3.75rem] shrink-0" />
+		<Hatch class={thumb === 'wide' ? 'hair h-10 w-[3.75rem] shrink-0' : 'hair size-10 shrink-0'} />
 	{/if}
 	<span class="flex min-w-0 grow flex-col gap-0.5">
 		<span class="ink-row-title">{title}</span>

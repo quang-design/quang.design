@@ -35,7 +35,7 @@
 			{#if current}
 				<ReadingPane preview={current} />
 			{:else}
-				<div class="flex h-full min-h-32 flex-col gap-2 p-3">
+				<div class="reading-pane flex h-full min-h-32 flex-col gap-2 p-3">
 					<MicroLabel>Detail</MicroLabel>
 					<p class="ink-row-desc">Hover a row or a link to preview.</p>
 				</div>
