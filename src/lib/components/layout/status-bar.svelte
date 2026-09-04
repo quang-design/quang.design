@@ -35,7 +35,7 @@
 	const localTime = $derived(date ? formatter.format(date) : '--:--:--');
 </script>
 
-<header class={cn('flex w-full min-w-max items-stretch', className)}>
+<header class={cn('flex h-full w-full min-w-max items-stretch', className)}>
 	<div class="flex flex-col justify-center gap-1 px-3 py-2">
 		<span class="ink-label">Welcome to</span>
 		<span class="leading-none">{title}</span>

@@ -64,9 +64,8 @@
 				date="2023-01-01"
 				description="5 Years of Crafting Doppio Kaffè's Cozy Character"
 				href="/design/doppio"
-				display
 			/>
-			<IndexRow placeholder code="D3" title="DREAM SWEETS" date="2022-11-04" display />
+			<IndexRow placeholder code="D3" title="DREAM SWEETS" date="2022-11-04" />
 		</div>
 	{/snippet}
 </ReviewItem>

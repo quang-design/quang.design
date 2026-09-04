@@ -15,7 +15,6 @@
 		placeholder = false,
 		href = '#',
 		external = false,
-		display = false,
 		preview: previewData = null,
 		icon,
 		class: className
@@ -28,7 +27,6 @@
 		placeholder?: boolean;
 		href?: string;
 		external?: boolean;
-		display?: boolean;
 		preview?: Preview;
 		icon?: Snippet;
 		class?: string;
@@ -52,16 +50,16 @@
 {#snippet body()}
 	<KeySlot {code} />
 	{#if thumbnail}
-		<img src={thumbnail} alt="" width="40" height="40" class="hair size-10 object-cover" />
+		<img src={thumbnail} alt="" width="60" height="40" class="hair h-10 w-[3.75rem] shrink-0 object-cover" />
 	{:else if icon}
 		<div class="hair flex size-10 shrink-0 items-center justify-center">
 			{@render icon()}
 		</div>
 	{:else if placeholder}
-		<Hatch class="hair size-10 shrink-0" />
+		<Hatch class="hair h-10 w-[3.75rem] shrink-0" />
 	{/if}
 	<span class="flex min-w-0 grow flex-col gap-0.5">
-		<span class={display ? 'ink-display uppercase' : 'ink-row-title'}>{title}</span>
+		<span class="ink-row-title">{title}</span>
 		{#if description}<span class="ink-row-desc line-clamp-2">{description}</span>{/if}
 	</span>
 	{#if date}<span class="ink-row-meta shrink-0 sm:ml-auto">{date}</span>{/if}

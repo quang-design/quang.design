@@ -57,6 +57,9 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 		}
 	}));
 
+	const onDesignChild = pathname.startsWith('/design/');
+	const onBlogChild = pathname.startsWith('/blog/posts/');
+
 	const groups: TreeGroup[] = [
 		{
 			label: 'Index',
@@ -68,7 +71,7 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 					href: '/design',
 					count: nav.design.length
 				},
-				...designRows,
+				...(onDesignChild ? designRows : []),
 				{
 					code: 'E',
 					label: 'Engineer',
@@ -81,7 +84,7 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 					href: '/blog',
 					count: nav.blog.length
 				},
-				...blogRows
+				...(onBlogChild ? blogRows : [])
 			]
 		},
 		{

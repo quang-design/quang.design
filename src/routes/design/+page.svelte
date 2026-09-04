@@ -28,7 +28,6 @@
 				thumbnail={post.thumbnail}
 				placeholder={!post.thumbnail}
 				href="/design/{post.slug}"
-				display
 				preview={{
 					eyebrow: 'Design',
 					title: headline.brand,

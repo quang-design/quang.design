@@ -18,10 +18,9 @@
 	role="separator"
 	aria-orientation={orientation}
 	class={cn(
-		style,
 		orientation === 'horizontal'
-			? 'w-full border-x-0 border-t-0'
-			: 'self-stretch border-y-0 border-r-0',
+			? [style, 'w-full border-x-0 border-t-0']
+			: 'self-stretch w-0 shrink-0 border-l-[length:var(--hair)] border-solid border-[var(--ink-25)]',
 		className
 	)}
 ></div>
