@@ -2,7 +2,6 @@
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import AnimationCard from './AnimationCard.svelte';
 	import { sections } from './animations';
-	import PagePreview from '$lib/components/layout/page-preview.svelte';
 </script>
 
 <SeoHead
@@ -11,18 +10,15 @@
 	canonical="https://quang.design/engineer/animation-vocabulary"
 />
 
-<PagePreview
-	value={{
-		eyebrow: 'Engineer · E3',
-		title: 'Animation Vocabulary',
-		subtitle: 'Interactive visual glossary of animation terms.',
-		description:
-			'Inspired by animations.dev/vocabulary. Click any card to replay. Motion is unchanged — only the chrome is restyled.',
-		links: [{ label: 'animations.dev/vocabulary', href: 'https://animations.dev/vocabulary' }]
-	}}
-/>
-
 <section class="mx-auto w-full max-w-2xl space-y-10 p-4 sm:space-y-16">
+	<div>
+		<h1 class="ink-display uppercase">Animation Vocabulary</h1>
+		<p class="mt-1">Interactive visual glossary of animation terms.</p>
+		<p class="mt-1">
+			Inspired by <a href="https://animations.dev/vocabulary">animations.dev/vocabulary</a>. Click
+			any card to replay.
+		</p>
+	</div>
 	{#each sections as section (section.title)}
 		<div class="space-y-4">
 			<div>

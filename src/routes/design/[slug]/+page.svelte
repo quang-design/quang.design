@@ -3,7 +3,7 @@
 	import { DesignMarkdown } from '$lib/components/markdown';
 	import { splitDesignContent } from '$lib/utils/design-content';
 	import { page } from '$app/state';
-	import PagePreview from '$lib/components/layout/page-preview.svelte';
+	import { Badge } from '$lib/components/ui/badge';
 	import { designHeadline } from '$lib/content/headline';
 
 	let {
@@ -17,6 +17,7 @@
 
 	const { introMd, metaParts, galleryMd } = $derived(splitDesignContent(data.md));
 	const headline = $derived(designHeadline(data.meta.title, page.params.slug ?? ''));
+	const slug = $derived(page.params.slug);
 </script>
 
 <SeoHead
@@ -29,28 +30,31 @@
 	author="Quang"
 />
 
-<PagePreview
-	value={{
-		eyebrow: 'Design',
-		title: headline.brand,
-		subtitle: headline.line,
-		description: data.meta.description,
-		date: data.meta.date,
-		thumbnail: data.meta.thumbnail,
-		meta: metaParts
-	}}
-/>
-
 <div class="flex flex-col">
-	<div class="px-3 py-8">
-		<h1 class="ink-display mb-4 uppercase">{headline.brand}</h1>
-		{#if introMd}
-			<div class="ink-read leading-relaxed">
-				{#each introMd.split('\n\n') as paragraph (paragraph)}
-					<p class="mb-3">{paragraph}</p>
-				{/each}
+	<div class="grid grid-cols-1 gap-8 px-3 py-8 sm:grid-cols-2">
+		<div>
+			<h1 class="ink-display mb-4 uppercase">{headline.brand}</h1>
+			{#if introMd}
+				<div class="ink-read leading-relaxed">
+					{#each introMd.split('\n\n') as paragraph (paragraph)}
+						<p class="mb-3">{paragraph}</p>
+					{/each}
+				</div>
+			{/if}
+		</div>
+		<div class="flex flex-col gap-3">
+			{#if metaParts.length}
+				<div class="flex flex-col gap-1">
+					{#each metaParts as part (part)}
+						<p>{part}</p>
+					{/each}
+				</div>
+			{/if}
+			<div class="flex flex-wrap gap-2">
+				<Badge variant="outline" href="/design/{slug}/llms.txt">llms.txt</Badge>
+				<Badge variant="outline" href="/design/{slug}/post.md">post.md</Badge>
 			</div>
-		{/if}
+		</div>
 	</div>
 
 	{#if galleryMd}

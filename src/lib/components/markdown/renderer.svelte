@@ -118,7 +118,7 @@
 	{#snippet pre(props)}
 		{@const { children } = props}
 		<div class="not-prose my-4">
-			<div class="hair">
+			<div class="hair bg-[var(--paper)]">
 				<div class="overflow-x-auto">
 					{@render children?.()}
 				</div>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Markdown } from '$lib/components/markdown';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { Badge } from '$lib/components/ui/badge';
 	import { page } from '$app/state';
-	import PagePreview from '$lib/components/layout/page-preview.svelte';
 
 	let {
 		data
@@ -24,23 +24,16 @@
 	author="Quang"
 />
 
-<PagePreview
-	value={{
-		eyebrow: 'Blog',
-		title: data.meta.title,
-		subtitle: data.meta.description,
-		date: data.meta.date,
-		thumbnail: data.meta.thumbnail,
-		meta: data.meta.date ? [data.meta.date] : [],
-		links: [
-			{ label: 'llms.txt', href: `/blog/posts/${page.params.slug}/llms.txt` },
-			{ label: 'post.md', href: `/blog/posts/${page.params.slug}/post.md` }
-		]
-	}}
-/>
-
 <div class="flex flex-col">
 	<div class="mx-auto w-full max-w-xl p-4">
+		<div class="mb-4 flex gap-2">
+			<Badge variant="outline" href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</Badge>
+			<Badge variant="outline" href="/blog/posts/{page.params.slug}/post.md">post.md</Badge>
+		</div>
+		<h1 class="ink-display mb-2">{data.meta.title}</h1>
+		{#if data.meta.date}
+			<p class="ink-label mb-4">{data.meta.date}</p>
+		{/if}
 		<div class="ink-read">
 			<Markdown md={data.md} />
 		</div>

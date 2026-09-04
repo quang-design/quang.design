@@ -43,10 +43,7 @@
 				});
 				if (cancelled) return;
 				highlightedCode = html.replace(/style="([^"]*)"/gi, (_match, styles) => {
-					const cleaned = styles
-						.replace(/overflow[^;]*;?/gi, '')
-						.replace(/background-color[^;]*;?/gi, '')
-						.trim();
+					const cleaned = styles.replace(/overflow[^;]*;?/gi, '').trim();
 					return cleaned ? `style="${cleaned}"` : '';
 				});
 			} catch {
@@ -66,12 +63,12 @@
 {:else}
 	{#if highlightedCode}
 		<div
-			class="p-3 [&_code]:block [&_pre]:m-0 [&_pre]:bg-transparent [&_pre]:p-0 [&_span]:!filter-none"
+			class="bg-[var(--paper)] p-3 [&_code]:block [&_pre]:m-0 [&_pre]:p-0 [&_span]:!filter-none"
 		>
 			{@html highlightedCode}
 		</div>
 	{/if}
-	<pre {...rest} class="w-full p-3 text-sm" class:hidden={highlightedCode}><code
+	<pre {...rest} class="bg-[var(--paper)] w-full p-3 text-sm" class:hidden={highlightedCode}><code
 			bind:this={codeElement}>{text || ''}{@render children?.()}</code
 		></pre>
 {/if}
