@@ -32,7 +32,6 @@
 			const expandedText = data.content[0].text;
 			text = text.replace(loadingToken, expandedText);
 		} catch (_error) {
-			// Error expanding text - reverting to original
 			text = text.replace(loadingToken, word);
 		} finally {
 			isLoading = false;
@@ -46,8 +45,8 @@
 	canonical="https://quang.design/engineer/telescopic"
 />
 
-<section class="max-w-sm space-y-4">
-	<h1 class="uppercase">Welcome to AI Telescopic Text</h1>
+<section class="max-w-sm space-y-4 p-4">
+	<h1 class="ink-display uppercase">Welcome to AI Telescopic Text</h1>
 	<p>
 		Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
 		progressively expand simple sentences into more detailed narratives.

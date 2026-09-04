@@ -3,6 +3,8 @@
 	import { DesignMarkdown } from '$lib/components/markdown';
 	import { splitDesignContent } from '$lib/utils/design-content';
 	import { page } from '$app/state';
+	import { Badge } from '$lib/components/ui/badge';
+	import { designHeadline } from '$lib/content/headline';
 
 	let {
 		data
@@ -14,6 +16,8 @@
 	} = $props();
 
 	const { introMd, metaParts, galleryMd } = $derived(splitDesignContent(data.md));
+	const headline = $derived(designHeadline(data.meta.title, page.params.slug ?? ''));
+	const slug = $derived(page.params.slug);
 </script>
 
 <SeoHead
@@ -27,26 +31,34 @@
 />
 
 <div class="flex flex-col">
-	<div class="grid grid-cols-1 gap-8 py-8 sm:grid-cols-2">
+	<div class="grid grid-cols-1 gap-8 px-3 py-8 sm:grid-cols-2">
 		<div>
-			<h1 class="mb-4 text-2xl font-bold">{data.meta.title}</h1>
+			<h1 class="ink-display mb-4 uppercase">{headline.brand}</h1>
 			{#if introMd}
-				<div class="text-foreground/80 leading-relaxed">
+				<div class="ink-read leading-relaxed">
 					{#each introMd.split('\n\n') as paragraph (paragraph)}
 						<p class="mb-3">{paragraph}</p>
 					{/each}
 				</div>
 			{/if}
 		</div>
-		<div class="text-foreground/60 flex flex-col gap-1 text-sm">
-			{#each metaParts as part (part)}
-				<p>{part}</p>
-			{/each}
+		<div class="flex flex-col gap-3">
+			{#if metaParts.length}
+				<div class="flex flex-col gap-1">
+					{#each metaParts as part (part)}
+						<p>{part}</p>
+					{/each}
+				</div>
+			{/if}
+			<div class="flex flex-wrap gap-2">
+				<Badge variant="outline" href="/design/{slug}/llms.txt">llms.txt</Badge>
+				<Badge variant="outline" href="/design/{slug}/post.md">post.md</Badge>
+			</div>
 		</div>
 	</div>
 
 	{#if galleryMd}
-		<div class="border-foreground/10 flex flex-col gap-2 border-t-[0.5px] pt-4 md:gap-8">
+		<div class="flex flex-col gap-2 border-t-[length:var(--hair)] pt-4 md:gap-8">
 			<DesignMarkdown md={galleryMd} />
 		</div>
 	{/if}

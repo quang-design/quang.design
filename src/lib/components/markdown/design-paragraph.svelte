@@ -36,11 +36,11 @@
 		{@render children?.()}
 	</div>
 {:else if isHeading}
-	<p class="text-foreground/40 px-1 pt-4 text-xs tracking-widest uppercase" {...rest}>
+	<p class="ink-label px-1 pt-4" {...rest}>
 		{@render children?.()}
 	</p>
 {:else}
-	<p class="text-foreground/80 px-1 py-4 leading-relaxed" {...rest}>
+	<p class="ink-read px-1 py-4 leading-relaxed" {...rest}>
 		{@render children?.()}
 	</p>
 {/if}

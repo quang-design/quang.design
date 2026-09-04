@@ -3,7 +3,6 @@
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import content from './content.md?raw';
 
-	// Split out each column section and drop the "ColumnX" headings
 	const sections = content
 		.split(/^## Column\d+\s*/m)
 		.filter((section) => section.trim().length)
@@ -16,10 +15,10 @@
 	canonical="https://quang.design"
 />
 
-<div class="w-full">
+<div class="w-full p-3">
 	<div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-		{#each sections as section}
-			<div class="prose max-w-none">
+		{#each sections as section, i (i)}
+			<div class="ink-read max-w-none">
 				<Markdown md={section} />
 			</div>
 		{/each}

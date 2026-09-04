@@ -1,9 +1,28 @@
 <script lang="ts">
 	import Markdown from 'svelte-exmarkdown';
 	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
+	import { getContext } from 'svelte';
 	import { cn } from '$lib/utils';
+	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
 	import CodeBlock from './code-block.svelte';
 	let { md }: { md: string } = $props();
+
+	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
+
+	function enter(event: Event) {
+		const a = event.currentTarget as HTMLAnchorElement;
+		const href = a.getAttribute('href') ?? a.href;
+		preview?.setHover({
+			eyebrow: 'Link',
+			title: a.textContent?.trim() || href,
+			subtitle: href,
+			href
+		});
+	}
+
+	function leave() {
+		preview?.clearHover();
+	}
 </script>
 
 <Markdown {md} plugins={[gfmPlugin()]}>
@@ -34,44 +53,53 @@
 	{/snippet}
 	{#snippet a(props)}
 		{@const { children, ...rest } = props}
-		<a {...rest} class={cn('text-blue-500', rest.class)} target="_blank" rel="noopener noreferrer">
+		<a
+			{...rest}
+			class={cn('underline decoration-[var(--ink-40)] underline-offset-4', rest.class)}
+			target="_blank"
+			rel="noopener noreferrer"
+			onmouseenter={enter}
+			onmouseleave={leave}
+			onfocus={enter}
+			onblur={leave}
+		>
 			{@render children?.()}
 		</a>
 	{/snippet}
 
 	{#snippet h1(props)}
 		{@const { children, ...rest } = props}
-		<h1 {...rest} class={cn('mt-8 mb-4 text-3xl font-semibold', rest.class)}>
+		<h1 {...rest} class={cn('ink-h1 mt-8 mb-4', rest.class)}>
 			{@render children?.()}
 		</h1>
 	{/snippet}
 	{#snippet h2(props)}
 		{@const { children, ...rest } = props}
-		<h2 {...rest} class={cn('mt-8 mb-4 text-2xl font-semibold', rest.class)}>
+		<h2 {...rest} class={cn('ink-h2 mt-8 mb-3', rest.class)}>
 			{@render children?.()}
 		</h2>
 	{/snippet}
 	{#snippet h3(props)}
 		{@const { children, ...rest } = props}
-		<h3 {...rest} class={cn('mt-8 mb-4 text-xl font-semibold', rest.class)}>
+		<h3 {...rest} class={cn('ink-h3 mt-6 mb-2', rest.class)}>
 			{@render children?.()}
 		</h3>
 	{/snippet}
 	{#snippet h4(props)}
 		{@const { children, ...rest } = props}
-		<h4 {...rest} class={cn('mt-8 mb-4 text-lg font-semibold', rest.class)}>
+		<h4 {...rest} class={cn('ink-h4 mt-6 mb-2', rest.class)}>
 			{@render children?.()}
 		</h4>
 	{/snippet}
 	{#snippet h5(props)}
 		{@const { children, ...rest } = props}
-		<h5 {...rest} class={cn('mt-8 mb-4 text-base font-semibold', rest.class)}>
+		<h5 {...rest} class={cn('ink-h5 mt-4 mb-2', rest.class)}>
 			{@render children?.()}
 		</h5>
 	{/snippet}
 	{#snippet h6(props)}
 		{@const { children, ...rest } = props}
-		<h6 {...rest} class={cn('mt-8 mb-4 text-sm font-semibold', rest.class)}>
+		<h6 {...rest} class={cn('ink-h6 mt-4 mb-2', rest.class)}>
 			{@render children?.()}
 		</h6>
 	{/snippet}
@@ -83,26 +111,16 @@
 	{/snippet}
 	{#snippet blockquote(props)}
 		{@const { children, ...rest } = props}
-		<blockquote
-			{...rest}
-			class={cn(
-				'my-4 border-l-4 border-amber-400 bg-amber-100/50 px-4 py-3 text-amber-950 italic',
-				rest.class
-			)}
-		>
+		<blockquote {...rest} class={cn('hair-dashed my-4 px-4 py-3 italic', rest.class)}>
 			{@render children?.()}
 		</blockquote>
 	{/snippet}
 	{#snippet pre(props)}
 		{@const { children } = props}
 		<div class="not-prose my-4">
-			<div
-				class="rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900"
-			>
-				<div class="overflow-x-auto">
+			<div class="hair ink-code overflow-x-auto p-3">
 					{@render children?.()}
 				</div>
-			</div>
 		</div>
 	{/snippet}
 	{#snippet code(props)}

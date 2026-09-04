@@ -31,9 +31,7 @@
 
 <div class="mb-2 flex w-full justify-between">
 	<button
-		class="w-full rounded {isEditing
-			? 'border border-amber-500'
-			: 'border border-amber-500 bg-amber-500 text-white'} px-3 py-1"
+		class="hair ink-invert w-full px-3 py-1 {isEditing ? '' : 'ink-active'}"
 		onclick={handleClick}
 	>
 		{isEditing ? 'Done' : 'Edit'}
@@ -41,18 +39,11 @@
 </div>
 
 {#if isEditing}
-	<div
-		contenteditable="true"
-		bind:textContent={text}
-		class="w-full rounded-sm border border-amber-500 p-3"
-	></div>
+	<div contenteditable="true" bind:textContent={text} class="hair w-full p-3"></div>
 {:else}
-	<div class="w-full rounded-sm border p-3 text-left">
+	<div class="hair w-full p-3 text-left">
 		{#each words as word}
-			<button
-				class="underline underline-offset-4 hover:bg-amber-200"
-				onclick={() => onWordClick(word)}
-			>
+			<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(word)}>
 				{word}
 			</button>
 			{' '}
@@ -62,7 +53,7 @@
 
 <div class="mt-2 flex w-full justify-between">
 	<button
-		class="border-black-500 w-full rounded-sm border bg-black px-3 py-1 text-white"
+		class="hair ink-invert w-full bg-[var(--ink)] px-3 py-1 text-[var(--paper)]"
 		onclick={handleCopy}
 	>
 		{isCopying ? 'Copied' : 'Copy'}

@@ -12,9 +12,9 @@
 	canonical="https://quang.design/engineer/microscopic"
 />
 
-<section class="max-w-sm">
-	<div class="mb-8 space-y-4 select-none">
-		<h1 class="uppercase">Welcome to AI Microscopic Text</h1>
+<section class="max-w-sm p-4">
+	<div class="mb-8 space-y-4">
+		<h1 class="ink-display uppercase">Welcome to AI Microscopic Text</h1>
 		<p>
 			Another tool inspired by <a href="/engineer/telescopic">AI Telescopic Text</a>, this tool uses
 			AI to zip up long texts into short, concise words.
@@ -23,6 +23,5 @@
 			Select <span class="underline underline-offset-4">text</span> to see them zip up into concise words.
 		</p>
 	</div>
-
 	<TextEditor {initialText} />
 </section>

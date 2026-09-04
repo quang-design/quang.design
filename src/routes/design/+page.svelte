@@ -1,7 +1,8 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
-	import PostCard from '$lib/components/shared/post-card.svelte';
 	import EmptyState from '$lib/components/shared/empty-state.svelte';
+	import { IndexRow } from '$lib/components/layout';
+	import { designHeadline } from '$lib/content/headline';
 	import type { PostMetadata } from './+page.server';
 
 	let { data }: { data: { posts: PostMetadata[] } } = $props();
@@ -15,17 +16,35 @@
 	canonical="https://quang.design/design"
 />
 
-<h1 class="mb-12 text-center text-2xl font-bold">Design Work</h1>
-
 {#if posts && posts.length > 0}
-	<div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
-		{#each posts as post (post.slug)}
-			<PostCard {post} hrefPrefix="/design" aspectRatio="aspect-3/2" />
+	<div class="stack stack-flush flex flex-col">
+		{#each posts as post, i (post.slug)}
+			{@const headline = designHeadline(post.title, post.slug)}
+			<IndexRow
+				code="D{i + 1}"
+				title={headline.brand}
+				description={headline.line}
+				date={post.date}
+				thumbnail={post.thumbnail}
+				placeholder={!post.thumbnail}
+				href="/design/{post.slug}"
+				preview={{
+					eyebrow: 'Design',
+					title: headline.brand,
+					subtitle: headline.line,
+					description: post.description,
+					date: post.date,
+					thumbnail: post.thumbnail,
+					href: `/design/${post.slug}`
+				}}
+			/>
 		{/each}
 	</div>
 {:else}
-	<EmptyState
-		title="No Design Work Yet"
-		description="Design work will be showcased here soon. Check back later!"
-	/>
+	<div class="p-3">
+		<EmptyState
+			title="No Design Work Yet"
+			description="Design work will be showcased here soon. Check back later!"
+		/>
+	</div>
 {/if}
