@@ -5,7 +5,6 @@
 	import StatusBar from './status-bar.svelte';
 	import IndexTree from './index-tree.svelte';
 	import ReadingPane from './reading-pane.svelte';
-	import Hatch from '$lib/components/primitives/hatch.svelte';
 	import MicroLabel from '$lib/components/primitives/micro-label.svelte';
 	import Subscribe from '$lib/components/shared/subscribe.svelte';
 	import { buildIndexTree, type NavData } from '$lib/config/tree';
@@ -39,7 +38,6 @@
 				<div class="flex h-full min-h-32 flex-col gap-2 p-3">
 					<MicroLabel>Detail</MicroLabel>
 					<p class="ink-row-desc">Hover a row or a link to preview.</p>
-					<Hatch class="hair mt-auto h-16 w-full" />
 				</div>
 			{/if}
 		</div>
