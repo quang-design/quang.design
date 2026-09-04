@@ -337,6 +337,23 @@
 		break-inside: avoid;
 	}
 
+	.ink-code {
+		background-color: #fff;
+		background-image: none;
+		isolation: isolate;
+	}
+
+	.dark .ink-code {
+		background-color: #011627;
+		color: #d6deeb;
+	}
+
+	.ink-code pre,
+	.ink-code code {
+		background-color: transparent;
+		background-image: none;
+	}
+
 	.ink-row {
 		font-size: var(--text-sm);
 		line-height: var(--leading-tight);
@@ -393,6 +410,14 @@
 @layer base {
 	* {
 		@apply border-border;
+	}
+
+	:root {
+		color-scheme: light;
+	}
+
+	.dark {
+		color-scheme: dark;
 	}
 
 	body {
