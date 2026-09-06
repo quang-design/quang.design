@@ -120,12 +120,6 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 	return { groups, active };
 }
 
-export function engineerCode(href: string, index: number) {
-	const codes: Record<string, string> = {
-		'/engineer/telescopic': 'E1',
-		'/engineer/microscopic': 'E2',
-		'/engineer/animation-vocabulary': 'E3',
-		'/engineer/minesweeper': 'E4'
-	};
-	return codes[href] ?? `E${index + 1}`;
+export function engineerCode(_href: string, index: number) {
+	return `E${index + 1}`;
 }

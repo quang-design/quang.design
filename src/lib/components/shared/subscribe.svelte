@@ -34,7 +34,7 @@
 	};
 </script>
 
-<form action="" onsubmit={handleSubmit} class="flex h-full w-full flex-col">
+<form action="" onsubmit={handleSubmit} class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]">
 	<MicroLabel>Email</MicroLabel>
 	<div class="field">
 		<input

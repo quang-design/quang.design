@@ -32,22 +32,22 @@
 
 <div class="flex flex-col">
 	<div class="flex flex-col px-3 py-[var(--grid)]">
-		<div class="flex flex-wrap gap-2">
+		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-2">
 			<Badge variant="outline" href="/design/{slug}/llms.txt">llms.txt</Badge>
 			<Badge variant="outline" href="/design/{slug}/post.md">post.md</Badge>
 		</div>
 		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
-		<div class="grid grid-cols-1 sm:grid-cols-2">
-			<div class="ink-read">
+		<div class="grid grid-cols-1 items-start sm:grid-cols-2">
+			<div>
 				{#if introMd}
 					{#each introMd.split('\n\n') as paragraph (paragraph)}
-						<p>{paragraph}</p>
+						<p class="m-0 text-base leading-[var(--grid)]">{paragraph}</p>
 					{/each}
 				{/if}
 			</div>
 			<div>
 				{#each metaParts as part (part)}
-					<p>{part}</p>
+					<p class="m-0 text-base leading-[var(--grid)]">{part}</p>
 				{/each}
 			</div>
 		</div>

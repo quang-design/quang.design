@@ -71,9 +71,9 @@
 	--text-h5: 0.8125rem;
 	--text-h4: 0.875rem;
 	--text-h3: 1rem;
-	--text-h2: 1.125rem;
-	--text-h1: 1.5rem;
-	--text-xl: 1.5rem;
+	--text-h2: 1.25rem;
+	--text-h1: 2rem;
+	--text-xl: 2rem;
 	--text-xl--line-height: calc(var(--grid) * 2);
 	--text-2xl: 1.5rem;
 	--text-3xl: 1.5rem;
@@ -584,6 +584,7 @@
 
 	.shell-body {
 		display: grid;
+		position: relative;
 		flex: 1;
 		min-height: 0;
 		overflow: hidden;
@@ -618,8 +619,10 @@
 
 	.shell-foot {
 		flex-shrink: 0;
+		box-sizing: border-box;
 		height: calc(var(--grid) * 3);
 		min-height: calc(var(--grid) * 3);
+		max-height: calc(var(--grid) * 3);
 		overflow: hidden;
 		border-top: var(--hair) solid var(--ink-25);
 	}
@@ -643,14 +646,26 @@
 		.shell-body {
 			grid-template-columns: var(--index-col) minmax(0, 1fr) var(--reading-col);
 			grid-template-areas: 'index canvas reading';
-			background-image:
-				linear-gradient(to bottom, var(--ink-25), var(--ink-25)),
-				linear-gradient(to bottom, var(--ink-25), var(--ink-25));
-			background-size: var(--hair) 100%, var(--hair) 100%;
-			background-position:
-				var(--index-col) 0,
-				calc(100% - var(--reading-col)) 0;
-			background-repeat: no-repeat;
+		}
+
+		.shell-body::before,
+		.shell-body::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: var(--hair);
+			background: var(--ink-25);
+			pointer-events: none;
+			z-index: 1;
+		}
+
+		.shell-body::before {
+			left: var(--index-col);
+		}
+
+		.shell-body::after {
+			right: var(--reading-col);
 		}
 
 		.shell-index,
