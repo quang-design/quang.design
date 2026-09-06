@@ -40,7 +40,7 @@
 		{@render children?.()}
 	</p>
 {:else}
-	<p class="ink-read px-1 py-4 leading-relaxed" {...rest}>
+	<p class="ink-read px-3 py-[var(--grid)]" {...rest}>
 		{@render children?.()}
 	</p>
 {/if}

@@ -57,8 +57,24 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 		}
 	}));
 
+	const engineerRows: TreeRow[] = nav.engineer.map((project, i) => ({
+		code: engineerCode(project.href, i),
+		label: project.title,
+		href: project.href,
+		nested: true,
+		external: project.external,
+		preview: {
+			eyebrow: 'Engineer',
+			title: project.title,
+			description: project.description,
+			href: project.href,
+			meta: project.external ? ['External project'] : undefined
+		}
+	}));
+
 	const onDesignChild = pathname.startsWith('/design/');
 	const onBlogChild = pathname.startsWith('/blog/posts/');
+	const onEngineerChild = pathname.startsWith('/engineer/');
 
 	const groups: TreeGroup[] = [
 		{
@@ -78,6 +94,7 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 					href: '/engineer',
 					count: nav.engineer.length
 				},
+				...(onEngineerChild ? engineerRows : []),
 				{
 					code: 'B',
 					label: 'Blog',

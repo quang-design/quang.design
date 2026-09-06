@@ -2,7 +2,7 @@
 	import { type VariantProps, tv } from 'tailwind-variants';
 
 	export const badgeVariants = tv({
-		base: 'h-5 gap-1 border-[length:var(--hair)] border-transparent px-2 py-0.5 text-xs font-medium has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-3! group/badge inline-flex w-fit shrink-0 items-center justify-center overflow-hidden whitespace-nowrap [&>svg]:pointer-events-none',
+		base: 'h-[var(--grid)] gap-1 border-[length:var(--hair)] border-transparent px-2 text-base font-medium has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-3! group/badge inline-flex w-fit shrink-0 items-center justify-center overflow-hidden whitespace-nowrap [&>svg]:pointer-events-none',
 		variants: {
 			variant: {
 				default: 'bg-primary text-primary-foreground [a]:hover:bg-primary/80',

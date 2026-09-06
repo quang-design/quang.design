@@ -34,7 +34,7 @@
 	};
 </script>
 
-<form action="" onsubmit={handleSubmit} class="flex w-full flex-col gap-1">
+<form action="" onsubmit={handleSubmit} class="flex h-full w-full flex-col">
 	<MicroLabel>Email</MicroLabel>
 	<div class="field">
 		<input
@@ -55,7 +55,7 @@
 	.field {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto;
-		height: calc(var(--spacing) * 8);
+		height: calc(var(--grid) * 2);
 		border: var(--hair) solid var(--ink-25);
 		align-items: stretch;
 	}
@@ -70,8 +70,8 @@
 		background: transparent;
 		color: inherit;
 		font: inherit;
-		font-size: var(--text-sm);
-		line-height: 1;
+		font-size: var(--text-base);
+		line-height: var(--grid);
 		letter-spacing: var(--tracking-widest);
 		outline: none;
 	}

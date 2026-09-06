@@ -40,7 +40,7 @@
 	{/snippet}
 	{#snippet li(props)}
 		{@const { children, ...rest } = props}
-		<li {...rest} class={cn('py-1', rest.class)}>
+		<li {...rest} class={cn('py-0', rest.class)}>
 			{@render children?.()}
 		</li>
 	{/snippet}
@@ -69,43 +69,43 @@
 
 	{#snippet h1(props)}
 		{@const { children, ...rest } = props}
-		<h1 {...rest} class={cn('ink-h1 mt-8 mb-4', rest.class)}>
+		<h1 {...rest} class={cn('ink-h1 mt-[calc(var(--grid)*2)] mb-[var(--grid)] first:mt-0', rest.class)}>
 			{@render children?.()}
 		</h1>
 	{/snippet}
 	{#snippet h2(props)}
 		{@const { children, ...rest } = props}
-		<h2 {...rest} class={cn('ink-h2 mt-8 mb-3', rest.class)}>
+		<h2 {...rest} class={cn('ink-h2 mt-[calc(var(--grid)*2)] mb-[var(--grid)] first:mt-0', rest.class)}>
 			{@render children?.()}
 		</h2>
 	{/snippet}
 	{#snippet h3(props)}
 		{@const { children, ...rest } = props}
-		<h3 {...rest} class={cn('ink-h3 mt-6 mb-2', rest.class)}>
+		<h3 {...rest} class={cn('ink-h3 mt-[var(--grid)] mb-[var(--grid)] first:mt-0', rest.class)}>
 			{@render children?.()}
 		</h3>
 	{/snippet}
 	{#snippet h4(props)}
 		{@const { children, ...rest } = props}
-		<h4 {...rest} class={cn('ink-h4 mt-6 mb-2', rest.class)}>
+		<h4 {...rest} class={cn('ink-h4 mt-[var(--grid)] mb-[var(--grid)] first:mt-0', rest.class)}>
 			{@render children?.()}
 		</h4>
 	{/snippet}
 	{#snippet h5(props)}
 		{@const { children, ...rest } = props}
-		<h5 {...rest} class={cn('ink-h5 mt-4 mb-2', rest.class)}>
+		<h5 {...rest} class={cn('ink-h5 mt-[var(--grid)] mb-[var(--grid)] first:mt-0', rest.class)}>
 			{@render children?.()}
 		</h5>
 	{/snippet}
 	{#snippet h6(props)}
 		{@const { children, ...rest } = props}
-		<h6 {...rest} class={cn('ink-h6 mt-4 mb-2', rest.class)}>
+		<h6 {...rest} class={cn('ink-h6 mt-[var(--grid)] mb-[var(--grid)] first:mt-0', rest.class)}>
 			{@render children?.()}
 		</h6>
 	{/snippet}
 	{#snippet p(props)}
 		{@const { children, ...rest } = props}
-		<p {...rest} class={cn('my-4 leading-relaxed', rest.class)}>
+		<p {...rest} class={cn('my-[var(--grid)] first:mt-0', rest.class)}>
 			{@render children?.()}
 		</p>
 	{/snippet}

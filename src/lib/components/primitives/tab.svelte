@@ -16,7 +16,7 @@
 	data-slot="tab"
 	aria-pressed={active}
 	class={cn(
-		'ink-row grow cursor-pointer px-3 py-2 text-center',
+		'ink-row grow cursor-pointer px-3 text-center h-[var(--grid)]',
 		active ? 'bg-[var(--ink)] text-[var(--paper)]' : 'ink-invert',
 		className
 	)}

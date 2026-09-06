@@ -18,14 +18,14 @@
 				link: 'border-transparent text-foreground underline-offset-4 hover:underline'
 			},
 			size: {
-				default: 'h-8 px-2.5',
-				xs: "h-6 px-2 text-xs [&_svg:not([class*='size-'])]:size-3",
-				sm: "h-7 px-2.5 text-[0.8rem] [&_svg:not([class*='size-'])]:size-3.5",
-				lg: 'h-9 px-2.5',
-				icon: 'size-8',
-				'icon-xs': "size-6 [&_svg:not([class*='size-'])]:size-3",
-				'icon-sm': 'size-7',
-				'icon-lg': 'size-9'
+				default: 'h-[var(--grid)] px-3',
+				xs: "h-[var(--grid)] px-2 text-xs [&_svg:not([class*='size-'])]:size-3",
+				sm: "h-[var(--grid)] px-2.5 [&_svg:not([class*='size-'])]:size-3.5",
+				lg: 'h-[calc(var(--grid)*2)] px-3',
+				icon: 'size-[var(--grid)]',
+				'icon-xs': "size-[var(--grid)] [&_svg:not([class*='size-'])]:size-3",
+				'icon-sm': 'size-[var(--grid)]',
+				'icon-lg': 'size-[calc(var(--grid)*2)]'
 			}
 		},
 		defaultVariants: {

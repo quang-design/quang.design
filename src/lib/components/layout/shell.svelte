@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { setContext } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 	import StatusBar from './status-bar.svelte';
 	import IndexTree from './index-tree.svelte';
@@ -18,11 +19,26 @@
 	const current = $derived(preview.current);
 	const tree = $derived(buildIndexTree(nav, page.url.pathname));
 	const year = new Date().getFullYear();
+	let menuOpen = $state(false);
+
+	afterNavigate(() => {
+		menuOpen = false;
+	});
+
+	function toggleMenu() {
+		menuOpen = !menuOpen;
+	}
+
+	function onKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') menuOpen = false;
+	}
 </script>
 
-<div class="shell">
+<svelte:window onkeydown={onKeydown} />
+
+<div class="shell" data-menu-open={menuOpen ? '' : undefined}>
 	<div class="shell-head">
-		<StatusBar />
+		<StatusBar {menuOpen} onMenu={toggleMenu} />
 	</div>
 	<div class="shell-body">
 		<div class="shell-index">
@@ -35,7 +51,7 @@
 			{#if current}
 				<ReadingPane preview={current} />
 			{:else}
-				<div class="reading-pane flex h-full min-h-32 flex-col gap-2 p-3">
+				<div class="reading-pane flex h-full min-h-[calc(var(--grid)*2)] flex-col p-3">
 					<MicroLabel>Detail</MicroLabel>
 					<p class="ink-row-desc">Hover a row or a link to preview.</p>
 				</div>
@@ -43,15 +59,15 @@
 		</div>
 	</div>
 	<div class="shell-foot">
-		<div class="grid grid-cols-1 items-stretch sm:grid-cols-[minmax(0,1fr)_calc(var(--grid)*14)]">
-			<div class="flex flex-col justify-center gap-2 px-3 py-3">
+		<div class="grid h-full grid-cols-1 items-stretch sm:grid-cols-[minmax(0,1fr)_calc(var(--grid)*14)]">
+			<div class="hidden h-full flex-col justify-center px-3 sm:flex">
 				<blockquote class="italic">
 					"The best person ever to exist."
 					<a href="http://quang.urbanup.com/9858947">Urban Dictionary</a>
 				</blockquote>
 				<p class="ink-label">&copy; {year} Quang Design. All rights reserved.</p>
 			</div>
-			<div class="flex items-center px-3 py-3 sm:border-l-[length:var(--hair)]">
+			<div class="flex h-full items-center px-3 sm:border-l-[length:var(--hair)]">
 				<Subscribe />
 			</div>
 		</div>

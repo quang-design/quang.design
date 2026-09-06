@@ -25,14 +25,14 @@
 />
 
 <div class="flex flex-col">
-	<div class="mx-auto w-full max-w-xl p-4">
-		<div class="mb-4 flex gap-2">
+	<div class="mx-auto w-full max-w-xl px-3 py-[var(--grid)]">
+		<div class="flex flex-wrap gap-2">
 			<Badge variant="outline" href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</Badge>
 			<Badge variant="outline" href="/blog/posts/{page.params.slug}/post.md">post.md</Badge>
 		</div>
-		<h1 class="ink-display mb-2">{data.meta.title}</h1>
+		<h1 class="ink-h1">{data.meta.title}</h1>
 		{#if data.meta.date}
-			<p class="ink-label mb-4">{data.meta.date}</p>
+			<p class="ink-label">{data.meta.date}</p>
 		{/if}
 		<div class="ink-read">
 			<Markdown md={data.md} />

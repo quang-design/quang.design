@@ -27,6 +27,7 @@
 				date={post.date}
 				thumbnail={post.thumbnail}
 				placeholder={!post.thumbnail}
+				thumb="wide"
 				href="/design/{post.slug}"
 				preview={{
 					eyebrow: 'Design',

@@ -60,7 +60,7 @@
 </script>
 
 {#if !isBlock}
-	<code class={cn('ink-mark px-1 py-0.5 text-sm', c)} {...rest}>
+	<code class={cn('ink-mark px-1 text-base', c)} {...rest}>
 		{@render children?.()}
 	</code>
 {:else}
@@ -69,7 +69,7 @@
 			{@html highlightedCode}
 		</div>
 	{/if}
-	<pre {...rest} class="ink-code w-full p-3 text-sm" class:hidden={highlightedCode}><code
+	<pre {...rest} class="ink-code w-full p-3 text-base" class:hidden={highlightedCode}><code
 			bind:this={codeElement}>{text || ''}{@render children?.()}</code
 		></pre>
 {/if}

@@ -31,34 +31,30 @@
 />
 
 <div class="flex flex-col">
-	<div class="grid grid-cols-1 gap-8 px-3 py-8 sm:grid-cols-2">
-		<div>
-			<h1 class="ink-display mb-4 uppercase">{headline.brand}</h1>
-			{#if introMd}
-				<div class="ink-read leading-relaxed">
-					{#each introMd.split('\n\n') as paragraph (paragraph)}
-						<p class="mb-3">{paragraph}</p>
-					{/each}
-				</div>
-			{/if}
+	<div class="flex flex-col px-3 py-[var(--grid)]">
+		<div class="flex flex-wrap gap-2">
+			<Badge variant="outline" href="/design/{slug}/llms.txt">llms.txt</Badge>
+			<Badge variant="outline" href="/design/{slug}/post.md">post.md</Badge>
 		</div>
-		<div class="flex flex-col gap-3">
-			{#if metaParts.length}
-				<div class="flex flex-col gap-1">
-					{#each metaParts as part (part)}
-						<p>{part}</p>
+		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
+		<div class="grid grid-cols-1 sm:grid-cols-2">
+			<div class="ink-read">
+				{#if introMd}
+					{#each introMd.split('\n\n') as paragraph (paragraph)}
+						<p>{paragraph}</p>
 					{/each}
-				</div>
-			{/if}
-			<div class="flex flex-wrap gap-2">
-				<Badge variant="outline" href="/design/{slug}/llms.txt">llms.txt</Badge>
-				<Badge variant="outline" href="/design/{slug}/post.md">post.md</Badge>
+				{/if}
+			</div>
+			<div>
+				{#each metaParts as part (part)}
+					<p>{part}</p>
+				{/each}
 			</div>
 		</div>
 	</div>
 
 	{#if galleryMd}
-		<div class="flex flex-col gap-2 border-t-[length:var(--hair)] pt-4 md:gap-8">
+		<div class="flex flex-col border-t-[length:var(--hair)]">
 			<DesignMarkdown md={galleryMd} />
 		</div>
 	{/if}

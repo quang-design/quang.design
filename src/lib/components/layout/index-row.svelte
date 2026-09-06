@@ -36,11 +36,18 @@
 
 	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
 	const thumbClass = $derived(
-		thumb === 'wide' ? 'hair h-10 w-[3.75rem] shrink-0 object-cover' : 'hair size-10 shrink-0 object-cover'
+		thumb === 'wide'
+			? 'hair h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0 object-cover'
+			: 'hair size-[calc(var(--grid)*2)] shrink-0 object-cover'
 	);
-	const thumbSize = $derived(thumb === 'wide' ? { width: 60, height: 40 } : { width: 40, height: 40 });
+	const thumbSize = $derived(
+		thumb === 'wide' ? { width: 72, height: 48 } : { width: 48, height: 48 }
+	);
 	const rowClass = $derived(
-		cn('ink-invert flex flex-col gap-1 px-3 py-2 sm:flex-row sm:items-center sm:gap-3', className)
+		cn(
+			'ink-invert flex min-h-[calc(var(--grid)*2)] items-center gap-3 px-3',
+			className
+		)
 	);
 	const route = $derived(!external && href.startsWith('/') ? href : null);
 
@@ -64,17 +71,21 @@
 			class={thumbClass}
 		/>
 	{:else if icon}
-		<div class="hair flex size-10 shrink-0 items-center justify-center">
+		<div class="hair flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center">
 			{@render icon()}
 		</div>
 	{:else if placeholder}
-		<Hatch class={thumb === 'wide' ? 'hair h-10 w-[3.75rem] shrink-0' : 'hair size-10 shrink-0'} />
+		<Hatch
+			class={thumb === 'wide'
+				? 'hair h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0'
+				: 'hair size-[calc(var(--grid)*2)] shrink-0'}
+		/>
 	{/if}
-	<span class="flex min-w-0 grow flex-col gap-0.5">
-		<span class="ink-row-title">{title}</span>
-		{#if description}<span class="ink-row-desc line-clamp-2">{description}</span>{/if}
+	<span class="flex min-w-0 grow flex-col">
+		<span class="ink-row-title truncate">{title}</span>
+		{#if description}<span class="ink-row-desc line-clamp-1">{description}</span>{/if}
 	</span>
-	{#if date}<span class="ink-row-meta shrink-0 sm:ml-auto">{date}</span>{/if}
+	{#if date}<span class="ink-row-meta shrink-0">{date}</span>{/if}
 {/snippet}
 
 {#if route}

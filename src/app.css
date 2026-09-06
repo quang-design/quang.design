@@ -60,27 +60,33 @@
 	--reading-col: calc(var(--grid) * 14);
 
 	--text-xs: 0.625rem;
-	--text-xs--line-height: 1.15;
+	--text-xs--line-height: var(--grid);
 	--text-sm: 0.75rem;
-	--text-sm--line-height: 1.25;
+	--text-sm--line-height: var(--grid);
 	--text-base: 0.75rem;
-	--text-base--line-height: 1.45;
-	--text-lg: 0.8125rem;
-	--text-lg--line-height: 1.55;
-	--text-xl: 1.25rem;
-	--text-xl--line-height: 1.2;
-	--text-2xl: 1.25rem;
-	--text-3xl: 1.25rem;
-	--text-4xl: 1.25rem;
-	--text-5xl: 1.25rem;
-	--text-6xl: 1.25rem;
-	--text-7xl: 1.25rem;
-	--text-8xl: 1.25rem;
+	--text-base--line-height: var(--grid);
+	--text-lg: 0.75rem;
+	--text-lg--line-height: var(--grid);
+	--text-h6: 0.75rem;
+	--text-h5: 0.8125rem;
+	--text-h4: 0.875rem;
+	--text-h3: 1rem;
+	--text-h2: 1.125rem;
+	--text-h1: 1.5rem;
+	--text-xl: 1.5rem;
+	--text-xl--line-height: calc(var(--grid) * 2);
+	--text-2xl: 1.5rem;
+	--text-3xl: 1.5rem;
+	--text-4xl: 1.5rem;
+	--text-5xl: 1.5rem;
+	--text-6xl: 1.5rem;
+	--text-7xl: 1.5rem;
+	--text-8xl: 1.5rem;
 
-	--leading-tight: 1.15;
-	--leading-snug: 1.45;
-	--leading-normal: 1.45;
-	--leading-relaxed: 1.55;
+	--leading-tight: var(--grid);
+	--leading-snug: var(--grid);
+	--leading-normal: var(--grid);
+	--leading-relaxed: var(--grid);
 
 	--tracking-widest: 0.08em;
 
@@ -296,51 +302,56 @@
 
 	.ink-label {
 		font-size: var(--text-xs);
-		line-height: var(--leading-tight);
+		line-height: var(--grid);
 		letter-spacing: var(--tracking-widest);
 		text-transform: uppercase;
 		color: var(--muted-foreground);
 	}
 
-	.ink-display {
-		font-size: var(--text-lg);
-		line-height: var(--text-lg--line-height);
+	.ink-display,
+	.ink-h1 {
+		font-size: var(--text-h1);
+		line-height: calc(var(--grid) * 2);
 		font-weight: 700;
 		letter-spacing: var(--tracking-normal);
 		text-transform: none;
 	}
 
-	.ink-h1 {
-		font-size: var(--text-lg);
-		line-height: var(--text-lg--line-height);
-		font-weight: 700;
-	}
-
 	.ink-h2 {
-		font-size: var(--text-base);
-		line-height: var(--text-base--line-height);
+		font-size: var(--text-h2);
+		line-height: var(--grid);
 		font-weight: 700;
 	}
 
 	.ink-h3 {
-		font-size: var(--text-base);
-		line-height: var(--text-base--line-height);
-		font-weight: 400;
+		font-size: var(--text-h3);
+		line-height: var(--grid);
+		font-weight: 700;
 	}
 
-	.ink-h4,
-	.ink-h5,
+	.ink-h4 {
+		font-size: var(--text-h4);
+		line-height: var(--grid);
+		font-weight: 700;
+	}
+
+	.ink-h5 {
+		font-size: var(--text-h5);
+		line-height: var(--grid);
+		font-weight: 700;
+	}
+
 	.ink-h6 {
-		font-size: var(--text-sm);
-		line-height: var(--text-sm--line-height);
-		font-weight: 400;
+		font-size: var(--text-h6);
+		line-height: var(--grid);
+		font-weight: 700;
 	}
 
 	.ink-read,
 	.ink-read p,
 	.ink-read li {
-		font-size: var(--text-lg);
-		line-height: var(--leading-relaxed);
+		font-size: var(--text-base);
+		line-height: var(--grid);
 	}
 
 	.ink-cols {
@@ -375,29 +386,29 @@
 	}
 
 	.ink-row {
-		font-size: var(--text-sm);
-		line-height: var(--leading-tight);
+		font-size: var(--text-base);
+		line-height: var(--grid);
 		letter-spacing: var(--tracking-widest);
 		text-transform: uppercase;
 	}
 
 	.ink-row-title {
 		font-size: var(--text-base);
-		line-height: var(--leading-tight);
+		line-height: var(--grid);
 		letter-spacing: var(--tracking-widest);
 		text-transform: uppercase;
 	}
 
 	.ink-row-meta {
 		font-size: var(--text-base);
-		line-height: var(--leading-tight);
+		line-height: var(--grid);
 		color: var(--muted-foreground);
 		font-variant-numeric: tabular-nums;
 	}
 
 	.ink-row-desc {
-		font-size: var(--text-xs);
-		line-height: var(--leading-snug);
+		font-size: var(--text-base);
+		line-height: var(--grid);
 		color: var(--muted-foreground);
 		text-transform: none;
 		letter-spacing: var(--tracking-normal);
@@ -443,13 +454,15 @@
 	body {
 		@apply bg-background text-foreground font-mono text-base font-light;
 		font-variant-numeric: tabular-nums;
-		line-height: var(--leading-normal);
+		line-height: var(--grid);
 	}
 
 	.site {
 		background-color: var(--paper);
 		color: var(--ink);
-		min-height: 100dvh;
+		height: 100dvh;
+		max-height: 100dvh;
+		overflow: hidden;
 	}
 
 	.site a {
@@ -476,6 +489,29 @@
 		cursor: pointer;
 		text-transform: uppercase;
 		letter-spacing: var(--tracking-widest);
+		font-size: var(--text-base);
+		line-height: var(--grid);
+	}
+
+	.site [data-slot='input'] {
+		font-size: var(--text-base);
+		line-height: var(--grid);
+		height: var(--grid);
+		min-height: var(--grid);
+	}
+
+	.site [data-slot='textarea'] {
+		font-size: var(--text-base);
+		line-height: var(--grid);
+		height: auto;
+		min-height: calc(var(--grid) * 4);
+	}
+
+	.site [data-slot='badge'] {
+		font-size: var(--text-base);
+		line-height: var(--grid);
+		height: var(--grid);
+		min-height: var(--grid);
 	}
 
 	.site [data-slot='button']:focus-visible,
@@ -504,6 +540,7 @@
 
 	.site [data-slot='label'] {
 		font-size: var(--text-xs);
+		line-height: var(--grid);
 		letter-spacing: var(--tracking-widest);
 		text-transform: uppercase;
 	}
@@ -514,18 +551,16 @@
 		font-family: inherit;
 	}
 
-	.site [data-slot='badge'] {
-		border-radius: 0;
-		height: auto;
-	}
-
 	.shell {
 		display: flex;
 		flex-direction: column;
+		position: relative;
+		box-sizing: border-box;
 		width: 100%;
 		width: round(down, 100%, var(--grid));
-		height: round(down, 100dvh, var(--grid));
-		min-height: round(down, 100dvh, var(--grid));
+		height: 100%;
+		max-height: 100%;
+		overflow: hidden;
 		margin-inline: auto;
 		border: var(--hair) solid var(--ink-40);
 		background-color: var(--paper);
@@ -539,6 +574,7 @@
 	.shell-head {
 		display: flex;
 		align-items: stretch;
+		flex-shrink: 0;
 		height: calc(var(--grid) * 2);
 		min-height: calc(var(--grid) * 2);
 		overflow-x: auto;
@@ -550,24 +586,22 @@
 		display: grid;
 		flex: 1;
 		min-height: 0;
-		overflow: auto;
-		container-type: size;
+		overflow: hidden;
 		grid-template-columns: 1fr;
-		grid-template-areas:
-			'index'
-			'canvas';
+		grid-template-areas: 'canvas';
 	}
 
 	.shell-index {
+		display: none;
 		grid-area: index;
+		min-height: 0;
 		overflow: auto;
 	}
 
 	.shell-canvas {
 		grid-area: canvas;
 		min-width: 0;
-		min-height: calc(var(--grid) * 12);
-		border-top: var(--hair) solid var(--ink-25);
+		min-height: 0;
 		overflow: auto;
 	}
 
@@ -575,6 +609,7 @@
 		display: none;
 		grid-area: reading;
 		min-width: 0;
+		min-height: 0;
 	}
 
 	.reading-pane {
@@ -582,9 +617,25 @@
 	}
 
 	.shell-foot {
-		height: calc(var(--grid) * 4);
-		min-height: calc(var(--grid) * 4);
-		overflow: auto;
+		flex-shrink: 0;
+		height: calc(var(--grid) * 3);
+		min-height: calc(var(--grid) * 3);
+		overflow: hidden;
+		border-top: var(--hair) solid var(--ink-25);
+	}
+
+	.shell[data-menu-open] .shell-index {
+		display: block;
+		position: absolute;
+		inset: calc(var(--grid) * 2) 0 0 0;
+		z-index: 30;
+		width: auto;
+		background-color: var(--paper);
+		background-image:
+			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
+			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+		background-size: var(--grid) var(--grid);
+		background-position: 0 0;
 		border-top: var(--hair) solid var(--ink-25);
 	}
 
@@ -592,34 +643,36 @@
 		.shell-body {
 			grid-template-columns: var(--index-col) minmax(0, 1fr) var(--reading-col);
 			grid-template-areas: 'index canvas reading';
-			align-items: start;
+			background-image:
+				linear-gradient(to bottom, var(--ink-25), var(--ink-25)),
+				linear-gradient(to bottom, var(--ink-25), var(--ink-25));
+			background-size: var(--hair) 100%, var(--hair) 100%;
+			background-position:
+				var(--index-col) 0,
+				calc(100% - var(--reading-col)) 0;
+			background-repeat: no-repeat;
 		}
 
-		.shell-index {
-			position: sticky;
-			top: 0;
-			align-self: start;
-			max-height: 100cqb;
+		.shell-index,
+		.shell[data-menu-open] .shell-index {
+			display: block;
+			position: static;
+			inset: auto;
+			z-index: auto;
+			width: auto;
+			background-image: none;
+			border-top: 0;
 			overflow: auto;
-			border-right: var(--hair) solid var(--ink-25);
 		}
 
 		.shell-canvas {
-			border-top: 0;
-			min-height: calc(var(--grid) * 16);
-			overflow: visible;
+			overflow: auto;
 		}
 
 		.shell-reading {
 			display: flex;
 			flex-direction: column;
-			position: sticky;
-			top: 0;
-			align-self: start;
-			max-height: 100cqb;
 			overflow: auto;
-			border-left: var(--hair) solid var(--ink-25);
-			min-height: calc(var(--grid) * 16);
 		}
 	}
 }

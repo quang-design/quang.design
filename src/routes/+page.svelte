@@ -16,7 +16,7 @@
 />
 
 <div class="w-full p-3">
-	<div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+	<div class="grid grid-cols-1 gap-x-[calc(var(--grid)*2)] md:grid-cols-2">
 		{#each sections as section, i (i)}
 			<div class="ink-read max-w-none">
 				<Markdown md={section} />

@@ -61,7 +61,7 @@
 	{/if}
 	<div class="flex flex-col gap-3 px-3 py-3">
 		{#if shown.eyebrow}<MicroLabel>{shown.eyebrow}</MicroLabel>{/if}
-		{#if shown.title}<h1 class="ink-display">{shown.title}</h1>{/if}
+		{#if shown.title}<h1 class="ink-h2">{shown.title}</h1>{/if}
 		{#if shown.subtitle}<p class="ink-read">{shown.subtitle}</p>{/if}
 		{#if shown.thumbnail}
 			<img src={shown.thumbnail} alt="" class="hair aspect-3/2 w-full object-cover" />
