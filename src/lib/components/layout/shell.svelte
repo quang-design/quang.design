@@ -59,7 +59,10 @@
 		</div>
 	</div>
 	<div class="shell-foot">
-		<div class="grid h-full grid-cols-1 items-stretch sm:grid-cols-[minmax(0,1fr)_calc(var(--grid)*14)]">
+		<div
+			class="grid h-full grid-cols-1 sm:grid-cols-[minmax(0,1fr)_var(--reading-col)] lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)]"
+		>
+			<div class="hidden lg:block" aria-hidden="true"></div>
 			<div class="hidden h-full flex-col justify-center px-3 sm:flex">
 				<blockquote class="italic">
 					"The best person ever to exist."
@@ -67,7 +70,7 @@
 				</blockquote>
 				<p class="ink-label">&copy; {year} Quang Design. All rights reserved.</p>
 			</div>
-			<div class="flex h-full items-center px-3 sm:border-l-[length:var(--hair)]">
+			<div class="flex h-full items-center px-3">
 				<Subscribe />
 			</div>
 		</div>

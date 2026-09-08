@@ -15,12 +15,15 @@
 	canonical="https://quang.design"
 />
 
-<div class="w-full p-3">
-	<div class="grid grid-cols-1 gap-x-[calc(var(--grid)*2)] md:grid-cols-2">
-		{#each sections as section, i (i)}
-			<div class="ink-read max-w-none">
-				<Markdown md={section} />
-			</div>
+<div class="grid min-h-full grid-cols-1 md:grid-cols-2">
+	<div
+		class="ink-read border-[var(--ink-25)] px-3 py-[var(--grid)] md:border-r-[length:var(--hair)]"
+	>
+		<Markdown md={sections[0] ?? ''} />
+	</div>
+	<div class="ink-read px-3 py-[var(--grid)]">
+		{#each sections.slice(1) as section, i (i)}
+			<Markdown md={section} />
 		{/each}
 	</div>
 </div>

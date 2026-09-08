@@ -4,7 +4,7 @@
 	import { type VariantProps, tv } from 'tailwind-variants';
 
 	export const buttonVariants = tv({
-		base: "aria-invalid:border-destructive inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 border-[length:var(--hair)] border-transparent bg-clip-padding text-sm whitespace-nowrap uppercase outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+		base: "aria-invalid:border-destructive inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 border-[length:var(--hair)] border-transparent bg-clip-padding text-base whitespace-nowrap uppercase outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
 		variants: {
 			variant: {
 				default: 'border-transparent bg-primary text-primary-foreground hover:opacity-90',

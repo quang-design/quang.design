@@ -36,7 +36,7 @@
 		{@render children?.()}
 	</div>
 {:else if isHeading}
-	<p class="ink-label px-1 pt-4" {...rest}>
+	<p class="ink-h3 px-3 pt-[var(--grid)]" {...rest}>
 		{@render children?.()}
 	</p>
 {:else}
