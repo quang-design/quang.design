@@ -37,15 +37,15 @@
 			<Badge variant="outline" href="/design/{slug}/post.md">post.md</Badge>
 		</div>
 		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
-		<div class="grid grid-cols-1 items-start sm:grid-cols-2">
-			<div>
+		<div class="grid grid-cols-1 items-start gap-x-[calc(var(--grid)*2)] sm:grid-cols-2">
+			<div class="min-w-0">
 				{#if introMd}
 					{#each introMd.split('\n\n') as paragraph (paragraph)}
 						<p class="m-0 text-base leading-[var(--grid)]">{paragraph}</p>
 					{/each}
 				{/if}
 			</div>
-			<div>
+			<div class="min-w-0">
 				{#each metaParts as part (part)}
 					<p class="m-0 text-base leading-[var(--grid)]">{part}</p>
 				{/each}
