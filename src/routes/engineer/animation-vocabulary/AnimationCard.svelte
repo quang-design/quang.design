@@ -65,11 +65,8 @@
 </script>
 
 <button type="button" class="anim-card hair group" onclick={play}>
-	<div
-		{@attach autoplay}
-		class="hair relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden sm:h-24 sm:w-24"
-	></div>
-	<div class="flex min-w-0 flex-col gap-1">
+	<div {@attach autoplay} class="anim-stage"></div>
+	<div class="anim-copy">
 		<h3 class="ink-row-title">{title}</h3>
 		<p class="ink-row-desc">{description}</p>
 		<span class="ink-label mt-2 opacity-0 group-hover:opacity-100">click to replay</span>
@@ -78,20 +75,38 @@
 
 <style>
 	.anim-card {
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr 2fr;
 		width: 100%;
 		height: auto;
+		padding: 0;
 		cursor: pointer;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: calc(var(--spacing) * 4);
 		overflow: hidden;
-		padding: calc(var(--spacing) * 4);
 		text-align: left;
 		white-space: normal;
 		background: transparent;
 		color: inherit;
 		font: inherit;
+	}
+
+	.anim-stage {
+		aspect-ratio: 1;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		border-right: var(--hair) solid var(--ink-25);
+	}
+
+	.anim-copy {
+		min-width: 0;
+		display: flex;
+		height: 100%;
+		flex-direction: column;
+		justify-content: center;
+		gap: calc(var(--spacing) * 1);
+		padding: calc(var(--spacing) * 3);
 	}
 
 	.anim-card:hover,
@@ -102,13 +117,5 @@
 	.anim-card:focus-visible {
 		outline: var(--hair) solid var(--ink);
 		outline-offset: calc(var(--spacing) * -1);
-	}
-
-	@media (min-width: 640px) {
-		.anim-card {
-			flex-direction: row;
-			gap: calc(var(--spacing) * 6);
-			padding: calc(var(--spacing) * 6);
-		}
 	}
 </style>
