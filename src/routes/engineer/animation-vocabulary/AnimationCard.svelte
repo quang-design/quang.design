@@ -1,6 +1,5 @@
 <script lang="ts">
 	import anime from 'animejs';
-	import { Button } from '$lib/components/ui/button';
 	import type { AnimateFn } from './animations';
 
 	let {
@@ -65,11 +64,7 @@
 	}
 </script>
 
-<Button
-	variant="ghost"
-	class="hair group flex h-auto w-full cursor-pointer flex-col items-start gap-4 overflow-hidden p-4 text-left whitespace-normal sm:flex-row sm:gap-6 sm:p-6"
-	onclick={play}
->
+<button type="button" class="anim-card hair group" onclick={play}>
 	<div
 		{@attach autoplay}
 		class="hair relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden sm:h-24 sm:w-24"
@@ -79,4 +74,41 @@
 		<p class="ink-row-desc">{description}</p>
 		<span class="ink-label mt-2 opacity-0 group-hover:opacity-100">click to replay</span>
 	</div>
-</Button>
+</button>
+
+<style>
+	.anim-card {
+		display: flex;
+		width: 100%;
+		height: auto;
+		cursor: pointer;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: calc(var(--spacing) * 4);
+		overflow: hidden;
+		padding: calc(var(--spacing) * 4);
+		text-align: left;
+		white-space: normal;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+	}
+
+	.anim-card:hover,
+	.anim-card:focus-visible {
+		background-color: var(--ink-10);
+	}
+
+	.anim-card:focus-visible {
+		outline: var(--hair) solid var(--ink);
+		outline-offset: calc(var(--spacing) * -1);
+	}
+
+	@media (min-width: 640px) {
+		.anim-card {
+			flex-direction: row;
+			gap: calc(var(--spacing) * 6);
+			padding: calc(var(--spacing) * 6);
+		}
+	}
+</style>

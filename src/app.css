@@ -471,6 +471,11 @@
 		text-underline-offset: 3px;
 	}
 
+	.site a[data-slot='badge'] {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
 	.site [data-slot='button'],
 	.site [data-slot='input'],
 	.site [data-slot='textarea'],
@@ -512,6 +517,15 @@
 		line-height: var(--grid);
 		height: var(--grid);
 		min-height: var(--grid);
+		background-color: var(--paper);
+		color: var(--ink);
+		border-color: var(--ink-40);
+	}
+
+	.site a[data-slot='badge']:hover,
+	.site a[data-slot='badge']:focus-visible {
+		background-color: var(--ink-10);
+		color: var(--ink);
 	}
 
 	.site [data-slot='button']:focus-visible,
@@ -585,6 +599,21 @@
 		overflow-x: auto;
 		overflow-y: hidden;
 		border-bottom: var(--hair) solid var(--ink-25);
+		container-type: inline-size;
+		container-name: site-head;
+	}
+
+	.status-place {
+		display: none;
+		height: 100%;
+		flex-shrink: 0;
+		align-items: stretch;
+	}
+
+	@container site-head (min-width: 40rem) {
+		.status-place {
+			display: flex;
+		}
 	}
 
 	.shell-body {
@@ -625,17 +654,23 @@
 	.shell-foot {
 		flex-shrink: 0;
 		box-sizing: border-box;
-		height: calc(var(--grid) * 3);
+		height: auto;
 		min-height: calc(var(--grid) * 3);
-		max-height: calc(var(--grid) * 3);
 		overflow: hidden;
 		border-top: var(--hair) solid var(--ink-25);
+	}
+
+	@media (min-width: 640px) {
+		.shell-foot {
+			height: calc(var(--grid) * 3);
+			max-height: calc(var(--grid) * 3);
+		}
 	}
 
 	.shell[data-menu-open] .shell-index {
 		display: block;
 		position: absolute;
-		inset: calc(var(--grid) * 2) 0 0 0;
+		inset: 0;
 		z-index: 30;
 		width: auto;
 		background-color: var(--paper);
@@ -644,7 +679,11 @@
 			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
 		background-size: var(--grid) var(--grid);
 		background-position: 0 0;
-		border-top: var(--hair) solid var(--ink-25);
+	}
+
+	.shell[data-menu-open] .shell-canvas {
+		visibility: hidden;
+		pointer-events: none;
 	}
 
 	@media (min-width: 1024px) {
@@ -681,9 +720,20 @@
 			inset: auto;
 			z-index: auto;
 			width: auto;
+			background-color: transparent;
 			background-image: none;
 			border-top: 0;
 			overflow: auto;
+		}
+
+		.shell[data-menu-open] .shell-canvas {
+			visibility: visible;
+			pointer-events: auto;
+		}
+
+		.shell-foot {
+			height: calc(var(--grid) * 3);
+			max-height: calc(var(--grid) * 3);
 		}
 
 		.shell-canvas {

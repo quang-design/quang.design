@@ -6,6 +6,7 @@
 	import LayoutGridIcon from '@lucide/svelte/icons/layout-grid';
 	import UserIcon from '@lucide/svelte/icons/user';
 	import CloudIcon from '@lucide/svelte/icons/cloud';
+	import GlobeIcon from '@lucide/svelte/icons/globe';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { IndexRow } from '$lib/components/layout';
 	import { engineerProjects } from '$lib/content/engineer';
@@ -17,7 +18,8 @@
 		'/engineer/animation-vocabulary': SparklesIcon,
 		'/engineer/minesweeper': LayoutGridIcon,
 		'https://user-info.quang.design/': UserIcon,
-		'https://bluesky.quang.design/': CloudIcon
+		'https://bluesky.quang.design/': CloudIcon,
+		'https://world.quang.design/': GlobeIcon
 	};
 </script>
 

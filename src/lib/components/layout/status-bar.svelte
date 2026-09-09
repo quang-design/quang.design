@@ -46,7 +46,7 @@
 		<span class="ink-label">Welcome to</span>
 		<span class="truncate">{title}</span>
 	</div>
-	<div class="hidden h-full items-stretch lg:flex">
+	<div class="status-place">
 		<Rule orientation="vertical" />
 		<StatCell label="Location" value="Nha Trang" class="justify-center px-3" />
 		<Rule orientation="vertical" />

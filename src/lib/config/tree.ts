@@ -103,10 +103,6 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 				},
 				...(onBlogChild ? blogRows : [])
 			]
-		},
-		{
-			label: 'Reference',
-			rows: [{ code: 'S', label: 'Styles', href: '/styles' }]
 		}
 	];
 
