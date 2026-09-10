@@ -37,7 +37,7 @@
 			<Badge variant="outline" href="/design/{slug}/post.md">post.md</Badge>
 		</div>
 		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
-		<div class="grid grid-cols-1 items-start gap-x-[calc(var(--grid)*2)] sm:grid-cols-2">
+		<div class="grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]">
 			<div class="flex min-w-0 flex-col gap-[var(--grid)]">
 				{#if introMd}
 					{#each introMd.split('\n\n') as paragraph (paragraph)}

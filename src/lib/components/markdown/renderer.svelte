@@ -34,7 +34,7 @@
 	{/snippet}
 	{#snippet ul(props)}
 		{@const { children, ...rest } = props}
-		<ul {...rest} class={cn('ml-6 list-outside list-disc', rest.class)}>
+		<ul {...rest} class={cn('ml-6 list-outside list-disc [&_p]:my-0', rest.class)}>
 			{@render children?.()}
 		</ul>
 	{/snippet}

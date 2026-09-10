@@ -28,7 +28,7 @@
 </script>
 
 {#if is2col}
-	<div class="grid gap-2 md:grid-cols-2 md:gap-8">
+	<div class="grid gap-[var(--grid)] md:grid-cols-2 md:gap-[calc(var(--grid)*2)]">
 		{@render children?.()}
 	</div>
 {:else if isSingleImg}

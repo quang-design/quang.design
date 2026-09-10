@@ -15,7 +15,7 @@
 	canonical="https://quang.design"
 />
 
-<div class="grid min-h-full grid-cols-1 md:grid-cols-2">
+<div class="grid grid-cols-1 content-start md:min-h-full md:grid-cols-2 md:gap-x-[calc(var(--grid)*2)]">
 	<div
 		class="ink-read border-[var(--ink-25)] px-3 py-[var(--grid)] md:border-r-[length:var(--hair)]"
 	>
