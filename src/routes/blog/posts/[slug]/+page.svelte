@@ -26,7 +26,7 @@
 
 <div class="flex flex-col">
 	<div class="mx-auto w-full max-w-xl px-3 py-[var(--grid)]">
-		<div class="flex flex-wrap gap-2">
+		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-2">
 			<Badge variant="outline" href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</Badge>
 			<Badge variant="outline" href="/blog/posts/{page.params.slug}/post.md">post.md</Badge>
 		</div>
