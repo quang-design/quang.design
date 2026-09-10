@@ -26,7 +26,7 @@
 	id="L1"
 	group="templates"
 	title="Four-zone shell — status / index / canvas / reading / footer"
-	why="Grid origin is viewport-fixed. Columns are multiples of --grid. Hover a row to preview on the right. Quote + subscribe in the footer."
+	why="Grid is painted on the in-flow sheet so it scrolls with content. Columns are multiples of --grid. Hover a row to preview on the right. Quote + subscribe in the footer."
 	stacked
 >
 	{#snippet before()}

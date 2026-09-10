@@ -8,7 +8,7 @@
 <h2 id="subatomic" class="mt-8 scroll-mt-28 text-sm tracking-widest uppercase">2 · Sub-atomic</h2>
 <p class="text-muted-foreground max-w-3xl text-xs">
 	The smallest visible units: hairlines, hatch, inversion, focus. Hatch and grid share
-	<code>--grid</code> and <code>background-attachment: fixed</code> so they land on the same origin.
+	<code>--grid</code> so they land on the same origin as the scrolling sheet.
 </p>
 
 <ReviewItem

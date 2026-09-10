@@ -37,41 +37,43 @@
 <svelte:window onkeydown={onKeydown} />
 
 <div class="shell" data-menu-open={menuOpen ? '' : undefined}>
-	<div class="shell-head">
-		<StatusBar {menuOpen} onMenu={toggleMenu} />
-	</div>
-	<div class="shell-body">
-		<div class="shell-index">
-			<IndexTree groups={tree.groups} active={tree.active} />
+	<div class="shell-sheet">
+		<div class="shell-head">
+			<StatusBar {menuOpen} onMenu={toggleMenu} />
 		</div>
-		<div class="shell-canvas">
-			{@render children()}
-		</div>
-		<div class="shell-reading">
-			{#if current}
-				<ReadingPane preview={current} />
-			{:else}
-				<div class="reading-pane flex h-full min-h-[calc(var(--grid)*2)] flex-col p-3">
-					<MicroLabel>Detail</MicroLabel>
-					<p class="ink-row-desc">Hover a row or a link to preview.</p>
-				</div>
-			{/if}
-		</div>
-	</div>
-	<div class="shell-foot">
-		<div
-			class="grid h-full grid-cols-1 sm:grid-cols-[minmax(0,1fr)_var(--reading-col)] lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)]"
-		>
-			<div class="hidden lg:block" aria-hidden="true"></div>
-			<div class="flex flex-col justify-center px-3 py-[var(--grid)] sm:h-full sm:py-0">
-				<blockquote class="italic">
-					"The best person ever to exist."
-					<a href="http://quang.urbanup.com/9858947">Urban Dictionary</a>
-				</blockquote>
-				<p class="ink-label">&copy; {year} Quang Design. All rights reserved.</p>
+		<div class="shell-body">
+			<div class="shell-index">
+				<IndexTree groups={tree.groups} active={tree.active} />
 			</div>
-			<div class="flex items-center px-3 pb-[var(--grid)] sm:h-full sm:py-0">
-				<Subscribe />
+			<div class="shell-canvas">
+				{@render children()}
+			</div>
+			<div class="shell-reading">
+				{#if current}
+					<ReadingPane preview={current} />
+				{:else}
+					<div class="reading-pane flex h-full min-h-[calc(var(--grid)*2)] flex-col p-3">
+						<MicroLabel>Detail</MicroLabel>
+						<p class="ink-row-desc">Hover a row or a link to preview.</p>
+					</div>
+				{/if}
+			</div>
+		</div>
+		<div class="shell-foot">
+			<div
+				class="grid h-full grid-cols-1 sm:grid-cols-[minmax(0,1fr)_var(--reading-col)] lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)]"
+			>
+				<div class="hidden lg:block" aria-hidden="true"></div>
+				<div class="flex flex-col justify-center px-3 py-[var(--grid)] sm:h-full sm:py-0">
+					<blockquote class="italic">
+						"The best person ever to exist."
+						<a href="http://quang.urbanup.com/9858947">Urban Dictionary</a>
+					</blockquote>
+					<p class="ink-label">&copy; {year} Quang Design. All rights reserved.</p>
+				</div>
+				<div class="flex items-center px-3 pb-[var(--grid)] sm:h-full sm:py-0">
+					<Subscribe />
+				</div>
 			</div>
 		</div>
 	</div>

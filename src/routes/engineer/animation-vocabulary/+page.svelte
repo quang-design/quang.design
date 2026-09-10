@@ -10,17 +10,19 @@
 	canonical="https://quang.design/engineer/animation-vocabulary"
 />
 
-<section class="mx-auto w-full max-w-2xl space-y-10 p-4 sm:space-y-16">
+<section
+	class="mx-auto w-full max-w-2xl space-y-[calc(var(--grid)*2)] p-[var(--grid)] sm:space-y-[calc(var(--grid)*3)]"
+>
 	<div>
 		<h1 class="ink-display uppercase">Animation Vocabulary</h1>
-		<p class="mt-1">Interactive visual glossary of animation terms.</p>
-		<p class="mt-1">
+		<p>Interactive visual glossary of animation terms.</p>
+		<p>
 			Inspired by <a href="https://animations.dev/vocabulary">animations.dev/vocabulary</a>. Click
 			any card to replay.
 		</p>
 	</div>
 	{#each sections as section (section.title)}
-		<div class="space-y-4">
+		<div class="space-y-[var(--grid)]">
 			<div>
 				<h2 class="ink-label">{section.title}</h2>
 				<p class="text-muted-foreground text-sm">{section.description}</p>

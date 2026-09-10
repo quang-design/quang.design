@@ -42,6 +42,13 @@
 		}
 	}
 
+	function onKey(event: KeyboardEvent) {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			play();
+		}
+	}
+
 	function autoplay(el: HTMLElement) {
 		stageEl = el;
 		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -64,42 +71,57 @@
 	}
 </script>
 
-<button type="button" class="anim-card group" onclick={play}>
-	<div {@attach autoplay} class="anim-stage"></div>
+<div class="anim-card" role="button" tabindex="0" onclick={play} onkeydown={onKey}>
+	<div class="anim-stage">
+		<div {@attach autoplay} class="anim-play"></div>
+	</div>
 	<div class="anim-copy">
 		<h3 class="ink-row-title">{title}</h3>
 		<p class="ink-row-desc">{description}</p>
-		<span class="ink-label mt-2 opacity-0 group-hover:opacity-100">click to replay</span>
+		<span class="ink-label anim-hint">click to replay</span>
 	</div>
-</button>
+</div>
 
 <style>
 	.anim-card {
-		appearance: none;
-		-webkit-appearance: none;
 		display: grid;
-		grid-template-columns: 1fr 2fr;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+		align-items: stretch;
 		width: 100%;
 		margin: 0;
 		padding: 0;
-		border: 0;
 		box-sizing: border-box;
 		cursor: pointer;
-		overflow: hidden;
+		overflow: visible;
 		text-align: left;
 		white-space: normal;
 		background: transparent;
 		color: inherit;
 		font: inherit;
+		box-shadow: 0 0 0 var(--hair) var(--ink-25);
 	}
 
 	.anim-stage {
 		align-self: stretch;
+		min-width: 0;
+		min-height: calc(var(--grid) * 5);
+		height: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		border: var(--hair) solid var(--ink-25);
+		box-shadow: inset calc(-1 * var(--hair)) 0 0 var(--ink-25);
+	}
+
+	.anim-play {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 1;
+		width: min(100%, calc(var(--grid) * 5));
+		height: auto;
+		overflow: hidden;
 	}
 
 	.anim-copy {
@@ -108,10 +130,19 @@
 		height: 100%;
 		flex-direction: column;
 		justify-content: center;
-		gap: calc(var(--spacing) * 1);
-		padding: calc(var(--spacing) * 3);
-		border: var(--hair) solid var(--ink-25);
-		border-left: 0;
+		gap: 0;
+		padding: var(--grid);
+	}
+
+	.anim-hint {
+		height: var(--grid);
+		margin-top: 0;
+		opacity: 0;
+	}
+
+	.anim-card:hover .anim-hint,
+	.anim-card:focus-visible .anim-hint {
+		opacity: 1;
 	}
 
 	.anim-card:hover,

@@ -58,6 +58,9 @@
 	--hair: 0.5px;
 	--index-col: calc(var(--grid) * 10);
 	--reading-col: calc(var(--grid) * 14);
+	--grid-bg-image:
+		linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
+		linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
 
 	--text-xs: 0.625rem;
 	--text-xs--line-height: var(--grid);
@@ -419,21 +422,16 @@
 	}
 
 	.grid-bg {
-		background-image:
-			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
-			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+		background-image: var(--grid-bg-image);
 		background-size: var(--grid) var(--grid);
-		background-attachment: fixed;
 		background-position: 0 0;
 	}
 
 	.hatch {
 		background-image:
-			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
-			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair)),
+			var(--grid-bg-image),
 			linear-gradient(45deg, var(--ink-40) var(--hair), transparent var(--hair));
 		background-size: var(--grid) var(--grid);
-		background-attachment: fixed;
 		background-position: 0 0;
 	}
 }
@@ -479,7 +477,6 @@
 	.site [data-slot='button'],
 	.site [data-slot='input'],
 	.site [data-slot='textarea'],
-	.site [data-slot='badge'],
 	.site [data-slot='kbd'],
 	.site [data-slot='select-trigger'],
 	.site [data-slot='select-content'],
@@ -513,13 +510,16 @@
 	}
 
 	.site [data-slot='badge'] {
+		border-radius: 0;
 		font-size: var(--text-base);
 		line-height: var(--grid);
 		height: var(--grid);
 		min-height: var(--grid);
+		overflow: visible;
 		background-color: var(--paper);
 		color: var(--ink);
-		border: var(--hair) solid var(--ink);
+		border: 0;
+		box-shadow: 0 0 0 var(--hair) var(--ink);
 	}
 
 	.site a[data-slot='badge']:hover,
@@ -585,9 +585,7 @@
 	.shell-index::-webkit-scrollbar-track,
 	.shell-reading::-webkit-scrollbar-track {
 		background-color: var(--paper);
-		background-image:
-			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
-			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+		background-image: var(--grid-bg-image);
 		background-size: var(--grid) var(--grid);
 		border-left: var(--hair) solid var(--ink-25);
 	}
@@ -630,11 +628,17 @@
 		margin-inline: auto;
 		border: var(--hair) solid var(--ink-40);
 		background-color: var(--paper);
-		background-image:
-			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
-			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+	}
+
+	.shell-sheet {
+		display: flex;
+		flex-direction: column;
+		flex: 1 0 auto;
+		min-height: 100%;
+		background-image: var(--grid-bg-image);
 		background-size: var(--grid) var(--grid);
 		background-position: 0 0;
+		background-repeat: repeat;
 	}
 
 	.shell::before,
@@ -657,9 +661,7 @@
 		container-type: inline-size;
 		container-name: site-head;
 		background-color: var(--paper);
-		background-image:
-			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
-			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+		background-image: var(--grid-bg-image);
 		background-size: var(--grid) var(--grid);
 		background-position: 0 0;
 	}
@@ -736,9 +738,7 @@
 		width: auto;
 		padding-top: calc(var(--grid) * 2);
 		background-color: var(--paper);
-		background-image:
-			linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
-			linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
+		background-image: var(--grid-bg-image);
 		background-size: var(--grid) var(--grid);
 		background-position: 0 0;
 	}
