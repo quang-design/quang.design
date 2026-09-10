@@ -3,6 +3,7 @@
 	import type { Snippet } from 'svelte';
 	import { getContext } from 'svelte';
 	import { cn } from '$lib/utils';
+	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import { KeySlot, Hatch } from '$lib/components/primitives';
 	import { PREVIEW_KEY, type Preview, type PreviewState } from '$lib/preview.svelte';
 
@@ -45,7 +46,8 @@
 	);
 	const rowClass = $derived(
 		cn(
-			'ink-invert flex min-h-[calc(var(--grid)*2)] items-center gap-3 px-3',
+			'ink-invert flex min-h-[calc(var(--grid)*2)] items-center gap-3 pl-3',
+			external ? 'pr-0' : 'pr-3',
 			className
 		)
 	);
@@ -86,6 +88,14 @@
 		{#if description}<span class="ink-row-desc line-clamp-1">{description}</span>{/if}
 	</span>
 	{#if date}<span class="ink-row-meta shrink-0">{date}</span>{/if}
+	{#if external}
+		<span
+			class="hair flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center"
+			aria-hidden="true"
+		>
+			<ArrowUpRightIcon class="size-4" />
+		</span>
+	{/if}
 {/snippet}
 
 {#if route}

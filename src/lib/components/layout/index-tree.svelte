@@ -2,6 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { getContext } from 'svelte';
 	import { cn } from '$lib/utils';
+	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import { MicroLabel, KeySlot, Count } from '$lib/components/primitives';
 	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
 	import type { TreeGroup } from '$lib/config/tree';
@@ -26,8 +27,9 @@
 						target={row.external ? '_blank' : undefined}
 						rel={row.external ? 'noopener noreferrer' : undefined}
 						class={cn(
-							'ink-invert flex h-[var(--grid)] items-center gap-2 pr-3',
+							'ink-invert flex h-[var(--grid)] items-center gap-2',
 							row.nested ? 'pl-6' : 'pl-3',
+							row.external ? 'pr-0' : 'pr-3',
 							active === row.code && 'ink-active'
 						)}
 						onmouseenter={() => row.preview && preview?.setHover(row.preview)}
@@ -39,6 +41,14 @@
 						<span class="ink-row grow truncate">{row.label}</span>
 						{#if row.count !== undefined}
 							<Count value={row.count} />
+						{/if}
+						{#if row.external}
+							<span
+								class="hair flex size-[var(--grid)] shrink-0 items-center justify-center"
+								aria-hidden="true"
+							>
+								<ArrowUpRightIcon class="size-3" />
+							</span>
 						{/if}
 					</a>
 				{/each}

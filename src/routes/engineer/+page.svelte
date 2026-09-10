@@ -1,5 +1,4 @@
 <script lang="ts">
-	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import Maximize2Icon from '@lucide/svelte/icons/maximize-2';
 	import Minimize2Icon from '@lucide/svelte/icons/minimize-2';
 	import SparklesIcon from '@lucide/svelte/icons/sparkles';
@@ -50,9 +49,6 @@
 			{#snippet icon()}
 				{#if Icon}
 					<Icon class="size-4" />
-					{#if project.external}
-						<ArrowUpRightIcon class="size-3" />
-					{/if}
 				{/if}
 			{/snippet}
 		</IndexRow>
