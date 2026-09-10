@@ -569,7 +569,7 @@
 		.shell,
 		.shell-index,
 		.shell-reading {
-			scrollbar-width: auto;
+			scrollbar-width: thin;
 			scrollbar-color: var(--ink) var(--paper);
 		}
 	}
@@ -577,24 +577,21 @@
 	.shell::-webkit-scrollbar,
 	.shell-index::-webkit-scrollbar,
 	.shell-reading::-webkit-scrollbar {
-		width: var(--grid);
-		height: var(--grid);
+		width: var(--spacing);
+		height: var(--spacing);
 	}
 
 	.shell::-webkit-scrollbar-track,
 	.shell-index::-webkit-scrollbar-track,
 	.shell-reading::-webkit-scrollbar-track {
 		background-color: var(--paper);
-		background-image: var(--grid-bg-image);
-		background-size: var(--grid) var(--grid);
-		border-left: var(--hair) solid var(--ink-25);
 	}
 
 	.shell::-webkit-scrollbar-thumb,
 	.shell-index::-webkit-scrollbar-thumb,
 	.shell-reading::-webkit-scrollbar-thumb {
 		background-color: var(--ink);
-		border: var(--hair) solid var(--paper);
+		border: 0;
 		border-radius: 0;
 		box-shadow: none;
 	}
@@ -609,8 +606,6 @@
 	.shell-index::-webkit-scrollbar-corner,
 	.shell-reading::-webkit-scrollbar-corner {
 		background: var(--paper);
-		border-left: var(--hair) solid var(--ink-25);
-		border-top: var(--hair) solid var(--ink-25);
 	}
 
 	.shell {
