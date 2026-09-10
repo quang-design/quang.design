@@ -6,6 +6,7 @@
 	import MoonIcon from '@lucide/svelte/icons/moon';
 	import MenuIcon from '@lucide/svelte/icons/menu';
 	import XIcon from '@lucide/svelte/icons/x';
+	import { resolve } from '$app/paths';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils';
 	import { StatCell, Rule } from '$lib/components/primitives';
@@ -42,10 +43,13 @@
 </script>
 
 <header class={cn('flex h-full w-full min-w-0 items-stretch', className)}>
-	<div class="flex min-w-0 flex-col justify-center px-3">
-		<span class="ink-label">Welcome to</span>
+	<a href={resolve('/')} class="home-mark" aria-label="Go home">
+		<span class="ink-label home-mark-kicker">
+			<span class="home-mark-idle">Welcome to</span>
+			<span class="home-mark-go">Go home</span>
+		</span>
 		<span class="truncate">{title}</span>
-	</div>
+	</a>
 	<div class="status-place">
 		<Rule orientation="vertical" />
 		<StatCell label="Location" value="Nha Trang" class="justify-center px-3" />
@@ -89,3 +93,49 @@
 		</Button>
 	</div>
 </header>
+
+<style>
+	.home-mark {
+		display: flex;
+		min-width: 0;
+		height: 100%;
+		flex-direction: column;
+		justify-content: center;
+		padding-inline: calc(var(--spacing) * 3);
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.home-mark:hover,
+	.home-mark:focus-visible {
+		background-color: var(--ink-10);
+	}
+
+	.home-mark:focus-visible {
+		outline: var(--hair) solid var(--ink);
+		outline-offset: calc(var(--spacing) * -1);
+	}
+
+	.home-mark-kicker {
+		display: grid;
+	}
+
+	.home-mark-idle,
+	.home-mark-go {
+		grid-area: 1 / 1;
+	}
+
+	.home-mark-go {
+		opacity: 0;
+	}
+
+	.home-mark:hover .home-mark-idle,
+	.home-mark:focus-visible .home-mark-idle {
+		opacity: 0;
+	}
+
+	.home-mark:hover .home-mark-go,
+	.home-mark:focus-visible .home-mark-go {
+		opacity: 1;
+	}
+</style>
