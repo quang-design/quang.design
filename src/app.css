@@ -628,6 +628,7 @@
 	.shell-sheet {
 		display: flex;
 		flex-direction: column;
+		position: relative;
 		flex: 1 0 auto;
 		min-height: 100%;
 		background-image: var(--grid-bg-image);
@@ -636,8 +637,7 @@
 		background-repeat: repeat;
 	}
 
-	.shell::before,
-	.shell::after {
+	.shell-rule {
 		display: none;
 	}
 
@@ -745,9 +745,7 @@
 	}
 
 	@media (min-width: 1024px) {
-		.shell::before,
-		.shell::after {
-			content: '';
+		.shell-rule {
 			display: block;
 			position: absolute;
 			top: calc(var(--grid) * 2);
@@ -758,11 +756,11 @@
 			z-index: 4;
 		}
 
-		.shell::before {
+		.shell-rule-index {
 			left: var(--index-col);
 		}
 
-		.shell::after {
+		.shell-rule-reading {
 			right: var(--reading-col);
 		}
 

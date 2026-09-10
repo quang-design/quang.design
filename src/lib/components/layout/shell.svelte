@@ -76,5 +76,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="shell-rule shell-rule-index" aria-hidden="true"></div>
+		<div class="shell-rule shell-rule-reading" aria-hidden="true"></div>
 	</div>
 </div>
