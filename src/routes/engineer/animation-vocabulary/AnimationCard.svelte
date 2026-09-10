@@ -64,7 +64,7 @@
 	}
 </script>
 
-<button type="button" class="anim-card hair group" onclick={play}>
+<button type="button" class="anim-card group" onclick={play}>
 	<div {@attach autoplay} class="anim-stage"></div>
 	<div class="anim-copy">
 		<h3 class="ink-row-title">{title}</h3>
@@ -75,11 +75,15 @@
 
 <style>
 	.anim-card {
+		appearance: none;
+		-webkit-appearance: none;
 		display: grid;
 		grid-template-columns: 1fr 2fr;
 		width: 100%;
-		height: auto;
+		margin: 0;
 		padding: 0;
+		border: 0;
+		box-sizing: border-box;
 		cursor: pointer;
 		overflow: hidden;
 		text-align: left;
@@ -90,13 +94,12 @@
 	}
 
 	.anim-stage {
-		aspect-ratio: 1;
-		width: 100%;
+		align-self: stretch;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		border-right: var(--hair) solid var(--ink-25);
+		border: var(--hair) solid var(--ink-25);
 	}
 
 	.anim-copy {
@@ -107,6 +110,8 @@
 		justify-content: center;
 		gap: calc(var(--spacing) * 1);
 		padding: calc(var(--spacing) * 3);
+		border: var(--hair) solid var(--ink-25);
+		border-left: 0;
 	}
 
 	.anim-card:hover,
