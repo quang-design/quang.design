@@ -577,8 +577,8 @@
 	.shell::-webkit-scrollbar,
 	.shell-index::-webkit-scrollbar,
 	.shell-reading::-webkit-scrollbar {
-		width: var(--spacing);
-		height: var(--spacing);
+		width: 1px;
+		height: 1px;
 	}
 
 	.shell::-webkit-scrollbar-track,
