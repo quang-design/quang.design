@@ -765,6 +765,7 @@
 
 		.status-meta {
 			margin-left: 0;
+			justify-content: flex-end;
 		}
 
 		.status-place,
