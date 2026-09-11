@@ -85,7 +85,7 @@
 <style>
 	.anim-card {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+		grid-template-columns: calc(var(--grid) * 5) minmax(0, 1fr);
 		align-items: stretch;
 		width: 100%;
 		margin: 0;

@@ -11,7 +11,7 @@
 />
 
 <section
-	class="mx-auto w-full max-w-2xl space-y-[calc(var(--grid)*2)] p-[var(--grid)] sm:space-y-[calc(var(--grid)*3)]"
+	class="mx-auto w-full max-w-[calc(var(--grid)*32)] space-y-[calc(var(--grid)*2)] p-[var(--grid)] sm:space-y-[calc(var(--grid)*3)]"
 >
 	<div>
 		<h1 class="ink-display uppercase">Animation Vocabulary</h1>

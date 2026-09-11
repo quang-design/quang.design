@@ -138,4 +138,12 @@
 	.home-mark:focus-visible .home-mark-go {
 		opacity: 1;
 	}
+
+	@media (min-width: 1024px) {
+		.home-mark {
+			box-sizing: border-box;
+			width: var(--index-col);
+			flex-shrink: 0;
+		}
+	}
 </style>
