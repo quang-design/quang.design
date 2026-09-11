@@ -6,7 +6,7 @@
 		{
 			"source": "/",
 			"has": [{ "type": "host", "value": "1st.quang.design" }],
-			"destination": "https://quang.design/anh-nhi",
+			"destination": "https://quang.design/",
 			"permanent": false
 		},
 		{

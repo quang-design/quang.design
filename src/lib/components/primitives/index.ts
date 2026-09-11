@@ -7,5 +7,4 @@ export { default as Mark } from './mark.svelte';
 export { default as Tab } from './tab.svelte';
 export { default as Action } from './action.svelte';
 export { default as Hatch } from './hatch.svelte';
-export { default as GridBackdrop } from './grid-backdrop.svelte';
 export { default as HintKey } from './hint-key.svelte';
