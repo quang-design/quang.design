@@ -52,7 +52,7 @@
 				{#if current}
 					<ReadingPane preview={current} />
 				{:else}
-					<div class="reading-pane flex h-full min-h-[calc(var(--grid)*2)] flex-col p-3">
+					<div class="reading-pane flex h-full min-h-[calc(var(--grid)*2)] flex-col p-[var(--grid)]">
 						<MicroLabel>Detail</MicroLabel>
 						<p class="ink-row-desc">Hover a row or a link to preview.</p>
 					</div>
@@ -64,14 +64,14 @@
 				class="grid h-full grid-cols-1 sm:grid-cols-[minmax(0,1fr)_var(--reading-col)] lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)]"
 			>
 				<div class="hidden lg:block" aria-hidden="true"></div>
-				<div class="flex flex-col justify-center px-3 py-[var(--grid)] sm:h-full sm:py-0">
+				<div class="flex flex-col justify-center px-[var(--grid)] py-[var(--grid)] sm:h-full sm:py-0">
 					<blockquote class="italic">
 						"The best person ever to exist."
 						<a href="http://quang.urbanup.com/9858947">Urban Dictionary</a>
 					</blockquote>
 					<p class="ink-label">&copy; {year} Quang Design. All rights reserved.</p>
 				</div>
-				<div class="flex items-center px-3 pb-[var(--grid)] sm:h-full sm:py-0">
+				<div class="flex items-center px-[var(--grid)] pb-[var(--grid)] sm:h-full sm:py-0">
 					<Subscribe />
 				</div>
 			</div>

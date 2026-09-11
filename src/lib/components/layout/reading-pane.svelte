@@ -59,7 +59,7 @@
 			{/each}
 		</div>
 	{/if}
-	<div class="flex flex-col gap-3 px-3 py-3">
+	<div class="flex flex-col gap-[var(--grid)] p-[var(--grid)]">
 		{#if shown.eyebrow}<MicroLabel>{shown.eyebrow}</MicroLabel>{/if}
 		{#if shown.title}<h1 class="ink-h2">{shown.title}</h1>{/if}
 		{#if shown.subtitle}<p class="ink-read">{shown.subtitle}</p>{/if}

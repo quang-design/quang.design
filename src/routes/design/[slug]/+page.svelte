@@ -31,7 +31,7 @@
 />
 
 <div class="flex flex-col">
-	<div class="flex flex-col px-3 py-[var(--grid)]">
+	<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
 		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-2">
 			<Badge variant="outline" href="/design/{slug}/llms.txt">llms.txt</Badge>
 			<Badge variant="outline" href="/design/{slug}/post.md">post.md</Badge>

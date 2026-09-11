@@ -45,7 +45,7 @@
 	canonical="https://quang.design/engineer/telescopic"
 />
 
-<section class="max-w-sm space-y-4 p-4">
+<section class="max-w-[calc(var(--grid)*16)] space-y-[var(--grid)] p-[var(--grid)]">
 	<h1 class="ink-display uppercase">Welcome to AI Telescopic Text</h1>
 	<p>
 		Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to

@@ -57,7 +57,8 @@
 	--grid: calc(var(--spacing) * 6);
 	--hair: 0.5px;
 	--index-col: calc(var(--grid) * 10);
-	--reading-col: calc(var(--grid) * 14);
+	--reading-col: calc(var(--grid) * 10);
+	--chrome-btn: calc(var(--grid) * 2);
 	--grid-bg-image:
 		linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
 		linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
@@ -277,6 +278,10 @@
 
 	.stack-flush {
 		border: 0;
+	}
+
+	.stack-flush > :last-child {
+		border-bottom: var(--hair) solid var(--ink-25);
 	}
 
 	.ink-mark {
@@ -641,17 +646,41 @@
 		background-position: 0 0;
 	}
 
-	.status-place {
-		display: none;
+	.status-brand,
+	.status-meta {
+		display: flex;
 		height: 100%;
-		flex-shrink: 0;
+		min-width: 0;
 		align-items: stretch;
 	}
 
-	@container site-head (min-width: 40rem) {
-		.status-place {
-			display: flex;
-		}
+	.status-brand {
+		flex: 1 1 auto;
+	}
+
+	.status-canvas {
+		display: none;
+	}
+
+	.status-meta {
+		flex-shrink: 0;
+		margin-left: auto;
+	}
+
+	.status-place,
+	.status-time {
+		display: none;
+		height: 100%;
+		min-width: 0;
+		align-items: stretch;
+	}
+
+	.status-place {
+		flex: 2 1 0;
+	}
+
+	.status-time {
+		flex: 1 1 0;
 	}
 
 	.shell-body {
@@ -672,6 +701,17 @@
 		grid-area: canvas;
 		min-width: 0;
 		overflow: visible;
+		container-type: inline-size;
+		container-name: canvas;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, calc(var(--grid) * 2));
+		justify-content: start;
+		align-content: start;
+	}
+
+	.shell-canvas > * {
+		grid-column: 1 / -1;
+		min-width: 0;
 	}
 
 	.shell-reading {
@@ -742,6 +782,20 @@
 
 		.shell-rule-reading {
 			right: var(--reading-col);
+		}
+
+		.status-canvas {
+			display: block;
+			min-width: 0;
+		}
+
+		.status-meta {
+			margin-left: 0;
+		}
+
+		.status-place,
+		.status-time {
+			display: flex;
 		}
 
 		.shell-body {

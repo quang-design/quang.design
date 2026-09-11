@@ -6,6 +6,7 @@
 	import MoonIcon from '@lucide/svelte/icons/moon';
 	import MenuIcon from '@lucide/svelte/icons/menu';
 	import XIcon from '@lucide/svelte/icons/x';
+	import HouseIcon from '@lucide/svelte/icons/house';
 	import { resolve } from '$app/paths';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils';
@@ -42,23 +43,40 @@
 	const localTime = $derived(date ? formatter.format(date) : '--:--:--');
 </script>
 
-<header class={cn('flex h-full w-full min-w-0 items-stretch', className)}>
-	<a href={resolve('/')} class="home-mark" aria-label="Go home">
-		<span class="ink-label home-mark-kicker">
-			<span class="home-mark-idle">Welcome to</span>
-			<span class="home-mark-go">Go home</span>
-		</span>
-		<span class="truncate">{title}</span>
-	</a>
-	<div class="status-place">
+<header
+	class={cn(
+		'flex h-full w-full min-w-0 items-stretch lg:grid lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)]',
+		className
+	)}
+>
+	<div class="status-brand">
+		<Button
+			href={resolve('/')}
+			variant="ghost"
+			size="icon-lg"
+			class="h-full w-[var(--chrome-btn)] rounded-none"
+			aria-label="Go home"
+		>
+			<HouseIcon class="size-4" />
+		</Button>
 		<Rule orientation="vertical" />
-		<StatCell label="Location" value="Nha Trang" class="justify-center px-3" />
-		<Rule orientation="vertical" />
-		<StatCell label="Country" value="Vietnam" class="justify-center px-3" />
+		<div class="home-mark">
+			<span class="ink-label">Welcome to</span>
+			<span class="truncate">{title}</span>
+		</div>
 	</div>
-	<Rule orientation="vertical" />
-	<StatCell label="Local time" value={localTime} class="justify-center px-3" />
-	<div class="ml-auto flex h-full shrink-0 items-stretch">
+	<div class="status-canvas" aria-hidden="true"></div>
+	<div class="status-meta">
+		<Rule orientation="vertical" />
+		<div class="status-place">
+			<StatCell label="Location" value="Nha Trang" class="min-w-0 flex-1 justify-center" />
+			<Rule orientation="vertical" />
+			<StatCell label="Country" value="Vietnam" class="min-w-0 flex-1 justify-center" />
+		</div>
+		<Rule orientation="vertical" class="hidden lg:block" />
+		<div class="status-time">
+			<StatCell label="Local time" value={localTime} class="h-full min-w-0 w-full justify-center" />
+		</div>
 		<Rule orientation="vertical" />
 		<Button
 			variant="ghost"
@@ -66,7 +84,7 @@
 			onclick={onMenu}
 			aria-expanded={menuOpen}
 			aria-controls="site-index"
-			class="h-full w-[calc(var(--grid)*2)] rounded-none lg:hidden"
+			class="h-full w-[var(--chrome-btn)] rounded-none lg:hidden"
 		>
 			{#if menuOpen}
 				<XIcon class="size-4" />
@@ -81,7 +99,7 @@
 			variant="ghost"
 			size="icon-lg"
 			onclick={toggleMode}
-			class="h-full w-[calc(var(--grid)*2)] rounded-none"
+			class="h-full w-[var(--chrome-btn)] rounded-none"
 		>
 			<SunIcon
 				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"
@@ -99,51 +117,10 @@
 		display: flex;
 		min-width: 0;
 		height: 100%;
+		flex: 1 1 auto;
 		flex-direction: column;
 		justify-content: center;
-		padding-inline: calc(var(--spacing) * 3);
+		padding-inline: var(--grid);
 		color: inherit;
-		text-decoration: none;
-	}
-
-	.home-mark:hover,
-	.home-mark:focus-visible {
-		background-color: var(--ink-10);
-	}
-
-	.home-mark:focus-visible {
-		outline: var(--hair) solid var(--ink);
-		outline-offset: calc(var(--spacing) * -1);
-	}
-
-	.home-mark-kicker {
-		display: grid;
-	}
-
-	.home-mark-idle,
-	.home-mark-go {
-		grid-area: 1 / 1;
-	}
-
-	.home-mark-go {
-		opacity: 0;
-	}
-
-	.home-mark:hover .home-mark-idle,
-	.home-mark:focus-visible .home-mark-idle {
-		opacity: 0;
-	}
-
-	.home-mark:hover .home-mark-go,
-	.home-mark:focus-visible .home-mark-go {
-		opacity: 1;
-	}
-
-	@media (min-width: 1024px) {
-		.home-mark {
-			box-sizing: border-box;
-			width: var(--index-col);
-			flex-shrink: 0;
-		}
 	}
 </style>

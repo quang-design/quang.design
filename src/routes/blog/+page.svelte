@@ -38,7 +38,7 @@
 		{/each}
 	</div>
 {:else}
-	<div class="p-3">
+	<div class="p-[var(--grid)]">
 		<EmptyState
 			title="No Posts Yet"
 			description="It looks like there are no blog posts available at the moment. Check back soon!"

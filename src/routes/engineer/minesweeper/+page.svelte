@@ -9,7 +9,7 @@
 	canonical="https://quang.design/engineer/minesweeper"
 />
 
-<section class="max-w-sm space-y-4 p-4">
+<section class="max-w-[calc(var(--grid)*16)] space-y-[var(--grid)] p-[var(--grid)]">
 	<h1 class="ink-display uppercase">Welcome to Minesweeper</h1>
 	<p>A simple minesweeper game built with SvelteKit and TailwindCSS.</p>
 	<p>Click on a cell to reveal what's underneath. If it's a mine, you lose!</p>

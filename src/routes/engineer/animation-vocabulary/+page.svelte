@@ -11,7 +11,7 @@
 />
 
 <section
-	class="mx-auto w-full max-w-[calc(var(--grid)*32)] space-y-[calc(var(--grid)*2)] p-[var(--grid)] sm:space-y-[calc(var(--grid)*3)]"
+	class="@container w-full space-y-[calc(var(--grid)*2)] p-[var(--grid)] sm:space-y-[calc(var(--grid)*3)]"
 >
 	<div>
 		<h1 class="ink-display uppercase">Animation Vocabulary</h1>
@@ -27,7 +27,7 @@
 				<h2 class="ink-label">{section.title}</h2>
 				<p class="text-muted-foreground text-sm">{section.description}</p>
 			</div>
-			<div class="grid grid-cols-1 gap-0 sm:grid-cols-2">
+			<div class="grid grid-cols-1 gap-0 @[36rem]:grid-cols-2">
 				{#each section.items as item (item.title)}
 					<AnimationCard title={item.title} description={item.description} animate={item.animate} />
 				{/each}

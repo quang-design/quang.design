@@ -36,11 +36,11 @@
 		{@render children?.()}
 	</div>
 {:else if isHeading}
-	<p class="ink-h3 px-3 pt-[var(--grid)]" {...rest}>
+	<p class="ink-h3 px-[var(--grid)] pt-[var(--grid)]" {...rest}>
 		{@render children?.()}
 	</p>
 {:else}
-	<p class="ink-read px-3 py-[var(--grid)]" {...rest}>
+	<p class="ink-read px-[var(--grid)] py-[var(--grid)]" {...rest}>
 		{@render children?.()}
 	</p>
 {/if}

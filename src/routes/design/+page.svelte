@@ -42,7 +42,7 @@
 		{/each}
 	</div>
 {:else}
-	<div class="p-3">
+	<div class="p-[var(--grid)]">
 		<EmptyState
 			title="No Design Work Yet"
 			description="Design work will be showcased here soon. Check back later!"

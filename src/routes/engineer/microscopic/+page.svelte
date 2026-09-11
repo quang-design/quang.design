@@ -12,7 +12,7 @@
 	canonical="https://quang.design/engineer/microscopic"
 />
 
-<section class="max-w-sm p-4">
+<section class="max-w-[calc(var(--grid)*16)] p-[var(--grid)]">
 	<div class="mb-8 space-y-4">
 		<h1 class="ink-display uppercase">Welcome to AI Microscopic Text</h1>
 		<p>
