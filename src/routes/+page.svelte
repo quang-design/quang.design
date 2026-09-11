@@ -18,9 +18,7 @@
 <div
 	class="flex flex-col md:grid md:min-h-full md:grid-cols-2 md:content-start md:gap-x-[calc(var(--grid)*2)]"
 >
-	<div
-		class="ink-read border-[var(--ink-25)] px-3 py-[var(--grid)] md:border-r-[length:var(--hair)] [&_p:last-child]:mb-0"
-	>
+	<div class="ink-read px-3 py-[var(--grid)] [&_p:last-child]:mb-0">
 		<Markdown md={sections[0] ?? ''} />
 	</div>
 	<div class="ink-read px-3 pt-0 pb-[var(--grid)] md:py-[var(--grid)] [&_h3]:mb-0 [&_h4]:mb-0">
