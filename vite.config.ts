@@ -49,7 +49,7 @@ const config: UserConfig & {
 	plugins: [enhancedImages(), sveltekit(), tailwindcss(), ...staticCopyPlugins],
 
 	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
+		include: ['src/**/*.{test,spec}.{js,ts}', 'tests/**/*.test.ts']
 	}
 };
 

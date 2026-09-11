@@ -26,7 +26,7 @@
 				toast.error(`Subscription failed: ${errorMessage}`);
 				return;
 			}
-			toast.success('Email captured — thank you!');
+			toast.success('Email captured. Thank you!');
 			email = '';
 		} finally {
 			loading = false;
@@ -34,7 +34,11 @@
 	};
 </script>
 
-<form action="" onsubmit={handleSubmit} class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]">
+<form
+	action=""
+	onsubmit={handleSubmit}
+	class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]"
+>
 	<MicroLabel>Email</MicroLabel>
 	<div class="field">
 		<input
@@ -105,5 +109,11 @@
 	.field button:focus-visible {
 		outline: var(--hair) solid var(--ink);
 		outline-offset: calc(var(--spacing) * -1);
+	}
+
+	@media (min-width: 640px) {
+		:global(.shell-foot) .field {
+			border-bottom: 0;
+		}
 	}
 </style>

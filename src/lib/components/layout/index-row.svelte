@@ -38,8 +38,8 @@
 	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
 	const thumbClass = $derived(
 		thumb === 'wide'
-			? 'hair h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0 object-cover'
-			: 'hair size-[calc(var(--grid)*2)] shrink-0 object-cover'
+			? 'hair-x h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0 object-cover'
+			: 'hair-x size-[calc(var(--grid)*2)] shrink-0 object-cover'
 	);
 	const thumbSize = $derived(
 		thumb === 'wide' ? { width: 72, height: 48 } : { width: 48, height: 48 }
@@ -73,14 +73,14 @@
 			class={thumbClass}
 		/>
 	{:else if icon}
-		<div class="hair flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center">
+		<div class="hair-x flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center">
 			{@render icon()}
 		</div>
 	{:else if placeholder}
 		<Hatch
 			class={thumb === 'wide'
-				? 'hair h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0'
-				: 'hair size-[calc(var(--grid)*2)] shrink-0'}
+				? 'hair-x h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0'
+				: 'hair-x size-[calc(var(--grid)*2)] shrink-0'}
 		/>
 	{/if}
 	<span class="flex min-w-0 grow flex-col">
@@ -90,7 +90,7 @@
 	{#if date}<span class="ink-row-meta shrink-0">{date}</span>{/if}
 	{#if external}
 		<span
-			class="hair flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center"
+			class="hair-l flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center"
 			aria-hidden="true"
 		>
 			<ArrowUpRightIcon class="size-4" />

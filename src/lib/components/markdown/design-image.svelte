@@ -3,4 +3,4 @@
 	const cleanAlt = $derived(alt === '2col' ? '' : alt || '');
 </script>
 
-<img alt={cleanAlt} class="hair w-full" loading="lazy" {...rest} />
+<img alt={cleanAlt} class="w-full" loading="lazy" {...rest} />

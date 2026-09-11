@@ -241,8 +241,53 @@
 		border: var(--hair) solid var(--ink-25);
 	}
 
+	.hair-x {
+		border-left: var(--hair) solid var(--ink-25);
+		border-right: var(--hair) solid var(--ink-25);
+	}
+
+	.hair-l {
+		border-left: var(--hair) solid var(--ink-25);
+	}
+
+	.hair-y {
+		border-top: var(--hair) solid var(--ink-25);
+		border-bottom: var(--hair) solid var(--ink-25);
+	}
+
 	.hair-dashed {
 		border: var(--hair) dashed var(--ink-25);
+	}
+
+	.gallery {
+		border-top: var(--hair) solid var(--ink-25);
+	}
+
+	.gallery > * + * {
+		border-top: var(--hair) solid var(--ink-25);
+	}
+
+	.gallery > :last-child {
+		box-shadow: 0 var(--hair) 0 0 var(--ink-25);
+	}
+
+	.gallery .grid img {
+		border: 0;
+	}
+
+	.gallery .grid img + img {
+		border-top: var(--hair) solid var(--ink-25);
+	}
+
+	@media (min-width: 768px) {
+		.gallery .grid img + img {
+			border-top: 0;
+			border-left: var(--hair) solid var(--ink-25);
+		}
+
+		.gallery .grid img:first-child {
+			border-right: var(--hair) solid var(--ink-25);
+		}
 	}
 
 	.hair-double {
@@ -281,7 +326,7 @@
 	}
 
 	.stack-flush > :last-child {
-		border-bottom: var(--hair) solid var(--ink-25);
+		box-shadow: 0 var(--hair) 0 0 var(--ink-25);
 	}
 
 	.ink-mark {
@@ -706,6 +751,10 @@
 		min-height: calc(var(--grid) * 3);
 		overflow: hidden;
 		border-top: var(--hair) solid var(--ink-25);
+		background-color: var(--paper);
+		background-image: var(--grid-bg-image);
+		background-size: var(--grid) var(--grid);
+		background-position: 0 0;
 	}
 
 	@media (min-width: 640px) {

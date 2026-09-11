@@ -44,7 +44,7 @@
 						{/if}
 						{#if row.external}
 							<span
-								class="hair flex size-[var(--grid)] shrink-0 items-center justify-center"
+								class="hair-l flex size-[var(--grid)] shrink-0 items-center justify-center"
 								aria-hidden="true"
 							>
 								<ArrowUpRightIcon class="size-3" />

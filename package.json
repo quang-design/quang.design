@@ -11,7 +11,8 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run --passWithNoTests",
+		"test": "npm run test:unit -- --run",
+		"test:lock": "node scripts/lock-design.mjs --assert",
 		"optimize-images": "node scripts/optimize-images.js",
 		"update-md-refs": "node scripts/update-md-refs.js",
 		"prepare": "husky"
