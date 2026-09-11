@@ -16,7 +16,6 @@ Thumbs.db
 !.env.example
 !.env.test
 
-# Generated lock output
 tests/lock-design/report.json
 
 # Vite
