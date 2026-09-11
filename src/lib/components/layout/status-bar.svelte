@@ -45,7 +45,7 @@
 
 <header
 	class={cn(
-		'flex h-full w-full min-w-0 items-stretch lg:grid lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)]',
+		'flex h-full w-full min-w-0 items-stretch overflow-hidden lg:grid lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)] lg:grid-rows-1',
 		className
 	)}
 >
@@ -69,13 +69,13 @@
 	<div class="status-meta">
 		<Rule orientation="vertical" />
 		<div class="status-place">
-			<StatCell label="Location" value="Nha Trang" class="min-w-0 flex-1 justify-center" />
+			<StatCell label="Location" value="Nha Trang" class="min-w-0 flex-[1.3] justify-center" />
 			<Rule orientation="vertical" />
 			<StatCell label="Country" value="Vietnam" class="min-w-0 flex-1 justify-center" />
 		</div>
 		<Rule orientation="vertical" class="hidden lg:block" />
 		<div class="status-time">
-			<StatCell label="Local time" value={localTime} class="h-full min-w-0 w-full justify-center" />
+			<StatCell label="Time" value={localTime} class="h-full min-w-0 w-full justify-center" />
 		</div>
 		<Rule orientation="vertical" />
 		<Button

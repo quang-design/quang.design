@@ -9,7 +9,7 @@
 	}: { label: string; value: string; class?: string } = $props();
 </script>
 
-<div class={cn('flex flex-col', className)}>
-	<MicroLabel>{label}</MicroLabel>
-	<span>{value}</span>
+<div class={cn('flex min-h-0 flex-col overflow-hidden', className)}>
+	<MicroLabel class="truncate">{label}</MicroLabel>
+	<span class="truncate">{value}</span>
 </div>

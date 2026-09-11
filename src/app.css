@@ -551,45 +551,18 @@
 	}
 
 	@supports (-moz-appearance: none) {
-		.shell {
-			scrollbar-width: thin;
-			scrollbar-color: var(--ink) var(--paper);
-		}
-
+		.shell,
 		.shell-index,
 		.shell-reading {
 			scrollbar-width: none;
 		}
 	}
 
-	.shell::-webkit-scrollbar {
-		width: 1px;
-		height: 1px;
-	}
-
+	.shell::-webkit-scrollbar,
 	.shell-index::-webkit-scrollbar,
 	.shell-reading::-webkit-scrollbar {
 		width: 0;
 		height: 0;
-	}
-
-	.shell::-webkit-scrollbar-track {
-		background-color: var(--paper);
-	}
-
-	.shell::-webkit-scrollbar-thumb {
-		background-color: var(--ink);
-		border: 0;
-		border-radius: 0;
-		box-shadow: none;
-	}
-
-	.shell::-webkit-scrollbar-button {
-		display: none;
-	}
-
-	.shell::-webkit-scrollbar-corner {
-		background: var(--paper);
 	}
 
 	.shell {
@@ -603,6 +576,7 @@
 		max-height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
+		scrollbar-width: none;
 		overscroll-behavior: contain;
 		margin-inline: auto;
 		border: 0;
@@ -651,7 +625,9 @@
 		display: flex;
 		height: 100%;
 		min-width: 0;
+		min-height: 0;
 		align-items: stretch;
+		overflow: hidden;
 	}
 
 	.status-brand {
@@ -660,6 +636,8 @@
 
 	.status-canvas {
 		display: none;
+		min-height: 0;
+		overflow: hidden;
 	}
 
 	.status-meta {
@@ -695,6 +673,7 @@
 	.shell-index {
 		display: none;
 		grid-area: index;
+		scrollbar-width: none;
 	}
 
 	.shell-canvas {
@@ -718,6 +697,7 @@
 		display: none;
 		grid-area: reading;
 		min-width: 0;
+		scrollbar-width: none;
 	}
 
 	.reading-pane {
