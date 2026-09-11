@@ -19,7 +19,7 @@
 <nav id="site-index" class={cn('flex flex-col', className)}>
 	{#each groups as group (group.label)}
 		<div class="flex flex-col">
-			<MicroLabel class="px-3">{group.label}</MicroLabel>
+			<MicroLabel class="px-[var(--grid)]">{group.label}</MicroLabel>
 			<div class="stack stack-flush flex flex-col">
 				{#each group.rows as row (row.code)}
 					<a
@@ -27,9 +27,9 @@
 						target={row.external ? '_blank' : undefined}
 						rel={row.external ? 'noopener noreferrer' : undefined}
 						class={cn(
-							'ink-invert flex h-[var(--grid)] items-center gap-2',
-							row.nested ? 'pl-6' : 'pl-3',
-							row.external ? 'pr-0' : 'pr-3',
+							'ink-invert flex h-[var(--grid)] items-center',
+							row.nested ? 'pl-[calc(var(--grid)*2)]' : 'pl-[var(--grid)]',
+							row.external ? 'pr-0' : 'pr-[var(--grid)]',
 							active === row.code && 'ink-active'
 						)}
 						onmouseenter={() => row.preview && preview?.setHover(row.preview)}
