@@ -65,18 +65,19 @@
 			<span class="truncate">{title}</span>
 		</div>
 	</div>
-	<div class="status-canvas" aria-hidden="true"></div>
-	<div class="status-meta">
+	<div class="status-canvas">
 		<Rule orientation="vertical" />
 		<div class="status-place">
-			<StatCell label="Location" value="Nha Trang" class="min-w-0 flex-[1.3] justify-center" />
+			<StatCell label="Location" value="Nha Trang" class="justify-center px-[var(--grid)]" />
 			<Rule orientation="vertical" />
-			<StatCell label="Country" value="Vietnam" class="min-w-0 flex-1 justify-center" />
+			<StatCell label="Country" value="Vietnam" class="justify-center px-[var(--grid)]" />
 		</div>
-		<Rule orientation="vertical" class="hidden lg:block" />
+		<Rule orientation="vertical" />
 		<div class="status-time">
-			<StatCell label="Time" value={localTime} class="h-full min-w-0 w-full justify-center" />
+			<StatCell label="Local time" value={localTime} class="justify-center px-[var(--grid)]" />
 		</div>
+	</div>
+	<div class="status-meta">
 		<Rule orientation="vertical" />
 		<Button
 			variant="ghost"
