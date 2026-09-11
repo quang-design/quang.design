@@ -357,26 +357,6 @@
 		line-height: var(--grid);
 	}
 
-	.ink-cols {
-		column-count: 1;
-		column-gap: calc(var(--grid) * 2);
-		column-fill: balance;
-	}
-
-	@media (min-width: 768px) {
-		.ink-cols {
-			column-count: 2;
-		}
-	}
-
-	.ink-cols :is(h1, h2, h3, h4, h5, h6) {
-		column-span: all;
-	}
-
-	.ink-cols :is(pre, img, blockquote, table, figure) {
-		break-inside: avoid;
-	}
-
 	.ink-code {
 		background-color: var(--ink-10);
 		background-image: none;
