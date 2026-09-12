@@ -46,7 +46,7 @@
 	);
 	const rowClass = $derived(
 		cn(
-			'ink-invert flex min-h-[calc(var(--grid)*2)] items-center pl-[var(--grid)]',
+			'ink-invert flex min-h-[calc(var(--grid)*2)] items-center',
 			external ? 'pr-0' : 'pr-[var(--grid)]',
 			className
 		)
@@ -65,7 +65,7 @@
 {#snippet body()}
 	<KeySlot
 		{code}
-		class="hair-x flex size-[calc(var(--grid)*2)] items-center justify-center text-center"
+		class="hair-r flex size-[calc(var(--grid)*2)] items-center justify-center text-center"
 	/>
 	{#if thumbnail}
 		<img

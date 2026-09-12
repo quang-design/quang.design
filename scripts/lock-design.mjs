@@ -315,6 +315,7 @@ export async function lockDesign() {
 				samples: probe.overlaps
 			});
 			const originX = probe.shell?.x ?? 0;
+			const canvasX = probe.canvas?.x ?? originX;
 			for (const code of shot.codes) {
 				const hit = probe.codes[code];
 				if (!hit || hit.w === 0) {
@@ -335,21 +336,26 @@ export async function lockDesign() {
 				const flushOk = code === 'H' || (gap != null && Math.abs(gap) < 1);
 				const wantNext = code === 'H' ? null : code.startsWith('E') ? KEY : KEY + GRID;
 				const nextOk = wantNext == null || Math.abs((hit.nextW ?? 0) - wantNext) < 0.75;
+				const leftInset = Math.round((hit.x - canvasX) * 100) / 100;
+				const leftOk = code === 'H' || Math.abs(leftInset) < 1;
 				geometry.push({
 					name: shot.name,
 					code,
-					ok: widthOk && heightOk && xOk && flushOk && nextOk,
+					ok: widthOk && heightOk && xOk && flushOk && nextOk && leftOk,
 					x: hit.x,
 					w: hit.w,
 					h: hit.h,
 					originX,
+					canvasX,
+					leftInset,
 					gap,
 					nextW: hit.nextW,
 					widthOk,
 					heightOk,
 					xOk,
 					flushOk,
-					nextOk
+					nextOk,
+					leftOk
 				});
 			}
 		}
