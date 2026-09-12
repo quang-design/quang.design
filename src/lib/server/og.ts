@@ -26,11 +26,20 @@ function isPrivateV4(host: string) {
 
 function decode(value: string) {
 	return value
-		.replace(/&amp;/g, '&')
-		.replace(/&quot;/g, '"')
-		.replace(/&#39;/g, "'")
-		.replace(/&lt;/g, '<')
-		.replace(/&gt;/g, '>')
+		.replace(/&(#39|#x27|amp|quot|lt|gt);/gi, (_, name: string) => {
+			switch (name.toLowerCase()) {
+				case 'amp':
+					return '&';
+				case 'quot':
+					return '"';
+				case 'lt':
+					return '<';
+				case 'gt':
+					return '>';
+				default:
+					return "'";
+			}
+		})
 		.trim();
 }
 

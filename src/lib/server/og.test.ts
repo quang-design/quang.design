@@ -39,4 +39,14 @@ describe('parseOg', () => {
 			description: 'Hi'
 		});
 	});
+
+	it('unescapes a single entity level', () => {
+		const html = `<meta property="og:title" content="A &amp; B" />`;
+		expect(parseOg(html, 'https://example.com').title).toBe('A & B');
+	});
+
+	it('does not turn double-encoded tags into markup', () => {
+		const html = `<meta property="og:title" content="&amp;lt;script&amp;gt;" />`;
+		expect(parseOg(html, 'https://example.com').title).toBe('&lt;script&gt;');
+	});
 });
