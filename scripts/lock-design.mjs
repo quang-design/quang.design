@@ -14,12 +14,18 @@ const KEY = GRID * 2;
 const SHOTS = [
 	{ name: 'home-390', path: '/', width: 390, height: 844, codes: [] },
 	{ name: 'home-1440', path: '/', width: 1440, height: 900, codes: ['H'] },
-	{ name: 'design-390', path: '/design', width: 390, height: 844, codes: ['D1', 'D10'] },
-	{ name: 'design-1440', path: '/design', width: 1440, height: 900, codes: ['H', 'D1', 'D10'] },
-	{ name: 'engineer-390', path: '/engineer', width: 390, height: 844, codes: ['E1'] },
-	{ name: 'engineer-1440', path: '/engineer', width: 1440, height: 900, codes: ['H', 'E1'] },
-	{ name: 'blog-390', path: '/blog', width: 390, height: 844, codes: ['B1', 'B2'] },
-	{ name: 'blog-1440', path: '/blog', width: 1440, height: 900, codes: ['H', 'B1', 'B2'] },
+	{ name: 'design-390', path: '/design', width: 390, height: 844, codes: ['D1', 'D10', 'D17'] },
+	{
+		name: 'design-1440',
+		path: '/design',
+		width: 1440,
+		height: 900,
+		codes: ['H', 'D1', 'D10', 'D17']
+	},
+	{ name: 'engineer-390', path: '/engineer', width: 390, height: 844, codes: ['E1', 'E7'] },
+	{ name: 'engineer-1440', path: '/engineer', width: 1440, height: 900, codes: ['H', 'E1', 'E7'] },
+	{ name: 'blog-390', path: '/blog', width: 390, height: 844, codes: ['B1', 'B2', 'B3'] },
+	{ name: 'blog-1440', path: '/blog', width: 1440, height: 900, codes: ['H', 'B1', 'B2', 'B3'] },
 	{ name: 'doppio-1440', path: '/design/doppio', width: 1440, height: 900, codes: ['H'] }
 ];
 
@@ -158,8 +164,17 @@ const PROBE = `(() => {
     shell: sr ? { x: sr.x, y: sr.y, w: sr.width, h: sr.height } : null,
     canvas: cr ? { x: cr.x, y: cr.y, w: cr.width, h: cr.height } : null,
     codes: Object.fromEntries(
-      ['H', 'D1', 'D10', 'B1', 'B2', 'E1'].map((c) => [c, findCode(c)])
+      ['H', 'D1', 'D10', 'D17', 'B1', 'B2', 'B3', 'E1', 'E7'].map((c) => [c, findCode(c)])
     ),
+    listRows: [...document.querySelectorAll('.shell-canvas .stack > *')].map((el) => {
+      const r = el.getBoundingClientRect();
+      return {
+        code: (el.querySelector('.ink-label')?.textContent || '').trim(),
+        y: r.y,
+        h: r.height,
+        inset: cr ? r.y - cr.y : null
+      };
+    }),
     overlapCount: overlap.length,
     overlaps: overlap.slice(0, 40)
   };
@@ -360,10 +375,28 @@ export async function lockDesign() {
 			}
 		}
 
+		const rowGrid = [];
+		for (const shot of shots) {
+			for (const row of shot.probe.listRows || []) {
+				const heightOk = Math.abs(row.h - KEY) < 0.75;
+				const yOk = row.inset == null ? false : onGrid(row.inset, 0);
+				rowGrid.push({
+					name: shot.name,
+					code: row.code,
+					ok: heightOk && yOk,
+					h: row.h,
+					inset: row.inset,
+					heightOk,
+					yOk
+				});
+			}
+		}
+
 		const report = {
 			generatedAt: new Date().toISOString(),
 			routes,
 			geometry,
+			rowGrid,
 			overlaps,
 			shots: shots.map((s) => ({
 				name: s.name,
@@ -380,6 +413,9 @@ export async function lockDesign() {
 			const failed = [];
 			for (const row of geometry) {
 				if (!row.ok) failed.push(`geometry ${row.name} ${row.code}`);
+			}
+			for (const row of rowGrid) {
+				if (!row.ok) failed.push(`row-grid ${row.name} ${row.code} h=${row.h} inset=${row.inset}`);
 			}
 			for (const row of overlaps) {
 				if (row.count > 0) failed.push(`overlap ${row.name} ${row.count}`);

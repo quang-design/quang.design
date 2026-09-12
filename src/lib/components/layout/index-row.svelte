@@ -46,7 +46,7 @@
 	);
 	const rowClass = $derived(
 		cn(
-			'ink-invert flex min-h-[calc(var(--grid)*2)] items-center',
+			'ink-invert flex h-[calc(var(--grid)*2)] items-center',
 			external ? 'pr-0' : 'pr-[var(--grid)]',
 			className
 		)

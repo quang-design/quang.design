@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { describe, it } from 'vitest';
 
 describe('design lock', () => {
-	it('keeps tree codes one cell tall and list codes flush to the canvas left', () => {
+	it('keeps list rows two cells tall and on the 24px grid', () => {
 		execFileSync(process.execPath, ['scripts/lock-design.mjs', '--assert'], {
 			stdio: 'inherit',
 			timeout: 120_000

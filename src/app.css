@@ -302,7 +302,7 @@
 	}
 
 	.stack > * + * {
-		border-top: var(--hair) solid var(--ink-25);
+		box-shadow: 0 calc(var(--hair) * -1) 0 0 var(--ink-25);
 	}
 
 	.stack-x {
@@ -314,7 +314,7 @@
 	}
 
 	.stack-x > * + * {
-		border-left: var(--hair) solid var(--ink-25);
+		box-shadow: calc(var(--hair) * -1) 0 0 0 var(--ink-25);
 	}
 
 	.stack-flush {
@@ -323,6 +323,12 @@
 
 	.stack-flush > :last-child {
 		box-shadow: 0 var(--hair) 0 0 var(--ink-25);
+	}
+
+	.stack-flush > * + *:last-child {
+		box-shadow:
+			0 calc(var(--hair) * -1) 0 0 var(--ink-25),
+			0 var(--hair) 0 0 var(--ink-25);
 	}
 
 	.ink-mark {
