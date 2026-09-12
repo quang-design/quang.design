@@ -327,16 +327,19 @@ export async function lockDesign() {
 					continue;
 				}
 				const widthOk = Math.abs(hit.w - KEY) < 0.75;
+				const heightOk = Math.abs(hit.h - KEY) < 0.75;
 				const xOk = onGrid(hit.x, originX);
 				geometry.push({
 					name: shot.name,
 					code,
-					ok: widthOk && xOk,
+					ok: widthOk && heightOk && xOk,
 					x: hit.x,
 					w: hit.w,
+					h: hit.h,
 					originX,
 					nextW: hit.nextW,
 					widthOk,
+					heightOk,
 					xOk
 				});
 			}
