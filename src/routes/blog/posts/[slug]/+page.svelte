@@ -26,9 +26,17 @@
 
 <div class="flex flex-col">
 	<div class="w-full max-w-[calc(var(--grid)*24)] px-[var(--grid)] py-[var(--grid)]">
-		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-2">
-			<Badge variant="outline" href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</Badge>
-			<Badge variant="outline" href="/blog/posts/{page.params.slug}/post.md">post.md</Badge>
+		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
+			<Badge
+				variant="outline"
+				class="min-w-[calc(var(--grid)*5)]"
+				href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</Badge
+			>
+			<Badge
+				variant="outline"
+				class="min-w-[calc(var(--grid)*5)]"
+				href="/blog/posts/{page.params.slug}/post.md">post.md</Badge
+			>
 		</div>
 		<h1 class="ink-h1">{data.meta.title}</h1>
 		{#if data.meta.date}

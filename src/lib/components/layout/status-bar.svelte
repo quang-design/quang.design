@@ -10,7 +10,7 @@
 	import { resolve } from '$app/paths';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils';
-	import { StatCell, Rule } from '$lib/components/primitives';
+	import { StatCell } from '$lib/components/primitives';
 
 	let {
 		title = 'quang.design',
@@ -41,6 +41,8 @@
 	});
 
 	const localTime = $derived(date ? formatter.format(date) : '--:--:--');
+	const statClass =
+		'stat-cell hair-l h-full w-[calc(var(--grid)*6)] shrink-0 justify-center px-[var(--grid)]';
 </script>
 
 <header
@@ -54,38 +56,33 @@
 			href={resolve('/')}
 			variant="ghost"
 			size="icon-lg"
-			class="h-full w-[var(--chrome-btn)] rounded-none"
+			class="hair-r h-full w-[var(--chrome-btn)] rounded-none"
 			aria-label="Go home"
 		>
 			<HouseIcon class="size-4" />
 		</Button>
-		<Rule orientation="vertical" />
 		<div class="home-mark">
 			<span class="ink-label">Welcome to</span>
 			<span class="truncate">{title}</span>
 		</div>
 	</div>
 	<div class="status-canvas">
-		<Rule orientation="vertical" />
 		<div class="status-place">
-			<StatCell label="Location" value="Nha Trang" class="justify-center px-[var(--grid)]" />
-			<Rule orientation="vertical" />
-			<StatCell label="Country" value="Vietnam" class="justify-center px-[var(--grid)]" />
+			<StatCell label="Location" value="Nha Trang" class={statClass} />
+			<StatCell label="Country" value="Vietnam" class={statClass} />
 		</div>
-		<Rule orientation="vertical" />
 		<div class="status-time">
-			<StatCell label="Local time" value={localTime} class="justify-center px-[var(--grid)]" />
+			<StatCell label="Local time" value={localTime} class={statClass} />
 		</div>
 	</div>
 	<div class="status-meta">
-		<Rule orientation="vertical" />
 		<Button
 			variant="ghost"
 			size="icon-lg"
 			onclick={onMenu}
 			aria-expanded={menuOpen}
 			aria-controls="site-index"
-			class="h-full w-[var(--chrome-btn)] rounded-none lg:hidden"
+			class="hair-l h-full w-[var(--chrome-btn)] rounded-none lg:hidden"
 		>
 			{#if menuOpen}
 				<XIcon class="size-4" />
@@ -95,12 +92,11 @@
 				<span class="sr-only">Open menu</span>
 			{/if}
 		</Button>
-		<Rule orientation="vertical" class="lg:hidden" />
 		<Button
 			variant="ghost"
 			size="icon-lg"
 			onclick={toggleMode}
-			class="h-full w-[var(--chrome-btn)] rounded-none"
+			class="hair-l h-full w-[var(--chrome-btn)] rounded-none"
 		>
 			<SunIcon
 				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"

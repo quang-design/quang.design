@@ -153,8 +153,22 @@ const PROBE = `(() => {
 
   const shell = document.querySelector('.shell');
   const canvas = document.querySelector('.shell-canvas');
+  const indexEl = document.querySelector('.shell-index');
+  const readingEl = document.querySelector('.shell-reading');
   const sr = shell?.getBoundingClientRect();
   const cr = canvas?.getBoundingClientRect();
+  const paint = (el) => {
+    if (!el) return null;
+    const cs = getComputedStyle(el);
+    const bg = cs.backgroundColor || '';
+    const transparent =
+      bg === 'transparent' || bg === 'rgba(0, 0, 0, 0)' || /^rgba?\\(\\s*0,\\s*0,\\s*0,\\s*0\\s*\\)$/.test(bg);
+    return {
+      transparent,
+      hasGrid: /linear-gradient/.test(cs.backgroundImage || ''),
+      position: cs.position
+    };
+  };
 
   return {
     innerWidth: window.innerWidth,
@@ -176,7 +190,19 @@ const PROBE = `(() => {
       };
     }),
     overlapCount: overlap.length,
-    overlaps: overlap.slice(0, 40)
+    overlaps: overlap.slice(0, 40),
+    rails: {
+      index: paint(indexEl),
+      reading: paint(readingEl)
+    },
+    stats: [...document.querySelectorAll('.stat-cell')].map((el) => {
+      const r = el.getBoundingClientRect();
+      return { x: r.x, w: r.width, h: r.height };
+    }),
+    badges: [...document.querySelectorAll('.shell-canvas [data-slot="badge"]')].map((el) => {
+      const r = el.getBoundingClientRect();
+      return { x: r.x, y: r.y, w: r.width, h: r.height };
+    })
   };
 })()`;
 
@@ -392,11 +418,54 @@ export async function lockDesign() {
 			}
 		}
 
+		const chrome = [];
+		for (const shot of shots) {
+			if (shot.width < 1024) continue;
+			const originX = shot.probe.shell?.x ?? 0;
+			const rails = shot.probe.rails || {};
+			for (const name of ['index', 'reading']) {
+				const rail = rails[name];
+				chrome.push({
+					name: shot.name,
+					kind: `rail-${name}`,
+					ok: Boolean(rail && !rail.transparent && rail.hasGrid),
+					rail
+				});
+			}
+			for (const [i, stat] of (shot.probe.stats || []).entries()) {
+				const widthOk = Math.abs(stat.w - GRID * 6) < 0.75;
+				const xOk = onGrid(stat.x, originX);
+				chrome.push({
+					name: shot.name,
+					kind: `stat-${i}`,
+					ok: widthOk && xOk,
+					x: stat.x,
+					w: stat.w,
+					widthOk,
+					xOk
+				});
+			}
+			for (const [i, badge] of (shot.probe.badges || []).entries()) {
+				const heightOk = Math.abs(badge.h - GRID) < 0.75;
+				const xOk = onGrid(badge.x, originX);
+				chrome.push({
+					name: shot.name,
+					kind: `badge-${i}`,
+					ok: heightOk && xOk,
+					x: badge.x,
+					h: badge.h,
+					heightOk,
+					xOk
+				});
+			}
+		}
+
 		const report = {
 			generatedAt: new Date().toISOString(),
 			routes,
 			geometry,
 			rowGrid,
+			chrome,
 			overlaps,
 			shots: shots.map((s) => ({
 				name: s.name,
@@ -416,6 +485,9 @@ export async function lockDesign() {
 			}
 			for (const row of rowGrid) {
 				if (!row.ok) failed.push(`row-grid ${row.name} ${row.code} h=${row.h} inset=${row.inset}`);
+			}
+			for (const row of chrome) {
+				if (!row.ok) failed.push(`chrome ${row.name} ${row.kind}`);
 			}
 			for (const row of overlaps) {
 				if (row.count > 0) failed.push(`overlap ${row.name} ${row.count}`);
