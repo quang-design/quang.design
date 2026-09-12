@@ -12,12 +12,7 @@
 	function enter(event: Event) {
 		const a = event.currentTarget as HTMLAnchorElement;
 		const href = a.getAttribute('href') ?? a.href;
-		preview?.setHover({
-			eyebrow: 'Link',
-			title: a.textContent?.trim() || href,
-			subtitle: href,
-			href
-		});
+		preview?.hoverLink(href, a.textContent?.trim() || undefined);
 	}
 
 	function leave() {
@@ -69,13 +64,19 @@
 
 	{#snippet h1(props)}
 		{@const { children, ...rest } = props}
-		<h1 {...rest} class={cn('ink-h1 mt-[calc(var(--grid)*2)] mb-[var(--grid)] first:mt-0', rest.class)}>
+		<h1
+			{...rest}
+			class={cn('ink-h1 mt-[calc(var(--grid)*2)] mb-[var(--grid)] first:mt-0', rest.class)}
+		>
 			{@render children?.()}
 		</h1>
 	{/snippet}
 	{#snippet h2(props)}
 		{@const { children, ...rest } = props}
-		<h2 {...rest} class={cn('ink-h2 mt-[calc(var(--grid)*2)] mb-[var(--grid)] first:mt-0', rest.class)}>
+		<h2
+			{...rest}
+			class={cn('ink-h2 mt-[calc(var(--grid)*2)] mb-[var(--grid)] first:mt-0', rest.class)}
+		>
 			{@render children?.()}
 		</h2>
 	{/snippet}
@@ -119,8 +120,8 @@
 		{@const { children } = props}
 		<div class="not-prose my-4">
 			<div class="hair ink-code overflow-x-auto p-3">
-					{@render children?.()}
-				</div>
+				{@render children?.()}
+			</div>
 		</div>
 	{/snippet}
 	{#snippet code(props)}
