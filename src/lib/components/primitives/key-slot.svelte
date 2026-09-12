@@ -4,7 +4,4 @@
 	let { code, class: className }: { code: string; class?: string } = $props();
 </script>
 
-<span
-	class={cn('ink-label hair-x flex size-[calc(var(--grid)*2)] shrink-0 items-center', className)}
-	>{code}</span
->
+<span class={cn('ink-label w-[calc(var(--grid)*2)] shrink-0', className)}>{code}</span>

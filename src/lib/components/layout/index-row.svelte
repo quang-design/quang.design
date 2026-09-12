@@ -63,7 +63,7 @@
 </script>
 
 {#snippet body()}
-	<KeySlot {code} />
+	<KeySlot {code} class="hair-x flex size-[calc(var(--grid)*2)] items-center" />
 	{#if thumbnail}
 		<img
 			src={thumbnail}

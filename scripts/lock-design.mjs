@@ -327,7 +327,8 @@ export async function lockDesign() {
 					continue;
 				}
 				const widthOk = Math.abs(hit.w - KEY) < 0.75;
-				const heightOk = Math.abs(hit.h - KEY) < 0.75;
+				const wantH = code === 'H' ? GRID : KEY;
+				const heightOk = Math.abs(hit.h - wantH) < 0.75;
 				const xOk = onGrid(hit.x, originX);
 				geometry.push({
 					name: shot.name,
