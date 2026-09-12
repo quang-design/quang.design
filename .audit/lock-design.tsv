@@ -1,0 +1,7 @@
+ts	phase	decision	why	evidence	result
+2026-09-11T16:52:36Z	frame	lock the live paper design then delete catalog routes	tests first so later cleanup cannot drift the grid	/workspace/.audit/lock-design.tsv	open
+2026-09-11T16:58:47Z	harness	captured baseline screenshots and overlap counts before edits	old vs new needs a frozen before	tests/lock-design/baselines	geometry green, overlaps 36 on design lists
+2026-09-11T17:07:34Z	verify	lock green after hair-x and catalog deletion	codes on grid, each seam once, gone routes 404	tests/lock-design/report.json	VERIFIED
+2026-09-11T17:09:59Z	subtract	deleted /redesign and /anh-nhi plus leftover catalog UI	dead weight first so the live shell is the only chrome	src/routes/redesign,src/routes/anh-nhi	gone, 404
+2026-09-11T17:09:59Z	hairline	list faces use hair-x, gallery seams owned by .gallery, last row uses box-shadow under an opaque footer	two 0.5px borders on one grid line made a darker highlight	src/app.css	overlaps 0
+2026-09-11T17:15:00Z	subtract	deleted unused nav, catalog primitives, unused ui kit, Tenor Sans, bits-ui	inventory after catalog cut still found dead importers	src/lib/config/nav.ts,src/lib/components/ui	gone

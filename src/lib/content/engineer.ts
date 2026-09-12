@@ -39,5 +39,11 @@ export const engineerProjects: EngineerProject[] = [
 		description: 'A custom Bluesky social media client.',
 		href: 'https://bluesky.quang.design/',
 		external: true
+	},
+	{
+		title: 'World',
+		description: 'An interactive 3D globe.',
+		href: 'https://world.quang.design/',
+		external: true
 	}
 ];

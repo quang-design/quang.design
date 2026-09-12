@@ -2,7 +2,6 @@
 	import { Markdown } from '$lib/components/markdown';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { Badge } from '$lib/components/ui/badge';
-	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import { page } from '$app/state';
 
 	let {
@@ -26,29 +25,25 @@
 />
 
 <div class="flex flex-col">
-	<div class="mx-auto w-full max-w-xl p-4">
-		<div class="mb-4 flex gap-2">
-			<a
-				href={`/blog/posts/${page.params.slug}/llms.txt`}
-				target="_blank"
-				rel="noopener noreferrer"
+	<div class="w-full max-w-[calc(var(--grid)*24)] px-[var(--grid)] py-[var(--grid)]">
+		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
+			<Badge
+				variant="outline"
+				class="min-w-[calc(var(--grid)*5)]"
+				href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</Badge
 			>
-				<Badge variant="outline" class="cursor-pointer gap-1 text-xs hover:bg-gray-50" data-badge>
-					llms.txt
-					<ArrowUpRightIcon size={12} />
-				</Badge>
-			</a>
-			<a href={`/blog/posts/${page.params.slug}/post.md`} target="_blank" rel="noopener noreferrer">
-				<Badge variant="outline" class="cursor-pointer gap-1 text-xs hover:bg-gray-50" data-badge>
-					post.md
-					<ArrowUpRightIcon size={12} />
-				</Badge>
-			</a>
+			<Badge
+				variant="outline"
+				class="min-w-[calc(var(--grid)*5)]"
+				href="/blog/posts/{page.params.slug}/post.md">post.md</Badge
+			>
 		</div>
-		<h1 class="mb-2 text-2xl font-bold">{data.meta.title}</h1>
+		<h1 class="ink-h1">{data.meta.title}</h1>
 		{#if data.meta.date}
-			<p class="mb-4 text-xs text-gray-400">{data.meta.date}</p>
+			<p class="ink-label">{data.meta.date}</p>
 		{/if}
-		<Markdown md={data.md} />
+		<div class="ink-read">
+			<Markdown md={data.md} />
+		</div>
 	</div>
 </div>

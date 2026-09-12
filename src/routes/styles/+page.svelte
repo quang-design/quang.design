@@ -60,4 +60,6 @@ function greet(name) {
 `;
 </script>
 
-<Markdown {md} />
+<div class="ink-read mx-auto w-full max-w-xl p-4">
+	<Markdown {md} />
+</div>

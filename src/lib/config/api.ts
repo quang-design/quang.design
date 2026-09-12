@@ -6,5 +6,6 @@
 export const apiPaths = {
 	microscopic: '/api/microscopic',
 	telescopic: '/api/telescopic',
-	subscribe: '/api/subscribe'
+	subscribe: '/api/subscribe',
+	og: '/api/og'
 } as const;

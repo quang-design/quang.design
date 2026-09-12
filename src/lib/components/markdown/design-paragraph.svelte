@@ -28,7 +28,7 @@
 </script>
 
 {#if is2col}
-	<div class="grid gap-2 md:grid-cols-2 md:gap-8">
+	<div class="grid gap-[var(--grid)] md:grid-cols-2 md:gap-[calc(var(--grid)*2)]">
 		{@render children?.()}
 	</div>
 {:else if isSingleImg}
@@ -36,11 +36,11 @@
 		{@render children?.()}
 	</div>
 {:else if isHeading}
-	<p class="text-foreground/40 px-1 pt-4 text-xs tracking-widest uppercase" {...rest}>
+	<p class="ink-h3 px-[var(--grid)] pt-[var(--grid)]" {...rest}>
 		{@render children?.()}
 	</p>
 {:else}
-	<p class="text-foreground/80 px-1 py-4 leading-relaxed" {...rest}>
+	<p class="ink-read px-[var(--grid)] py-[var(--grid)]" {...rest}>
 		{@render children?.()}
 	</p>
 {/if}

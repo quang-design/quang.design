@@ -3,6 +3,8 @@
 	import { DesignMarkdown } from '$lib/components/markdown';
 	import { splitDesignContent } from '$lib/utils/design-content';
 	import { page } from '$app/state';
+	import { Badge } from '$lib/components/ui/badge';
+	import { designHeadline } from '$lib/content/headline';
 
 	let {
 		data
@@ -14,6 +16,8 @@
 	} = $props();
 
 	const { introMd, metaParts, galleryMd } = $derived(splitDesignContent(data.md));
+	const headline = $derived(designHeadline(data.meta.title, page.params.slug ?? ''));
+	const slug = $derived(page.params.slug);
 </script>
 
 <SeoHead
@@ -27,26 +31,36 @@
 />
 
 <div class="flex flex-col">
-	<div class="grid grid-cols-1 gap-8 py-8 sm:grid-cols-2">
-		<div>
-			<h1 class="mb-4 text-2xl font-bold">{data.meta.title}</h1>
-			{#if introMd}
-				<div class="text-foreground/80 leading-relaxed">
-					{#each introMd.split('\n\n') as paragraph (paragraph)}
-						<p class="mb-3">{paragraph}</p>
-					{/each}
-				</div>
-			{/if}
+	<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
+		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
+			<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="/design/{slug}/llms.txt"
+				>llms.txt</Badge
+			>
+			<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="/design/{slug}/post.md"
+				>post.md</Badge
+			>
 		</div>
-		<div class="text-foreground/60 flex flex-col gap-1 text-sm">
-			{#each metaParts as part (part)}
-				<p>{part}</p>
-			{/each}
+		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
+		<div
+			class="grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
+		>
+			<div class="flex min-w-0 flex-col gap-[var(--grid)]">
+				{#if introMd}
+					{#each introMd.split('\n\n') as paragraph (paragraph)}
+						<p class="m-0 text-base leading-[var(--grid)]">{paragraph}</p>
+					{/each}
+				{/if}
+			</div>
+			<div class="min-w-0">
+				{#each metaParts as part (part)}
+					<p class="m-0 text-base leading-[var(--grid)]">{part}</p>
+				{/each}
+			</div>
 		</div>
 	</div>
 
 	{#if galleryMd}
-		<div class="border-foreground/10 flex flex-col gap-2 border-t-[0.5px] pt-4 md:gap-8">
+		<div class="gallery flex flex-col">
 			<DesignMarkdown md={galleryMd} />
 		</div>
 	{/if}
