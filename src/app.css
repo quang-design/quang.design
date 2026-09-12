@@ -242,6 +242,10 @@
 		border-left: var(--hair) solid var(--ink-25);
 	}
 
+	.hair-r {
+		border-right: var(--hair) solid var(--ink-25);
+	}
+
 	.hair-y {
 		border-top: var(--hair) solid var(--ink-25);
 		border-bottom: var(--hair) solid var(--ink-25);

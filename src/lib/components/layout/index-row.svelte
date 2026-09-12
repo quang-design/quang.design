@@ -38,15 +38,15 @@
 	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
 	const thumbClass = $derived(
 		thumb === 'wide'
-			? 'hair-x h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0 object-cover'
-			: 'hair-x size-[calc(var(--grid)*2)] shrink-0 object-cover'
+			? 'hair-r h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0 object-cover'
+			: 'hair-r size-[calc(var(--grid)*2)] shrink-0 object-cover'
 	);
 	const thumbSize = $derived(
 		thumb === 'wide' ? { width: 72, height: 48 } : { width: 48, height: 48 }
 	);
 	const rowClass = $derived(
 		cn(
-			'ink-invert flex min-h-[calc(var(--grid)*2)] items-center gap-[var(--grid)] pl-[var(--grid)]',
+			'ink-invert flex min-h-[calc(var(--grid)*2)] items-center pl-[var(--grid)]',
 			external ? 'pr-0' : 'pr-[var(--grid)]',
 			className
 		)
@@ -63,7 +63,10 @@
 </script>
 
 {#snippet body()}
-	<KeySlot {code} class="hair-x flex size-[calc(var(--grid)*2)] items-center" />
+	<KeySlot
+		{code}
+		class="hair-x flex size-[calc(var(--grid)*2)] items-center justify-center text-center"
+	/>
 	{#if thumbnail}
 		<img
 			src={thumbnail}
@@ -73,21 +76,21 @@
 			class={thumbClass}
 		/>
 	{:else if icon}
-		<div class="hair-x flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center">
+		<div class="hair-r flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center">
 			{@render icon()}
 		</div>
 	{:else if placeholder}
 		<Hatch
 			class={thumb === 'wide'
-				? 'hair-x h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0'
-				: 'hair-x size-[calc(var(--grid)*2)] shrink-0'}
+				? 'hair-r h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0'
+				: 'hair-r size-[calc(var(--grid)*2)] shrink-0'}
 		/>
 	{/if}
-	<span class="flex min-w-0 grow flex-col">
+	<span class="flex min-w-0 grow flex-col pl-[var(--grid)]">
 		<span class="ink-row-title truncate">{title}</span>
 		{#if description}<span class="ink-row-desc line-clamp-1">{description}</span>{/if}
 	</span>
-	{#if date}<span class="ink-row-meta shrink-0">{date}</span>{/if}
+	{#if date}<span class="ink-row-meta shrink-0 pl-[var(--grid)]">{date}</span>{/if}
 	{#if external}
 		<span
 			class="hair-l flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center"

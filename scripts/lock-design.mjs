@@ -330,18 +330,26 @@ export async function lockDesign() {
 				const wantH = code === 'H' ? GRID : KEY;
 				const heightOk = Math.abs(hit.h - wantH) < 0.75;
 				const xOk = onGrid(hit.x, originX);
+				const gap =
+					hit.nextX == null ? null : Math.round((hit.nextX - (hit.x + hit.w)) * 100) / 100;
+				const flushOk = code === 'H' || (gap != null && Math.abs(gap) < 1);
+				const wantNext = code === 'H' ? null : code.startsWith('E') ? KEY : KEY + GRID;
+				const nextOk = wantNext == null || Math.abs((hit.nextW ?? 0) - wantNext) < 0.75;
 				geometry.push({
 					name: shot.name,
 					code,
-					ok: widthOk && heightOk && xOk,
+					ok: widthOk && heightOk && xOk && flushOk && nextOk,
 					x: hit.x,
 					w: hit.w,
 					h: hit.h,
 					originX,
+					gap,
 					nextW: hit.nextW,
 					widthOk,
 					heightOk,
-					xOk
+					xOk,
+					flushOk,
+					nextOk
 				});
 			}
 		}
