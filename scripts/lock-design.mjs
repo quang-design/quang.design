@@ -324,7 +324,12 @@ export async function lockDesign() {
 				await sleep(100);
 			}
 			await session.send('Runtime.evaluate', { expression: FREEZE, awaitPromise: true });
-			await sleep(250);
+			await sleep(400);
+			await session.send('Runtime.evaluate', {
+				expression:
+					'document.documentElement.classList.remove("dark"); document.documentElement.classList.add("light");'
+			});
+			await sleep(50);
 			const probed = await session.send('Runtime.evaluate', {
 				expression: PROBE,
 				returnByValue: true

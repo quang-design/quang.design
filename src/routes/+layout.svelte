@@ -17,7 +17,7 @@
 		data: { nav: { design: PostMetadata[]; blog: PostMetadata[]; engineer: EngineerProject[] } };
 	} = $props();
 
-	const themeColors = { light: '#d4c4a0', dark: '#1a1610' };
+	const themeColors = { light: '#d5cbb5', dark: '#120b00' };
 
 	onMount(() => {
 		const hour = new Date().getHours();
