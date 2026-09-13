@@ -13,8 +13,10 @@
 	canonical="https://quang.design/engineer/microscopic"
 />
 
-<section class="max-w-[calc(var(--grid)*16)] p-[var(--grid)]">
-	<div class="mb-8 space-y-4">
+<div
+	class="flex flex-col px-[var(--grid)] md:grid md:min-h-full md:grid-cols-2 md:content-start md:gap-x-[calc(var(--grid)*2)]"
+>
+	<div class="ink-read space-y-[var(--grid)] py-[var(--grid)]">
 		<h1 class="ink-display uppercase">Welcome to AI Microscopic Text</h1>
 		<p>
 			Another tool inspired by <a href={resolve('/engineer/telescopic')}>AI Telescopic Text</a>,
@@ -24,5 +26,7 @@
 			Select <span class="underline underline-offset-4">text</span> to see them zip up into concise words.
 		</p>
 	</div>
-	<TextEditor {initialText} />
-</section>
+	<div class="ink-read pt-0 pb-[var(--grid)] md:py-[var(--grid)]">
+		<TextEditor {initialText} />
+	</div>
+</div>
