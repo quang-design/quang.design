@@ -36,8 +36,8 @@
 }
 
 :root {
-	--paper: oklch(0.817 0.058 97.6);
-	--paper-shade: oklch(0.751 0.059 97.7);
+	--paper: oklch(0.845 0.032 86.6);
+	--paper-shade: oklch(0.775 0.032 90);
 	--ink: oklch(0.155 0.032 86.6);
 
 	--ink-60: color-mix(in oklab, var(--ink) 60%, var(--paper));
@@ -131,7 +131,7 @@
 .dark {
 	--paper: oklch(0.155 0.032 86.6);
 	--paper-shade: oklch(0.225 0.032 90);
-	--ink: oklch(0.817 0.058 97.6);
+	--ink: oklch(0.845 0.032 86.6);
 	--background: var(--paper);
 	--foreground: var(--ink);
 	--card: var(--paper);
