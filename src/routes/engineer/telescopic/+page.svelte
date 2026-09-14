@@ -48,7 +48,7 @@
 <div
 	class="flex flex-col px-[var(--grid)] md:grid md:min-h-full md:grid-cols-2 md:content-start md:gap-x-[calc(var(--grid)*2)]"
 >
-	<div class="ink-read space-y-[var(--grid)] py-[var(--grid)]">
+	<div class="ink-read space-y-[var(--grid)] pb-[var(--grid)]">
 		<h1 class="ink-display uppercase">Welcome to AI Telescopic Text</h1>
 		<p>
 			Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
@@ -58,12 +58,8 @@
 			Click on <span class="underline underline-offset-4">underlined</span> words to see them expand into
 			richer descriptions, transforming basic statements into vivid, detailed passages.
 		</p>
-		<p>
-			For example, starting with a simple phrase like "I made tea," each click could reveal more
-			detail:
-		</p>
 	</div>
-	<div class="ink-read pt-0 pb-[var(--grid)] md:py-[var(--grid)]">
+	<div class="ink-read pb-[var(--grid)]">
 		<EditableText {text} {onTextChange} {onWordClick} />
 	</div>
 </div>
