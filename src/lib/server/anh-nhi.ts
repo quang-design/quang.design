@@ -1,8 +1,4 @@
 import { env } from '$env/dynamic/private';
-import { isInviteSlug, MAX_RSVP_NAME_CHARS, type RsvpInput } from './rsvp-input';
-
-export type { RsvpInput };
-export { isInviteSlug, parseRsvpInput } from './rsvp-input';
 
 export type Invitee = {
 	slug: string;
@@ -11,40 +7,31 @@ export type Invitee = {
 	guests: number;
 };
 
-function sheetWebhook(): URL | null {
+export type RsvpInput = {
+	slug: string;
+	name: string;
+	attending: 'yes' | 'no';
+	guests: number;
+	lang: 'en' | 'vi';
+};
+
+/** Look up an invitee by slug from the Google Sheet (via Apps Script doGet). */
+export async function getInvitee(slug: string): Promise<Invitee | null> {
 	const webhook = env.RSVP_SHEET_WEBHOOK_URL;
-	if (!webhook) return null;
+	if (!webhook || !slug) return null;
+
 	try {
 		const url = new URL(webhook);
-		if (url.protocol !== 'https:') return null;
-		return url;
-	} catch {
-		return null;
-	}
-}
-
-export async function getInvitee(slug: string): Promise<Invitee | null> {
-	const webhook = sheetWebhook();
-	if (!webhook || !isInviteSlug(slug)) return null;
-
-	try {
-		webhook.searchParams.set('slug', slug);
-		const res = await fetch(webhook, { headers: { accept: 'application/json' } });
+		url.searchParams.set('slug', slug);
+		const res = await fetch(url, { headers: { accept: 'application/json' } });
 		if (!res.ok) return null;
-		const data = (await res.json()) as {
-			found?: unknown;
-			slug?: unknown;
-			displayName?: unknown;
-			lang?: unknown;
-			guests?: unknown;
-		};
+		const data = await res.json();
 		if (!data?.found) return null;
-		const guests = Number(data.guests);
 		return {
 			slug: String(data.slug ?? slug),
-			displayName: String(data.displayName ?? '').slice(0, MAX_RSVP_NAME_CHARS),
+			displayName: String(data.displayName ?? ''),
 			lang: data.lang === 'vi' ? 'vi' : 'en',
-			guests: Number.isFinite(guests) ? Math.min(20, Math.max(1, Math.floor(guests))) : 2
+			guests: Number(data.guests) > 0 ? Number(data.guests) : 2
 		};
 	} catch (err) {
 		console.error('getInvitee failed', err);
@@ -52,8 +39,9 @@ export async function getInvitee(slug: string): Promise<Invitee | null> {
 	}
 }
 
+/** Persist an RSVP to the Google Sheet (via Apps Script doPost). Best-effort. */
 export async function submitRsvp(input: RsvpInput): Promise<boolean> {
-	const webhook = sheetWebhook();
+	const webhook = env.RSVP_SHEET_WEBHOOK_URL;
 	if (!webhook) return false;
 
 	try {

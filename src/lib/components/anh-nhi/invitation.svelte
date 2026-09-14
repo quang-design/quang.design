@@ -2,7 +2,6 @@
 	import { untrack } from 'svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
 	import { enhance } from '$app/forms';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import headingRaw from '$lib/assets/happy-birthday.svg?raw';
@@ -96,20 +95,9 @@
 	const yesLabel = $derived(guests > 1 ? t.yesPlural : t.yesSingular);
 
 	function setLang(next: 'en' | 'vi') {
-		if (slug) {
-			goto(resolve(`/anh-nhi/[slug]?lang=${next}` as '/anh-nhi/[slug]', { slug }), {
-				replaceState: true,
-				keepFocus: true,
-				noScroll: true
-			});
-			return;
-		}
-
-		goto(resolve(`/anh-nhi?lang=${next}`), {
-			replaceState: true,
-			keepFocus: true,
-			noScroll: true
-		});
+		const url = new URL(page.url);
+		url.searchParams.set('lang', next);
+		goto(url, { replaceState: true, keepFocus: true, noScroll: true });
 	}
 
 	function decrement() {
@@ -165,7 +153,6 @@
 				bind:value={guestName}
 				placeholder={t.namePlaceholder}
 				aria-label={t.nameAria}
-				maxlength="80"
 			/>
 		</label>
 	{/if}
@@ -196,6 +183,7 @@
 
 			{#if step !== 'done'}
 				<form class="form" method="POST" use:enhance={enhanceSubmit}>
+					<input type="hidden" name="slug" value={slug} />
 					<input type="hidden" name="guests" value={attending === 'yes' ? guests : 0} />
 					<input type="hidden" name="lang" value={lang} />
 					<input type="hidden" name="attending" value={attending} />

@@ -1,26 +1,22 @@
 <script lang="ts">
 	import ImageIcon from '@lucide/svelte/icons/image';
 	import type { PostMetadata } from '$lib/content/loader';
-	import { resolve } from '$app/paths';
-	import { safeSrc } from '$lib/utils/safe-href';
 
 	let {
 		post,
 		hrefPrefix,
 		aspectRatio = 'aspect-square'
-	}: { post: PostMetadata; hrefPrefix: '/design' | '/blog/posts'; aspectRatio?: string } = $props();
-
-	const thumbnail = $derived(safeSrc(post.thumbnail));
+	}: { post: PostMetadata; hrefPrefix: string; aspectRatio?: string } = $props();
 </script>
 
 <a
-	href={resolve(`${hrefPrefix}/${post.slug}`)}
+	href={`${hrefPrefix}/${post.slug}`}
 	class="border-foreground/25 group flex flex-col border-[0.5px]"
 >
 	<div class="{aspectRatio} w-full shrink-0 overflow-hidden">
-		{#if thumbnail}
+		{#if post.thumbnail}
 			<img
-				src={thumbnail}
+				src={post.thumbnail}
 				alt={`Thumbnail for ${post.title}`}
 				loading="lazy"
 				decoding="async"

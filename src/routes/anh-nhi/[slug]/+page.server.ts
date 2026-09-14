@@ -1,8 +1,7 @@
-import { getInvitee, parseRsvpInput, submitRsvp } from '$lib/server/anh-nhi';
-import { rsvpLimiter } from '$lib/server/http';
-import { error } from '@sveltejs/kit';
+import { getInvitee, submitRsvp } from '$lib/server/anh-nhi';
 import type { Actions, PageServerLoad } from './$types';
 
+// Dynamic per-invitee page: reads the sheet at request time, so no prerender.
 export const prerender = false;
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -16,14 +15,15 @@ export const load: PageServerLoad = async ({ params }) => {
 };
 
 export const actions: Actions = {
-	default: async ({ request, params, getClientAddress }) => {
-		rsvpLimiter.check(getClientAddress());
-		const invitee = await getInvitee(params.slug);
-		if (!invitee) throw error(400, 'Invalid RSVP');
+	default: async ({ request, params }) => {
 		const data = await request.formData();
-		const input = parseRsvpInput(data, params.slug);
-		if (!input) throw error(400, 'Invalid RSVP');
-		const saved = await submitRsvp(input);
+		const saved = await submitRsvp({
+			slug: String(data.get('slug') ?? params.slug),
+			name: String(data.get('name') ?? '').trim(),
+			attending: data.get('attending') === 'no' ? 'no' : 'yes',
+			guests: Number(data.get('guests') ?? 0),
+			lang: data.get('lang') === 'vi' ? 'vi' : 'en'
+		});
 		return { saved };
 	}
 };
