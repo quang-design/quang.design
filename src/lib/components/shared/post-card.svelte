@@ -9,6 +9,8 @@
 		hrefPrefix,
 		aspectRatio = 'aspect-square'
 	}: { post: PostMetadata; hrefPrefix: '/design' | '/blog/posts'; aspectRatio?: string } = $props();
+
+	const thumbnail = $derived(safeSrc(post.thumbnail));
 </script>
 
 <a
@@ -16,9 +18,9 @@
 	class="border-foreground/25 group flex flex-col border-[0.5px]"
 >
 	<div class="{aspectRatio} w-full shrink-0 overflow-hidden">
-		{#if safeSrc(post.thumbnail)}
+		{#if thumbnail}
 			<img
-				src={safeSrc(post.thumbnail)}
+				src={thumbnail}
 				alt={`Thumbnail for ${post.title}`}
 				loading="lazy"
 				decoding="async"

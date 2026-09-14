@@ -96,9 +96,16 @@
 	const yesLabel = $derived(guests > 1 ? t.yesPlural : t.yesSingular);
 
 	function setLang(next: 'en' | 'vi') {
-		const nextUrl = new URL(page.url);
-		nextUrl.searchParams.set('lang', next);
-		goto(resolve(`${page.url.pathname}${nextUrl.search}` as '/anh-nhi'), {
+		if (slug) {
+			goto(resolve(`/anh-nhi/[slug]?lang=${next}` as '/anh-nhi/[slug]', { slug }), {
+				replaceState: true,
+				keepFocus: true,
+				noScroll: true
+			});
+			return;
+		}
+
+		goto(resolve(`/anh-nhi?lang=${next}`), {
 			replaceState: true,
 			keepFocus: true,
 			noScroll: true

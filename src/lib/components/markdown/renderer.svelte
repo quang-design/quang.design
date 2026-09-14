@@ -3,6 +3,7 @@
 	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
 	import { cn } from '$lib/utils';
 	import CodeBlock from './code-block.svelte';
+	import { safeHref } from '$lib/utils/safe-href';
 	let { md }: { md: string } = $props();
 </script>
 
@@ -33,8 +34,9 @@
 		</strong>
 	{/snippet}
 	{#snippet a(props)}
-		{@const { children, ...rest } = props}
-		<a {...rest} class={cn('text-blue-500', rest.class)} target="_blank" rel="noopener noreferrer">
+		{@const { children, href, ...rest } = props}
+		{@const attrs = { ...rest, href: safeHref(href) }}
+		<a {...attrs} class={cn('text-blue-500', rest.class)} target="_blank" rel="noopener noreferrer">
 			{@render children?.()}
 		</a>
 	{/snippet}

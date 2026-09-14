@@ -1,16 +1,15 @@
-import { submitRsvp } from '$lib/server/anh-nhi';
+import { parseRsvpInput, submitRsvp } from '$lib/server/anh-nhi';
+import { rsvpLimiter } from '$lib/server/http';
+import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	default: async ({ request, getClientAddress }) => {
+		rsvpLimiter.check(getClientAddress());
 		const data = await request.formData();
-		const saved = await submitRsvp({
-			slug: String(data.get('slug') ?? ''),
-			name: String(data.get('name') ?? '').trim(),
-			attending: data.get('attending') === 'no' ? 'no' : 'yes',
-			guests: Number(data.get('guests') ?? 0),
-			lang: data.get('lang') === 'vi' ? 'vi' : 'en'
-		});
+		const input = parseRsvpInput(data);
+		if (!input) throw error(400, 'Invalid RSVP');
+		const saved = await submitRsvp(input);
 		return { saved };
 	}
 };

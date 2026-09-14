@@ -32,6 +32,7 @@ const config = {
 				'font-src': ['self', 'data:'],
 				'connect-src': ['self'],
 				'frame-ancestors': ['self'],
+				'object-src': ['none'],
 				'base-uri': ['self'],
 				'form-action': ['self']
 			}

@@ -13,9 +13,6 @@ type ChatCompletionResponse = {
 			content?: string | null;
 		};
 	}>;
-	error?: {
-		message?: string;
-	};
 };
 
 const defaultBaseUrl = 'https://api.openai.com/v1';
@@ -51,7 +48,8 @@ export function createOpenAICompatibleProvider(
 			const data = (await response.json().catch(() => null)) as ChatCompletionResponse | null;
 
 			if (!response.ok) {
-				throw error(response.status, data?.error?.message || 'LLM provider request failed');
+				const status = response.status >= 400 && response.status < 500 ? response.status : 502;
+				throw error(status, 'LLM provider request failed');
 			}
 
 			return {

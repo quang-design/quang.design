@@ -1,4 +1,4 @@
-import { error } from '@sveltejs/kit';
+import { error, isHttpError } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 import { createAnthropicProvider } from './anthropic';
 import { createOpenAICompatibleProvider, createOpenAIProvider } from './openai-compatible';
@@ -81,5 +81,12 @@ export function getLlmProvider() {
 }
 
 export async function generateText(options: GenerateTextOptions): Promise<GenerateTextResult> {
-	return getLlmProvider().generateText(options);
+	try {
+		return await getLlmProvider().generateText(options);
+	} catch (err) {
+		if (isHttpError(err) && (err.status === 400 || err.status === 429)) {
+			throw error(err.status, 'Unable to generate text');
+		}
+		throw error(502, 'Unable to generate text');
+	}
 }

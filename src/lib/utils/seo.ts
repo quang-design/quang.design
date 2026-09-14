@@ -34,12 +34,9 @@ export function generateStructuredData(data: SEOData & { url: string }) {
 		keywords: data.tags?.join(', ')
 	};
 
-	// Remove undefined properties
 	return JSON.stringify(
 		Object.fromEntries(
 			Object.entries(baseStructuredData).filter(([_, value]) => value !== undefined)
-		),
-		null,
-		2
-	);
+		)
+	).replaceAll('<', '\\u003c');
 }
