@@ -731,13 +731,11 @@
 		container-type: inline-size;
 		container-name: canvas;
 		display: grid;
-		grid-template-columns: repeat(auto-fill, calc(var(--grid) * 2));
-		justify-content: start;
+		grid-template-columns: minmax(0, 1fr);
 		align-content: start;
 	}
 
 	.shell-canvas > * {
-		grid-column: 1 / -1;
 		min-width: 0;
 	}
 
