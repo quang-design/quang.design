@@ -13,20 +13,23 @@
 	canonical="https://quang.design/engineer/microscopic"
 />
 
-<div
-	class="flex flex-col px-[var(--grid)] md:grid md:min-h-full md:grid-cols-2 md:content-start md:gap-x-[calc(var(--grid)*2)]"
->
-	<div class="ink-read space-y-[var(--grid)] pb-[var(--grid)]">
-		<h1 class="ink-display uppercase">Welcome to AI Microscopic Text</h1>
-		<p>
-			Another tool inspired by <a href={resolve('/engineer/telescopic')}>AI Telescopic Text</a>,
-			this tool uses AI to zip up long texts into short, concise words.
-		</p>
-		<p>
-			Select <span class="underline underline-offset-4">text</span> to see them zip up into concise words.
-		</p>
-	</div>
-	<div class="ink-read pb-[var(--grid)]">
-		<TextEditor {initialText} />
+<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
+	<h1 class="ink-h1 uppercase">Welcome to AI Microscopic Text</h1>
+	<div
+		class="grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
+	>
+		<div class="ink-read space-y-[var(--grid)]">
+			<p>
+				Another tool inspired by <a href={resolve('/engineer/telescopic')}>AI Telescopic Text</a>,
+				this tool uses AI to zip up long texts into short, concise words.
+			</p>
+			<p>
+				Select <span class="underline underline-offset-4">text</span> to see them zip up into concise
+				words.
+			</p>
+		</div>
+		<div class="min-w-0">
+			<TextEditor {initialText} />
+		</div>
 	</div>
 </div>

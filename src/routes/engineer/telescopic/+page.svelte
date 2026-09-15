@@ -45,22 +45,24 @@
 	canonical="https://quang.design/engineer/telescopic"
 />
 
-<div
-	class="flex flex-col px-[var(--grid)] md:grid md:min-h-full md:grid-cols-2 md:content-start md:gap-x-[calc(var(--grid)*2)]"
->
-	<div class="ink-read space-y-[var(--grid)] pb-[var(--grid)]">
-		<h1 class="ink-display uppercase">Welcome to AI Telescopic Text</h1>
-		<p>
-			Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
-			progressively expand simple sentences into more detailed narratives.
-		</p>
-		<p>
-			Click on <span class="underline underline-offset-4">underlined</span> words to see them expand into
-			richer descriptions, transforming basic statements into vivid, detailed passages.
-		</p>
-	</div>
-	<div class="ink-read pb-[var(--grid)]">
-		<EditableText {text} {onTextChange} {onWordClick} />
+<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
+	<h1 class="ink-h1 uppercase">Welcome to AI Telescopic Text</h1>
+	<div
+		class="grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
+	>
+		<div class="ink-read space-y-[var(--grid)]">
+			<p>
+				Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI
+				to progressively expand simple sentences into more detailed narratives.
+			</p>
+			<p>
+				Click on <span class="underline underline-offset-4">underlined</span> words to see them expand
+				into richer descriptions, transforming basic statements into vivid, detailed passages.
+			</p>
+		</div>
+		<div class="min-w-0">
+			<EditableText {text} {onTextChange} {onWordClick} />
+		</div>
 	</div>
 </div>
 
