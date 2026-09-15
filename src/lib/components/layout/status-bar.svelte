@@ -2,6 +2,7 @@
 	import { SvelteDate } from 'svelte/reactivity';
 	import { onMount } from 'svelte';
 	import { toggleMode } from 'mode-watcher';
+	import { lockUserMode } from '$lib/config/theme';
 	import SunIcon from '@lucide/svelte/icons/sun';
 	import MoonIcon from '@lucide/svelte/icons/moon';
 	import MenuIcon from '@lucide/svelte/icons/menu';
@@ -43,6 +44,11 @@
 	const localTime = $derived(date ? formatter.format(date) : '--:--:--');
 	const statClass =
 		'stat-cell hair-l h-full w-[calc(var(--grid)*6)] shrink-0 justify-center px-[var(--grid)]';
+
+	function onToggleTheme() {
+		lockUserMode();
+		toggleMode();
+	}
 </script>
 
 <header
@@ -95,7 +101,7 @@
 		<Button
 			variant="ghost"
 			size="icon-lg"
-			onclick={toggleMode}
+			onclick={onToggleTheme}
 			class="hair-l h-full w-[var(--chrome-btn)] rounded-none"
 		>
 			<SunIcon
