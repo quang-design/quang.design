@@ -23,7 +23,7 @@ export type NavData = {
 
 export function buildIndexTree(nav: NavData, pathname: string) {
 	const designRows: TreeRow[] = nav.design.map((post, i) => {
-		const { brand, line } = designHeadline(post.title, post.slug);
+		const { brand } = designHeadline(post.title, post.slug);
 		return {
 			code: `D${i + 1}`,
 			label: brand,
@@ -32,9 +32,7 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 			preview: {
 				eyebrow: 'Design',
 				title: brand,
-				subtitle: line,
 				description: post.description,
-				date: post.date,
 				thumbnail: post.thumbnail,
 				href: `/design/${post.slug}`
 			}
@@ -49,9 +47,7 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 		preview: {
 			eyebrow: 'Blog',
 			title: post.title,
-			subtitle: post.date,
 			description: post.description,
-			date: post.date,
 			thumbnail: post.thumbnail,
 			href: `/blog/posts/${post.slug}`
 		}
@@ -67,8 +63,7 @@ export function buildIndexTree(nav: NavData, pathname: string) {
 			eyebrow: 'Engineer',
 			title: project.title,
 			description: project.description,
-			href: project.href,
-			meta: project.external ? ['External project'] : undefined
+			href: project.href
 		}
 	}));
 

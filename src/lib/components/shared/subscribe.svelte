@@ -2,7 +2,6 @@
 	import { toast } from 'svelte-sonner';
 	import MailIcon from '@lucide/svelte/icons/mail';
 	import { apiPaths } from '$lib/config/api';
-	import { MicroLabel } from '$lib/components/primitives';
 
 	let email = $state('');
 	let loading = $state(false);
@@ -39,11 +38,13 @@
 	onsubmit={handleSubmit}
 	class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]"
 >
-	<MicroLabel>Email</MicroLabel>
+	<label class="ink-label block" for="subscribe-email">Email</label>
 	<div class="field">
 		<input
+			id="subscribe-email"
 			name="email"
 			type="email"
+			autocomplete="email"
 			placeholder="xinchao@quang.design"
 			bind:value={email}
 			required

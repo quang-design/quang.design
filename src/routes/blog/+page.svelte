@@ -15,34 +15,35 @@
 	canonical="https://quang.design/blog"
 />
 
-{#if posts && posts.length > 0}
-	<div class="stack stack-flush flex flex-col">
-		{#each posts as post, i (post.slug)}
-			<IndexRow
-				code="B{i + 1}"
-				title={post.title}
-				date={post.date}
-				thumbnail={post.thumbnail}
-				placeholder={!post.thumbnail}
-				thumb="wide"
-				href="/blog/posts/{post.slug}"
-				preview={{
-					eyebrow: 'Blog',
-					title: post.title,
-					subtitle: post.date,
-					description: post.description,
-					date: post.date,
-					thumbnail: post.thumbnail,
-					href: `/blog/posts/${post.slug}`
-				}}
+<div class="min-w-0">
+	<h1 class="sr-only">Blog</h1>
+	{#if posts && posts.length > 0}
+		<div class="stack stack-flush flex flex-col">
+			{#each posts as post, i (post.slug)}
+				<IndexRow
+					code="B{i + 1}"
+					title={post.title}
+					date={post.date}
+					thumbnail={post.thumbnail}
+					placeholder={!post.thumbnail}
+					thumb="wide"
+					href="/blog/posts/{post.slug}"
+					preview={{
+						eyebrow: 'Blog',
+						title: post.title,
+						description: post.description,
+						thumbnail: post.thumbnail,
+						href: `/blog/posts/${post.slug}`
+					}}
+				/>
+			{/each}
+		</div>
+	{:else}
+		<div class="p-[var(--grid)]">
+			<EmptyState
+				title="No Posts Yet"
+				description="It looks like there are no blog posts available at the moment. Check back soon!"
 			/>
-		{/each}
-	</div>
-{:else}
-	<div class="p-[var(--grid)]">
-		<EmptyState
-			title="No Posts Yet"
-			description="It looks like there are no blog posts available at the moment. Check back soon!"
-		/>
-	</div>
-{/if}
+		</div>
+	{/if}
+</div>

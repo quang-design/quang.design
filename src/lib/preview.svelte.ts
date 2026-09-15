@@ -3,12 +3,8 @@ import { apiPaths } from '$lib/config/api';
 export type Preview = {
 	eyebrow?: string;
 	title: string;
-	subtitle?: string;
 	description?: string;
-	date?: string;
 	thumbnail?: string;
-	meta?: string[];
-	links?: { label: string; href: string }[];
 	href?: string;
 } | null;
 
@@ -44,12 +40,11 @@ function readOg(data: unknown, href: string, fallback: string): Card {
 
 export class PreviewState {
 	hover = $state<Preview>(null);
-	page = $state<Preview>(null);
 	gen = 0;
 	cache: Record<string, Card> = {};
 
 	get current(): Preview {
-		return this.hover ?? this.page;
+		return this.hover;
 	}
 
 	setHover(value: Preview) {
@@ -60,10 +55,6 @@ export class PreviewState {
 	clearHover() {
 		this.gen += 1;
 		this.hover = null;
-	}
-
-	setPage(value: Preview) {
-		this.page = value;
 	}
 
 	hoverLink(href: string, title?: string) {

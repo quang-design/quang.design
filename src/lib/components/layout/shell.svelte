@@ -37,6 +37,12 @@
 <svelte:window onkeydown={onKeydown} />
 
 <div class="shell" data-menu-open={menuOpen ? '' : undefined}>
+	<a
+		href="#main-content"
+		class="sr-only inline-flex h-[var(--grid)] items-center bg-[var(--ink)] px-[var(--grid)] text-[var(--paper)] focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50"
+	>
+		Skip to content
+	</a>
 	<div class="shell-sheet">
 		<div class="shell-head">
 			<StatusBar {menuOpen} onMenu={toggleMenu} />
@@ -45,9 +51,9 @@
 			<div class="shell-index">
 				<IndexTree groups={tree.groups} active={tree.active} />
 			</div>
-			<div class="shell-canvas">
+			<main id="main-content" class="shell-canvas" tabindex="-1">
 				{@render children()}
-			</div>
+			</main>
 			<div class="shell-reading">
 				{#if current}
 					<ReadingPane preview={current} />

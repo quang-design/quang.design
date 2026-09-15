@@ -1,3 +1,5 @@
+import { SITE_ORIGIN } from '$lib/config/site';
+
 export interface SEOData {
 	title: string;
 	description: string;
@@ -27,7 +29,7 @@ export function generateStructuredData(data: SEOData & { url: string }) {
 		publisher: {
 			'@type': 'Person',
 			name: 'Quang',
-			url: 'https://quang.design'
+			url: SITE_ORIGIN
 		},
 		datePublished: data.publishedTime,
 		dateModified: data.modifiedTime || data.publishedTime,

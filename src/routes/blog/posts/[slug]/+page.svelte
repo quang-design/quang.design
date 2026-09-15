@@ -3,6 +3,7 @@
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import { page } from '$app/state';
+	import { absUrl } from '$lib/config/site';
 
 	let {
 		data
@@ -17,8 +18,8 @@
 <SeoHead
 	title={data.meta.title}
 	description={data.meta.description}
-	canonical={`https://quang.design/blog/posts/${page.params.slug}`}
-	image={data.meta.thumbnail ? `https://quang.design${data.meta.thumbnail}` : undefined}
+	canonical={absUrl(`/blog/posts/${page.params.slug}`)}
+	image={data.meta.thumbnail ? absUrl(data.meta.thumbnail) : undefined}
 	type="article"
 	publishedTime={data.meta.date ? new Date(data.meta.date).toISOString() : undefined}
 	author="Quang"
