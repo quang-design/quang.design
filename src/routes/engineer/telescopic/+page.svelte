@@ -60,6 +60,6 @@
 		</p>
 	</div>
 	<div class="min-w-0 sm:col-start-2 sm:row-start-2">
-		<EditableText {text} {onTextChange} {onWordClick} />
+		<EditableText {text} {onTextChange} {onWordClick} busy={isLoading} />
 	</div>
 </div>

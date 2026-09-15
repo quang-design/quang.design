@@ -90,22 +90,35 @@
 	}
 
 	function cellLabel(index: number) {
-		if (flagged.has(index) && !revealed.has(index)) return 'Flagged';
-		if (!revealed.has(index)) return 'Hidden';
-		if (mines.has(index)) return 'Mine';
-		if (numbers[index] > 0) return `${numbers[index]} nearby`;
-		return 'Empty';
+		const row = Math.floor(index / SIZE) + 1;
+		const col = (index % SIZE) + 1;
+		const pos = `Row ${row} column ${col}`;
+		if (flagged.has(index) && !revealed.has(index)) return `${pos}, flagged`;
+		if (!revealed.has(index)) return `${pos}, hidden`;
+		if (mines.has(index)) return `${pos}, mine`;
+		if (numbers[index] > 0) return `${pos}, ${numbers[index]} nearby`;
+		return `${pos}, empty`;
+	}
+
+	function onCellKey(event: KeyboardEvent, index: number) {
+		if (event.key === 'f' || event.key === 'F') {
+			event.preventDefault();
+			toggleFlag(index);
+		}
 	}
 </script>
 
 <div class="flex flex-col gap-3">
 	<div class="flex flex-wrap items-center gap-3">
-		<MicroLabel>
-			{#if won}Cleared
-			{:else if lost}Mine
-			{:else}{MINE_COUNT - flagged.size} mines left{/if}
-		</MicroLabel>
+		<div aria-live="polite" aria-atomic="true">
+			<MicroLabel>
+				{#if won}Cleared
+				{:else if lost}Mine
+				{:else}{MINE_COUNT - flagged.size} mines left{/if}
+			</MicroLabel>
+		</div>
 		<Action onclick={reset} disabled={!over}>Reset</Action>
+		<span class="sr-only">Press F to flag a cell.</span>
 	</div>
 	<div class="grid w-fit grid-cols-9">
 		{#each cells as i (i)}
@@ -116,6 +129,7 @@
 					e.preventDefault();
 					toggleFlag(i);
 				}}
+				onkeydown={(e) => onCellKey(e, i)}
 				onclick={() => revealFrom(i)}
 				class={[
 					'flex size-8 items-center justify-center border-[length:var(--hair)] border-[var(--ink-25)]',

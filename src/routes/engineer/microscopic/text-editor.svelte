@@ -8,6 +8,7 @@
 		$props();
 
 	let text = $state<string>();
+	let zipping = $state(false);
 
 	$effect(() => {
 		if (text === undefined) {
@@ -58,6 +59,7 @@
 	async function handleZipUp() {
 		if (!selection.text) return;
 
+		zipping = true;
 		replaceSelection('<Zipping...>');
 		try {
 			const response = await fetch(apiPath, {
@@ -79,8 +81,9 @@
 				indices: new Set()
 			};
 		} catch (_error) {
-			// Error zipping up text - reverting to original selection
 			replaceSelection(selection.text);
+		} finally {
+			zipping = false;
 		}
 	}
 
@@ -100,13 +103,17 @@
 </script>
 
 <div class="hair w-full p-3">
-	<p
+	<div
 		class="mb-4 p-1 whitespace-pre-wrap selection:bg-[var(--ink)] selection:text-[var(--paper)]"
 		style="-webkit-user-select: text; user-select: text;"
 		contenteditable="true"
+		role="textbox"
+		aria-multiline="true"
+		aria-label="Microscopic text"
+		aria-busy={zipping}
 	>
 		{text}
-	</p>
+	</div>
 
 	{#if selection.text}
 		<ZipUpButton onClick={handleZipUp} rect={selection.rect} />

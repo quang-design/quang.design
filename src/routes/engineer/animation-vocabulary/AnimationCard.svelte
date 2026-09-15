@@ -42,13 +42,6 @@
 		}
 	}
 
-	function onKey(event: KeyboardEvent) {
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			play();
-		}
-	}
-
 	function autoplay(el: HTMLElement) {
 		stageEl = el;
 		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -71,16 +64,16 @@
 	}
 </script>
 
-<div class="anim-card" role="button" tabindex="0" onclick={play} onkeydown={onKey}>
+<button type="button" class="anim-card" onclick={play}>
 	<div class="anim-stage">
 		<div {@attach autoplay} class="anim-play"></div>
 	</div>
 	<div class="anim-copy">
-		<h3 class="ink-row-title">{title}</h3>
-		<p class="ink-row-desc">{description}</p>
+		<span class="ink-row-title">{title}</span>
+		<span class="ink-row-desc">{description}</span>
 		<span class="ink-label anim-hint">click to replay</span>
 	</div>
-</div>
+</button>
 
 <style>
 	.anim-card {
@@ -90,6 +83,7 @@
 		width: 100%;
 		margin: 0;
 		padding: 0;
+		border: 0;
 		box-sizing: border-box;
 		cursor: pointer;
 		overflow: visible;
