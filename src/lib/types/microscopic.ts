@@ -3,8 +3,3 @@ export interface SelectionState {
 	rect: DOMRect | null;
 	indices: Set<number>;
 }
-
-export interface ZipUpButtonPosition {
-	left: number;
-	top: number;
-}

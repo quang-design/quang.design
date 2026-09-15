@@ -63,25 +63,3 @@
 		<EditableText {text} {onTextChange} {onWordClick} />
 	</div>
 </div>
-
-<style>
-	:global(.loading-animation) {
-		animation: loadingDots 1.5s infinite;
-	}
-
-	@keyframes loadingDots {
-		0%,
-		20% {
-			content: '<loading.>';
-		}
-		40% {
-			content: '<loading..>';
-		}
-		60% {
-			content: '<loading...>';
-		}
-		80% {
-			content: '<loading....>';
-		}
-	}
-</style>
