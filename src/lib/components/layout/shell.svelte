@@ -20,17 +20,28 @@
 	const tree = $derived(buildIndexTree(nav, page.url.pathname));
 	const year = new Date().getFullYear();
 	let menuOpen = $state(false);
+	let menuOpener: HTMLElement | null = null;
 
 	afterNavigate(() => {
 		menuOpen = false;
 	});
 
+	function closeMenu(restoreFocus = false) {
+		menuOpen = false;
+		if (restoreFocus) menuOpener?.focus();
+	}
+
 	function toggleMenu() {
-		menuOpen = !menuOpen;
+		if (menuOpen) {
+			closeMenu(true);
+			return;
+		}
+		menuOpener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+		menuOpen = true;
 	}
 
 	function onKeydown(event: KeyboardEvent) {
-		if (event.key === 'Escape') menuOpen = false;
+		if (event.key === 'Escape' && menuOpen) closeMenu(true);
 	}
 </script>
 
@@ -67,7 +78,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="shell-foot">
+		<footer class="shell-foot">
 			<div
 				class="grid h-full grid-cols-1 lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)]"
 			>
@@ -88,7 +99,7 @@
 				</div>
 				<div class="hidden lg:block" aria-hidden="true"></div>
 			</div>
-		</div>
+		</footer>
 		<div class="shell-rule shell-rule-index" aria-hidden="true"></div>
 		<div class="shell-rule shell-rule-reading" aria-hidden="true"></div>
 	</div>

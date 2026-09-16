@@ -26,6 +26,7 @@
 						href={row.external ? row.href : resolve(row.href as '/')}
 						target={row.external ? '_blank' : undefined}
 						rel={row.external ? 'noopener noreferrer' : undefined}
+						aria-current={active === row.code && !row.external ? 'page' : undefined}
 						class={cn(
 							'ink-invert flex h-[var(--grid)] items-center',
 							row.nested ? 'pl-[calc(var(--grid)*2)]' : 'pl-[var(--grid)]',

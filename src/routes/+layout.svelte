@@ -6,6 +6,7 @@
 	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import Shell from '$lib/components/layout/shell.svelte';
+	import { userLockedMode } from '$lib/config/theme';
 	import type { EngineerProject } from '$lib/content/engineer';
 	import type { PostMetadata } from '$lib/content/loader';
 
@@ -20,6 +21,7 @@
 	const themeColors = { light: '#d5cbb5', dark: '#120b00' };
 
 	onMount(() => {
+		if (userLockedMode()) return;
 		const hour = new Date().getHours();
 		if (hour >= 6 && hour < 18) setMode('light');
 		else setMode('dark');
