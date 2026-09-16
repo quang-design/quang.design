@@ -28,8 +28,7 @@
 
 <button
 	bind:this={buttonEl}
-	class="zip-up-enter fixed z-50 max-w-sm rounded border border-amber-500
-           bg-amber-500 px-3 py-1.5 text-white shadow-md backdrop-blur-xs hover:bg-amber-600"
+	class="zip-up-enter hair ink-active fixed z-50 max-w-sm px-3 py-1.5"
 	style="top: {position?.top ?? -9999}px; left: {position?.left ?? -9999}px;"
 	onclick={handleInteraction}
 	ontouchend={handleInteraction}

@@ -4,7 +4,7 @@ Personal portfolio site for a Design Engineer. Key facts for working in this cod
 
 - **Framework**: Svelte 5 (runes) + SvelteKit 2, deployed on Vercel
 - **Styling**: TailwindCSS v4 (no config file — uses CSS-based config in `src/app.css`)
-- **UI components**: bits-ui primitives under `src/lib/components/ui/`
+- **UI components**: button, badge, and sonner under `src/lib/components/ui/`
 - **Package manager**: pnpm
 - **AI**: Anthropic Claude SDK used in `/api/telescopic` and `/api/microscopic` server routes
 - **Email**: Resend used in `/api/subscribe`
@@ -14,7 +14,7 @@ Personal portfolio site for a Design Engineer. Key facts for working in this cod
 - **Routes**: `/` (home), `/design`, `/engineer`, `/blog`, plus sub-routes for AI tools and minesweeper
 
 When adding new content sections, follow the pattern in `src/lib/content/` (see `blog.ts`, `design.ts`).
-When adding new UI components, place them in `src/lib/components/ui/` and follow bits-ui conventions.
+When adding new UI components, place them in `src/lib/components/ui/`.
 
 ---
 

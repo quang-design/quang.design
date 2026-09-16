@@ -32,7 +32,6 @@
 			const expandedText = data.content[0].text;
 			text = text.replace(loadingToken, expandedText);
 		} catch (_error) {
-			// Error expanding text - reverting to original
 			text = text.replace(loadingToken, word);
 		} finally {
 			isLoading = false;
@@ -46,41 +45,21 @@
 	canonical="https://quang.design/engineer/telescopic"
 />
 
-<section class="max-w-sm space-y-4">
-	<h1 class="uppercase">Welcome to AI Telescopic Text</h1>
-	<p>
-		Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
-		progressively expand simple sentences into more detailed narratives.
-	</p>
-	<p>
-		Click on <span class="underline underline-offset-4">underlined</span> words to see them expand into
-		richer descriptions, transforming basic statements into vivid, detailed passages.
-	</p>
-	<p>
-		For example, starting with a simple phrase like "I made tea," each click could reveal more
-		detail:
-	</p>
-	<EditableText {text} {onTextChange} {onWordClick} />
-</section>
-
-<style>
-	:global(.loading-animation) {
-		animation: loadingDots 1.5s infinite;
-	}
-
-	@keyframes loadingDots {
-		0%,
-		20% {
-			content: '<loading.>';
-		}
-		40% {
-			content: '<loading..>';
-		}
-		60% {
-			content: '<loading...>';
-		}
-		80% {
-			content: '<loading....>';
-		}
-	}
-</style>
+<div
+	class="grid grid-cols-1 items-start gap-[var(--grid)] px-[var(--grid)] py-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
+>
+	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to AI Telescopic Text</h1>
+	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
+		<p>
+			Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
+			progressively expand simple sentences into more detailed narratives.
+		</p>
+		<p>
+			Click on <span class="underline underline-offset-4">underlined</span> words to see them expand into
+			richer descriptions, transforming basic statements into vivid, detailed passages.
+		</p>
+	</div>
+	<div class="min-w-0 sm:col-start-2 sm:row-start-2">
+		<EditableText {text} {onTextChange} {onWordClick} busy={isLoading} />
+	</div>
+</div>

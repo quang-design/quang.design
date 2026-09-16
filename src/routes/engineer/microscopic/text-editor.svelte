@@ -8,6 +8,7 @@
 		$props();
 
 	let text = $state<string>();
+	let zipping = $state(false);
 
 	$effect(() => {
 		if (text === undefined) {
@@ -58,6 +59,7 @@
 	async function handleZipUp() {
 		if (!selection.text) return;
 
+		zipping = true;
 		replaceSelection('<Zipping...>');
 		try {
 			const response = await fetch(apiPath, {
@@ -79,8 +81,9 @@
 				indices: new Set()
 			};
 		} catch (_error) {
-			// Error zipping up text - reverting to original selection
 			replaceSelection(selection.text);
+		} finally {
+			zipping = false;
 		}
 	}
 
@@ -92,21 +95,25 @@
 		range.deleteContents();
 
 		const span = document.createElement('span');
-		span.className = 'text-amber-500';
+		span.className = 'ink-mark';
 		span.textContent = newText;
 
 		range.insertNode(span);
 	}
 </script>
 
-<div class="w-full rounded-sm border p-3">
-	<p
-		class="focus:ring-opacity-30 mb-4 rounded-sm p-1 whitespace-pre-wrap selection:bg-blue-600 focus:p-1 focus:ring-1 focus:ring-amber-500 focus:outline-hidden dark:selection:bg-blue-800"
+<div class="hair w-full p-3">
+	<div
+		class="mb-4 p-1 whitespace-pre-wrap selection:bg-[var(--ink)] selection:text-[var(--paper)]"
 		style="-webkit-user-select: text; user-select: text;"
 		contenteditable="true"
+		role="textbox"
+		aria-multiline="true"
+		aria-label="Microscopic text"
+		aria-busy={zipping}
 	>
 		{text}
-	</p>
+	</div>
 
 	{#if selection.text}
 		<ZipUpButton onClick={handleZipUp} rect={selection.rect} />

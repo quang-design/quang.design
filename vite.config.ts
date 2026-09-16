@@ -1,6 +1,5 @@
 import { defineConfig, type UserConfig } from 'vite';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { enhancedImages } from '@sveltejs/enhanced-img';
 import tailwindcss from '@tailwindcss/vite';
 import { viteStaticCopy, type Target } from 'vite-plugin-static-copy';
 import fs from 'node:fs';
@@ -30,8 +29,7 @@ function buildAssetCopyTargets(section: string, urlPrefix: string): Target[] {
 
 const assetCopyTargets: Target[] = [
 	...buildAssetCopyTargets('blog', 'blog/posts'),
-	...buildAssetCopyTargets('design', 'design/posts'),
-	...buildAssetCopyTargets('engineering', 'engineering/posts')
+	...buildAssetCopyTargets('design', 'design/posts')
 ];
 
 const staticCopyPlugins = viteStaticCopy({
@@ -46,7 +44,7 @@ const config: UserConfig & {
 		include: string[];
 	};
 } = {
-	plugins: [enhancedImages(), sveltekit(), tailwindcss(), ...staticCopyPlugins],
+	plugins: [sveltekit(), tailwindcss(), ...staticCopyPlugins],
 
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']

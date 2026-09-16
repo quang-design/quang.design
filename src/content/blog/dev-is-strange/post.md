@@ -1,9 +1,6 @@
 ---
 title: 'dev is strange'
-description: >
-  A journey through the mysterious world of full-stack development,
-  where things work until they don't, and then they work again for
-  reasons unknown.
+description: "A journey through the mysterious world of full-stack development, where things work until they don't, and then they work again for reasons unknown."
 date: '2025-01-14'
 published: true
 thumbnail: '/blog/posts/dev-is-strange/dev-is-strange.avif'

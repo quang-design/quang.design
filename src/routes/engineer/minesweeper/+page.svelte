@@ -9,10 +9,16 @@
 	canonical="https://quang.design/engineer/minesweeper"
 />
 
-<section class="max-w-sm space-y-4">
-	<h1 class="uppercase">Welcome to Minesweeper</h1>
-	<p>A simple minesweeper game built with SvelteKit and TailwindCSS.</p>
-	<p>Click on a cell to reveal what's underneath. If it's a mine, you lose!</p>
-	<p>Otherwise, keep going until you've revealed all the cells that aren't mines.</p>
-	<Minesweeper />
-</section>
+<div
+	class="grid grid-cols-1 items-start gap-[var(--grid)] px-[var(--grid)] py-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
+>
+	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to Minesweeper</h1>
+	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
+		<p>A simple minesweeper game built with SvelteKit and TailwindCSS.</p>
+		<p>Click on a cell to reveal what's underneath. If it's a mine, you lose!</p>
+		<p>Otherwise, keep going until you've revealed all the cells that aren't mines.</p>
+	</div>
+	<div class="min-w-0 sm:col-start-2 sm:row-start-2">
+		<Minesweeper />
+	</div>
+</div>

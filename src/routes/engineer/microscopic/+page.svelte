@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import TextEditor from './text-editor.svelte';
 
@@ -12,17 +13,20 @@
 	canonical="https://quang.design/engineer/microscopic"
 />
 
-<section class="max-w-sm">
-	<div class="mb-8 space-y-4 select-none">
-		<h1 class="uppercase">Welcome to AI Microscopic Text</h1>
+<div
+	class="grid grid-cols-1 items-start gap-[var(--grid)] px-[var(--grid)] py-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
+>
+	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to AI Microscopic Text</h1>
+	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
 		<p>
-			Another tool inspired by <a href="/engineer/telescopic">AI Telescopic Text</a>, this tool uses
-			AI to zip up long texts into short, concise words.
+			Another tool inspired by <a href={resolve('/engineer/telescopic')}>AI Telescopic Text</a>,
+			this tool uses AI to zip up long texts into short, concise words.
 		</p>
 		<p>
 			Select <span class="underline underline-offset-4">text</span> to see them zip up into concise words.
 		</p>
 	</div>
-
-	<TextEditor {initialText} />
-</section>
+	<div class="min-w-0 sm:col-start-2 sm:row-start-2">
+		<TextEditor {initialText} />
+	</div>
+</div>
