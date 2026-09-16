@@ -1,5 +1,16 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { GET } from '../../routes/api/og/+server';
 import { assertPublicHttpUrl, parseOg } from './og';
+
+afterEach(() => {
+	vi.unstubAllGlobals();
+});
+
+function ogEvent(href: string) {
+	return {
+		url: new URL(`https://quang.design/api/og?url=${encodeURIComponent(href)}`)
+	} as Parameters<typeof GET>[0];
+}
 
 describe('assertPublicHttpUrl', () => {
 	it('accepts https', () => {
@@ -48,5 +59,43 @@ describe('parseOg', () => {
 	it('does not turn double-encoded tags into markup', () => {
 		const html = `<meta property="og:title" content="&amp;lt;script&amp;gt;" />`;
 		expect(parseOg(html, 'https://example.com').title).toBe('&lt;script&gt;');
+	});
+});
+
+describe('GET /api/og', () => {
+	it('returns a hostname card when the upstream host blocks the fetch', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(
+				async () => new Response('<title>Attention Required! | Cloudflare</title>', { status: 403 })
+			)
+		);
+		const href =
+			'https://www.brandsvietnam.com/congdong/topic/28096-vietnam-young-lions-2020-2021-danh-sach-nhung-chu-su-tu-tre-tai-nang';
+		const res = await GET(ogEvent(href));
+		expect(res.status).toBe(200);
+		await expect(res.json()).resolves.toEqual({
+			eyebrow: 'Link',
+			title: 'www.brandsvietnam.com',
+			href
+		});
+		expect(res.headers.get('cache-control')).toBe('public, max-age=60');
+	});
+
+	it('returns a hostname card when the upstream fetch throws', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(async () => {
+				throw new Error('timeout');
+			})
+		);
+		const href = 'https://www.brandsvietnam.com/blocked';
+		const res = await GET(ogEvent(href));
+		expect(res.status).toBe(200);
+		await expect(res.json()).resolves.toEqual({
+			eyebrow: 'Link',
+			title: 'www.brandsvietnam.com',
+			href
+		});
 	});
 });
