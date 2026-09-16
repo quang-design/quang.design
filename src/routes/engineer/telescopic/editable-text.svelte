@@ -55,7 +55,7 @@
 		{#each words as word, i (`${i}:${word}`)}
 			<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(word)}>
 				{word}
-			</button><span> </span>
+			</button>{i < words.length - 1 ? ' ' : ''}
 		{/each}
 	</div>
 {/if}
