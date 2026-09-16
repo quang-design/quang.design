@@ -4,6 +4,14 @@ export type OgCard = {
 	description?: string;
 };
 
+export type LinkCard = {
+	eyebrow: 'Link';
+	title: string;
+	thumbnail?: string;
+	description?: string;
+	href: string;
+};
+
 const PRIVATE_HOST = /^(localhost|127\.|0\.0\.0\.0|10\.|192\.168\.|169\.254\.|::1|\[::1\])/i;
 
 export function assertPublicHttpUrl(raw: string): URL {
@@ -72,5 +80,16 @@ export function parseOg(html: string, baseUrl: string): OgCard {
 		title,
 		image,
 		description: description || undefined
+	};
+}
+
+export function linkCard(target: URL, html?: string, finalUrl?: string): LinkCard {
+	const parsed = html ? parseOg(html, finalUrl || target.href) : undefined;
+	return {
+		eyebrow: 'Link',
+		title: parsed?.title || target.hostname,
+		thumbnail: parsed?.image,
+		description: parsed?.description,
+		href: target.href
 	};
 }
