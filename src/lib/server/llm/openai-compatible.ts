@@ -20,6 +20,41 @@ type ChatCompletionResponse = {
 
 const defaultBaseUrl = 'https://api.openai.com/v1';
 
+export function usesMaxCompletionTokens(model: string) {
+	return /^(gpt-5|gpt-6|o\d)/i.test(model);
+}
+
+export function buildChatCompletionBody({
+	model,
+	prompt,
+	maxTokens,
+	temperature = 0
+}: {
+	model: string;
+	prompt: string;
+	maxTokens: number;
+	temperature?: number;
+}) {
+	const messages = [{ role: 'user' as const, content: prompt }];
+
+	if (usesMaxCompletionTokens(model)) {
+		return {
+			model,
+			messages,
+			max_completion_tokens: maxTokens,
+			reasoning_effort: 'none',
+			temperature
+		};
+	}
+
+	return {
+		model,
+		messages,
+		max_tokens: maxTokens,
+		temperature
+	};
+}
+
 export function createOpenAICompatibleProvider(
 	config: LlmProviderConfig,
 	name: LlmProviderName = 'openai-compatible'
@@ -40,12 +75,14 @@ export function createOpenAICompatibleProvider(
 					Authorization: `Bearer ${config.apiKey}`,
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({
-					model: config.model,
-					messages: [{ role: 'user', content: prompt }],
-					max_tokens: maxTokens,
-					temperature
-				})
+				body: JSON.stringify(
+					buildChatCompletionBody({
+						model: config.model,
+						prompt,
+						maxTokens,
+						temperature
+					})
+				)
 			});
 
 			const data = (await response.json().catch(() => null)) as ChatCompletionResponse | null;

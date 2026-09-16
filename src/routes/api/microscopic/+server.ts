@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	return json(
 		await generateText({
 			prompt: createMicroscopicPrompt(context, selection),
-			maxTokens: 24,
+			maxTokens: 64,
 			temperature: 0
 		})
 	);
