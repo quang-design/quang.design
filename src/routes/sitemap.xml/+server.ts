@@ -1,9 +1,10 @@
 import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
+import { SITE_ORIGIN } from '$lib/config/site';
 
 export const GET: RequestHandler = async () => {
-	const noindex = ['/404', '/styles'];
+	const noindex = ['/404'];
 
 	// 1. grab every +page.svelte under src/routes
 	const modules = import.meta.glob('../../**/+page.svelte', { eager: false });
@@ -51,7 +52,7 @@ export const GET: RequestHandler = async () => {
 ${allPages
 	.map(
 		(page) => `  <url>
-    <loc>${new URL(page.url, 'https://quang.design').href}</loc>
+    <loc>${new URL(page.url, SITE_ORIGIN).href}</loc>
     <lastmod>${page.lastmod}</lastmod>
     <priority>${page.priority}</priority>
   </url>`

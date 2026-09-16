@@ -28,29 +28,31 @@
 	canonical="https://quang.design/engineer"
 />
 
-<div class="stack stack-flush flex flex-col">
-	{#each engineerProjects as project, i (project.href)}
-		{@const Icon = icons[project.href as keyof typeof icons]}
-		<IndexRow
-			code={engineerCode(project.href, i)}
-			title={project.title}
-			description={project.description}
-			href={project.href}
-			external={project.external}
-			placeholder={!Icon}
-			preview={{
-				eyebrow: 'Engineer',
-				title: project.title,
-				description: project.description,
-				href: project.href,
-				meta: project.external ? ['External project'] : undefined
-			}}
-		>
-			{#snippet icon()}
-				{#if Icon}
-					<Icon class="size-4" />
-				{/if}
-			{/snippet}
-		</IndexRow>
-	{/each}
+<div class="min-w-0">
+	<h1 class="sr-only">Engineer</h1>
+	<div class="stack stack-flush flex flex-col">
+		{#each engineerProjects as project, i (project.href)}
+			{@const Icon = icons[project.href as keyof typeof icons]}
+			<IndexRow
+				code={engineerCode(project.href, i)}
+				title={project.title}
+				description={project.description}
+				href={project.href}
+				external={project.external}
+				placeholder={!Icon}
+				preview={{
+					eyebrow: 'Engineer',
+					title: project.title,
+					description: project.description,
+					href: project.href
+				}}
+			>
+				{#snippet icon()}
+					{#if Icon}
+						<Icon class="size-4" />
+					{/if}
+				{/snippet}
+			</IndexRow>
+		{/each}
+	</div>
 </div>

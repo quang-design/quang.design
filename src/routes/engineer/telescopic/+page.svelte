@@ -60,28 +60,6 @@
 		</p>
 	</div>
 	<div class="min-w-0 sm:col-start-2 sm:row-start-2">
-		<EditableText {text} {onTextChange} {onWordClick} />
+		<EditableText {text} {onTextChange} {onWordClick} busy={isLoading} />
 	</div>
 </div>
-
-<style>
-	:global(.loading-animation) {
-		animation: loadingDots 1.5s infinite;
-	}
-
-	@keyframes loadingDots {
-		0%,
-		20% {
-			content: '<loading.>';
-		}
-		40% {
-			content: '<loading..>';
-		}
-		60% {
-			content: '<loading...>';
-		}
-		80% {
-			content: '<loading....>';
-		}
-	}
-</style>

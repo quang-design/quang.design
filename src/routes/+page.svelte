@@ -19,6 +19,7 @@
 	class="flex flex-col px-[var(--grid)] md:grid md:min-h-full md:grid-cols-2 md:content-start md:gap-x-[calc(var(--grid)*2)]"
 >
 	<div class="ink-read py-[var(--grid)] [&_p:last-child]:mb-0">
+		<h1 class="sr-only">Quang</h1>
 		<Markdown md={sections[0] ?? ''} />
 	</div>
 	<div class="ink-read pt-0 pb-[var(--grid)] md:py-[var(--grid)] [&_h3]:mb-0 [&_h4]:mb-0">

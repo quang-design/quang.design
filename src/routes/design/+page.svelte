@@ -16,36 +16,37 @@
 	canonical="https://quang.design/design"
 />
 
-{#if posts && posts.length > 0}
-	<div class="stack stack-flush flex flex-col">
-		{#each posts as post, i (post.slug)}
-			{@const headline = designHeadline(post.title, post.slug)}
-			<IndexRow
-				code="D{i + 1}"
-				title={headline.brand}
-				description={headline.line}
-				date={post.date}
-				thumbnail={post.thumbnail}
-				placeholder={!post.thumbnail}
-				thumb="wide"
-				href="/design/{post.slug}"
-				preview={{
-					eyebrow: 'Design',
-					title: headline.brand,
-					subtitle: headline.line,
-					description: post.description,
-					date: post.date,
-					thumbnail: post.thumbnail,
-					href: `/design/${post.slug}`
-				}}
+<div class="min-w-0">
+	<h1 class="sr-only">Design</h1>
+	{#if posts && posts.length > 0}
+		<div class="stack stack-flush flex flex-col">
+			{#each posts as post, i (post.slug)}
+				{@const headline = designHeadline(post.title, post.slug)}
+				<IndexRow
+					code="D{i + 1}"
+					title={headline.brand}
+					description={headline.line}
+					date={post.date}
+					thumbnail={post.thumbnail}
+					placeholder={!post.thumbnail}
+					thumb="wide"
+					href="/design/{post.slug}"
+					preview={{
+						eyebrow: 'Design',
+						title: headline.brand,
+						description: post.description,
+						thumbnail: post.thumbnail,
+						href: `/design/${post.slug}`
+					}}
+				/>
+			{/each}
+		</div>
+	{:else}
+		<div class="p-[var(--grid)]">
+			<EmptyState
+				title="No Design Work Yet"
+				description="Design work will be showcased here soon. Check back later!"
 			/>
-		{/each}
-	</div>
-{:else}
-	<div class="p-[var(--grid)]">
-		<EmptyState
-			title="No Design Work Yet"
-			description="Design work will be showcased here soon. Check back later!"
-		/>
-	</div>
-{/if}
+		</div>
+	{/if}
+</div>

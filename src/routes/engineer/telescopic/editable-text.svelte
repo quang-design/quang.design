@@ -2,11 +2,13 @@
 	let {
 		text,
 		onTextChange,
-		onWordClick
+		onWordClick,
+		busy = false
 	}: {
 		text: string;
 		onTextChange: (text: string) => void;
 		onWordClick: (word: string) => void;
+		busy?: boolean;
 	} = $props();
 
 	let isEditing = $state(false);
@@ -39,14 +41,21 @@
 </div>
 
 {#if isEditing}
-	<div contenteditable="true" bind:textContent={text} class="hair w-full p-3"></div>
+	<div
+		contenteditable="true"
+		role="textbox"
+		aria-multiline="true"
+		aria-label="Telescopic text"
+		aria-busy={busy}
+		bind:textContent={text}
+		class="hair w-full p-3"
+	></div>
 {:else}
-	<div class="hair w-full p-3 text-left">
-		{#each words as word}
+	<div class="hair w-full p-3 text-left" aria-busy={busy}>
+		{#each words as word, i (`${i}:${word}`)}
 			<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(word)}>
 				{word}
-			</button>
-			{' '}
+			</button><span> </span>
 		{/each}
 	</div>
 {/if}

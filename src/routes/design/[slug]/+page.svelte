@@ -5,6 +5,7 @@
 	import { page } from '$app/state';
 	import { Badge } from '$lib/components/ui/badge';
 	import { designHeadline } from '$lib/content/headline';
+	import { absUrl } from '$lib/config/site';
 
 	let {
 		data
@@ -23,8 +24,8 @@
 <SeoHead
 	title={data.meta.title}
 	description={data.meta.description}
-	canonical={`https://quang.design/design/${page.params.slug}`}
-	image={data.meta.thumbnail ? data.meta.thumbnail : undefined}
+	canonical={absUrl(`/design/${page.params.slug}`)}
+	image={data.meta.thumbnail ? absUrl(data.meta.thumbnail) : undefined}
 	type="article"
 	publishedTime={data.meta.date ? new Date(data.meta.date).toISOString() : undefined}
 	author="Quang"

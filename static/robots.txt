@@ -23,4 +23,3 @@ Allow: /
 Disallow: /api/
 
 Sitemap: https://quang.design/sitemap.xml
-Sitemap: https://quang.design/llms.txt

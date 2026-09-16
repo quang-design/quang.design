@@ -4,6 +4,7 @@
 	import { getContext } from 'svelte';
 	import { cn } from '$lib/utils';
 	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
+	import { isExternalHref } from '$lib/config/site';
 	import CodeBlock from './code-block.svelte';
 	let { md }: { md: string } = $props();
 
@@ -48,11 +49,13 @@
 	{/snippet}
 	{#snippet a(props)}
 		{@const { children, ...rest } = props}
+		{@const href = typeof rest.href === 'string' ? rest.href : undefined}
+		{@const external = isExternalHref(href)}
 		<a
 			{...rest}
 			class={cn('underline decoration-[var(--ink-40)] underline-offset-4', rest.class)}
-			target="_blank"
-			rel="noopener noreferrer"
+			target={external ? '_blank' : undefined}
+			rel={external ? 'noopener noreferrer' : undefined}
 			onmouseenter={enter}
 			onmouseleave={leave}
 			onfocus={enter}

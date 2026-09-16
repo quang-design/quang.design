@@ -13,15 +13,12 @@
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
 		"test:lock": "node scripts/lock-design.mjs --assert",
-		"optimize-images": "node scripts/optimize-images.js",
-		"update-md-refs": "node scripts/update-md-refs.js",
 		"prepare": "husky"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.4",
 		"@lucide/svelte": "^1.21.0",
 		"@sveltejs/adapter-vercel": "^6.3.2",
-		"@sveltejs/enhanced-img": "^0.10.4",
 		"@sveltejs/kit": "^2.70.2",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"@tailwindcss/vite": "^4.2.2",
