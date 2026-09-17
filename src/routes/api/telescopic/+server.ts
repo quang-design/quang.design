@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request, url }) => {
 	return json(
 		await generateText({
 			prompt: createTelescopicPrompt(context, word),
-			maxTokens: 24,
+			maxTokens: 64,
 			temperature: 0
 		})
 	);

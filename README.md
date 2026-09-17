@@ -43,7 +43,7 @@ Now I'm building this site with SvelteKit, continuing to learn by doing. Every c
 - **Shiki** - Syntax highlighting for code blocks
 - **svelte-exmarkdown** - Markdown rendering
 - **gray-matter** - Frontmatter parsing for content
-- **Provider-agnostic LLM layer** - AI features (telescopic/microscopic text) with Anthropic, OpenAI, or OpenAI-compatible providers
+- **Provider-agnostic LLM layer** - AI features (telescopic/microscopic text) with OpenAI by default, plus Anthropic or OpenAI-compatible providers
 - **Resend** - Email (newsletter subscribe)
 - **Vercel** - Hosting (adapter-vercel, analytics, speed insights)
 - **mode-watcher** - Auto dark/light mode (time-based: light 6am–6pm)
@@ -82,15 +82,15 @@ src/
 The AI tools use a provider-agnostic server layer. Configure the provider with environment variables:
 
 ```bash
-# Anthropic (default)
+# OpenAI (default)
+LLM_PROVIDER=openai
+OPENAI_API_KEY=sk-...
+# optional: LLM_MODEL=gpt-5.4-nano
+
+# Anthropic
 LLM_PROVIDER=anthropic
 ANTHROPIC_API_KEY=sk-ant-...
 # optional: LLM_MODEL=claude-sonnet-4-6
-
-# OpenAI
-LLM_PROVIDER=openai
-OPENAI_API_KEY=sk-...
-# optional: LLM_MODEL=gpt-4o-mini
 
 # OpenAI-compatible providers
 LLM_PROVIDER=openai-compatible

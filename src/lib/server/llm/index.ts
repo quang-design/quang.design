@@ -9,11 +9,11 @@ import type {
 	LlmProviderName
 } from './types';
 
-const defaultProvider: LlmProviderName = 'anthropic';
+const defaultProvider: LlmProviderName = 'openai';
 const defaultModels: Record<LlmProviderName, string> = {
 	anthropic: 'claude-sonnet-4-6',
-	openai: 'gpt-4o-mini',
-	'openai-compatible': 'gpt-4o-mini'
+	openai: 'gpt-5.4-nano',
+	'openai-compatible': 'gpt-5.4-nano'
 };
 
 let provider: LlmProvider | null = null;

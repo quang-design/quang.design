@@ -6,7 +6,7 @@ Personal portfolio site for a Design Engineer. Key facts for working in this cod
 - **Styling**: TailwindCSS v4 (no config file — uses CSS-based config in `src/app.css`)
 - **UI components**: button, badge, and sonner under `src/lib/components/ui/`
 - **Package manager**: pnpm
-- **AI**: Anthropic Claude SDK used in `/api/telescopic` and `/api/microscopic` server routes
+- **AI**: OpenAI (`gpt-5.4-nano`) used in `/api/telescopic` and `/api/microscopic` server routes; Anthropic remains an optional provider
 - **Email**: Resend used in `/api/subscribe`
 - **Content**: Markdown files in `src/content/{blog,design}/` with gray-matter frontmatter; loaded via `src/lib/content/loader.ts`
 - **Dark mode**: time-based auto-switch via mode-watcher (light 6am–6pm, dark otherwise)
