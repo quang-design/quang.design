@@ -460,6 +460,26 @@
 		background-size: var(--grid) var(--grid);
 		background-position: 0 0;
 	}
+
+	.canvas-split {
+		box-sizing: border-box;
+		display: grid;
+		width: 100%;
+		grid-template-columns: minmax(0, 1fr);
+		align-content: start;
+		align-items: start;
+		gap: var(--grid);
+		padding: var(--grid);
+	}
+
+	@media (min-width: 640px) {
+		.canvas-split {
+			width: round(down, 100%, calc(var(--grid) * 2));
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			column-gap: calc(var(--grid) * 2);
+			row-gap: var(--grid);
+		}
+	}
 }
 
 @layer base {

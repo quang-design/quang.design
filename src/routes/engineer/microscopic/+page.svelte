@@ -13,9 +13,7 @@
 	canonical="https://quang.design/engineer/microscopic"
 />
 
-<div
-	class="grid grid-cols-1 items-start gap-[var(--grid)] px-[var(--grid)] py-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
->
+<div class="canvas-split">
 	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to AI Microscopic Text</h1>
 	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
 		<p>

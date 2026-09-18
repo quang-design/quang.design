@@ -9,9 +9,7 @@
 	canonical="https://quang.design/engineer/minesweeper"
 />
 
-<div
-	class="grid grid-cols-1 items-start gap-[var(--grid)] px-[var(--grid)] py-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
->
+<div class="canvas-split">
 	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to Minesweeper</h1>
 	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
 		<p>A simple minesweeper game built with SvelteKit and TailwindCSS.</p>
