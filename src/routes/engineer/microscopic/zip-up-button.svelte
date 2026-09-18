@@ -24,6 +24,11 @@
 		event.preventDefault();
 		onClick();
 	}
+
+	function handleClick(event: MouseEvent) {
+		event.preventDefault();
+		onClick();
+	}
 </script>
 
 <button
@@ -32,6 +37,7 @@
 	class="zip-up-enter hair ink-active fixed z-50 max-w-sm px-3 py-1.5 select-none"
 	style="top: {position?.top ?? -9999}px; left: {position?.left ?? -9999}px;"
 	onpointerdown={handlePointerDown}
+	onclick={handleClick}
 >
 	Zip up
 </button>
