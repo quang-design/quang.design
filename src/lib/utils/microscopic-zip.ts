@@ -37,27 +37,29 @@ export function splitAround(text: string, selection: string) {
 	};
 }
 
-function edgeOverlap(a: string, b: string, min = 8) {
+const MIN_EDGE_OVERLAP = 8;
+
+function edgeOverlap(a: string, b: string) {
 	const max = Math.min(a.length, b.length);
-	for (let n = max; n >= min; n--) {
+	for (let n = max; n >= MIN_EDGE_OVERLAP; n--) {
 		if (a.slice(-n) === b.slice(0, n)) return n;
 	}
 	return 0;
 }
 
-function core(text: string, side: 'left' | 'right') {
+function stripEdgePunct(text: string, side: 'left' | 'right') {
 	return side === 'right' ? text.replace(/^[\s,.;:!?]+/, '') : text.replace(/[\s,.;:!?]+$/, '');
 }
 
 export function clipZipToGap(left: string, zip: string, right: string) {
 	let out = zip.trim().replace(/^["'`]+|["'`]+$/g, '');
-	const rightCore = core(right, 'right');
-	const leftCore = core(left, 'left');
+	const rightInner = stripEdgePunct(right, 'right');
+	const leftInner = stripEdgePunct(left, 'left');
 
-	const rightHit = edgeOverlap(out, rightCore);
+	const rightHit = edgeOverlap(out, rightInner);
 	if (rightHit) out = out.slice(0, -rightHit).trim();
 
-	const leftHit = edgeOverlap(leftCore, out);
+	const leftHit = edgeOverlap(leftInner, out);
 	if (leftHit) out = out.slice(leftHit).trim();
 
 	const rightP = right.trimStart().match(/^[,.;:!?]/)?.[0];
