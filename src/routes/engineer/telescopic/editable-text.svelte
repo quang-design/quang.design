@@ -31,38 +31,41 @@
 	}
 </script>
 
-<div class="mb-2 flex w-full justify-between">
+<div class="flex w-full flex-col gap-[var(--grid)]">
 	<button
-		class="hair ink-invert w-full px-3 py-1 {isEditing ? '' : 'ink-active'}"
+		class="hair ink-invert flex h-[var(--grid)] w-full items-center justify-center {isEditing
+			? ''
+			: 'ink-active'}"
 		onclick={handleClick}
 	>
 		{isEditing ? 'Done' : 'Edit'}
 	</button>
-</div>
 
-{#if isEditing}
-	<div
-		contenteditable="true"
-		role="textbox"
-		aria-multiline="true"
-		aria-label="Telescopic text"
-		aria-busy={busy}
-		bind:textContent={text}
-		class="hair w-full p-3"
-	></div>
-{:else}
-	<div class="hair w-full p-3 text-left" aria-busy={busy}>
-		{#each words as word, i (`${i}:${word}`)}
-			<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(word)}>
-				{word}
-			</button>{i < words.length - 1 ? ' ' : ''}
-		{/each}
-	</div>
-{/if}
+	{#if isEditing}
+		<div
+			contenteditable="true"
+			role="textbox"
+			aria-multiline="true"
+			aria-label="Telescopic text"
+			aria-busy={busy}
+			bind:textContent={text}
+			class="hair min-h-[calc(var(--grid)*2)] w-full px-[var(--grid)] leading-[var(--grid)]"
+		></div>
+	{:else}
+		<div
+			class="hair min-h-[calc(var(--grid)*2)] w-full px-[var(--grid)] text-left leading-[var(--grid)]"
+			aria-busy={busy}
+		>
+			{#each words as word, i (`${i}:${word}`)}
+				<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(word)}>
+					{word}
+				</button>{i < words.length - 1 ? ' ' : ''}
+			{/each}
+		</div>
+	{/if}
 
-<div class="mt-2 flex w-full justify-between">
 	<button
-		class="hair ink-invert w-full bg-[var(--ink)] px-3 py-1 text-[var(--paper)]"
+		class="hair ink-invert flex h-[var(--grid)] w-full items-center justify-center bg-[var(--ink)] text-[var(--paper)]"
 		onclick={handleCopy}
 	>
 		{isCopying ? 'Copied' : 'Copy'}

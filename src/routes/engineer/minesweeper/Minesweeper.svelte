@@ -108,8 +108,8 @@
 	}
 </script>
 
-<div class="flex flex-col gap-3">
-	<div class="flex flex-wrap items-center gap-3">
+<div class="flex flex-col gap-[var(--grid)]">
+	<div class="flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
 		<div aria-live="polite" aria-atomic="true">
 			<MicroLabel>
 				{#if won}Cleared
@@ -120,7 +120,7 @@
 		<Action onclick={reset} disabled={!over}>Reset</Action>
 		<span class="sr-only">Press F to flag a cell.</span>
 	</div>
-	<div class="grid w-fit grid-cols-9">
+	<div class="grid w-fit grid-cols-[repeat(9,var(--grid))] grid-rows-[repeat(9,var(--grid))]">
 		{#each cells as i (i)}
 			<button
 				type="button"
@@ -132,16 +132,16 @@
 				onkeydown={(e) => onCellKey(e, i)}
 				onclick={() => revealFrom(i)}
 				class={[
-					'flex size-8 items-center justify-center border-[length:var(--hair)] border-[var(--ink-25)]',
+					'flex size-[var(--grid)] items-center justify-center border-[length:var(--hair)] border-[var(--ink-25)]',
 					revealed.has(i) ? 'bg-[var(--paper)]' : 'ink-invert bg-[var(--ink-10)]',
 					lost && mines.has(i) && 'bg-red-600 text-white',
 					exploded === i && 'bg-red-700 text-white'
 				]}
 			>
 				{#if flagged.has(i) && !revealed.has(i)}
-					<FlagIcon class="size-3.5" />
+					<FlagIcon class="size-3" />
 				{:else if revealed.has(i) && mines.has(i)}
-					<BombIcon class="size-3.5" />
+					<BombIcon class="size-3" />
 				{:else if revealed.has(i) && numbers[i] > 0}
 					<span class="ink-label">{numbers[i]}</span>
 				{/if}
