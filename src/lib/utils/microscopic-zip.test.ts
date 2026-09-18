@@ -114,6 +114,16 @@ describe('clipZipToGap', () => {
 		);
 	});
 
+	it('shortens the selection when the model copies the after clause', () => {
+		const selection = 'Yawning, and smearing my eyes with my fingers, ';
+		const right =
+			'I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap';
+		expect(clipZipToGap('', right, right, selection)).toBe('Yawning and smearing my eyes, ');
+		expect(clipZipToGap('', right, right, selection) + right).toBe(
+			'Yawning and smearing my eyes, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap'
+		);
+	});
+
 	it('does not duplicate a comma that already sits after the selection', () => {
 		expect(
 			clipZipToGap(
