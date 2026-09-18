@@ -72,7 +72,18 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 	const leftP = left.trimEnd().match(/[,.;:!?]$/)?.[0];
 	if (leftP && out.startsWith(leftP)) out = out.slice(1).trim();
 
+	if (!out) out = takeWords(selection, zipWordBudget(selection));
+
 	return keepSelectionTail(out, selection, right);
+}
+
+function takeWords(text: string, maxWords: number) {
+	const body = text
+		.replace(/\([^)]*\)/g, ' ')
+		.replace(/[,.;:!?]+/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+	return body.split(' ').filter(Boolean).slice(0, maxWords).join(' ');
 }
 
 function keepSelectionTail(zip: string, selection: string, right: string) {
