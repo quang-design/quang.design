@@ -144,6 +144,45 @@ describe('clipZipToGap', () => {
 			)
 		).toBe('checking the water was cold enough');
 	});
+
+	it('keeps the selection head so the sentence still has its object', () => {
+		const left = 'I walked bleary eyed into the kitchen and filled the ';
+		const selection =
+			'kettle with fresh water from the tap, checking with my hands to make sure it was cold enough (The best tea comes from the coldest water)';
+		const zip = 'checking it was cold enough';
+		const right = '. I glanced outside for a minute at the city mist.';
+		expect(clipZipToGap(left, zip, right, selection)).toBe(
+			'kettle with fresh water from the tap checking'
+		);
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			'I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap checking. I glanced outside for a minute at the city mist.'
+		);
+	});
+
+	it('does not add words to a short clause', () => {
+		const left = 'Thankfully I found some fusty digestives. ';
+		const selection = 'For some reason,';
+		const zip = "For some reason, I couldn't find the,";
+		const right = "biscuits are always nicer when they've gone a bit dry and stale.";
+		expect(clipZipToGap(left, zip, right, selection)).toBe('For some reason, ');
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			"Thankfully I found some fusty digestives. For some reason, biscuits are always nicer when they've gone a bit dry and stale."
+		);
+	});
+
+	it('splits glued words and puts a space after a sentence period', () => {
+		const left = 'Thankfully I found some fusty digestives. ';
+		const selection =
+			"I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier. ";
+		const zip = 'outof from the fridge and poured some into a cup.';
+		const right = 'The kettle began grumbling fiercely';
+		expect(clipZipToGap(left, zip, right, selection)).toBe(
+			'I took the milk out of the fridge. '
+		);
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			'Thankfully I found some fusty digestives. I took the milk out of the fridge. The kettle began grumbling fiercely'
+		);
+	});
 });
 
 describe('toSegments', () => {
