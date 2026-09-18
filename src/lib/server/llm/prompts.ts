@@ -19,9 +19,9 @@ If AFTER starts with a period, do not end the replacement with a period.
 
 Example:
 BEFORE: ""
-SELECTION: "Yawning, and smearing my eyes with my fingers"
-AFTER: ", I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap"
-replacement: "Yawning and rubbing my eyes"
+SELECTION: "Yawning, and smearing my eyes with my fingers, "
+AFTER: "I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap"
+replacement: "Yawning and rubbing my eyes, "
 finished: "Yawning and rubbing my eyes, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap"
 
 Example:

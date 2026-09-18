@@ -103,6 +103,28 @@ describe('clipZipToGap', () => {
 		);
 	});
 
+	it('keeps a trailing comma and space that belong to the selection', () => {
+		const left = '';
+		const zip = 'Yawning and smearing my eyes';
+		const right = 'I walked bleary eyed into the kitchen';
+		const selection = 'Yawning, and smearing my eyes with my fingers, ';
+		expect(clipZipToGap(left, zip, right, selection)).toBe('Yawning and smearing my eyes, ');
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			'Yawning and smearing my eyes, I walked bleary eyed into the kitchen'
+		);
+	});
+
+	it('does not duplicate a comma that already sits after the selection', () => {
+		expect(
+			clipZipToGap(
+				'',
+				'Yawning and smearing my eyes',
+				', I walked bleary eyed into the kitchen',
+				'Yawning, and smearing my eyes with my fingers'
+			)
+		).toBe('Yawning and smearing my eyes');
+	});
+
 	it('keeps a zip that does not overlap the surrounding text', () => {
 		expect(
 			clipZipToGap(

@@ -30,10 +30,14 @@ export function splitAround(text: string, selection: string) {
 		return { left: '', selection, right: '' };
 	}
 
+	return splitAt(text, start, start + selection.length);
+}
+
+export function splitAt(text: string, start: number, end: number) {
 	return {
 		left: text.slice(0, start),
-		selection,
-		right: text.slice(start + selection.length)
+		selection: text.slice(start, end),
+		right: text.slice(end)
 	};
 }
 
@@ -51,7 +55,7 @@ function stripEdgePunct(text: string, side: 'left' | 'right') {
 	return side === 'right' ? text.replace(/^[\s,.;:!?]+/, '') : text.replace(/[\s,.;:!?]+$/, '');
 }
 
-export function clipZipToGap(left: string, zip: string, right: string) {
+export function clipZipToGap(left: string, zip: string, right: string, selection = '') {
 	let out = zip.trim().replace(/^["'`]+|["'`]+$/g, '');
 	const rightInner = stripEdgePunct(right, 'right');
 	const leftInner = stripEdgePunct(left, 'left');
@@ -68,6 +72,19 @@ export function clipZipToGap(left: string, zip: string, right: string) {
 	const leftP = left.trimEnd().match(/[,.;:!?]$/)?.[0];
 	if (leftP && out.startsWith(leftP)) out = out.slice(1).trim();
 
+	return keepSelectionTail(out, selection, right);
+}
+
+function keepSelectionTail(zip: string, selection: string, right: string) {
+	if (!zip) return zip;
+	const tail = selection.match(/([,.;:!?]+)(\s*)$/);
+	if (!tail) return zip;
+
+	let out = zip;
+	const punct = tail[1];
+	const space = tail[2];
+	if (punct && !/^[\s]*[,.;:!?]/.test(right) && !out.endsWith(punct)) out += punct;
+	if (space && !right.startsWith(space) && !out.endsWith(space)) out += space;
 	return out;
 }
 

@@ -86,14 +86,14 @@
 			const response = await fetch(apiPath, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ context: previousText, selection: selected })
+				body: JSON.stringify({ context: previousText, selection: selected, start, end })
 			});
 
 			if (!response.ok) throw new Error('Failed to zip up text');
 
 			const data: { content?: Array<{ text?: string }> } = await response.json();
-			const zippedText = data.content?.[0]?.text?.trim();
-			if (!zippedText) throw new Error('Empty zip result');
+			const zippedText = data.content?.[0]?.text ?? '';
+			if (!zippedText.trim()) throw new Error('Empty zip result');
 
 			text = replaceSlice(previousText, start, end, zippedText);
 			ranges = [
