@@ -1,20 +1,16 @@
 export function createMicroscopicPrompt(context: string, selection: string) {
-	return `You are a semantic word zipper.
-Zip up the text "${selection}" into a significantly shorter version while preserving these rules in order:
-1. Zipped text must be shorter than selection text
-2. Always keep the subject of the sentence
-3. Maintain grammatical structure
-4. If it's a paragraph -> zip into one short sentence
-5. If it's a sentence -> zip into a shorter sentence with fewer words
-6. If it's a phrase -> zip into a shorter phrase with fewer words
-7. Keep core meaning only, remove descriptive details
-8. Keep only essential punctuation
-9. The output must seamlessly replace the original text
-10. ONLY respond with the zipped text, NOT the full context
+	return `Zip "${selection}" into the shortest replacement that still fits the surrounding sentence.
 
-Context: "${context}"
-Example: If asked to zip "Yawning, and smearing my eyes with my fingers" in the context above, respond with "Yawning" NOT "Yawning, I walked bleary..."
-Only respond with the zipped text.`;
+Rules:
+- Reply with only the zipped text
+- Cut hard: a phrase becomes 1-3 words; a sentence becomes a short clause
+- Keep the subject
+- Do not repeat words that appear after the selection
+- Do not return the original selection or a lightly edited copy of it
+
+Example: "Yawning, and smearing my eyes with my fingers" -> "Yawning"
+
+Context: "${context}"`;
 }
 
 export function createTelescopicPrompt(context: string, word: string) {
