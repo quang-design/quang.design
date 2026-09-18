@@ -4,9 +4,18 @@ updates:
     directory: /
     schedule:
       interval: weekly
+      day: monday
+      time: '09:00'
+      timezone: Asia/Ho_Chi_Minh
     open-pull-requests-limit: 10
     groups:
       production:
         dependency-type: production
+        update-types:
+          - minor
+          - patch
       development:
         dependency-type: development
+        update-types:
+          - minor
+          - patch
