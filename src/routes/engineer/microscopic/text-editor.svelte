@@ -27,11 +27,12 @@
 	let editorEl = $state<HTMLElement | undefined>(undefined);
 	let selection = $state<SelectionState>(emptySelection);
 	let nextId = 0;
+	let zipPointerDown = false;
 
 	const segments = $derived(toSegments(text, ranges));
 
 	function updateSelection() {
-		if (zipping) return;
+		if (zipping || zipPointerDown) return;
 
 		const sel = window.getSelection();
 		if (!sel || sel.isCollapsed || !sel.rangeCount || !editorEl) {
@@ -60,6 +61,7 @@
 		const end = selection.end;
 		if (!selected || zipping) return;
 
+		zipPointerDown = true;
 		zipping = true;
 		const previousText = text;
 		const previousRanges = ranges;
@@ -108,6 +110,7 @@
 			ranges = previousRanges;
 		} finally {
 			zipping = false;
+			zipPointerDown = false;
 		}
 	}
 
@@ -142,14 +145,21 @@
 	>
 		{#each segments as segment (segment.id)}
 			{#if segment.zipped}
-				<button
-					type="button"
-					class="ink-mark cursor-pointer border-0 align-baseline font-[inherit]"
-					disabled={segment.pending || zipping}
+				<span
+					class="ink-mark inline cursor-pointer underline underline-offset-4"
+					role="button"
+					tabindex={segment.pending || zipping ? -1 : 0}
+					aria-disabled={segment.pending || zipping}
 					onclick={() => unzip(segment.id)}
+					onkeydown={(event) => {
+						if (event.key === 'Enter' || event.key === ' ') {
+							event.preventDefault();
+							unzip(segment.id);
+						}
+					}}
 				>
 					{segment.text}
-				</button>
+				</span>
 			{:else}
 				{segment.text}
 			{/if}

@@ -20,11 +20,7 @@
 		return { top, left };
 	});
 
-	function keepSelection(event: Event) {
-		event.preventDefault();
-	}
-
-	function handleClick(event: Event) {
+	function handlePointerDown(event: PointerEvent) {
 		event.preventDefault();
 		onClick();
 	}
@@ -33,10 +29,9 @@
 <button
 	bind:this={buttonEl}
 	type="button"
-	class="zip-up-enter hair ink-active fixed z-50 max-w-sm px-3 py-1.5"
+	class="zip-up-enter hair ink-active fixed z-50 max-w-sm px-3 py-1.5 select-none"
 	style="top: {position?.top ?? -9999}px; left: {position?.left ?? -9999}px;"
-	onpointerdown={keepSelection}
-	onclick={handleClick}
+	onpointerdown={handlePointerDown}
 >
 	Zip up
 </button>
