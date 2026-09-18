@@ -50,7 +50,7 @@
 	"packageManager": "pnpm@10.12.3",
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.125.0",
-		"@vercel/analytics": "^1.6.1",
+		"@vercel/analytics": "^2.0.1",
 		"@vercel/speed-insights": "^2.0.0",
 		"animejs": "3.2.2",
 		"clsx": "^2.1.1",
