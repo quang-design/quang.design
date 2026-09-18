@@ -72,9 +72,30 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 	const leftP = left.trimEnd().match(/[,.;:!?]$/)?.[0];
 	if (leftP && out.startsWith(leftP)) out = out.slice(1).trim();
 
-	if (!out) out = takeWords(selection, zipWordBudget(selection));
+	out = unglue(out, selection);
 
-	return keepSelectionTail(out, selection, right);
+	const selWords = wordCount(selection);
+	const budget = zipWordBudget(selection);
+
+	if (selection.trim() && firstWord(out) !== firstWord(selection)) {
+		out = takeWords(selection, budget);
+	} else if (selWords && wordCount(out) > selWords) {
+		out = takeWords(selection, selWords <= 4 ? selWords : budget);
+	} else if (selection.trim() && wordCount(out) > budget) {
+		out = takeWords(out, budget);
+	}
+
+	if (!out) out = takeWords(selection, budget);
+
+	return ensureJoin(keepSelectionTail(out, selection, right), right);
+}
+
+function wordCount(text: string) {
+	return takeWords(text, 99).split(' ').filter(Boolean).length;
+}
+
+function firstWord(text: string) {
+	return takeWords(text, 1).toLowerCase();
 }
 
 function takeWords(text: string, maxWords: number) {
@@ -83,7 +104,29 @@ function takeWords(text: string, maxWords: number) {
 		.replace(/[,.;:!?]+/g, ' ')
 		.replace(/\s+/g, ' ')
 		.trim();
-	return body.split(' ').filter(Boolean).slice(0, maxWords).join(' ');
+	const words = body.split(' ').filter(Boolean).slice(0, maxWords);
+	while (words.length > 3 && /^(and|or|but|the|a|an|to|with)$/i.test(words[words.length - 1] ?? '')) {
+		words.pop();
+	}
+	return words.join(' ');
+}
+
+function unglue(zip: string, selection: string) {
+	if (!zip || !selection) return zip;
+	const words = takeWords(selection, 99).split(' ').filter(Boolean);
+	let out = zip;
+	for (let i = 0; i < words.length - 1; i++) {
+		const glued = `${words[i]}${words[i + 1]}`;
+		const re = new RegExp(glued.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+		out = out.replace(re, `${words[i]} ${words[i + 1]}`);
+	}
+	return out;
+}
+
+function ensureJoin(zip: string, right: string) {
+	if (!zip) return zip;
+	if (/[,.;:!?]$/.test(zip) && /^[A-Za-z0-9]/.test(right)) return `${zip} `;
+	return zip;
 }
 
 function keepSelectionTail(zip: string, selection: string, right: string) {
