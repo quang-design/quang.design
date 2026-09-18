@@ -2,7 +2,7 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { generateText } from '$lib/server/llm';
 import { createMicroscopicPrompt } from '$lib/server/llm/prompts';
-import { clipZipToGap, splitAround } from '$lib/utils/microscopic-zip';
+import { clipZipToGap, splitAround, zipWordBudget } from '$lib/utils/microscopic-zip';
 
 type MicroscopicRequest = {
 	context?: unknown;
@@ -17,9 +17,10 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	const { left, right } = splitAround(context, selection);
+	const maxWords = zipWordBudget(selection);
 	const result = await generateText({
-		prompt: createMicroscopicPrompt(left, selection, right),
-		maxTokens: 64,
+		prompt: createMicroscopicPrompt(left, selection, right, maxWords),
+		maxTokens: 40,
 		temperature: 0
 	});
 	const zipped = clipZipToGap(left, result.content[0]?.text ?? '', right);

@@ -18,6 +18,12 @@ export function replaceSlice(text: string, start: number, end: number, next: str
 	return text.slice(0, start) + next + text.slice(end);
 }
 
+export function zipWordBudget(selection: string) {
+	const words = selection.trim().split(/\s+/).filter(Boolean).length;
+	if (words <= 4) return Math.max(2, words - 1);
+	return Math.min(8, Math.max(5, Math.round(words * 0.65)));
+}
+
 export function splitAround(text: string, selection: string) {
 	const start = text.indexOf(selection);
 	if (start < 0) {

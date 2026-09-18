@@ -5,6 +5,7 @@ import {
 	shiftRanges,
 	splitAround,
 	toSegments,
+	zipWordBudget,
 	type ZipRange
 } from './microscopic-zip';
 
@@ -28,6 +29,20 @@ describe('shiftRanges', () => {
 		expect(shiftRanges(ranges, 0, 10, 3)).toEqual([
 			{ id: 'b', start: 13, end: 21, original: 'kitchen' }
 		]);
+	});
+});
+
+describe('zipWordBudget', () => {
+	it('caps an 8-word clause at 5 words', () => {
+		expect(zipWordBudget('Yawning, and smearing my eyes with my fingers')).toBe(5);
+	});
+
+	it('caps a long parenthetical clause at 8 words', () => {
+		expect(
+			zipWordBudget(
+				'checking with my hands to make sure it was cold enough (The best tea comes from the coldest water)'
+			)
+		).toBe(8);
 	});
 });
 

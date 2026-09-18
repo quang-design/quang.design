@@ -1,30 +1,42 @@
-export function createMicroscopicPrompt(left: string, selection: string, right: string) {
-	return `Replace the selection so BEFORE + replacement + AFTER reads as one passage.
+export function createMicroscopicPrompt(
+	left: string,
+	selection: string,
+	right: string,
+	maxWords: number
+) {
+	return `The finished sentence is BEFORE + replacement + AFTER.
+Write only the replacement for SELECTION.
 
 BEFORE: ${JSON.stringify(left)}
 SELECTION: ${JSON.stringify(selection)}
 AFTER: ${JSON.stringify(right)}
 
-Write only the replacement.
-Keep the selection's subject and its main action or object.
-Cut extra detail, not the point.
-The replacement must be shorter than the selection.
-Match person, tense, and grammar so the joined passage is grammatical.
-Do not copy wording from the end of BEFORE or the start of AFTER.
-Do not add punctuation that AFTER already begins with.
-Do not add punctuation that BEFORE already ends with.
+The replacement is SELECTION compressed to at most ${maxWords} words.
+Keep the actor and the main action or object.
+Drop asides, parentheticals, and extra modifiers.
+Do not continue into AFTER. Do not copy BEFORE or AFTER.
+If AFTER starts with a period, do not end the replacement with a period.
 
 Example:
 BEFORE: ""
 SELECTION: "Yawning, and smearing my eyes with my fingers"
 AFTER: ", I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap"
-Replacement: "Yawning and rubbing my eyes"
+replacement: "Yawning and rubbing my eyes"
+finished: "Yawning and rubbing my eyes, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap"
 
 Example:
-BEFORE: "Yawning, and smearing my eyes with my fingers, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, "
+BEFORE: "I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, "
 SELECTION: "checking with my hands to make sure it was cold enough (The best tea comes from the coldest water)"
 AFTER: ". I glanced outside for a minute at the city mist."
-Replacement: "checking the water was cold enough"`;
+replacement: "checking the water was cold enough"
+finished: "I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, checking the water was cold enough. I glanced outside for a minute at the city mist."
+
+Example:
+BEFORE: "The best tea comes from the coldest water). "
+SELECTION: "I glanced outside for a minute at the city mist"
+AFTER: ". I could almost taste the grey."
+replacement: "I glanced at the city mist"
+finished: "The best tea comes from the coldest water). I glanced at the city mist. I could almost taste the grey."`;
 }
 
 export function createTelescopicPrompt(context: string, word: string) {
