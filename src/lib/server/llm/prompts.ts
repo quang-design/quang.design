@@ -1,16 +1,30 @@
-export function createMicroscopicPrompt(context: string, selection: string) {
-	return `Zip "${selection}" into the shortest replacement that still fits the surrounding sentence.
+export function createMicroscopicPrompt(left: string, selection: string, right: string) {
+	return `Replace the selection so BEFORE + replacement + AFTER reads as one passage.
 
-Rules:
-- Reply with only the zipped text
-- Cut hard: a phrase becomes 1-3 words; a sentence becomes a short clause
-- Keep the subject
-- Do not repeat words that appear after the selection
-- Do not return the original selection or a lightly edited copy of it
+BEFORE: ${JSON.stringify(left)}
+SELECTION: ${JSON.stringify(selection)}
+AFTER: ${JSON.stringify(right)}
 
-Example: "Yawning, and smearing my eyes with my fingers" -> "Yawning"
+Write only the replacement.
+Keep the selection's subject and its main action or object.
+Cut extra detail, not the point.
+The replacement must be shorter than the selection.
+Match person, tense, and grammar so the joined passage is grammatical.
+Do not copy wording from the end of BEFORE or the start of AFTER.
+Do not add punctuation that AFTER already begins with.
+Do not add punctuation that BEFORE already ends with.
 
-Context: "${context}"`;
+Example:
+BEFORE: ""
+SELECTION: "Yawning, and smearing my eyes with my fingers"
+AFTER: ", I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap"
+Replacement: "Yawning and rubbing my eyes"
+
+Example:
+BEFORE: "Yawning, and smearing my eyes with my fingers, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, "
+SELECTION: "checking with my hands to make sure it was cold enough (The best tea comes from the coldest water)"
+AFTER: ". I glanced outside for a minute at the city mist."
+Replacement: "checking the water was cold enough"`;
 }
 
 export function createTelescopicPrompt(context: string, word: string) {

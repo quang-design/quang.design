@@ -18,6 +18,51 @@ export function replaceSlice(text: string, start: number, end: number, next: str
 	return text.slice(0, start) + next + text.slice(end);
 }
 
+export function splitAround(text: string, selection: string) {
+	const start = text.indexOf(selection);
+	if (start < 0) {
+		return { left: '', selection, right: '' };
+	}
+
+	return {
+		left: text.slice(0, start),
+		selection,
+		right: text.slice(start + selection.length)
+	};
+}
+
+function edgeOverlap(a: string, b: string, min = 8) {
+	const max = Math.min(a.length, b.length);
+	for (let n = max; n >= min; n--) {
+		if (a.slice(-n) === b.slice(0, n)) return n;
+	}
+	return 0;
+}
+
+function core(text: string, side: 'left' | 'right') {
+	return side === 'right' ? text.replace(/^[\s,.;:!?]+/, '') : text.replace(/[\s,.;:!?]+$/, '');
+}
+
+export function clipZipToGap(left: string, zip: string, right: string) {
+	let out = zip.trim().replace(/^["'`]+|["'`]+$/g, '');
+	const rightCore = core(right, 'right');
+	const leftCore = core(left, 'left');
+
+	const rightHit = edgeOverlap(out, rightCore);
+	if (rightHit) out = out.slice(0, -rightHit).trim();
+
+	const leftHit = edgeOverlap(leftCore, out);
+	if (leftHit) out = out.slice(leftHit).trim();
+
+	const rightP = right.trimStart().match(/^[,.;:!?]/)?.[0];
+	if (rightP && out.endsWith(rightP)) out = out.slice(0, -1).trim();
+
+	const leftP = left.trimEnd().match(/[,.;:!?]$/)?.[0];
+	if (leftP && out.startsWith(leftP)) out = out.slice(1).trim();
+
+	return out;
+}
+
 export function shiftRanges(ranges: ZipRange[], cutStart: number, oldEnd: number, newEnd: number) {
 	const delta = newEnd - oldEnd;
 	return ranges

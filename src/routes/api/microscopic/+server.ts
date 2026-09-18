@@ -2,6 +2,7 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { generateText } from '$lib/server/llm';
 import { createMicroscopicPrompt } from '$lib/server/llm/prompts';
+import { clipZipToGap, splitAround } from '$lib/utils/microscopic-zip';
 
 type MicroscopicRequest = {
 	context?: unknown;
@@ -15,11 +16,16 @@ export const POST: RequestHandler = async ({ request }) => {
 		throw error(400, 'Expected context and selection strings');
 	}
 
-	return json(
-		await generateText({
-			prompt: createMicroscopicPrompt(context, selection),
-			maxTokens: 24,
-			temperature: 0
-		})
-	);
+	const { left, right } = splitAround(context, selection);
+	const result = await generateText({
+		prompt: createMicroscopicPrompt(left, selection, right),
+		maxTokens: 64,
+		temperature: 0
+	});
+	const zipped = clipZipToGap(left, result.content[0]?.text ?? '', right);
+
+	return json({
+		...result,
+		content: [{ text: zipped }]
+	});
 };
