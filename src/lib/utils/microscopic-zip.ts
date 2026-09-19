@@ -80,6 +80,13 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 
 	if (selection.trim() && firstWord(out) !== firstWord(selection) && left.trim()) {
 		out = takeWords(selection, budget);
+	} else if (
+		selection.trim() &&
+		firstWord(out) &&
+		firstWord(out) === firstWord(right) &&
+		firstWord(out) !== firstWord(selection)
+	) {
+		out = takeWords(selection, budget);
 	} else if (selWords && wordCount(out) > selWords) {
 		out = takeWords(selection, selWords <= 4 ? selWords : budget);
 	} else if (selection.trim() && wordCount(out) > budget) {

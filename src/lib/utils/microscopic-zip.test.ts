@@ -226,6 +226,16 @@ describe('clipZipToGap', () => {
 			'Smearing my eyes, I walked bleary eyed into the kitchen'
 		);
 	});
+
+	it('does not copy AFTER when BEFORE is empty', () => {
+		const selection = 'Yawning, and smearing my eyes with my fingers, ';
+		const zip = 'I walked into the kitchen';
+		const right = 'I walked bleary eyed into the kitchen';
+		expect(clipZipToGap('', zip, right, selection)).toBe('Smearing my eyes, ');
+		expect(clipZipToGap('', zip, right, selection) + right).toBe(
+			'Smearing my eyes, I walked bleary eyed into the kitchen'
+		);
+	});
 });
 
 describe('toSegments', () => {
