@@ -105,12 +105,12 @@ describe('clipZipToGap', () => {
 
 	it('keeps a trailing comma and space that belong to the selection', () => {
 		const left = '';
-		const zip = 'Yawning and smearing my eyes';
+		const zip = 'rubbing my eyes';
 		const right = 'I walked bleary eyed into the kitchen';
 		const selection = 'Yawning, and smearing my eyes with my fingers, ';
-		expect(clipZipToGap(left, zip, right, selection)).toBe('Yawning and smearing my eyes, ');
+		expect(clipZipToGap(left, zip, right, selection)).toBe('rubbing my eyes, ');
 		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
-			'Yawning and smearing my eyes, I walked bleary eyed into the kitchen'
+			'rubbing my eyes, I walked bleary eyed into the kitchen'
 		);
 	});
 
@@ -118,9 +118,9 @@ describe('clipZipToGap', () => {
 		const selection = 'Yawning, and smearing my eyes with my fingers, ';
 		const right =
 			'I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap';
-		expect(clipZipToGap('', right, right, selection)).toBe('Yawning and smearing my eyes, ');
+		expect(clipZipToGap('', right, right, selection)).toBe('Smearing my eyes, ');
 		expect(clipZipToGap('', right, right, selection) + right).toBe(
-			'Yawning and smearing my eyes, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap'
+			'Smearing my eyes, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap'
 		);
 	});
 
@@ -128,11 +128,11 @@ describe('clipZipToGap', () => {
 		expect(
 			clipZipToGap(
 				'',
-				'Yawning and smearing my eyes',
+				'rubbing my eyes',
 				', I walked bleary eyed into the kitchen',
 				'Yawning, and smearing my eyes with my fingers'
 			)
-		).toBe('Yawning and smearing my eyes');
+		).toBe('rubbing my eyes');
 	});
 
 	it('keeps a zip that does not overlap the surrounding text', () => {
@@ -176,9 +176,7 @@ describe('clipZipToGap', () => {
 			"I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier. ";
 		const zip = 'outof from the fridge and poured some into a cup.';
 		const right = 'The kettle began grumbling fiercely';
-		expect(clipZipToGap(left, zip, right, selection)).toBe(
-			'I took the milk out of the fridge. '
-		);
+		expect(clipZipToGap(left, zip, right, selection)).toBe('I took the milk out of the fridge. ');
 		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
 			'Thankfully I found some fusty digestives. I took the milk out of the fridge. The kettle began grumbling fiercely'
 		);

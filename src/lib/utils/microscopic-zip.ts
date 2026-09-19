@@ -87,8 +87,34 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 	}
 
 	if (!out) out = takeWords(selection, budget);
+	if (selection.trim() && !left.trim() && isPrefixEcho(out, selection)) {
+		out = startCase(compressEcho(selection, budget));
+	}
 
 	return ensureJoin(left, keepSelectionTail(out, selection, right), right);
+}
+
+function isPrefixEcho(zip: string, selection: string) {
+	const zipped = takeWords(unwrap(zip).inner, 99).toLowerCase().split(' ').filter(Boolean);
+	const selected = takeWords(unwrap(selection).inner, 99).toLowerCase().split(' ').filter(Boolean);
+	return (
+		zipped.length > 0 &&
+		zipped.length < selected.length &&
+		zipped.every((word, i) => word === selected[i])
+	);
+}
+
+function compressEcho(selection: string, budget: number) {
+	const words = takeWords(unwrap(selection).inner, 99).split(' ').filter(Boolean);
+	if (words.length > 2) words.shift();
+	while (words[0] && /^(and|or|but)$/i.test(words[0])) words.shift();
+	return takeWords(words.join(' '), Math.min(3, Math.max(2, budget - 2)));
+}
+
+function startCase(text: string) {
+	const i = text.search(/[A-Za-z]/);
+	if (i < 0) return text;
+	return text.slice(0, i) + text[i]!.toUpperCase() + text.slice(i + 1);
 }
 
 function unwrap(text: string) {
