@@ -75,7 +75,6 @@
 				id: pendingId,
 				start,
 				end: start + placeholder.length,
-				original: selected,
 				pending: true
 			}
 		];
@@ -101,8 +100,7 @@
 				{
 					id: pendingId,
 					start,
-					end: start + zippedText.length,
-					original: selected
+					end: start + zippedText.length
 				}
 			];
 		} catch (_error) {
@@ -112,21 +110,6 @@
 			zipping = false;
 			zipPointerDown = false;
 		}
-	}
-
-	function unzip(id: string) {
-		if (zipping) return;
-
-		const mark = ranges.find((range) => range.id === id);
-		if (!mark || mark.pending) return;
-
-		text = replaceSlice(text, mark.start, mark.end, mark.original);
-		ranges = shiftRanges(
-			ranges.filter((range) => range.id !== id),
-			mark.start,
-			mark.end,
-			mark.start + mark.original.length
-		);
 	}
 </script>
 
@@ -145,19 +128,7 @@
 	>
 		{#each segments as segment (segment.id)}
 			{#if segment.zipped}
-				<span
-					class="ink-mark inline cursor-pointer underline underline-offset-4"
-					role="button"
-					tabindex={segment.pending || zipping ? -1 : 0}
-					aria-disabled={segment.pending || zipping}
-					onclick={() => unzip(segment.id)}
-					onkeydown={(event) => {
-						if (event.key === 'Enter' || event.key === ' ') {
-							event.preventDefault();
-							unzip(segment.id);
-						}
-					}}
-				>
+				<span class="ink-mark inline underline underline-offset-4">
 					{segment.text}
 				</span>
 			{:else}
