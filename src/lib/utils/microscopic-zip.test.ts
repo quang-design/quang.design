@@ -236,6 +236,20 @@ describe('clipZipToGap', () => {
 			'Smearing my eyes, I walked bleary eyed into the kitchen'
 		);
 	});
+
+	it('keeps the main clause so the zip still reads as English', () => {
+		const selection =
+			'Yawning, and smearing my eyes with my fingers, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, ';
+		const zip = 'My eyes I';
+		const right =
+			'checking with my hands to make sure it was cold enough (The best tea comes from the coldest water). ';
+		expect(clipZipToGap('', zip, right, selection)).toBe(
+			'I walked bleary eyed into the kitchen and filled, '
+		);
+		expect(clipZipToGap('', zip, right, selection) + right).toBe(
+			'I walked bleary eyed into the kitchen and filled, checking with my hands to make sure it was cold enough (The best tea comes from the coldest water). '
+		);
+	});
 });
 
 describe('toSegments', () => {
