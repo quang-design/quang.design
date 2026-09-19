@@ -183,6 +183,41 @@ describe('clipZipToGap', () => {
 			'Thankfully I found some fusty digestives. I took the milk out of the fridge. The kettle began grumbling fiercely'
 		);
 	});
+
+	it('does not glue neighboring words when the selection ate the spaces', () => {
+		const left = 'I walked bleary';
+		const selection = ' eyed into the kitchen and filled the kettle with fresh water ';
+		const zip = 'checking the water was cold enough';
+		const right = 'from the tap, checking with my hands';
+		const out = clipZipToGap(left, zip, right, selection);
+		expect(left + out + right).toBe(
+			'I walked bleary eyed into the kitchen and filled from the tap, checking with my hands'
+		);
+		expect(left + out + right).not.toContain('blearyfrom');
+		expect(left + out + right).not.toContain('blearyeyed');
+		expect(left + out + right).not.toContain('filledfrom');
+	});
+
+	it('compresses a parenthetical instead of deleting it', () => {
+		const left = 'it was cold enough ';
+		const selection = '(The best tea comes from the coldest water)';
+		const zip = 'checking the water was cold enough';
+		const right = '. I glanced outside for a minute';
+		expect(clipZipToGap(left, zip, right, selection)).toBe('(The best tea comes)');
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			'it was cold enough (The best tea comes). I glanced outside for a minute'
+		);
+	});
+
+	it('keeps a shorter paraphrase instead of echoing the opener', () => {
+		const selection = 'Yawning, and smearing my eyes with my fingers, ';
+		const zip = 'rubbing my eyes, walking into the kitchen';
+		const right = 'I walked bleary eyed into the kitchen';
+		expect(clipZipToGap('', zip, right, selection)).toBe('rubbing my eyes, ');
+		expect(clipZipToGap('', zip, right, selection) + right).toBe(
+			'rubbing my eyes, I walked bleary eyed into the kitchen'
+		);
+	});
 });
 
 describe('toSegments', () => {
