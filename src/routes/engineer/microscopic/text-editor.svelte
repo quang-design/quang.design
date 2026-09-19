@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import type { SelectionState } from '$lib/types/microscopic';
 	import { apiPaths } from '$lib/config/api';
 	import {
@@ -20,8 +21,7 @@
 		end: 0
 	};
 
-	// svelte-ignore state_referenced_locally
-	let text = $state(initialText);
+	let text = $state(untrack(() => initialText));
 	let zipping = $state(false);
 	let ranges = $state<ZipRange[]>([]);
 	let editorEl = $state<HTMLElement | undefined>(undefined);
