@@ -244,10 +244,10 @@ describe('clipZipToGap', () => {
 		const right =
 			'checking with my hands to make sure it was cold enough (The best tea comes from the coldest water). ';
 		expect(clipZipToGap('', zip, right, selection)).toBe(
-			'I walked bleary eyed into the kitchen and filled, '
+			'I walked bleary eyed into the kitchen, '
 		);
 		expect(clipZipToGap('', zip, right, selection) + right).toBe(
-			'I walked bleary eyed into the kitchen and filled, checking with my hands to make sure it was cold enough (The best tea comes from the coldest water). '
+			'I walked bleary eyed into the kitchen, checking with my hands to make sure it was cold enough (The best tea comes from the coldest water). '
 		);
 	});
 });

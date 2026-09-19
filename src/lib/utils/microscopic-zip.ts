@@ -2,7 +2,7 @@ export type ZipRange = {
 	id: string;
 	start: number;
 	end: number;
-	original: string;
+	original?: string;
 	pending?: boolean;
 };
 
@@ -94,11 +94,30 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 	}
 
 	if (!out) out = takeWords(selection, budget);
-	if (selection.trim() && !left.trim() && isPrefixEcho(out, selection)) {
+	if (needsSpine(selection, right) && !hasSpine(out)) {
+		out = takeWords(clauseSpine(selection), budget);
+	} else if (selection.trim() && !left.trim() && isPrefixEcho(out, selection)) {
 		out = startCase(compressEcho(selection, budget));
 	}
 
 	return ensureJoin(left, keepSelectionTail(out, selection, right), right);
+}
+
+function clauseSpine(selection: string) {
+	const trimmed = selection.trim();
+	const match = trimmed.match(/,\s*(I\s+.+)$/s);
+	return match?.[1]?.trim() ?? trimmed;
+}
+
+function needsSpine(selection: string, right: string) {
+	if (clauseSpine(selection) === selection.trim()) return false;
+	return !/^I\b/i.test(right.trim());
+}
+
+function hasSpine(zip: string) {
+	const body = zip.replace(/[,.;:!?]+$/g, '').trim();
+	if (/\bI$/i.test(body)) return false;
+	return /\bI\s+[A-Za-z]+/.test(zip);
 }
 
 function isPrefixEcho(zip: string, selection: string) {
