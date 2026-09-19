@@ -218,6 +218,16 @@ describe('clipZipToGap', () => {
 			'rubbing my eyes, I walked bleary eyed into the kitchen'
 		);
 	});
+
+	it('shortens a prefix copy of the opener instead of echoing it', () => {
+		const selection = 'Yawning, and smearing my eyes with my fingers, ';
+		const zip = 'Yawning and smearing my eyes';
+		const right = 'I walked bleary eyed into the kitchen';
+		expect(clipZipToGap('', zip, right, selection)).toBe('Smearing my eyes, ');
+		expect(clipZipToGap('', zip, right, selection) + right).toBe(
+			'Smearing my eyes, I walked bleary eyed into the kitchen'
+		);
+	});
 });
 
 describe('toSegments', () => {
