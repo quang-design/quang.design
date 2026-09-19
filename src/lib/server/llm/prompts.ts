@@ -1,20 +1,43 @@
-export function createMicroscopicPrompt(context: string, selection: string) {
-	return `You are a semantic word zipper.
-Zip up the text "${selection}" into a significantly shorter version while preserving these rules in order:
-1. Zipped text must be shorter than selection text
-2. Always keep the subject of the sentence
-3. Maintain grammatical structure
-4. If it's a paragraph -> zip into one short sentence
-5. If it's a sentence -> zip into a shorter sentence with fewer words
-6. If it's a phrase -> zip into a shorter phrase with fewer words
-7. Keep core meaning only, remove descriptive details
-8. Keep only essential punctuation
-9. The output must seamlessly replace the original text
-10. ONLY respond with the zipped text, NOT the full context
+export function createMicroscopicPrompt(
+	left: string,
+	selection: string,
+	right: string,
+	maxWords: number
+) {
+	return `The finished sentence is BEFORE + replacement + AFTER.
+Write only the replacement for SELECTION.
 
-Context: "${context}"
-Example: If asked to zip "Yawning, and smearing my eyes with my fingers" in the context above, respond with "Yawning" NOT "Yawning, I walked bleary..."
-Only respond with the zipped text.`;
+BEFORE: ${JSON.stringify(left)}
+SELECTION: ${JSON.stringify(selection)}
+AFTER: ${JSON.stringify(right)}
+
+Rewrite SELECTION in at most ${maxWords} words. Do not copy SELECTION.
+Keep the actor and the main action or object.
+If SELECTION is a parenthetical, compress the claim inside it and keep the parentheses.
+Otherwise drop asides and extra modifiers.
+Do not continue into AFTER. Do not copy BEFORE or AFTER.
+If AFTER starts with a period, do not end the replacement with a period.
+
+Example:
+BEFORE: ""
+SELECTION: "Yawning, and smearing my eyes with my fingers, "
+AFTER: "I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap"
+replacement: "Rubbing my eyes, "
+finished: "Rubbing my eyes, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap"
+
+Example:
+BEFORE: "I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, "
+SELECTION: "checking with my hands to make sure it was cold enough (The best tea comes from the coldest water)"
+AFTER: ". I glanced outside for a minute at the city mist."
+replacement: "checking the water was cold enough"
+finished: "I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, checking the water was cold enough. I glanced outside for a minute at the city mist."
+
+Example:
+BEFORE: "it was cold enough "
+SELECTION: "(The best tea comes from the coldest water)"
+AFTER: ". I glanced outside for a minute at the city mist."
+replacement: "(The best tea comes)"
+finished: "it was cold enough (The best tea comes). I glanced outside for a minute at the city mist."`;
 }
 
 export function createTelescopicPrompt(context: string, word: string) {

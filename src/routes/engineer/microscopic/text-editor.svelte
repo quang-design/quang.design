@@ -1,125 +1,143 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { untrack } from 'svelte';
 	import type { SelectionState } from '$lib/types/microscopic';
 	import { apiPaths } from '$lib/config/api';
+	import {
+		rangeFromSelection,
+		replaceSlice,
+		shiftRanges,
+		toSegments,
+		type ZipRange
+	} from '$lib/utils/microscopic-zip';
 	import ZipUpButton from './zip-up-button.svelte';
 
 	let { initialText, apiPath = apiPaths.microscopic }: { initialText: string; apiPath?: string } =
 		$props();
 
-	let text = $state<string>();
-	let zipping = $state(false);
-
-	$effect(() => {
-		if (text === undefined) {
-			text = initialText;
-		}
-	});
-	let selection = $state<SelectionState>({
+	const emptySelection: SelectionState = {
 		text: '',
 		rect: null,
-		indices: new Set()
-	});
+		start: 0,
+		end: 0
+	};
 
-	// Selection handling for both mouse and touch events
-	$effect(() => {
-		if (!browser) return;
+	let text = $state(untrack(() => initialText));
+	let zipping = $state(false);
+	let ranges = $state<ZipRange[]>([]);
+	let editorEl = $state<HTMLElement | undefined>(undefined);
+	let selection = $state<SelectionState>(emptySelection);
+	let nextId = 0;
+	let zipPointerDown = false;
 
-		const updateSelection = () => {
-			const sel = window.getSelection();
-			if (!sel?.toString()) {
-				// Clear selection state when no text is selected
-				selection = {
-					...selection,
-					text: '',
-					rect: null
-				};
-				return;
-			}
+	const segments = $derived(toSegments(text, ranges));
 
-			selection = {
-				...selection,
-				text: sel.toString(),
-				rect: sel.getRangeAt(0)?.getBoundingClientRect() ?? null
-			};
+	function updateSelection() {
+		if (zipping || zipPointerDown) return;
+
+		const sel = window.getSelection();
+		if (!sel || sel.isCollapsed || !sel.rangeCount || !editorEl) {
+			selection = emptySelection;
+			return;
+		}
+
+		const range = sel.getRangeAt(0);
+		const offsets = rangeFromSelection(editorEl, range);
+		if (!offsets) {
+			selection = emptySelection;
+			return;
+		}
+
+		selection = {
+			text: sel.toString(),
+			rect: range.getBoundingClientRect(),
+			start: offsets.start,
+			end: offsets.end
 		};
-
-		// Handle both mouse and touch selection events
-		document.addEventListener('selectionchange', updateSelection);
-		document.addEventListener('touchend', updateSelection);
-		document.addEventListener('click', updateSelection);
-
-		return () => {
-			document.removeEventListener('selectionchange', updateSelection);
-			document.removeEventListener('touchend', updateSelection);
-			document.removeEventListener('click', updateSelection);
-		};
-	});
+	}
 
 	async function handleZipUp() {
-		if (!selection.text) return;
+		const selected = selection.text;
+		const start = selection.start;
+		const end = selection.end;
+		if (!selected || zipping) return;
 
+		zipPointerDown = true;
 		zipping = true;
-		replaceSelection('<Zipping...>');
+		const previousText = text;
+		const previousRanges = ranges;
+		const placeholder = 'Zipping...';
+		const pendingId = `zip-${nextId++}`;
+
+		text = replaceSlice(previousText, start, end, placeholder);
+		ranges = [
+			...shiftRanges(previousRanges, start, end, start + placeholder.length),
+			{
+				id: pendingId,
+				start,
+				end: start + placeholder.length,
+				pending: true
+			}
+		];
+		selection = emptySelection;
+		window.getSelection()?.removeAllRanges();
+
 		try {
 			const response = await fetch(apiPath, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ context: text, selection: selection.text })
+				body: JSON.stringify({ context: previousText, selection: selected, start, end })
 			});
 
 			if (!response.ok) throw new Error('Failed to zip up text');
 
-			const data = await response.json();
-			replaceSelection(data.content[0].text);
+			const data: { content?: Array<{ text?: string }> } = await response.json();
+			const zippedText = data.content?.[0]?.text ?? '';
+			if (!zippedText.trim()) throw new Error('Empty zip result');
 
-			// Clear selection state and UI
-			window.getSelection()?.removeAllRanges();
-			selection = {
-				text: '',
-				rect: null,
-				indices: new Set()
-			};
+			text = replaceSlice(previousText, start, end, zippedText);
+			ranges = [
+				...shiftRanges(previousRanges, start, end, start + zippedText.length),
+				{
+					id: pendingId,
+					start,
+					end: start + zippedText.length
+				}
+			];
 		} catch (_error) {
-			replaceSelection(selection.text);
+			text = previousText;
+			ranges = previousRanges;
 		} finally {
 			zipping = false;
+			zipPointerDown = false;
 		}
-	}
-
-	function replaceSelection(newText: string) {
-		const sel = window.getSelection();
-		if (!sel?.rangeCount) return;
-
-		const range = sel.getRangeAt(0);
-		range.deleteContents();
-
-		const span = document.createElement('span');
-		span.className = 'ink-mark';
-		span.textContent = newText;
-
-		range.insertNode(span);
 	}
 </script>
 
+<svelte:document onselectionchange={updateSelection} />
+
 <div class="hair w-full p-3">
 	<div
+		bind:this={editorEl}
 		class="mb-4 p-1 whitespace-pre-wrap selection:bg-[var(--ink)] selection:text-[var(--paper)]"
 		style="-webkit-user-select: text; user-select: text;"
-		contenteditable="true"
 		role="textbox"
 		aria-multiline="true"
+		aria-readonly="true"
 		aria-label="Microscopic text"
 		aria-busy={zipping}
 	>
-		{text}
+		{#each segments as segment (segment.id)}
+			{#if segment.zipped}
+				<span class="ink-mark inline underline underline-offset-4">
+					{segment.text}
+				</span>
+			{:else}
+				{segment.text}
+			{/if}
+		{/each}
 	</div>
 
-	{#if selection.text}
+	{#if selection.text && !zipping}
 		<ZipUpButton onClick={handleZipUp} rect={selection.rect} />
 	{/if}
 </div>
-
-<style>
-	/* Empty style block to ensure proper PostCSS processing */
-</style>
