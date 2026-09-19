@@ -73,11 +73,12 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 	if (leftP && out.startsWith(leftP)) out = out.slice(1).trim();
 
 	out = unglue(out, selection);
+	out = dropCommaTail(out, right);
 
 	const selWords = wordCount(selection);
 	const budget = zipWordBudget(selection);
 
-	if (selection.trim() && firstWord(out) !== firstWord(selection)) {
+	if (selection.trim() && firstWord(out) !== firstWord(selection) && left.trim()) {
 		out = takeWords(selection, budget);
 	} else if (selWords && wordCount(out) > selWords) {
 		out = takeWords(selection, selWords <= 4 ? selWords : budget);
@@ -87,33 +88,44 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 
 	if (!out) out = takeWords(selection, budget);
 
-	return ensureJoin(keepSelectionTail(out, selection, right), right);
+	return ensureJoin(left, keepSelectionTail(out, selection, right), right);
+}
+
+function unwrap(text: string) {
+	const trimmed = text.trim();
+	const wrapped = /^\((.*)\)$/.exec(trimmed);
+	return wrapped ? { inner: wrapped[1] ?? '', wrapped: true } : { inner: trimmed, wrapped: false };
 }
 
 function wordCount(text: string) {
-	return takeWords(text, 99).split(' ').filter(Boolean).length;
+	return takeWords(unwrap(text).inner, 99).split(' ').filter(Boolean).length;
 }
 
 function firstWord(text: string) {
-	return takeWords(text, 1).toLowerCase();
+	return takeWords(unwrap(text).inner, 1).toLowerCase();
 }
 
 function takeWords(text: string, maxWords: number) {
-	const body = text
+	const { inner, wrapped } = unwrap(text);
+	const body = inner
 		.replace(/\([^)]*\)/g, ' ')
 		.replace(/[,.;:!?]+/g, ' ')
 		.replace(/\s+/g, ' ')
 		.trim();
 	const words = body.split(' ').filter(Boolean).slice(0, maxWords);
-	while (words.length > 3 && /^(and|or|but|the|a|an|to|with)$/i.test(words[words.length - 1] ?? '')) {
+	while (
+		words.length > 3 &&
+		/^(and|or|but|the|a|an|to|with|from|of|in|on)$/i.test(words[words.length - 1] ?? '')
+	) {
 		words.pop();
 	}
-	return words.join(' ');
+	const joined = words.join(' ');
+	return wrapped && joined ? `(${joined})` : joined;
 }
 
 function unglue(zip: string, selection: string) {
 	if (!zip || !selection) return zip;
-	const words = takeWords(selection, 99).split(' ').filter(Boolean);
+	const words = takeWords(unwrap(selection).inner, 99).split(' ').filter(Boolean);
 	let out = zip;
 	for (let i = 0; i < words.length - 1; i++) {
 		const glued = `${words[i]}${words[i + 1]}`;
@@ -123,10 +135,35 @@ function unglue(zip: string, selection: string) {
 	return out;
 }
 
-function ensureJoin(zip: string, right: string) {
-	if (!zip) return zip;
-	if (/[,.;:!?]$/.test(zip) && /^[A-Za-z0-9]/.test(right)) return `${zip} `;
+function dropCommaTail(zip: string, right: string) {
+	const idx = zip.lastIndexOf(',');
+	if (idx <= 0) return zip;
+	const tail = zip.slice(idx + 1).trim();
+	if (!tail) return zip;
+	const rightWords = new Set(
+		takeWords(unwrap(right).inner, 99).toLowerCase().split(' ').filter(Boolean)
+	);
+	const tailWords = takeWords(tail, 99)
+		.toLowerCase()
+		.split(' ')
+		.filter((word) => word && !/^(and|or|but|the|a|an|to|with|into)$/i.test(word));
+	if (tailWords.some((word) => rightWords.has(word))) {
+		return zip.slice(0, idx).trimEnd();
+	}
 	return zip;
+}
+
+function needsGap(left: string, right: string) {
+	return /[A-Za-z0-9)]$/.test(left) && /^[A-Za-z0-9(]/.test(right);
+}
+
+function ensureJoin(left: string, zip: string, right: string) {
+	let out = zip;
+	if (needsGap(left, out)) out = ` ${out}`;
+	if (!out && needsGap(left, right)) out = ' ';
+	if (needsGap(out, right)) out = `${out} `;
+	else if (/[,.;:!?]$/.test(out) && /^[A-Za-z0-9(]/.test(right)) out = `${out} `;
+	return out;
 }
 
 function keepSelectionTail(zip: string, selection: string, right: string) {
@@ -134,9 +171,9 @@ function keepSelectionTail(zip: string, selection: string, right: string) {
 	const tail = selection.match(/([,.;:!?]+)(\s*)$/);
 	if (!tail) return zip;
 
-	let out = zip;
 	const punct = tail[1];
 	const space = tail[2];
+	let out = zip.replace(/\s+$/, '');
 	if (punct && !/^[\s]*[,.;:!?]/.test(right) && !out.endsWith(punct)) out += punct;
 	if (space && !right.startsWith(space) && !out.endsWith(space)) out += space;
 	return out;
