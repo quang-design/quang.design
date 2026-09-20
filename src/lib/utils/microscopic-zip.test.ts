@@ -237,6 +237,16 @@ describe('clipZipToGap', () => {
 		);
 	});
 
+	it('does not leave a dangling with my before the next clause', () => {
+		const selection = 'Yawning, and smearing my eyes with my fingers, ';
+		const zip = 'smearing my eyes with my';
+		const right = 'I walked bleary eyed into the kitchen and filled the kettle';
+		expect(clipZipToGap('', zip, right, selection)).toBe('smearing my eyes, ');
+		expect(clipZipToGap('', zip, right, selection) + right).toBe(
+			'smearing my eyes, I walked bleary eyed into the kitchen and filled the kettle'
+		);
+	});
+
 	it('keeps the main clause so the zip still reads as English', () => {
 		const selection =
 			'Yawning, and smearing my eyes with my fingers, I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, ';
