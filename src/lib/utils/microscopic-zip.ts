@@ -100,6 +100,7 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 		out = startCase(compressEcho(selection, budget));
 	}
 
+	if (out) out = takeWords(out, 99);
 	return ensureJoin(left, keepSelectionTail(out, selection, right), right);
 }
 
@@ -167,7 +168,9 @@ function takeWords(text: string, maxWords: number) {
 	const words = body.split(' ').filter(Boolean).slice(0, maxWords);
 	while (
 		words.length > 3 &&
-		/^(and|or|but|the|a|an|to|with|from|of|in|on)$/i.test(words[words.length - 1] ?? '')
+		/^(and|or|but|the|a|an|to|with|from|of|in|on|my|your|his|her|its|our|their)$/i.test(
+			words[words.length - 1] ?? ''
+		)
 	) {
 		words.pop();
 	}
