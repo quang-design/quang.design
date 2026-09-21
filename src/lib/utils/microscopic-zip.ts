@@ -20,7 +20,7 @@ export function replaceSlice(text: string, start: number, end: number, next: str
 
 export function zipWordBudget(selection: string) {
 	const words = selection.trim().split(/\s+/).filter(Boolean).length;
-	if (words <= 4) return Math.max(2, words - 1);
+	if (words <= 5) return words;
 	return Math.min(8, Math.max(5, Math.round(words * 0.65)));
 }
 
@@ -76,6 +76,10 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 	out = dropCommaTail(out, right);
 
 	const selWords = wordCount(selection);
+	if (selWords && (selWords <= 5 || wordCount(out) >= selWords)) {
+		return keepCurrent(left, selection, right);
+	}
+
 	const budget = zipWordBudget(selection);
 
 	if (selection.trim() && firstWord(out) !== firstWord(selection) && left.trim()) {
@@ -87,8 +91,6 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 		firstWord(out) !== firstWord(selection)
 	) {
 		out = takeWords(selection, budget);
-	} else if (selWords && wordCount(out) > selWords) {
-		out = takeWords(selection, selWords <= 4 ? selWords : budget);
 	} else if (selection.trim() && wordCount(out) > budget) {
 		out = takeWords(out, budget);
 	}
@@ -101,7 +103,24 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 	}
 
 	if (out) out = takeWords(out, 99);
-	return ensureJoin(left, keepSelectionTail(out, selection, right), right);
+	out = keepSelectionTail(out, selection, right);
+	if (isStump(out)) return keepCurrent(left, selection, right);
+	return ensureJoin(left, out, right);
+}
+
+function keepCurrent(left: string, selection: string, right: string) {
+	return ensureJoin(left, keepSelectionTail(selection, selection, right), right);
+}
+
+function isStump(zip: string) {
+	const last = zip
+		.replace(/[\s,.;:!?]+$/g, '')
+		.split(/\s+/)
+		.filter(Boolean)
+		.at(-1);
+	return /^(and|or|but|the|a|an|to|with|from|of|my|your|his|her|its|our|their|I)$/i.test(
+		last ?? ''
+	);
 }
 
 function clauseSpine(selection: string) {
