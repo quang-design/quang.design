@@ -44,6 +44,12 @@ describe('zipWordBudget', () => {
 			)
 		).toBe(8);
 	});
+
+	it('does not shrink a selection that is already five words or fewer', () => {
+		expect(zipWordBudget('For some reason')).toBe(3);
+		expect(zipWordBudget('smearing my eyes')).toBe(3);
+		expect(zipWordBudget('I plugged in the kettle.')).toBe(5);
+	});
 });
 
 describe('splitAround', () => {
@@ -256,8 +262,47 @@ describe('clipZipToGap', () => {
 		expect(clipZipToGap('', zip, right, selection)).toBe(
 			'I walked bleary eyed into the kitchen, '
 		);
+		expect(clipZipToGap('', zip, right, selection)).not.toContain('My eyes I');
 		expect(clipZipToGap('', zip, right, selection) + right).toBe(
 			'I walked bleary eyed into the kitchen, checking with my hands to make sure it was cold enough (The best tea comes from the coldest water). '
+		);
+	});
+
+	it('does not leave My eyes I before I walked', () => {
+		const selection = 'Yawning, and smearing my eyes with my fingers, ';
+		const zip = 'My eyes I';
+		const right = 'I walked bleary eyed into the kitchen and filled the kettle';
+		expect(clipZipToGap('', zip, right, selection) + right).toBe(
+			'Yawning, and smearing my eyes with my fingers, I walked bleary eyed into the kitchen and filled the kettle'
+		);
+	});
+
+	it('does not leave rubbing my as a dangling stump', () => {
+		const selection = 'Yawning, and smearing my eyes with my fingers, ';
+		const zip = 'Rubbing my';
+		const right = 'I walked bleary eyed into the kitchen';
+		expect(clipZipToGap('', zip, right, selection) + right).toBe(
+			'Yawning, and smearing my eyes with my fingers, I walked bleary eyed into the kitchen'
+		);
+	});
+
+	it('keeps the current text when the zip is not shorter', () => {
+		const left = 'I could almost taste the grey. ';
+		const selection = 'I plugged the kettle in and switched it on.';
+		const zip = 'I switched the kettle on and waited there now.';
+		const right = ' As the kettle began to hiss, I looked for biscuits.';
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			'I could almost taste the grey. I plugged the kettle in and switched it on. As the kettle began to hiss, I looked for biscuits.'
+		);
+	});
+
+	it('keeps a short clause instead of shrinking it to a stump', () => {
+		const left = 'Thankfully I found some fusty digestives. ';
+		const selection = 'For some reason,';
+		const zip = 'For some,';
+		const right = " biscuits are always nicer when they've gone a bit dry and stale.";
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			"Thankfully I found some fusty digestives. For some reason, biscuits are always nicer when they've gone a bit dry and stale."
 		);
 	});
 });
