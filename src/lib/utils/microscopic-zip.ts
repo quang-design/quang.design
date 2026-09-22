@@ -104,12 +104,35 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 
 	if (out) out = takeWords(out, 99);
 	out = keepSelectionTail(out, selection, right);
-	if (isStump(out)) return keepCurrent(left, selection, right);
-	return ensureJoin(left, out, right);
+	if (isStump(out) || !fitsCharGap(out, left, right, selection)) {
+		return keepCurrent(left, selection, right);
+	}
+	return ensureJoin(left, out, right, selection);
 }
 
 function keepCurrent(left: string, selection: string, right: string) {
-	return ensureJoin(left, keepSelectionTail(selection, selection, right), right);
+	return ensureJoin(left, keepSelectionTail(selection, selection, right), right, selection);
+}
+
+function gluedStart(left: string, selection: string) {
+	return /[A-Za-z0-9]$/.test(left) && /^[A-Za-z0-9]/.test(selection);
+}
+
+function gluedEnd(selection: string, right: string) {
+	return /[A-Za-z0-9]$/.test(selection) && /^[A-Za-z0-9]/.test(right);
+}
+
+function fitsCharGap(zip: string, left: string, right: string, selection: string) {
+	if (gluedStart(left, selection)) {
+		const stub = selection.match(/^[A-Za-z0-9]+/)?.[0] ?? '';
+		if (stub && !zip.startsWith(stub)) return false;
+	}
+	if (gluedEnd(selection, right)) {
+		const stub = selection.match(/[A-Za-z0-9]+$/)?.[0] ?? '';
+		const body = zip.replace(/[\s,.;:!?]+$/g, '');
+		if (stub && !body.endsWith(stub)) return false;
+	}
+	return true;
 }
 
 function isStump(zip: string) {
@@ -231,12 +254,14 @@ function needsGap(left: string, right: string) {
 	return /[A-Za-z0-9)]$/.test(left) && /^[A-Za-z0-9(]/.test(right);
 }
 
-function ensureJoin(left: string, zip: string, right: string) {
+function ensureJoin(left: string, zip: string, right: string, selection = '') {
 	let out = zip;
-	if (needsGap(left, out)) out = ` ${out}`;
-	if (!out && needsGap(left, right)) out = ' ';
-	if (needsGap(out, right)) out = `${out} `;
-	else if (/[,.;:!?]$/.test(out) && /^[A-Za-z0-9(]/.test(right)) out = `${out} `;
+	if (!gluedStart(left, selection) && needsGap(left, out)) out = ` ${out}`;
+	if (!out && !gluedStart(left, selection) && needsGap(left, right)) out = ' ';
+	if (!gluedEnd(selection, right) && needsGap(out, right)) out = `${out} `;
+	else if (!gluedEnd(selection, right) && /[,.;:!?]$/.test(out) && /^[A-Za-z0-9(]/.test(right)) {
+		out = `${out} `;
+	}
 	return out;
 }
 
