@@ -11,10 +11,12 @@ BEFORE: ${JSON.stringify(left)}
 SELECTION: ${JSON.stringify(selection)}
 AFTER: ${JSON.stringify(right)}
 
-Rewrite SELECTION in at most ${maxWords} words. Do not copy SELECTION.
+Rewrite SELECTION in at most ${maxWords} words.
 Keep the actor and the main action or object.
+Keep the claim. Do not drop the predicate that carries the meaning.
 If SELECTION is a parenthetical, compress the claim inside it and keep the parentheses.
 Otherwise drop asides and extra modifiers.
+If a shorter rewrite would lose the claim, keep SELECTION.
 Do not continue into AFTER. Do not copy BEFORE or AFTER.
 If AFTER starts with a period, do not end the replacement with a period.
 
@@ -36,8 +38,8 @@ Example:
 BEFORE: "it was cold enough "
 SELECTION: "(The best tea comes from the coldest water)"
 AFTER: ". I glanced outside for a minute at the city mist."
-replacement: "(The best tea comes)"
-finished: "it was cold enough (The best tea comes). I glanced outside for a minute at the city mist."`;
+replacement: "(The best tea comes from the coldest water)"
+finished: "it was cold enough (The best tea comes from the coldest water). I glanced outside for a minute at the city mist."`;
 }
 
 export function createTelescopicPrompt(context: string, word: string) {

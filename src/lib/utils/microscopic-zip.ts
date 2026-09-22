@@ -18,10 +18,12 @@ export function replaceSlice(text: string, start: number, end: number, next: str
 	return text.slice(0, start) + next + text.slice(end);
 }
 
+const ZIP_WORD_CAP = 8;
+
 export function zipWordBudget(selection: string) {
 	const words = selection.trim().split(/\s+/).filter(Boolean).length;
 	if (words <= 5) return words;
-	return Math.min(8, Math.max(5, Math.round(words * 0.65)));
+	return Math.min(ZIP_WORD_CAP, Math.max(5, Math.round(words * 0.65)));
 }
 
 export function splitAround(text: string, selection: string) {
@@ -104,7 +106,7 @@ export function clipZipToGap(left: string, zip: string, right: string, selection
 
 	if (out) out = takeWords(out, 99);
 	out = keepSelectionTail(out, selection, right);
-	if (isStump(out) || !fitsCharGap(out, left, right, selection)) {
+	if (isStump(out) || !fitsCharGap(out, left, right, selection) || droppedClaim(out, selection)) {
 		return keepCurrent(left, selection, right);
 	}
 	return ensureJoin(left, out, right, selection);
@@ -161,6 +163,10 @@ function hasSpine(zip: string) {
 	const body = zip.replace(/[,.;:!?]+$/g, '').trim();
 	if (/\bI$/i.test(body)) return false;
 	return /\bI\s+[A-Za-z]+/.test(zip);
+}
+
+function droppedClaim(zip: string, selection: string) {
+	return isPrefixEcho(zip, selection) && wordCount(selection) <= ZIP_WORD_CAP;
 }
 
 function isPrefixEcho(zip: string, selection: string) {
