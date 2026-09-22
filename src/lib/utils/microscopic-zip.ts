@@ -143,7 +143,7 @@ function isStump(zip: string) {
 		.split(/\s+/)
 		.filter(Boolean)
 		.at(-1);
-	return /^(and|or|but|the|a|an|to|with|from|of|my|your|his|her|its|our|their|I)$/i.test(
+	return /^(and|or|but|the|a|an|to|with|from|of|my|your|his|her|its|our|their|I|when|if|because)$/i.test(
 		last ?? ''
 	);
 }
@@ -166,7 +166,7 @@ function hasSpine(zip: string) {
 }
 
 function droppedClaim(zip: string, selection: string) {
-	return isPrefixEcho(zip, selection) && wordCount(selection) <= ZIP_WORD_CAP;
+	return isPrefixEcho(zip, selection);
 }
 
 function isPrefixEcho(zip: string, selection: string) {
@@ -216,7 +216,7 @@ function takeWords(text: string, maxWords: number) {
 	const words = body.split(' ').filter(Boolean).slice(0, maxWords);
 	while (
 		words.length > 3 &&
-		/^(and|or|but|the|a|an|to|with|from|of|in|on|my|your|his|her|its|our|their)$/i.test(
+		/^(and|or|but|the|a|an|to|with|from|of|in|on|my|your|his|her|its|our|their|when|if|because)$/i.test(
 			words[words.length - 1] ?? ''
 		)
 	) {
