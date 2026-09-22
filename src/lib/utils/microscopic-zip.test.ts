@@ -323,9 +323,11 @@ describe('clipZipToGap', () => {
 
 	it('keeps the biscuit claim instead of ending on a dangling when', () => {
 		const left = 'Thankfully I found some fusty digestives. ';
-		const selection = "For some reason, biscuits are always nicer when they've gone a bit dry and stale.";
+		const selection =
+			"For some reason, biscuits are always nicer when they've gone a bit dry and stale.";
 		const zip = 'For some reason, biscuits are always nicer when.';
-		const right = ' I took the milk out of the fridge and poured some into a cup that I\'d left out from having used earlier.';
+		const right =
+			" I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier.";
 		expect(clipZipToGap(left, zip, right, selection)).toBe(selection);
 		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
 			"Thankfully I found some fusty digestives. For some reason, biscuits are always nicer when they've gone a bit dry and stale. I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier."
@@ -334,7 +336,8 @@ describe('clipZipToGap', () => {
 
 	it('keeps the biscuit claim when the zip drops dry and stale', () => {
 		const left = 'Thankfully I found some fusty digestives. ';
-		const selection = "For some reason, biscuits are always nicer when they've gone a bit dry and stale.";
+		const selection =
+			"For some reason, biscuits are always nicer when they've gone a bit dry and stale.";
 		const zip = 'For some reason, biscuits are always nicer';
 		const right = ' I took the milk out of the fridge.';
 		expect(clipZipToGap(left, zip, right, selection)).toBe(selection);
