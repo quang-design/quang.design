@@ -17,8 +17,10 @@
 		<h1 class="ink-display uppercase">Animation Vocabulary</h1>
 		<p>Interactive visual glossary of animation terms.</p>
 		<p>
-			Inspired by <a href="https://animations.dev/vocabulary">animations.dev/vocabulary</a>. Click
-			any card to replay.
+			Inspired by <a
+				class="underline decoration-[var(--ink-40)] underline-offset-4"
+				href="https://animations.dev/vocabulary">animations.dev/vocabulary</a
+			>. Click any card to replay.
 		</p>
 	</div>
 	{#each sections as section (section.title)}
