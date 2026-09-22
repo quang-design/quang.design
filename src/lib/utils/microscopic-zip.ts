@@ -1,0 +1,344 @@
+export type ZipRange = {
+	id: string;
+	start: number;
+	end: number;
+	original?: string;
+	pending?: boolean;
+};
+
+export type TextSegment = {
+	id: string;
+	text: string;
+	zipped: boolean;
+	original?: string;
+	pending?: boolean;
+};
+
+export function replaceSlice(text: string, start: number, end: number, next: string) {
+	return text.slice(0, start) + next + text.slice(end);
+}
+
+const ZIP_WORD_CAP = 8;
+
+export function zipWordBudget(selection: string) {
+	const words = selection.trim().split(/\s+/).filter(Boolean).length;
+	if (words <= 5) return words;
+	return Math.min(ZIP_WORD_CAP, Math.max(5, Math.round(words * 0.65)));
+}
+
+export function splitAround(text: string, selection: string) {
+	const start = text.indexOf(selection);
+	if (start < 0) {
+		return { left: '', selection, right: '' };
+	}
+
+	return splitAt(text, start, start + selection.length);
+}
+
+export function splitAt(text: string, start: number, end: number) {
+	return {
+		left: text.slice(0, start),
+		selection: text.slice(start, end),
+		right: text.slice(end)
+	};
+}
+
+const MIN_EDGE_OVERLAP = 8;
+
+function edgeOverlap(a: string, b: string) {
+	const max = Math.min(a.length, b.length);
+	for (let n = max; n >= MIN_EDGE_OVERLAP; n--) {
+		if (a.slice(-n) === b.slice(0, n)) return n;
+	}
+	return 0;
+}
+
+function stripEdgePunct(text: string, side: 'left' | 'right') {
+	return side === 'right' ? text.replace(/^[\s,.;:!?]+/, '') : text.replace(/[\s,.;:!?]+$/, '');
+}
+
+export function clipZipToGap(left: string, zip: string, right: string, selection = '') {
+	let out = zip.trim().replace(/^["'`]+|["'`]+$/g, '');
+	const rightInner = stripEdgePunct(right, 'right');
+	const leftInner = stripEdgePunct(left, 'left');
+
+	const rightHit = edgeOverlap(out, rightInner);
+	if (rightHit) out = out.slice(0, -rightHit).trim();
+
+	const leftHit = edgeOverlap(leftInner, out);
+	if (leftHit) out = out.slice(leftHit).trim();
+
+	const rightP = right.trimStart().match(/^[,.;:!?]/)?.[0];
+	if (rightP && out.endsWith(rightP)) out = out.slice(0, -1).trim();
+
+	const leftP = left.trimEnd().match(/[,.;:!?]$/)?.[0];
+	if (leftP && out.startsWith(leftP)) out = out.slice(1).trim();
+
+	out = unglue(out, selection);
+	out = dropCommaTail(out, right);
+
+	const selWords = wordCount(selection);
+	if (selWords && (selWords <= 5 || wordCount(out) >= selWords)) {
+		return keepCurrent(left, selection, right);
+	}
+
+	const budget = zipWordBudget(selection);
+
+	if (selection.trim() && firstWord(out) !== firstWord(selection) && left.trim()) {
+		out = takeWords(selection, budget);
+	} else if (
+		selection.trim() &&
+		firstWord(out) &&
+		firstWord(out) === firstWord(right) &&
+		firstWord(out) !== firstWord(selection)
+	) {
+		out = takeWords(selection, budget);
+	} else if (selection.trim() && wordCount(out) > budget) {
+		out = takeWords(out, budget);
+	}
+
+	if (!out) out = takeWords(selection, budget);
+	if (needsSpine(selection, right) && !hasSpine(out)) {
+		out = takeWords(clauseSpine(selection), budget);
+	} else if (selection.trim() && !left.trim() && isPrefixEcho(out, selection)) {
+		out = startCase(compressEcho(selection, budget));
+	}
+
+	if (out) out = takeWords(out, 99);
+	out = keepSelectionTail(out, selection, right);
+	if (isStump(out) || !fitsCharGap(out, left, right, selection) || droppedClaim(out, selection)) {
+		return keepCurrent(left, selection, right);
+	}
+	return ensureJoin(left, out, right, selection);
+}
+
+function keepCurrent(left: string, selection: string, right: string) {
+	return ensureJoin(left, keepSelectionTail(selection, selection, right), right, selection);
+}
+
+function gluedStart(left: string, selection: string) {
+	return /[A-Za-z0-9]$/.test(left) && /^[A-Za-z0-9]/.test(selection);
+}
+
+function gluedEnd(selection: string, right: string) {
+	return /[A-Za-z0-9]$/.test(selection) && /^[A-Za-z0-9]/.test(right);
+}
+
+function fitsCharGap(zip: string, left: string, right: string, selection: string) {
+	if (gluedStart(left, selection)) {
+		const stub = selection.match(/^[A-Za-z0-9]+/)?.[0] ?? '';
+		if (stub && !zip.startsWith(stub)) return false;
+	}
+	if (gluedEnd(selection, right)) {
+		const stub = selection.match(/[A-Za-z0-9]+$/)?.[0] ?? '';
+		const body = zip.replace(/[\s,.;:!?]+$/g, '');
+		if (stub && !body.endsWith(stub)) return false;
+	}
+	return true;
+}
+
+function isStump(zip: string) {
+	const last = zip
+		.replace(/[\s,.;:!?]+$/g, '')
+		.split(/\s+/)
+		.filter(Boolean)
+		.at(-1);
+	return /^(and|or|but|the|a|an|to|with|from|of|my|your|his|her|its|our|their|I)$/i.test(
+		last ?? ''
+	);
+}
+
+function clauseSpine(selection: string) {
+	const trimmed = selection.trim();
+	const match = trimmed.match(/,\s*(I\s+.+)$/s);
+	return match?.[1]?.trim() ?? trimmed;
+}
+
+function needsSpine(selection: string, right: string) {
+	if (clauseSpine(selection) === selection.trim()) return false;
+	return !/^I\b/i.test(right.trim());
+}
+
+function hasSpine(zip: string) {
+	const body = zip.replace(/[,.;:!?]+$/g, '').trim();
+	if (/\bI$/i.test(body)) return false;
+	return /\bI\s+[A-Za-z]+/.test(zip);
+}
+
+function droppedClaim(zip: string, selection: string) {
+	return isPrefixEcho(zip, selection) && wordCount(selection) <= ZIP_WORD_CAP;
+}
+
+function isPrefixEcho(zip: string, selection: string) {
+	const zipped = takeWords(unwrap(zip).inner, 99).toLowerCase().split(' ').filter(Boolean);
+	const selected = takeWords(unwrap(selection).inner, 99).toLowerCase().split(' ').filter(Boolean);
+	return (
+		zipped.length > 0 &&
+		zipped.length < selected.length &&
+		zipped.every((word, i) => word === selected[i])
+	);
+}
+
+function compressEcho(selection: string, budget: number) {
+	const words = takeWords(unwrap(selection).inner, 99).split(' ').filter(Boolean);
+	if (words.length > 2) words.shift();
+	while (words[0] && /^(and|or|but)$/i.test(words[0])) words.shift();
+	return takeWords(words.join(' '), Math.min(3, Math.max(2, budget - 2)));
+}
+
+function startCase(text: string) {
+	const i = text.search(/[A-Za-z]/);
+	if (i < 0) return text;
+	return text.slice(0, i) + text[i]!.toUpperCase() + text.slice(i + 1);
+}
+
+function unwrap(text: string) {
+	const trimmed = text.trim();
+	const wrapped = /^\((.*)\)$/.exec(trimmed);
+	return wrapped ? { inner: wrapped[1] ?? '', wrapped: true } : { inner: trimmed, wrapped: false };
+}
+
+function wordCount(text: string) {
+	return takeWords(unwrap(text).inner, 99).split(' ').filter(Boolean).length;
+}
+
+function firstWord(text: string) {
+	return takeWords(unwrap(text).inner, 1).toLowerCase();
+}
+
+function takeWords(text: string, maxWords: number) {
+	const { inner, wrapped } = unwrap(text);
+	const body = inner
+		.replace(/\([^)]*\)/g, ' ')
+		.replace(/[,.;:!?]+/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+	const words = body.split(' ').filter(Boolean).slice(0, maxWords);
+	while (
+		words.length > 3 &&
+		/^(and|or|but|the|a|an|to|with|from|of|in|on|my|your|his|her|its|our|their)$/i.test(
+			words[words.length - 1] ?? ''
+		)
+	) {
+		words.pop();
+	}
+	const joined = words.join(' ');
+	return wrapped && joined ? `(${joined})` : joined;
+}
+
+function unglue(zip: string, selection: string) {
+	if (!zip || !selection) return zip;
+	const words = takeWords(unwrap(selection).inner, 99).split(' ').filter(Boolean);
+	let out = zip;
+	for (let i = 0; i < words.length - 1; i++) {
+		const glued = `${words[i]}${words[i + 1]}`;
+		const re = new RegExp(glued.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+		out = out.replace(re, `${words[i]} ${words[i + 1]}`);
+	}
+	return out;
+}
+
+function dropCommaTail(zip: string, right: string) {
+	const idx = zip.lastIndexOf(',');
+	if (idx <= 0) return zip;
+	const tail = zip.slice(idx + 1).trim();
+	if (!tail) return zip;
+	const rightWords = new Set(
+		takeWords(unwrap(right).inner, 99).toLowerCase().split(' ').filter(Boolean)
+	);
+	const tailWords = takeWords(tail, 99)
+		.toLowerCase()
+		.split(' ')
+		.filter((word) => word && !/^(and|or|but|the|a|an|to|with|into)$/i.test(word));
+	if (tailWords.some((word) => rightWords.has(word))) {
+		return zip.slice(0, idx).trimEnd();
+	}
+	return zip;
+}
+
+function needsGap(left: string, right: string) {
+	return /[A-Za-z0-9)]$/.test(left) && /^[A-Za-z0-9(]/.test(right);
+}
+
+function ensureJoin(left: string, zip: string, right: string, selection = '') {
+	let out = zip;
+	if (!gluedStart(left, selection) && needsGap(left, out)) out = ` ${out}`;
+	if (!out && !gluedStart(left, selection) && needsGap(left, right)) out = ' ';
+	if (!gluedEnd(selection, right) && needsGap(out, right)) out = `${out} `;
+	else if (!gluedEnd(selection, right) && /[,.;:!?]$/.test(out) && /^[A-Za-z0-9(]/.test(right)) {
+		out = `${out} `;
+	}
+	return out;
+}
+
+function keepSelectionTail(zip: string, selection: string, right: string) {
+	if (!zip) return zip;
+	const tail = selection.match(/([,.;:!?]+)(\s*)$/);
+	if (!tail) return zip;
+
+	const punct = tail[1];
+	const space = tail[2];
+	let out = zip.replace(/\s+$/, '');
+	if (punct && !/^[\s]*[,.;:!?]/.test(right) && !out.endsWith(punct)) out += punct;
+	if (space && !right.startsWith(space) && !out.endsWith(space)) out += space;
+	return out;
+}
+
+export function shiftRanges(ranges: ZipRange[], cutStart: number, oldEnd: number, newEnd: number) {
+	const delta = newEnd - oldEnd;
+	return ranges
+		.filter((range) => range.end <= cutStart || range.start >= oldEnd)
+		.map((range) =>
+			range.start >= oldEnd
+				? { ...range, start: range.start + delta, end: range.end + delta }
+				: range
+		);
+}
+
+export function toSegments(text: string, ranges: ZipRange[]): TextSegment[] {
+	const sorted = [...ranges].sort((a, b) => a.start - b.start);
+	const segments: TextSegment[] = [];
+	let cursor = 0;
+
+	for (const range of sorted) {
+		if (range.start > cursor) {
+			segments.push({
+				id: `text-${cursor}`,
+				text: text.slice(cursor, range.start),
+				zipped: false
+			});
+		}
+
+		segments.push({
+			id: range.id,
+			text: text.slice(range.start, range.end),
+			zipped: true,
+			original: range.original,
+			pending: range.pending
+		});
+		cursor = range.end;
+	}
+
+	if (cursor < text.length) {
+		segments.push({
+			id: `text-${cursor}`,
+			text: text.slice(cursor),
+			zipped: false
+		});
+	}
+
+	return segments;
+}
+
+export function rangeFromSelection(root: HTMLElement, range: Range) {
+	if (!root.contains(range.commonAncestorContainer)) return null;
+
+	const prefix = document.createRange();
+	prefix.selectNodeContents(root);
+	prefix.setEnd(range.startContainer, range.startOffset);
+	const start = prefix.toString().length;
+	const end = start + range.toString().length;
+
+	if (start === end) return null;
+	return { start, end };
+}
