@@ -303,6 +303,30 @@ describe('clipZipToGap', () => {
 			"Thankfully I found some fusty digestives. For some reason, biscuits are always nicer when they've gone a bit dry and stale."
 		);
 	});
+
+	it('splices a mid-word selection at the exact character offsets', () => {
+		const left = 'I glanced outside for a mi';
+		const selection = 'nute at the city mi';
+		const zip = 'a moment';
+		const right = 'st. I could almost taste the grey.';
+		const out = clipZipToGap(left, zip, right, selection);
+		expect(out).toBe('nute at the city mi');
+		expect(left + out + right).toBe(
+			'I glanced outside for a minute at the city mist. I could almost taste the grey.'
+		);
+	});
+
+	it('keeps the current letters when a shorter zip would glue the leftover syllables wrong', () => {
+		const left = 'I glanced outside for a mi';
+		const selection = 'nute at the city mist then the mi';
+		const zip = 'a moment';
+		const right = 'st. I could almost taste the grey.';
+		const out = clipZipToGap(left, zip, right, selection);
+		expect(out).toBe('nute at the city mist then the mi');
+		expect(left + out + right).toBe(
+			'I glanced outside for a minute at the city mist then the mist. I could almost taste the grey.'
+		);
+	});
 });
 
 describe('toSegments', () => {
