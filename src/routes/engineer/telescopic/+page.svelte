@@ -11,28 +11,32 @@
 		text = newText;
 	};
 
-	const onWordClick = async (word: string) => {
+	const onWordClick = async (index: number) => {
 		if (isLoading) return;
 
+		const snapshot = text;
+		const words = snapshot.split(' ');
+		if (!words[index]) return;
+
 		isLoading = true;
-		const loadingToken = '<loading>';
-		const tokenizedText = text.replace(word, loadingToken);
-		text = tokenizedText;
+		words[index] = '<loading>';
+		text = words.join(' ');
 
 		try {
-			const apiTokenizedText = text.replace(loadingToken, '<word>');
-			const response = await fetch(`${apiPaths.telescopic}?expand=${word}`, {
+			const response = await fetch(apiPaths.telescopic, {
 				method: 'POST',
-				body: JSON.stringify({ context: apiTokenizedText }),
+				body: JSON.stringify({ context: snapshot, index }),
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			});
+			if (!response.ok) throw new Error('expand failed');
 			const data = await response.json();
-			const expandedText = data.content[0].text;
-			text = text.replace(loadingToken, expandedText);
+			const sentence = data.content?.[0]?.text;
+			if (typeof sentence !== 'string') throw new Error('expand failed');
+			text = sentence;
 		} catch (_error) {
-			text = text.replace(loadingToken, word);
+			text = snapshot;
 		} finally {
 			isLoading = false;
 		}

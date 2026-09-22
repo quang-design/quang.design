@@ -2,24 +2,34 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { generateText } from '$lib/server/llm';
 import { createTelescopicPrompt } from '$lib/server/llm/prompts';
+import { applyExpansion, gapAt } from '$lib/utils/telescopic-expand';
 
 type TelescopicRequest = {
 	context?: unknown;
+	index?: unknown;
 };
 
-export const POST: RequestHandler = async ({ request, url }) => {
-	const { context } = (await request.json()) as TelescopicRequest;
-	const word = url.searchParams.get('expand');
+export const POST: RequestHandler = async ({ request }) => {
+	const { context, index } = (await request.json()) as TelescopicRequest;
 
-	if (typeof context !== 'string' || !word) {
-		throw error(400, 'Expected context body and expand query parameter');
+	if (typeof context !== 'string' || typeof index !== 'number') {
+		throw error(400, 'Expected a sentence and a word index');
 	}
 
-	return json(
-		await generateText({
-			prompt: createTelescopicPrompt(context, word),
-			maxTokens: 64,
-			temperature: 0
-		})
-	);
+	const gap = gapAt(context, index);
+	if (!gap) {
+		throw error(400, 'Expected a sentence and a word index');
+	}
+
+	const result = await generateText({
+		prompt: createTelescopicPrompt(gap.left, gap.word, gap.right),
+		maxTokens: 64,
+		temperature: 0
+	});
+	const sentence = applyExpansion(context, index, result.content[0]?.text ?? '');
+
+	return json({
+		...result,
+		content: [{ text: sentence }]
+	});
 };
