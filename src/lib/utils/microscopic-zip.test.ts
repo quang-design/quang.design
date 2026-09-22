@@ -202,14 +202,29 @@ describe('clipZipToGap', () => {
 		expect(left + out + right).not.toContain('filledfrom');
 	});
 
-	it('compresses a parenthetical instead of deleting it', () => {
+	it('keeps a parenthetical claim instead of chopping it to The best tea comes', () => {
 		const left = 'it was cold enough ';
 		const selection = '(The best tea comes from the coldest water)';
 		const zip = 'checking the water was cold enough';
 		const right = '. I glanced outside for a minute';
-		expect(clipZipToGap(left, zip, right, selection)).toBe('(The best tea comes)');
+		expect(clipZipToGap(left, zip, right, selection)).toBe(
+			'(The best tea comes from the coldest water)'
+		);
 		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
-			'it was cold enough (The best tea comes). I glanced outside for a minute'
+			'it was cold enough (The best tea comes from the coldest water). I glanced outside for a minute'
+		);
+	});
+
+	it('keeps the tea claim when the zip is only The best tea comes', () => {
+		const left = 'it was cold enough (';
+		const selection = 'The best tea comes from the coldest water';
+		const zip = 'The best tea comes';
+		const right = '). I glanced outside for a minute';
+		expect(clipZipToGap(left, zip, right, selection)).toBe(
+			'The best tea comes from the coldest water'
+		);
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			'it was cold enough (The best tea comes from the coldest water). I glanced outside for a minute'
 		);
 	});
 
