@@ -1,11 +1,12 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { pages } from '$lib/seo/copy';
 	import Minesweeper from './Minesweeper.svelte';
 </script>
 
 <SeoHead
-	title="Quang | Minesweeper"
-	description="A minesweeper game built with SvelteKit and TailwindCSS."
+	title={pages.minesweeper.title}
+	description={pages.minesweeper.description}
 	canonical="https://quang.design/engineer/minesweeper"
 />
 

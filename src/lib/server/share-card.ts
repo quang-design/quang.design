@@ -2,19 +2,36 @@ import { getAllPosts as getBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getDesignPosts } from '$lib/content/design';
 import { engineerProjects } from '$lib/content/engineer';
 import { designHeadline } from '$lib/content/headline';
+import { pages } from '$lib/seo/copy';
+import homeContent from '../../routes/content.md?raw';
 
 export type ShareCard = {
-	kicker: string;
-	title: string;
 	path: string;
-	line?: string;
+	heading: string;
+	body: string;
 };
 
-const indexes: Record<string, { kicker: string; title: string }> = {
-	'/': { kicker: 'Welcome to', title: 'Home' },
-	'/design': { kicker: 'Index', title: 'Design' },
-	'/engineer': { kicker: 'Index', title: 'Engineer' },
-	'/blog': { kicker: 'Index', title: 'Blog' }
+function homeBody(md: string) {
+	const blocks = md.split(/\n\s*\n/);
+	const para = blocks.find((block) => {
+		const line = block.trim();
+		return line.length > 0 && !line.startsWith('#') && !line.startsWith('-') && !line.startsWith('**');
+	});
+	return (para ?? '').replace(/👋/g, '').replace(/\s+/g, ' ').trim();
+}
+
+const indexes: Record<string, { heading: string; body: string }> = {
+	'/': { heading: 'Xin Chào!', body: homeBody(homeContent) },
+	'/design': { heading: 'Design', body: pages.design.description },
+	'/engineer': { heading: 'Engineer', body: pages.engineer.description },
+	'/blog': { heading: 'Blog', body: pages.blog.description }
+};
+
+const toolBody: Record<string, string> = {
+	'/engineer/minesweeper': pages.minesweeper.description,
+	'/engineer/telescopic': pages.telescopic.description,
+	'/engineer/microscopic': pages.microscopic.description,
+	'/engineer/animation-vocabulary': pages.animation.description
 };
 
 export function normalizeSharePath(input: string) {
@@ -37,19 +54,17 @@ export function shareCard(pathname: string): ShareCard | null {
 	if (!path) return null;
 
 	const index = indexes[path];
-	if (index) return { ...index, path };
+	if (index) return { path, ...index };
 
 	const project = engineerProjects.find((item) => item.href === path && !item.external);
-	if (project) return { kicker: 'Engineer', title: project.title, path };
+	if (project) return { path, heading: project.title, body: toolBody[path] ?? project.description };
 
 	if (path.startsWith('/design/')) {
 		const slug = path.slice('/design/'.length);
 		if (!slug || slug.includes('/')) return null;
 		const post = getDesignPosts().find((item) => item.slug === slug);
 		if (!post) return null;
-		const headline = designHeadline(post.title, slug);
-		const line = headline.line === headline.brand ? undefined : headline.line;
-		return { kicker: 'Design', title: headline.brand, path, line };
+		return { path, heading: designHeadline(post.title, slug).brand, body: post.description };
 	}
 
 	if (path.startsWith('/blog/posts/')) {
@@ -57,7 +72,7 @@ export function shareCard(pathname: string): ShareCard | null {
 		if (!slug || slug.includes('/')) return null;
 		const post = getBlogPosts().find((item) => item.slug === slug);
 		if (!post) return null;
-		return { kicker: 'Blog', title: post.title, path };
+		return { path, heading: post.title, body: post.description };
 	}
 
 	return null;

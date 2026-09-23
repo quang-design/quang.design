@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { shareCard } from './share-card';
 
 const titles = [
-	['/', 'Home'],
+	['/', 'Xin Chào!'],
 	['/design', 'Design'],
 	['/engineer', 'Engineer'],
 	['/blog', 'Blog'],
@@ -16,27 +16,23 @@ const titles = [
 
 describe('shareCard', () => {
 	it('names each published route', () => {
-		for (const [path, title] of titles) {
-			expect(shareCard(path)?.title).toBe(title);
+		for (const [path, heading] of titles) {
+			expect(shareCard(path)?.heading).toBe(heading);
+			expect(shareCard(path)?.body.length).toBeGreaterThan(40);
 		}
-		expect(shareCard('/')?.kicker).toBe('Welcome to');
-		expect(shareCard('/design')?.kicker).toBe('Index');
-		expect(shareCard('/engineer/minesweeper')?.kicker).toBe('Engineer');
 	});
 
-	it('uses the design headline split on a case study', () => {
-		expect(shareCard('/design/simplex')).toEqual({
-			kicker: 'Design',
-			title: 'SIMPLEX CAFFÈ',
-			line: "Crafting an Identity for Vietnam's Café Culture",
+	it('uses the design brand and the post description', () => {
+		expect(shareCard('/design/simplex')).toMatchObject({
+			heading: 'SIMPLEX CAFFÈ',
 			path: '/design/simplex'
 		});
+		expect(shareCard('/design/simplex')?.body).toContain('Simplex');
 	});
 
 	it('names a blog post from its title', () => {
-		expect(shareCard('/blog/posts/dev-is-strange')).toEqual({
-			kicker: 'Blog',
-			title: 'dev is strange',
+		expect(shareCard('/blog/posts/dev-is-strange')).toMatchObject({
+			heading: 'dev is strange',
 			path: '/blog/posts/dev-is-strange'
 		});
 	});

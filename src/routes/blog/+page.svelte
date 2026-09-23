@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { pages } from '$lib/seo/copy';
 	import EmptyState from '$lib/components/shared/empty-state.svelte';
 	import { IndexRow } from '$lib/components/layout';
 	import type { PostMetadata } from './+page.server';
@@ -10,8 +11,8 @@
 </script>
 
 <SeoHead
-	title="Blog"
-	description="My thoughts on design, development, and more."
+	title={pages.blog.title}
+	description={pages.blog.description}
 	canonical="https://quang.design/blog"
 />
 
