@@ -53,5 +53,8 @@ describe('renderShareCard', () => {
 		expect(label).toBeGreaterThan(8);
 		expect(rows).toContain(95);
 		expect(rows.some((y) => y >= 574 && y <= 576)).toBe(true);
+		const rule = data[(143 * info.width + 1100) * info.channels] ?? 0;
+		const oldRule = data[(95 * info.width + 1100) * info.channels] ?? 0;
+		expect(rule).toBeGreaterThan(oldRule);
 	});
 });

@@ -142,7 +142,7 @@ function shareCardSvg(card: ShareCard, fonts: ShareFonts) {
 <svg xmlns="http://www.w3.org/2000/svg" width="${SHARE_WIDTH}" height="${SHARE_HEIGHT}" viewBox="0 0 ${SHARE_WIDTH} ${SHARE_HEIGHT}">
 <rect width="${SHARE_WIDTH}" height="${SHARE_HEIGHT}" fill="${PAPER}"/>
 ${grid()}
-<line x1="0" y1="${G * 2}" x2="${SHARE_WIDTH}" y2="${G * 2}" stroke="${INK_25}" stroke-width="1"/>
+<line x1="0" y1="${G * 3}" x2="${SHARE_WIDTH}" y2="${G * 3}" stroke="${INK_25}" stroke-width="1"/>
 <path d="${draw(fonts.regular, 'WELCOME TO', PAD, G, 20, labelTracking)}" fill="${INK_60}"/>
 <path d="${draw(fonts.regular, 'quang.design', PAD, G * 2, 24)}" fill="${INK}"/>
 ${headingPaths}
