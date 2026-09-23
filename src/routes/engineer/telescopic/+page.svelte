@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { pages } from '$lib/seo/copy';
 	import { apiPaths } from '$lib/config/api';
 	import EditableText from './editable-text.svelte';
 
@@ -40,8 +41,8 @@
 </script>
 
 <SeoHead
-	title="Quang | AI Telescopic Text"
-	description="A tool to use AI to progressively expand simple sentences into more detailed narratives."
+	title={pages.telescopic.title}
+	description={pages.telescopic.description}
 	canonical="https://quang.design/engineer/telescopic"
 />
 

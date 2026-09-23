@@ -1,4 +1,5 @@
 import { SITE_ORIGIN } from '$lib/config/site';
+import { siteName } from '$lib/seo/copy';
 
 export interface SEOData {
 	title: string;
@@ -26,6 +27,11 @@ export function generateStructuredData(data: SEOData & { url: string }) {
 					name: data.author
 				}
 			: undefined,
+		isPartOf: {
+			'@type': 'WebSite',
+			name: siteName,
+			url: SITE_ORIGIN
+		},
 		publisher: {
 			'@type': 'Person',
 			name: 'Quang',
