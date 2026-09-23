@@ -26,6 +26,14 @@ describe('applyExpansion', () => {
 		);
 	});
 
+	it('keeps the clicked word when a neighbor word sits inside the phrase', () => {
+		expect(applyExpansion('I made tea.', 1, 'a cup of tea with honey')).toBe('I made tea.');
+		expect(applyExpansion('I made tea.', 1, 'made tea in a chipped mug')).toBe('I made tea.');
+		expect(applyExpansion('I made tea.', 2, 'the strongest tea I could manage.')).toBe(
+			'I made tea.'
+		);
+	});
+
 	it('does not repeat tea when that word is already in the sentence', () => {
 		expect(applyExpansion('I made tea.', 1, 'tea')).toBe('I made tea.');
 		expect(applyExpansion('I made tea.', 1, 'I a fresh pot of hot tea tea.')).toBe(
