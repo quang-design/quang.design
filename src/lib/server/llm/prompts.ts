@@ -42,11 +42,29 @@ replacement: "(The best tea comes from the coldest water)"
 finished: "it was cold enough (The best tea comes from the coldest water). I glanced outside for a minute at the city mist."`;
 }
 
-export function createTelescopicPrompt(context: string, word: string) {
-	return `You are a word expander.
-Expand the word "${word}" into a longer phrase in the context of the following text: "${context}".
-Keep the period at the end of the sentence.
-Use the period as a way to divide the context into sentences if the sentence is too long.
-Only respond with the expanded phrase, NOT the full sentence.
-For example, if asked to expand "tea" in "I made <word>.", respond with "a soothing cup of herbal tea." NOT "I made a soothing cup of herbal tea."`;
+export function createTelescopicPrompt(left: string, word: string, right: string) {
+	return `The finished sentence is BEFORE + replacement + AFTER, joined with single spaces.
+Write only the replacement for WORD.
+The replacement must include WORD and must contain more words than WORD.
+BEFORE + replacement + AFTER must be grammatical English.
+Do not repeat a word that already appears in BEFORE or AFTER.
+Keep WORD in the replacement. Do not replace a verb with a noun phrase.
+
+BEFORE: ${JSON.stringify(left)}
+WORD: ${JSON.stringify(word)}
+AFTER: ${JSON.stringify(right)}
+
+Example:
+BEFORE: "I made"
+WORD: "tea."
+AFTER: ""
+replacement: "a soothing cup of herbal tea."
+finished: "I made a soothing cup of herbal tea."
+
+Example:
+BEFORE: "I"
+WORD: "made"
+AFTER: "tea."
+replacement: "made a fresh pot of hot"
+finished: "I made a fresh pot of hot tea."`;
 }
