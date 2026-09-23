@@ -10,13 +10,16 @@ const fonts = loadShareFonts(
 	readFileSync('static/fonts/CommitMono-700-Regular.woff2')
 );
 
-async function inkPixels(png: Buffer) {
-	const { data, info } = await sharp(png).raw().toBuffer({ resolveWithObject: true });
-	let dark = 0;
-	for (let i = 0; i < data.length; i += info.channels) {
-		if ((data[i] ?? 255) < 40 && (data[i + 1] ?? 255) < 40 && (data[i + 2] ?? 255) < 40) dark++;
+function lightRows(data: Buffer, width: number, channels: number) {
+	const rows: number[] = [];
+	for (let y = 0; y < data.length / (width * channels); y++) {
+		let n = 0;
+		for (let x = 48; x < 280; x++) {
+			if ((data[(y * width + x) * channels] ?? 0) > 160) n++;
+		}
+		if (n > 8) rows.push(y);
 	}
-	return dark;
+	return rows;
 }
 
 describe('renderShareCard', () => {
@@ -40,7 +43,15 @@ describe('renderShareCard', () => {
 		});
 		expect(Buffer.compare(home, design)).not.toBe(0);
 		expect(Buffer.compare(design, study)).not.toBe(0);
-		expect(await inkPixels(home)).toBeGreaterThan(500);
-		expect(await inkPixels(study)).toBeGreaterThan(500);
+
+		const { data, info } = await sharp(design).raw().toBuffer({ resolveWithObject: true });
+		const rows = lightRows(data, info.width, info.channels);
+		let label = 0;
+		for (let x = 48; x < 280; x++) {
+			if ((data[(47 * info.width + x) * info.channels] ?? 0) > 100) label++;
+		}
+		expect(label).toBeGreaterThan(8);
+		expect(rows).toContain(95);
+		expect(rows.some((y) => y >= 574 && y <= 576)).toBe(true);
 	});
 });
