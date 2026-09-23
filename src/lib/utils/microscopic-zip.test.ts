@@ -151,17 +151,18 @@ describe('clipZipToGap', () => {
 		).toBe('checking the water was cold enough');
 	});
 
-	it('keeps the selection head so the sentence still has its object', () => {
+	it('keeps the kettle object when the zip drops the selection head', () => {
 		const left = 'I walked bleary eyed into the kitchen and filled the ';
 		const selection =
 			'kettle with fresh water from the tap, checking with my hands to make sure it was cold enough (The best tea comes from the coldest water)';
 		const zip = 'checking it was cold enough';
 		const right = '. I glanced outside for a minute at the city mist.';
-		expect(clipZipToGap(left, zip, right, selection)).toBe(
-			'kettle with fresh water from the tap checking'
-		);
+		expect(clipZipToGap(left, zip, right, selection)).toBe(selection);
 		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
-			'I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap checking. I glanced outside for a minute at the city mist.'
+			'I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, checking with my hands to make sure it was cold enough (The best tea comes from the coldest water). I glanced outside for a minute at the city mist.'
+		);
+		expect(left + clipZipToGap(left, zip, right, selection) + right).not.toContain(
+			'filled the checking'
 		);
 	});
 
@@ -176,16 +177,17 @@ describe('clipZipToGap', () => {
 		);
 	});
 
-	it('splits glued words and puts a space after a sentence period', () => {
+	it('keeps the milk sentence when the zip starts on the wrong word', () => {
 		const left = 'Thankfully I found some fusty digestives. ';
 		const selection =
 			"I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier. ";
 		const zip = 'outof from the fridge and poured some into a cup.';
 		const right = 'The kettle began grumbling fiercely';
-		expect(clipZipToGap(left, zip, right, selection)).toBe('I took the milk out of the fridge. ');
+		expect(clipZipToGap(left, zip, right, selection)).toBe(selection);
 		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
-			'Thankfully I found some fusty digestives. I took the milk out of the fridge. The kettle began grumbling fiercely'
+			"Thankfully I found some fusty digestives. I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier. The kettle began grumbling fiercely"
 		);
+		expect(left + clipZipToGap(left, zip, right, selection) + right).not.toContain('outof');
 	});
 
 	it('does not glue neighboring words when the selection ate the spaces', () => {
@@ -195,7 +197,7 @@ describe('clipZipToGap', () => {
 		const right = 'from the tap, checking with my hands';
 		const out = clipZipToGap(left, zip, right, selection);
 		expect(left + out + right).toBe(
-			'I walked bleary eyed into the kitchen and filled from the tap, checking with my hands'
+			'I walked bleary eyed into the kitchen and filled the kettle with fresh water from the tap, checking with my hands'
 		);
 		expect(left + out + right).not.toContain('blearyfrom');
 		expect(left + out + right).not.toContain('blearyeyed');
@@ -317,6 +319,29 @@ describe('clipZipToGap', () => {
 		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
 			"Thankfully I found some fusty digestives. For some reason, biscuits are always nicer when they've gone a bit dry and stale."
 		);
+	});
+
+	it('keeps the biscuit claim instead of ending on a dangling when', () => {
+		const left = 'Thankfully I found some fusty digestives. ';
+		const selection =
+			"For some reason, biscuits are always nicer when they've gone a bit dry and stale.";
+		const zip = 'For some reason, biscuits are always nicer when.';
+		const right =
+			" I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier.";
+		expect(clipZipToGap(left, zip, right, selection)).toBe(selection);
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toBe(
+			"Thankfully I found some fusty digestives. For some reason, biscuits are always nicer when they've gone a bit dry and stale. I took the milk out of the fridge and poured some into a cup that I'd left out from having used earlier."
+		);
+	});
+
+	it('keeps the biscuit claim when the zip drops dry and stale', () => {
+		const left = 'Thankfully I found some fusty digestives. ';
+		const selection =
+			"For some reason, biscuits are always nicer when they've gone a bit dry and stale.";
+		const zip = 'For some reason, biscuits are always nicer';
+		const right = ' I took the milk out of the fridge.';
+		expect(clipZipToGap(left, zip, right, selection)).toBe(selection);
+		expect(left + clipZipToGap(left, zip, right, selection) + right).toContain('dry and stale');
 	});
 
 	it('splices a mid-word selection at the exact character offsets', () => {
