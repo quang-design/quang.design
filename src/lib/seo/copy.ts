@@ -9,7 +9,7 @@ export const pages = {
 	design: {
 		title: 'Design work by Quang, a Vietnamese design engineer',
 		description:
-			'Brand identities, naming, packaging, and visual systems by Quang, a Vietnamese graphic designer and design engineer in Nha Trang.'
+			'Brand identities, naming, packaging, and visual systems by Quang, a Vietnamese graphic designer and design engineer in Vietnam.'
 	},
 	blog: {
 		title: 'Blog notes by Quang, a Vietnamese designer and engineer',
@@ -19,7 +19,7 @@ export const pages = {
 	engineer: {
 		title: 'Engineering projects by Quang, Vietnamese design engineer',
 		description:
-			'Small web tools by Quang, a Vietnamese design engineer. Text tools, a minesweeper game, and an animation glossary built with SvelteKit.'
+			'Small web tools by Quang, a Vietnamese design engineer. Text tools, minesweeper, and an animation glossary built with SvelteKit.'
 	},
 	minesweeper: {
 		title: 'Minesweeper by Quang, a browser game with SvelteKit',
@@ -39,7 +39,7 @@ export const pages = {
 	animation: {
 		title: 'Animation vocabulary by Quang, a visual motion glossary',
 		description:
-			'A visual glossary of animation terms by Quang, with short examples driven by anime.js for entrances, exits, and easing on the web.'
+			'A visual glossary of animation terms by Quang, with examples driven by anime.js for entrances, exits, and easing on the web.'
 	}
 } as const;
 
@@ -60,19 +60,32 @@ export function documentTitle(name: string) {
 	return clean;
 }
 
+const DESCRIPTION_MIN = 120;
+const DESCRIPTION_MAX = 128;
+
 const descriptionTails = [
-	' Project notes by Quang, a Vietnamese graphic designer and design engineer in Nha Trang.',
-	' By Quang, a Vietnamese graphic designer and design engineer.',
+	' By Quang, a design engineer in Nha Trang.',
 	' By Quang, a design engineer in Vietnam.',
-	' By Quang, design engineer.'
+	' By Quang, design engineer.',
+	' By Quang Nguyen.',
+	' By Quang.',
+	' Quang.'
 ];
+
+function capDescription(text: string) {
+	if (text.length <= DESCRIPTION_MAX) return text;
+	const slice = text.slice(0, DESCRIPTION_MAX + 1);
+	const space = slice.lastIndexOf(' ');
+	const cut = space >= DESCRIPTION_MIN ? slice.slice(0, space) : text.slice(0, DESCRIPTION_MAX);
+	return cut.trim();
+}
 
 export function searchDescription(text: string) {
 	const clean = text.replace(/\s+/g, ' ').trim();
-	if (clean.length >= 120) return clean;
-	const room = 160 - clean.length;
-	const tail = descriptionTails.find((item) => item.length <= room && clean.length + item.length >= 120);
-	if (tail) return `${clean}${tail}`;
-	const fit = descriptionTails.find((item) => item.length <= room);
-	return fit ? `${clean}${fit}` : clean;
+	if (clean.length >= DESCRIPTION_MIN) return capDescription(clean);
+	const tail = descriptionTails.find((item) => {
+		const next = clean.length + item.length;
+		return next >= DESCRIPTION_MIN && next <= DESCRIPTION_MAX;
+	});
+	return tail ? `${clean}${tail}` : capDescription(clean);
 }

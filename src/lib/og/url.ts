@@ -1,4 +1,12 @@
-import { SITE_ORIGIN, absUrl } from '$lib/config/site';
+import { SITE_ORIGIN } from '$lib/config/site';
+
+function imageOrigin() {
+	if (process.env.VERCEL_ENV === 'preview') {
+		const host = process.env.VERCEL_BRANCH_URL || process.env.VERCEL_URL;
+		if (host) return `https://${host}`;
+	}
+	return SITE_ORIGIN;
+}
 
 export function shareImageUrl(canonical: string) {
 	let url: URL;
@@ -9,5 +17,5 @@ export function shareImageUrl(canonical: string) {
 	}
 	if (url.origin !== new URL(SITE_ORIGIN).origin) return undefined;
 	const path = url.pathname.replace(/\/+$/, '') || '/';
-	return absUrl(path === '/' ? '/og' : `/og${path}`);
+	return `${imageOrigin()}${path === '/' ? '/og' : `/og${path}`}`;
 }

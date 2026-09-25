@@ -17,4 +17,20 @@ describe('shareImageUrl', () => {
 		expect(shareImageUrl('https://example.com/design')).toBeUndefined();
 		expect(shareImageUrl('not a url')).toBeUndefined();
 	});
+
+	it('points a preview deploy at the preview host', () => {
+		const previous = {
+			VERCEL_ENV: process.env.VERCEL_ENV,
+			VERCEL_BRANCH_URL: process.env.VERCEL_BRANCH_URL
+		};
+		process.env.VERCEL_ENV = 'preview';
+		process.env.VERCEL_BRANCH_URL = 'quang-design-git-branch-quang-project.vercel.app';
+		expect(shareImageUrl(`${SITE_ORIGIN}/design`)).toBe(
+			'https://quang-design-git-branch-quang-project.vercel.app/og/design'
+		);
+		if (previous.VERCEL_ENV === undefined) delete process.env.VERCEL_ENV;
+		else process.env.VERCEL_ENV = previous.VERCEL_ENV;
+		if (previous.VERCEL_BRANCH_URL === undefined) delete process.env.VERCEL_BRANCH_URL;
+		else process.env.VERCEL_BRANCH_URL = previous.VERCEL_BRANCH_URL;
+	});
 });
