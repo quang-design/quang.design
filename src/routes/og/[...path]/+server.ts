@@ -29,7 +29,9 @@ export const GET: RequestHandler = async ({ params }) => {
 	return new Response(new Uint8Array(png), {
 		headers: {
 			'content-type': 'image/png',
-			'cache-control': 'public, max-age=86400, s-maxage=604800'
+			'cache-control': 'public, max-age=86400, s-maxage=604800',
+			'cross-origin-resource-policy': 'cross-origin',
+			'access-control-allow-origin': '*'
 		}
 	});
 };
