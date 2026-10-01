@@ -31,7 +31,7 @@
 	injectSpeedInsights();
 </script>
 
-<ModeWatcher defaultMode="light" {themeColors} />
+<ModeWatcher defaultMode="light" {themeColors} disableHeadScriptInjection={true} />
 
 <Toaster position="top-center" />
 

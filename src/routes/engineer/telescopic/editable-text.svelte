@@ -7,7 +7,7 @@
 	}: {
 		text: string;
 		onTextChange: (text: string) => void;
-		onWordClick: (word: string) => void;
+		onWordClick: (index: number) => void;
 		busy?: boolean;
 	} = $props();
 
@@ -57,7 +57,7 @@
 			aria-busy={busy}
 		>
 			{#each words as word, i (`${i}:${word}`)}
-				<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(word)}>
+				<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(i)}>
 					{word}
 				</button>{i < words.length - 1 ? ' ' : ''}
 			{/each}

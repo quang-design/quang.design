@@ -1,7 +1,7 @@
 <script lang="ts">
 	let { onClick, rect }: { onClick: () => void; rect: DOMRect | null } = $props();
 
-	let buttonEl = $state<HTMLButtonElement | null>(null);
+	let buttonEl = $state<HTMLButtonElement | undefined>(undefined);
 
 	let position = $derived.by(() => {
 		if (!rect || !buttonEl) return null;
@@ -20,7 +20,12 @@
 		return { top, left };
 	});
 
-	function handleInteraction(event: Event) {
+	function handlePointerDown(event: PointerEvent) {
+		event.preventDefault();
+		onClick();
+	}
+
+	function handleClick(event: MouseEvent) {
 		event.preventDefault();
 		onClick();
 	}
@@ -28,10 +33,11 @@
 
 <button
 	bind:this={buttonEl}
-	class="zip-up-enter hair ink-active fixed z-50 max-w-sm px-3 py-1.5"
+	type="button"
+	class="zip-up-enter hair ink-active fixed z-50 max-w-sm px-3 py-1.5 select-none"
 	style="top: {position?.top ?? -9999}px; left: {position?.left ?? -9999}px;"
-	onclick={handleInteraction}
-	ontouchend={handleInteraction}
+	onpointerdown={handlePointerDown}
+	onclick={handleClick}
 >
 	Zip up
 </button>
