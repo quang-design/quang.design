@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { pages } from '$lib/seo/copy';
 	import TextEditor from './text-editor.svelte';
 
 	const initialText =
@@ -8,8 +9,8 @@
 </script>
 
 <SeoHead
-	title="Quang | AI Microscopic Text"
-	description="A tool to use AI to zip up long texts into short, concise words."
+	title={pages.microscopic.title}
+	description={pages.microscopic.description}
 	canonical="https://quang.design/engineer/microscopic"
 />
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Markdown } from '$lib/components/markdown';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { pages } from '$lib/seo/copy';
 	import content from './content.md?raw';
 
 	const sections = content
@@ -10,8 +11,8 @@
 </script>
 
 <SeoHead
-	title="Quang | Home"
-	description="A Vietnamese graphic designer with passion to build things."
+	title={pages.home.title}
+	description={pages.home.description}
 	canonical="https://quang.design"
 />
 

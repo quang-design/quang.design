@@ -1,12 +1,13 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { pages } from '$lib/seo/copy';
 	import AnimationCard from './AnimationCard.svelte';
 	import { sections } from './animations';
 </script>
 
 <SeoHead
-	title="Quang | Animation Vocabulary"
-	description="Interactive visual glossary of animation terms powered by anime.js."
+	title={pages.animation.title}
+	description={pages.animation.description}
 	canonical="https://quang.design/engineer/animation-vocabulary"
 />
 

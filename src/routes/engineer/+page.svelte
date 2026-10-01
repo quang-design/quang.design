@@ -7,6 +7,7 @@
 	import CloudIcon from '@lucide/svelte/icons/cloud';
 	import GlobeIcon from '@lucide/svelte/icons/globe';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { pages } from '$lib/seo/copy';
 	import { IndexRow } from '$lib/components/layout';
 	import { engineerProjects } from '$lib/content/engineer';
 	import { engineerCode } from '$lib/config/tree';
@@ -23,8 +24,8 @@
 </script>
 
 <SeoHead
-	title="Quang | Engineer"
-	description="This is a collection of all my engineering work."
+	title={pages.engineer.title}
+	description={pages.engineer.description}
 	canonical="https://quang.design/engineer"
 />
 
