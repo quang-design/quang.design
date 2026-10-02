@@ -17,8 +17,10 @@ const titles = [
 describe('shareCard', () => {
 	it('names each published route', () => {
 		for (const [path, heading] of titles) {
-			expect(shareCard(path)?.heading).toBe(heading);
-			expect(shareCard(path)?.body.length).toBeGreaterThan(40);
+			const card = shareCard(path);
+			expect(card?.heading).toBe(heading);
+			expect(card?.body.length).toBeGreaterThan(40);
+			if (path !== '/') expect(card?.body.length).toBeLessThanOrEqual(125);
 		}
 	});
 
@@ -40,6 +42,7 @@ describe('shareCard', () => {
 	it('rejects a route the site does not publish', () => {
 		expect(shareCard('/nope')).toBeNull();
 		expect(shareCard('/design/not-a-project')).toBeNull();
+		expect(shareCard('/design/null')).toBeNull();
 		expect(shareCard('/blog/posts/missing')).toBeNull();
 		expect(shareCard('/design/../blog')).toBeNull();
 		expect(shareCard('https://quang.design/design')).toBeNull();

@@ -1,6 +1,6 @@
 ---
 title: 'Discover the Flavors of Monsieur Luxe'
-description: 'At Monsieur Luxe, our passion is crafting delectable dried fruits and snacks that capture the essence of fresh-picked goodness in every bite.'
+description: 'Monsieur Luxe brand identity and packaging for dried fruits and snacks that keep fresh-picked flavor in every single bite.'
 date: '2018-01-01'
 published: true
 thumbnail: './001-1.avif'

@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import matter from 'gray-matter';
+import { designHref } from './slug';
 
 export interface PostMetadata {
 	slug: string;
@@ -61,6 +62,7 @@ function createContentParser(section: string, urlPrefix: string) {
 				.map(([key, md]) => {
 					const slug = slugFromKey(key, section);
 					if (!slug) return null;
+					if (section === 'design' && !designHref(slug)) return null;
 
 					const { data } = matter(md);
 					const frontmatter = data as Frontmatter;

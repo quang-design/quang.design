@@ -2,6 +2,7 @@ import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
 import { engineerProjects } from '$lib/content/engineer';
+import { designHref } from '$lib/content/slug';
 import homeMd from '../content.md?raw';
 
 function homeDescription() {
@@ -31,7 +32,14 @@ export const GET: RequestHandler = async () => {
 		designPosts.length > 0
 			? `## Design Work
 
-${designPosts.map((post) => `- [${post.title}](/design/${post.slug}): ${post.description}${post.date ? ` (${post.date})` : ''}`).join('\n')}`
+${designPosts
+	.flatMap((post) => {
+		const href = designHref(post.slug);
+		return href
+			? [`- [${post.title}](${href}): ${post.description}${post.date ? ` (${post.date})` : ''}`]
+			: [];
+	})
+	.join('\n')}`
 			: '';
 
 	const blogSection =

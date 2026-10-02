@@ -4,6 +4,7 @@
 	import EmptyState from '$lib/components/shared/empty-state.svelte';
 	import { IndexRow } from '$lib/components/layout';
 	import { designHeadline } from '$lib/content/headline';
+	import { designHref } from '$lib/content/slug';
 	import type { PostMetadata } from './+page.server';
 
 	let { data }: { data: { posts: PostMetadata[] } } = $props();
@@ -22,24 +23,27 @@
 	{#if posts && posts.length > 0}
 		<div class="stack stack-flush flex flex-col">
 			{#each posts as post, i (post.slug)}
-				{@const headline = designHeadline(post.title, post.slug)}
-				<IndexRow
-					code="D{i + 1}"
-					title={headline.brand}
-					description={headline.line}
-					date={post.date}
-					thumbnail={post.thumbnail}
-					placeholder={!post.thumbnail}
-					thumb="wide"
-					href="/design/{post.slug}"
-					preview={{
-						eyebrow: 'Design',
-						title: headline.brand,
-						description: post.description,
-						thumbnail: post.thumbnail,
-						href: `/design/${post.slug}`
-					}}
-				/>
+				{@const href = designHref(post.slug)}
+				{#if href}
+					{@const headline = designHeadline(post.title, post.slug)}
+					<IndexRow
+						code="D{i + 1}"
+						title={headline.brand}
+						description={headline.line}
+						date={post.date}
+						thumbnail={post.thumbnail}
+						placeholder={!post.thumbnail}
+						thumb="wide"
+						{href}
+						preview={{
+							eyebrow: 'Design',
+							title: headline.brand,
+							description: post.description,
+							thumbnail: post.thumbnail,
+							href
+						}}
+					/>
+				{/if}
 			{/each}
 		</div>
 	{:else}

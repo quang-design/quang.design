@@ -1,11 +1,14 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostMatter } from '$lib/content/design';
+import { designHref } from '$lib/content/slug';
 
 export const prerender = false;
 
 export const GET: RequestHandler = async ({ params, url }) => {
 	const slug = params.slug;
+	const href = designHref(slug);
+	if (!href) throw error(404, 'Post not found');
 
 	let content: string;
 	let data: Record<string, unknown>;
@@ -16,8 +19,8 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	}
 
 	const baseUrl = url.origin;
-	const postUrl = `${baseUrl}/design/${slug}`;
-	const postMdUrl = `${baseUrl}/design/${slug}/post.md`;
+	const postUrl = `${baseUrl}${href}`;
+	const postMdUrl = `${baseUrl}${href}/post.md`;
 
 	const llmsTxt = `# ${String(data.title || slug)}
 

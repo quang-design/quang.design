@@ -1,4 +1,5 @@
 import { designHeadline } from '$lib/content/headline';
+import { designHref } from '$lib/content/slug';
 import type { EngineerProject } from '$lib/content/engineer';
 import type { PostMetadata } from '$lib/content/loader';
 import type { Preview } from '$lib/preview.svelte';
@@ -22,22 +23,28 @@ export type NavData = {
 };
 
 export function buildIndexTree(nav: NavData, pathname: string) {
-	const designRows: TreeRow[] = nav.design.map((post, i) => {
-		const { brand } = designHeadline(post.title, post.slug);
-		return {
-			code: `D${i + 1}`,
-			label: brand,
-			href: `/design/${post.slug}`,
-			nested: true,
-			preview: {
-				eyebrow: 'Design',
-				title: brand,
-				description: post.description,
-				thumbnail: post.thumbnail,
-				href: `/design/${post.slug}`
-			}
-		};
-	});
+	const designRows: TreeRow[] = nav.design
+		.flatMap((post) => {
+			const href = designHref(post.slug);
+			if (!href) return [];
+			return [{ post, href }];
+		})
+		.map(({ post, href }, i) => {
+			const { brand } = designHeadline(post.title, post.slug);
+			return {
+				code: `D${i + 1}`,
+				label: brand,
+				href,
+				nested: true,
+				preview: {
+					eyebrow: 'Design',
+					title: brand,
+					description: post.description,
+					thumbnail: post.thumbnail,
+					href
+				}
+			};
+		});
 
 	const blogRows: TreeRow[] = nav.blog.map((post, i) => ({
 		code: `B${i + 1}`,

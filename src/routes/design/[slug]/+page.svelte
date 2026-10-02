@@ -5,6 +5,7 @@
 	import { page } from '$app/state';
 	import { Badge } from '$lib/components/ui/badge';
 	import { designHeadline } from '$lib/content/headline';
+	import { designHref } from '$lib/content/slug';
 	import { absUrl } from '$lib/config/site';
 
 	let {
@@ -17,14 +18,14 @@
 	} = $props();
 
 	const { introMd, metaParts, galleryMd } = $derived(splitDesignContent(data.md));
+	const href = $derived(designHref(page.params.slug));
 	const headline = $derived(designHeadline(data.meta.title, page.params.slug ?? ''));
-	const slug = $derived(page.params.slug);
 </script>
 
 <SeoHead
 	title={data.meta.title}
 	description={data.meta.description}
-	canonical={absUrl(`/design/${page.params.slug}`)}
+	canonical={href ? absUrl(href) : undefined}
 	image={data.meta.thumbnail ? absUrl(data.meta.thumbnail) : undefined}
 	type="article"
 	publishedTime={data.meta.date ? new Date(data.meta.date).toISOString() : undefined}
@@ -34,12 +35,14 @@
 <div class="flex flex-col">
 	<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
 		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
-			<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="/design/{slug}/llms.txt"
-				>llms.txt</Badge
-			>
-			<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="/design/{slug}/post.md"
-				>post.md</Badge
-			>
+			{#if href}
+				<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="{href}/llms.txt"
+					>llms.txt</Badge
+				>
+				<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="{href}/post.md"
+					>post.md</Badge
+				>
+			{/if}
 		</div>
 		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
 		<div

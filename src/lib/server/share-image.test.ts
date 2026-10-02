@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import sharp from 'sharp';
-import { SHARE_HEIGHT, SHARE_WIDTH } from '$lib/og/size';
+import { SHARE_GRID, SHARE_GRID_OFFSET, SHARE_HEIGHT, SHARE_WIDTH } from '$lib/og/size';
 import { shareCard } from './share-card';
 import { loadShareFonts, renderShareCard } from './share-image';
 
@@ -44,17 +44,23 @@ describe('renderShareCard', () => {
 		expect(Buffer.compare(home, design)).not.toBe(0);
 		expect(Buffer.compare(design, study)).not.toBe(0);
 
+		expect(SHARE_HEIGHT).toBe(630);
+		expect(SHARE_GRID_OFFSET).toBe(6);
+		const labelRow = SHARE_GRID_OFFSET + SHARE_GRID - 1;
+		const nameRow = SHARE_GRID_OFFSET + SHARE_GRID * 2 - 1;
+		const ruleRow = SHARE_GRID_OFFSET + SHARE_GRID * 3 - 1;
+		const lastBaseline = SHARE_HEIGHT - SHARE_GRID;
 		const { data, info } = await sharp(design).raw().toBuffer({ resolveWithObject: true });
 		const rows = lightRows(data, info.width, info.channels);
 		let label = 0;
 		for (let x = 48; x < 280; x++) {
-			if ((data[(47 * info.width + x) * info.channels] ?? 0) > 100) label++;
+			if ((data[(labelRow * info.width + x) * info.channels] ?? 0) > 100) label++;
 		}
 		expect(label).toBeGreaterThan(8);
-		expect(rows).toContain(95);
-		expect(rows.some((y) => y >= 574 && y <= 576)).toBe(true);
-		const rule = data[(143 * info.width + 1100) * info.channels] ?? 0;
-		const oldRule = data[(95 * info.width + 1100) * info.channels] ?? 0;
+		expect(rows).toContain(nameRow);
+		expect(rows.some((y) => y >= lastBaseline - 2 && y <= lastBaseline)).toBe(true);
+		const rule = data[(ruleRow * info.width + 1100) * info.channels] ?? 0;
+		const oldRule = data[(nameRow * info.width + 1100) * info.channels] ?? 0;
 		expect(rule).toBeGreaterThan(oldRule);
 	});
 });
