@@ -3,7 +3,7 @@ import { buildChatCompletionBody, usesMaxCompletionTokens } from './openai-compa
 
 describe('usesMaxCompletionTokens', () => {
 	it('detects gpt-5, gpt-6, and o-series models', () => {
-		expect(usesMaxCompletionTokens('gpt-5.4-nano')).toBe(true);
+		expect(usesMaxCompletionTokens('gpt-6-luna')).toBe(true);
 		expect(usesMaxCompletionTokens('gpt-5.4-mini')).toBe(true);
 		expect(usesMaxCompletionTokens('gpt-6-astra')).toBe(true);
 		expect(usesMaxCompletionTokens('o3-mini')).toBe(true);
@@ -12,15 +12,15 @@ describe('usesMaxCompletionTokens', () => {
 });
 
 describe('buildChatCompletionBody', () => {
-	it('uses max_completion_tokens and disables reasoning for gpt-5.4-nano', () => {
+	it('uses max_completion_tokens and disables reasoning for gpt-6-luna', () => {
 		expect(
 			buildChatCompletionBody({
-				model: 'gpt-5.4-nano',
+				model: 'gpt-6-luna',
 				prompt: 'expand tea',
 				maxTokens: 64
 			})
 		).toEqual({
-			model: 'gpt-5.4-nano',
+			model: 'gpt-6-luna',
 			messages: [{ role: 'user', content: 'expand tea' }],
 			max_completion_tokens: 64,
 			reasoning_effort: 'none',
