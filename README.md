@@ -85,7 +85,7 @@ The AI tools use a provider-agnostic server layer. Configure the provider with e
 # OpenAI (default)
 LLM_PROVIDER=openai
 OPENAI_API_KEY=sk-...
-# optional: LLM_MODEL=gpt-5.4-nano
+# optional: LLM_MODEL=gpt-6-luna
 
 # Anthropic
 LLM_PROVIDER=anthropic

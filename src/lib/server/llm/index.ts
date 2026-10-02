@@ -12,8 +12,8 @@ import type {
 const defaultProvider: LlmProviderName = 'openai';
 const defaultModels: Record<LlmProviderName, string> = {
 	anthropic: 'claude-sonnet-4-6',
-	openai: 'gpt-5.4-nano',
-	'openai-compatible': 'gpt-5.4-nano'
+	openai: 'gpt-6-luna',
+	'openai-compatible': 'gpt-6-luna'
 };
 
 let provider: LlmProvider | null = null;
