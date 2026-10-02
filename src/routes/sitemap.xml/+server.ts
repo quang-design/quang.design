@@ -2,6 +2,7 @@ import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
 import { SITE_ORIGIN } from '$lib/config/site';
+import { designHref } from '$lib/content/slug';
 
 export const GET: RequestHandler = async () => {
 	const noindex = ['/404'];
@@ -25,12 +26,15 @@ export const GET: RequestHandler = async () => {
 
 	// 3. Get content posts with metadata
 	const contentPosts = [
-		...getAllBlogPosts().map((post) => ({ ...post, urlPrefix: '/blog/posts' })),
-		...getAllDesignPosts().map((post) => ({ ...post, urlPrefix: '/design' }))
+		...getAllBlogPosts().map((post) => ({ ...post, url: `/blog/posts/${post.slug}` })),
+		...getAllDesignPosts().flatMap((post) => {
+			const url = designHref(post.slug);
+			return url ? [{ ...post, url }] : [];
+		})
 	].map((post) => {
 		const lastmod = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
 		return {
-			url: `${post.urlPrefix}/${post.slug}`,
+			url: post.url,
 			lastmod: Number.isNaN(new Date(lastmod).getTime()) ? new Date().toISOString() : lastmod,
 			priority: '0.8'
 		};

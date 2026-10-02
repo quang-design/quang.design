@@ -1,6 +1,6 @@
 ---
 title: 'Reimagining Alluvia Chocolate - Crafting an Identity Rooted in Mekong Essence'
-description: 'Brand identity for Alluvia Chocolate, a handcraft bean-to-bar chocolate brand made by a two-generation family in Mekong Delta, Vietnam.'
+description: "Brand identity for Alluvia Chocolate, a bean-to-bar brand made by a small two-generation family in Vietnam's Mekong Delta."
 date: '2021-01-01'
 published: true
 thumbnail: './DSC03005.avif'

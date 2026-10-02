@@ -1,6 +1,6 @@
 import { create } from 'fontkit';
 import sharp from 'sharp';
-import { SHARE_HEIGHT, SHARE_WIDTH } from '$lib/og/size';
+import { SHARE_GRID, SHARE_GRID_OFFSET, SHARE_HEIGHT, SHARE_WIDTH } from '$lib/og/size';
 import type { ShareCard } from './share-card';
 
 const PAPER = '#120b00';
@@ -9,7 +9,8 @@ const INK_60 = '#7f7662';
 const INK_25 = '#3c3422';
 const INK_10 = '#221a09';
 
-const G = 48;
+const G = SHARE_GRID;
+const Y0 = SHARE_GRID_OFFSET;
 const PAD = 48;
 const MEASURE = 1000;
 
@@ -98,7 +99,11 @@ function bodyLines(font: ShareFont, text: string) {
 	const wrapped = wrap(font, text, 24, MEASURE);
 	if (wrapped.length <= 4) return wrapped;
 	const cropped = wrapped.slice(0, 4).join(' ');
-	const end = Math.max(cropped.lastIndexOf('. '), cropped.lastIndexOf('! '), cropped.lastIndexOf('? '));
+	const end = Math.max(
+		cropped.lastIndexOf('. '),
+		cropped.lastIndexOf('! '),
+		cropped.lastIndexOf('? ')
+	);
 	const sentence = end === -1 ? cropped : cropped.slice(0, end + 1);
 	return wrap(font, sentence, 24, MEASURE);
 }
@@ -108,7 +113,7 @@ function grid() {
 	for (let x = G; x < SHARE_WIDTH; x += G) {
 		parts.push(`<line x1="${x}" y1="0" x2="${x}" y2="${SHARE_HEIGHT}"/>`);
 	}
-	for (let y = G; y < SHARE_HEIGHT; y += G) {
+	for (let y = Y0 + G; y < SHARE_HEIGHT; y += G) {
 		parts.push(`<line x1="0" y1="${y}" x2="${SHARE_WIDTH}" y2="${y}"/>`);
 	}
 	return `<g stroke="${INK_10}" stroke-width="1" fill="none">${parts.join('')}</g>`;
@@ -142,9 +147,9 @@ function shareCardSvg(card: ShareCard, fonts: ShareFonts) {
 <svg xmlns="http://www.w3.org/2000/svg" width="${SHARE_WIDTH}" height="${SHARE_HEIGHT}" viewBox="0 0 ${SHARE_WIDTH} ${SHARE_HEIGHT}">
 <rect width="${SHARE_WIDTH}" height="${SHARE_HEIGHT}" fill="${PAPER}"/>
 ${grid()}
-<line x1="0" y1="${G * 3}" x2="${SHARE_WIDTH}" y2="${G * 3}" stroke="${INK_25}" stroke-width="1"/>
-<path d="${draw(fonts.regular, 'WELCOME TO', PAD, G, 20, labelTracking)}" fill="${INK_60}"/>
-<path d="${draw(fonts.regular, 'quang.design', PAD, G * 2, 24)}" fill="${INK}"/>
+<line x1="0" y1="${Y0 + G * 3}" x2="${SHARE_WIDTH}" y2="${Y0 + G * 3}" stroke="${INK_25}" stroke-width="1"/>
+<path d="${draw(fonts.regular, 'WELCOME TO', PAD, Y0 + G, 20, labelTracking)}" fill="${INK_60}"/>
+<path d="${draw(fonts.regular, 'quang.design', PAD, Y0 + G * 2, 24)}" fill="${INK}"/>
 ${headingPaths}
 ${bodyPaths}
 </svg>`;

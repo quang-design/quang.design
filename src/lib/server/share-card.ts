@@ -2,7 +2,8 @@ import { getAllPosts as getBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getDesignPosts } from '$lib/content/design';
 import { engineerProjects } from '$lib/content/engineer';
 import { designHeadline } from '$lib/content/headline';
-import { pages } from '$lib/seo/copy';
+import { designHref } from '$lib/content/slug';
+import { pages, searchDescription } from '$lib/seo/copy';
 import homeContent from '../../routes/content.md?raw';
 
 export type ShareCard = {
@@ -15,23 +16,25 @@ function homeBody(md: string) {
 	const blocks = md.split(/\n\s*\n/);
 	const para = blocks.find((block) => {
 		const line = block.trim();
-		return line.length > 0 && !line.startsWith('#') && !line.startsWith('-') && !line.startsWith('**');
+		return (
+			line.length > 0 && !line.startsWith('#') && !line.startsWith('-') && !line.startsWith('**')
+		);
 	});
 	return (para ?? '').replace(/👋/g, '').replace(/\s+/g, ' ').trim();
 }
 
 const indexes: Record<string, { heading: string; body: string }> = {
 	'/': { heading: 'Xin Chào!', body: homeBody(homeContent) },
-	'/design': { heading: 'Design', body: pages.design.description },
-	'/engineer': { heading: 'Engineer', body: pages.engineer.description },
-	'/blog': { heading: 'Blog', body: pages.blog.description }
+	'/design': { heading: 'Design', body: searchDescription(pages.design.description) },
+	'/engineer': { heading: 'Engineer', body: searchDescription(pages.engineer.description) },
+	'/blog': { heading: 'Blog', body: searchDescription(pages.blog.description) }
 };
 
 const toolBody: Record<string, string> = {
-	'/engineer/minesweeper': pages.minesweeper.description,
-	'/engineer/telescopic': pages.telescopic.description,
-	'/engineer/microscopic': pages.microscopic.description,
-	'/engineer/animation-vocabulary': pages.animation.description
+	'/engineer/minesweeper': searchDescription(pages.minesweeper.description),
+	'/engineer/telescopic': searchDescription(pages.telescopic.description),
+	'/engineer/microscopic': searchDescription(pages.microscopic.description),
+	'/engineer/animation-vocabulary': searchDescription(pages.animation.description)
 };
 
 export function normalizeSharePath(input: string) {
@@ -61,10 +64,14 @@ export function shareCard(pathname: string): ShareCard | null {
 
 	if (path.startsWith('/design/')) {
 		const slug = path.slice('/design/'.length);
-		if (!slug || slug.includes('/')) return null;
+		if (!designHref(slug)) return null;
 		const post = getDesignPosts().find((item) => item.slug === slug);
 		if (!post) return null;
-		return { path, heading: designHeadline(post.title, slug).brand, body: post.description };
+		return {
+			path,
+			heading: designHeadline(post.title, slug).brand,
+			body: searchDescription(post.description)
+		};
 	}
 
 	if (path.startsWith('/blog/posts/')) {
@@ -72,7 +79,7 @@ export function shareCard(pathname: string): ShareCard | null {
 		if (!slug || slug.includes('/')) return null;
 		const post = getBlogPosts().find((item) => item.slug === slug);
 		if (!post) return null;
-		return { path, heading: post.title, body: post.description };
+		return { path, heading: post.title, body: searchDescription(post.description) };
 	}
 
 	return null;

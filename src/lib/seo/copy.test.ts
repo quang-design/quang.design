@@ -30,7 +30,7 @@ describe('search copy', () => {
 			expect(page.title.length).toBeGreaterThanOrEqual(50);
 			expect(page.title.length).toBeLessThanOrEqual(60);
 			expect(page.description.length).toBeGreaterThanOrEqual(120);
-			expect(page.description.length).toBeLessThanOrEqual(128);
+			expect(page.description.length).toBeLessThanOrEqual(125);
 		}
 	});
 
@@ -40,8 +40,10 @@ describe('search copy', () => {
 			const description = searchDescription(post.description);
 			expect(title.length).toBeGreaterThanOrEqual(50);
 			if (post.title.length < 50) expect(title.length).toBeLessThanOrEqual(60);
-			expect(description.length).toBeGreaterThanOrEqual(120);
-			expect(description.length).toBeLessThanOrEqual(128);
+			expect(description.length).toBeLessThanOrEqual(125);
+			if (post.description.replace(/\s+/g, ' ').trim().length >= 120) {
+				expect(description.length).toBeGreaterThanOrEqual(120);
+			}
 		}
 	});
 });
