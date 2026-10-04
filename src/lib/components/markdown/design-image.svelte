@@ -1,6 +1,6 @@
 <script lang="ts">
-	let { alt, ...rest }: { alt?: string; src?: string; [key: string]: unknown } = $props();
+	let { alt, src }: { alt?: string; src?: string } = $props();
 	const cleanAlt = $derived(alt === '2col' ? '' : alt || '');
 </script>
 
-<img alt={cleanAlt} class="w-full" loading="lazy" {...rest} />
+<img alt={cleanAlt} class="w-full" loading="lazy" {src} />
