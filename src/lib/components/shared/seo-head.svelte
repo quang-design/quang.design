@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { shareImageUrl } from '$lib/og/url';
 	import { SHARE_HEIGHT, SHARE_WIDTH } from '$lib/og/size';
 	import { documentTitle, searchDescription, siteName } from '$lib/seo/copy';
@@ -21,7 +22,7 @@
 
 	const social = $derived.by(() => {
 		if (canonical) {
-			const src = shareImageUrl(canonical);
+			const src = shareImageUrl(canonical, page.data.shareOrigin);
 			if (src) return { src, sized: true };
 		}
 		return image ? { src: image, sized: false } : undefined;
