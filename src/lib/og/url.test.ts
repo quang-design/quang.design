@@ -19,11 +19,8 @@ describe('shareImageUrl', () => {
 	});
 
 	it('uses the origin it is given', () => {
-		expect(
-			shareImageUrl(
-				`${SITE_ORIGIN}/design`,
-				'https://quang-design-git-branch-quang-project.vercel.app'
-			)
-		).toBe('https://quang-design-git-branch-quang-project.vercel.app/og/design');
+		expect(shareImageUrl(`${SITE_ORIGIN}/design`, 'https://my-site.com')).toBe(
+			'https://my-site.com/og/design'
+		);
 	});
 });
