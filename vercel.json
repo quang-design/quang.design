@@ -21,13 +21,18 @@
 			"permanent": true
 		},
 		{
-			"source": "/dev/telescopic",
-			"destination": "/engineer/telescopic",
+			"source": "/ai/:slug*",
+			"destination": "/engineer/:slug*",
 			"permanent": true
 		},
 		{
-			"source": "/dev/microscopic",
-			"destination": "/engineer/microscopic",
+			"source": "/dev",
+			"destination": "/engineer",
+			"permanent": true
+		},
+		{
+			"source": "/dev/:slug*",
+			"destination": "/engineer/:slug*",
 			"permanent": true
 		},
 		{
@@ -38,6 +43,16 @@
 		{
 			"source": "/blog/security-headers-sveltekit",
 			"destination": "/blog/posts/security-headers-sveltekit",
+			"permanent": true
+		},
+		{
+			"source": "/blog/dev-is-strange",
+			"destination": "/blog/posts/dev-is-strange",
+			"permanent": true
+		},
+		{
+			"source": "/blog/posts",
+			"destination": "/blog",
 			"permanent": true
 		}
 	],
