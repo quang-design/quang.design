@@ -87,6 +87,7 @@ export class PreviewState {
 			if (!res.ok) return;
 			const card = readOg(await res.json(), href, href);
 			if (token !== this.gen) return;
+			if (!card.thumbnail && !card.description && card.title === href) return;
 			this.cache[href] = card;
 			this.hover = card;
 		} catch {

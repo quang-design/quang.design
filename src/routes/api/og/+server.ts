@@ -5,6 +5,15 @@ import { assertPublicHttpUrl, parseOg } from '$lib/server/og';
 const MAX_BYTES = 256_000;
 const cache = new Map<string, { at: number; body: unknown }>();
 const TTL = 60 * 60 * 1000;
+const FALLBACK_HEADERS = { 'cache-control': 'public, max-age=60' };
+
+function fallbackLink(target: URL) {
+	return {
+		eyebrow: 'Link' as const,
+		title: target.href,
+		href: target.href
+	};
+}
 
 export const GET: RequestHandler = async ({ url }) => {
 	const raw = url.searchParams.get('url');
@@ -29,7 +38,7 @@ export const GET: RequestHandler = async ({ url }) => {
 			signal: AbortSignal.timeout(5000),
 			headers: { accept: 'text/html', 'user-agent': 'quang.design-og' }
 		});
-		if (!res.ok) return json({ error: 'fetch failed' }, { status: 502 });
+		if (!res.ok) return json(fallbackLink(target), { headers: FALLBACK_HEADERS });
 		const buf = new Uint8Array(await res.arrayBuffer());
 		const html = new TextDecoder().decode(buf.slice(0, MAX_BYTES));
 		const card = parseOg(html, res.url || target.href);
@@ -43,6 +52,6 @@ export const GET: RequestHandler = async ({ url }) => {
 		cache.set(key, { at: Date.now(), body });
 		return json(body, { headers: { 'cache-control': 'public, max-age=3600' } });
 	} catch {
-		return json({ error: 'fetch failed' }, { status: 502 });
+		return json(fallbackLink(target), { headers: FALLBACK_HEADERS });
 	}
 };
