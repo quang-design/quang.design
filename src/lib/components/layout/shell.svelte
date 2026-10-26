@@ -1,3 +1,10 @@
+<script lang="ts" module>
+	export function shellElement() {
+		const shell = document.querySelector('.shell');
+		return shell instanceof HTMLElement ? shell : null;
+	}
+</script>
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { setContext } from 'svelte';
@@ -22,8 +29,19 @@
 	let menuOpen = $state(false);
 	let menuOpener: HTMLElement | null = null;
 
-	afterNavigate(() => {
+	function showShellTarget(hash: string) {
+		const shell = shellElement();
+		if (!shell) return;
+		const id = hash.length > 1 ? decodeURIComponent(hash.slice(1)) : '';
+		const target = id ? document.getElementById(id) : null;
+		if (target) target.scrollIntoView();
+		else shell.scrollTo(0, 0);
+	}
+
+	afterNavigate((navigation) => {
 		menuOpen = false;
+		if (navigation.type === 'enter' || navigation.type === 'popstate') return;
+		showShellTarget(navigation.to?.url.hash ?? '');
 	});
 
 	function closeMenu(restoreFocus = false) {

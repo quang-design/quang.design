@@ -1,11 +1,12 @@
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import type { Snapshot } from '@sveltejs/kit';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
-	import Shell from '$lib/components/layout/shell.svelte';
+	import Shell, { shellElement } from '$lib/components/layout/shell.svelte';
 	import { userLockedMode } from '$lib/config/theme';
 	import type { EngineerProject } from '$lib/content/engineer';
 	import type { PostMetadata } from '$lib/content/loader';
@@ -19,6 +20,13 @@
 	} = $props();
 
 	const themeColors = { light: '#d5cbb5', dark: '#120b00' };
+
+	export const snapshot: Snapshot<number> = {
+		capture: () => shellElement()?.scrollTop ?? 0,
+		restore: (scrollTop) => {
+			shellElement()?.scrollTo(0, scrollTop);
+		}
+	};
 
 	onMount(() => {
 		if (userLockedMode()) return;
