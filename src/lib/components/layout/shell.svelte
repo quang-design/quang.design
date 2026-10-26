@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { setContext } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
+	import type { Attachment } from 'svelte/attachments';
+	import { onMount, setContext } from 'svelte';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 	import StatusBar from './status-bar.svelte';
 	import IndexTree from './index-tree.svelte';
@@ -21,9 +22,76 @@
 	const year = new Date().getFullYear();
 	let menuOpen = $state(false);
 	let menuOpener: HTMLElement | null = null;
+	let shell: HTMLDivElement | undefined;
+	let activeIndex: number | null = null;
+	const shellScroll = readShellScroll();
 
-	afterNavigate(() => {
+	const trackShell: Attachment<HTMLDivElement> = (element) => {
+		shell = element;
+		return () => {
+			if (shell === element) shell = undefined;
+		};
+	};
+
+	function readShellScroll(): Record<string, number> {
+		if (typeof sessionStorage === 'undefined') return {};
+		try {
+			const raw = sessionStorage.getItem('quang:shell-scroll');
+			const parsed: unknown = raw ? JSON.parse(raw) : {};
+			if (!parsed || typeof parsed !== 'object') return {};
+			return Object.fromEntries(
+				Object.entries(parsed).filter(
+					(entry): entry is [string, number] => typeof entry[1] === 'number'
+				)
+			);
+		} catch {
+			return {};
+		}
+	}
+
+	function historyIndex(): number | null {
+		const index = history.state?.['sveltekit:history'];
+		return typeof index === 'number' ? index : null;
+	}
+
+	function rememberShellScroll() {
+		if (!shell || activeIndex == null) return;
+		shellScroll[String(activeIndex)] = shell.scrollTop;
+		sessionStorage.setItem('quang:shell-scroll', JSON.stringify(shellScroll));
+	}
+
+	function showShellTarget(hash: string) {
+		if (!shell) return;
+		const id = hash.length > 1 ? decodeURIComponent(hash.slice(1)) : '';
+		const target = id ? document.getElementById(id) : null;
+		if (target) target.scrollIntoView();
+		else shell.scrollTo(0, 0);
+	}
+
+	beforeNavigate((navigation) => {
+		if (navigation.type === 'leave') return;
+		rememberShellScroll();
+	});
+
+	afterNavigate((navigation) => {
 		menuOpen = false;
+		if (!shell || navigation.type === 'enter') return;
+
+		if (navigation.type === 'popstate') {
+			activeIndex = historyIndex();
+			const saved = activeIndex == null ? undefined : shellScroll[String(activeIndex)];
+			if (typeof saved === 'number') shell.scrollTo(0, saved);
+			return;
+		}
+
+		showShellTarget(navigation.to?.url.hash ?? '');
+		activeIndex = historyIndex();
+		rememberShellScroll();
+	});
+
+	onMount(() => {
+		activeIndex = historyIndex();
+		rememberShellScroll();
 	});
 
 	function closeMenu(restoreFocus = false) {
@@ -47,7 +115,7 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<div class="shell" data-menu-open={menuOpen ? '' : undefined}>
+<div class="shell" {@attach trackShell} data-menu-open={menuOpen ? '' : undefined}>
 	<a
 		href="#main-content"
 		class="sr-only inline-flex h-[var(--grid)] items-center bg-[var(--ink)] px-[var(--grid)] text-[var(--paper)] focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50"
