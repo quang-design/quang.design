@@ -12,12 +12,14 @@
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
+		"test:e2e": "playwright test",
 		"test:lock": "node scripts/lock-design.mjs --assert",
 		"prepare": "husky"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.5",
 		"@lucide/svelte": "^1.57.0",
+		"@playwright/test": "^1.64.1",
 		"@sveltejs/adapter-vercel": "^6.3.2",
 		"@sveltejs/kit": "^2.70.2",
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
