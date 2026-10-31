@@ -1,6 +1,6 @@
 ---
 title: 'Powder Therapy - Brand Identity and Packaging Design'
-description: 'Brand identity and packaging for Powder Therapy, a Full-body Matcha Latte in sachet stick packs, with wordmark and symbols.'
+description: 'Brand identity and packaging for Powder Therapy, a Full-body Matcha Latte in sachet stick packs.'
 date: '2023-09-11'
 published: true
 thumbnail: './wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-3.avif'
@@ -12,9 +12,9 @@ A simple way to treat yourself better everyday. From day to night. Simple and li
 
 The star in the wordmark stands for powder treatment. Powder is a dry bulk solid of very fine particles. A fine particle is like a star, and powder can feel like a sky full of stars. The star is meant to spark hope in our life. A 3D type treatment on the D gives a sense of depth.
 
-_Client: Powder Therapy · Project: Brand Identity & Packaging Design · Location: TODO(Quang) · Time: TODO(Quang). The end card shows ©2020. The archive date for this page is 2023-09-11._
+_Client: Powder Therapy · Project: Brand Identity & Packaging Design · Location: TODO(Quang) · Time: TODO(Quang)_
 
-**Logo**
+## Logo
 
 ![Powder Therapy wordmark in black on white and white on black, stacked serif with a four-pointed star inside the O](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-5.avif)
 
@@ -24,17 +24,17 @@ The symbol series starts from the letter O and the star. Fine Particle is a sing
 
 ![Three Powder Therapy circular symbols labeled Fine Particle, Powder Therapy, and Better and healthy life](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-8.avif)
 
-**Type**
+## Type
 
 Typography uses Maison Neue from the MILIEU GROTESQUE foundry. Maison Neue has a stronger focus on optical criteria to create a distinct grotesque that pays greater attention to harmony, rhythm, and flow. It stays neutral and is meant to help the eye relax. That is the feeling the brand wants audiences to have. It looks nice in a paragraph and in a title.
 
-**Color**
+## Color
 
 The palette is Light Gray, The Neon Green, and Black. Neon Green, a bright shade, symbolizes a focus on life. The color evokes a balanced life. Wearing the neon shade signifies determination towards the achievement of goals. The neon green highlights strong willpower, bravery, and attention towards achieving particular goals.
 
 ![Powder Therapy color palette blocks for Light Gray, The Neon Green, and Black](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-9.avif)
 
-**Applications**
+## Applications
 
 Packaging includes Full-body Matcha Latte in boxes of 10 sachet stick packs, plus single-serve sachets, cup sleeves, stickers, and business cards. One card shows the Instagram handle @powder.therapy. Web and social mockups show an Amazon-style listing grid and an Instagram profile. The profile bio repeats the brand line.
 
@@ -65,3 +65,5 @@ Packaging includes Full-body Matcha Latte in boxes of 10 sachet stick packs, plu
 ![Powder Therapy wordmark in distressed white serif type on a dark grain field, with a star inside the O](./ending.avif)
 
 TODO(Quang): slide 11 was missing from the source archive. Slides present are 1 to 10 and 12 to 22. Confirm whether anything from that slide should appear on this page.
+
+TODO(Quang): end card shows ©2020 while this page date uses the archive stamp 2023-09-11. Confirm the project year for the Time meta field.
