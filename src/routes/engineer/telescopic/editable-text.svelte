@@ -49,11 +49,11 @@
 			aria-label="Telescopic text"
 			aria-busy={busy}
 			bind:textContent={text}
-			class="hair min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[calc(var(--grid)-var(--hair))] leading-[var(--grid)]"
+			class="min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[var(--grid)] leading-[var(--grid)] shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]"
 		></div>
 	{:else}
 		<div
-			class="hair min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[calc(var(--grid)-var(--hair))] text-left leading-[var(--grid)]"
+			class="min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[var(--grid)] text-left leading-[var(--grid)] shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]"
 			aria-busy={busy}
 		>
 			{#each words as word, i (`${i}:${word}`)}
