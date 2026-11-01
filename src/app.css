@@ -272,6 +272,13 @@
 		box-shadow: 0 var(--hair) 0 0 var(--ink-25);
 	}
 
+	.gallery img {
+		display: block;
+		width: 100%;
+		height: round(nearest, auto, var(--grid));
+		object-fit: cover;
+	}
+
 	.gallery .grid img {
 		border: 0;
 	}
