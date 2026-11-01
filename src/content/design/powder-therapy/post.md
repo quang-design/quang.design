@@ -1,7 +1,7 @@
 ---
 title: 'Powder Therapy - Brand Identity and Packaging Design'
 description: 'Brand identity and packaging for Powder Therapy, a Full-body Matcha Latte in sachet stick packs.'
-date: '2023-09-11'
+date: '2020-01-01'
 published: true
 thumbnail: './wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-3.avif'
 ---
@@ -12,15 +12,15 @@ A simple way to treat yourself better everyday. From day to night. Simple and li
 
 The star in the wordmark stands for powder treatment. Powder is a dry bulk solid of very fine particles. A fine particle is like a star, and powder can feel like a sky full of stars. The star is meant to spark hope in our life. A 3D type treatment on the D gives a sense of depth.
 
-_Client: Powder Therapy · Project: Brand Identity & Packaging Design · Location: TODO(Quang) · Time: TODO(Quang)_
+_Client: Powder Therapy · Project: Brand Identity & Packaging Design · Location: Canada · Time: 2020_
 
 **Logo**
+
+The symbol series starts from the letter O and the star. Fine Particle is a single star with radiating ticks. Powder Therapy nests the star in concentric rings. Better and healthy life fills the circle with many stars.
 
 ![Powder Therapy wordmark in black on white and white on black, stacked serif with a four-pointed star inside the O](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-5.avif)
 
 ![Powder Therapy wordmark beside three mood images, tea plantation rows, a leaf in a glass dish, and a swimmer in green water](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-6.avif)
-
-The symbol series starts from the letter O and the star. Fine Particle is a single star with radiating ticks. Powder Therapy nests the star in concentric rings. Better and healthy life fills the circle with many stars.
 
 ![Three Powder Therapy circular symbols labeled Fine Particle, Powder Therapy, and Better and healthy life](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-8.avif)
 
@@ -65,5 +65,3 @@ Packaging includes Full-body Matcha Latte in boxes of 10 sachet stick packs, plu
 ![Powder Therapy wordmark in distressed white serif type on a dark grain field, with a star inside the O](./ending.avif)
 
 TODO(Quang): slide 11 was missing from the source archive. Slides present are 1 to 10 and 12 to 22. Confirm whether anything from that slide should appear on this page.
-
-TODO(Quang): end card shows ©2020 while this page date uses the archive stamp 2023-09-11. Confirm the project year for the Time meta field.
