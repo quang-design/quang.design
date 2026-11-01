@@ -1,5 +1,10 @@
 const YEAR = /^\d{4}$/;
 const CALENDAR_DAY = /^\d{4}-\d{2}-\d{2}$/;
+const LEADING_YEAR = /^(\d{4})/;
+
+export function publishedYear(date: string): string {
+	return LEADING_YEAR.exec(date)?.[1] ?? date;
+}
 
 export function publishedDateValue(date: string): string {
 	if (YEAR.test(date)) return date;

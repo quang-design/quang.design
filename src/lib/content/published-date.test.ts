@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { getAllPosts } from './design';
-import { comparePublishedDesc, publishedDateValue, publishedMillis } from './published-date';
+import {
+	comparePublishedDesc,
+	publishedDateValue,
+	publishedMillis,
+	publishedYear
+} from './published-date';
 
 describe('publishedDateValue', () => {
 	it('keeps a four-digit year unchanged', () => {
@@ -16,6 +21,15 @@ describe('publishedDateValue', () => {
 	it('returns an empty or garbage string as given', () => {
 		expect(publishedDateValue('')).toBe('');
 		expect(publishedDateValue('not-a-date')).toBe('not-a-date');
+	});
+
+	it('reads a list label as the year and leaves the stored day intact', () => {
+		expect(publishedYear('2019-12-26')).toBe('2019');
+		expect(publishedYear('2018')).toBe('2018');
+		expect(publishedYear('')).toBe('');
+		const faceMask = getAllPosts().find((post) => post.slug === 'face-mask');
+		expect(faceMask?.date).toBe('2021-06-20');
+		expect(publishedYear(faceMask?.date ?? '')).toBe('2021');
 	});
 
 	it('sorts a year as January 1 and a later calendar day ahead of it', () => {
