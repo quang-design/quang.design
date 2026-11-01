@@ -64,7 +64,9 @@
 	</div>
 
 	{#if galleryMd}
-		<div class="gallery flex flex-col">
+		<div
+			class={['gallery flex flex-col', { 'gallery-split': page.params.slug === 'powder-therapy' }]}
+		>
 			<DesignMarkdown md={galleryMd} />
 		</div>
 	{/if}

@@ -16,7 +16,7 @@ _Client: Powder Therapy · Project: Brand Identity & Packaging Design · Locatio
 
 **Logo**
 
-The symbol series starts from the letter O and the star. Fine Particle is a single star with radiating ticks. Powder Therapy nests the star in concentric rings. Better and healthy life fills the circle with many stars.
+The symbol series comes from the letter O and the star. Fine Particle is that O drawn as a circle around one star, with ticks radiating from the star. Powder Therapy nests the star in concentric rings. Better and healthy life fills the circle with many stars.
 
 ![Powder Therapy wordmark in black on white and white on black, stacked serif with a four-pointed star inside the O](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-5.avif)
 
@@ -26,7 +26,7 @@ The symbol series starts from the letter O and the star. Fine Particle is a sing
 
 **Type**
 
-Maison Neue, from the MILIEU GROTESQUE foundry, carries the voice. Built with a stronger focus on optical criteria, it pays attention to harmony, rhythm, and flow. Neutral by design, it helps the eye relax—the feeling the brand wants for its audience—whether set as a title or a paragraph.
+Maison Neue, from Milieu Grotesque, carries the voice. Built with a stronger focus on optical criteria, it pays attention to harmony, rhythm, and flow. Neutral by design, it helps the eye relax—the feeling the brand wants for its audience—whether set as a title or a paragraph.
 
 **Color**
 
