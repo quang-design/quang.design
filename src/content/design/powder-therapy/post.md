@@ -1,12 +1,12 @@
 ---
 title: 'Powder Therapy - Brand Identity and Packaging Design'
-description: 'A simple way to treat yourself better everyday—brand identity and packaging for Powder Therapy, a Full-body Matcha Latte in sachet stick packs.'
+description: 'Powder Therapy is a Full-body Matcha Latte in boxes of 10 sachet stick packs, simple and light everyday, from day to night.'
 date: '2020-01-01'
 published: true
 thumbnail: './wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-3.avif'
 ---
 
-A simple way to treat yourself better everyday.
+Powder Therapy is a Full-body Matcha Latte packaged in boxes of 10 sachet stick packs. It is a simple and light way to treat yourself better everyday, from day to night. The identity draws a symbol series from the letter O and the star, sets the name in Maison Neue, and uses Light Gray, The Neon Green, and Black. The same marks appear on the box, the stick pack, cup sleeves, stickers, and cards.
 
 _Client: Powder Therapy · Project: Brand Identity & Packaging Design · Location: Canada · Time: 2020_
 
