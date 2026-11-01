@@ -1,16 +1,16 @@
 ---
 title: 'Powder Therapy - Brand Identity and Packaging Design'
-description: 'Brand identity and packaging for Powder Therapy, a Full-body Matcha Latte in sachet stick packs.'
+description: 'A simple way to treat yourself better everyday—brand identity and packaging for Powder Therapy, a Full-body Matcha Latte in sachet stick packs.'
 date: '2020-01-01'
 published: true
 thumbnail: './wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-3.avif'
 ---
 
-Powder Therapy is a brand identity and packaging system for a Full-body Matcha Latte packaged as sachet stick packs. The work includes a serif wordmark with a star set in the O, three circular symbols drawn from that letter and star, a light gray, neon green, and black palette, and Maison Neue. Applications cover boxes, sachets, cup sleeves, stationery, the web, and social.
+A simple way to treat yourself better everyday.
 
-A simple way to treat yourself better everyday. From day to night. Simple and light. The Powder Therapy.
+Powder Therapy is a Full-body Matcha Latte packaged as sachet stick packs. The brand asks for something light from day to night—simple enough for a daily ritual, clear enough to hold a shelf.
 
-The star in the wordmark stands for powder treatment. Powder is a dry bulk solid of very fine particles. A fine particle is like a star, and powder can feel like a sky full of stars. The star is meant to spark hope in our life. A 3D type treatment on the D gives a sense of depth.
+The idea is the star. Powder is a dry bulk solid of very fine particles. A fine particle is like a star, and powder can feel like a sky full of them. The star stands for powder treatment and is meant to spark hope. It sits inside the O of a stacked serif wordmark; a 3D type treatment on the D gives the name a sense of depth.
 
 _Client: Powder Therapy · Project: Brand Identity & Packaging Design · Location: Canada · Time: 2020_
 
@@ -26,17 +26,17 @@ The symbol series starts from the letter O and the star. Fine Particle is a sing
 
 **Type**
 
-Typography uses Maison Neue from the MILIEU GROTESQUE foundry. Maison Neue has a stronger focus on optical criteria to create a distinct grotesque that pays greater attention to harmony, rhythm, and flow. It stays neutral and is meant to help the eye relax. That is the feeling the brand wants audiences to have. It looks nice in a paragraph and in a title.
+Maison Neue, from the MILIEU GROTESQUE foundry, carries the voice. Built with a stronger focus on optical criteria, it pays attention to harmony, rhythm, and flow. Neutral by design, it helps the eye relax—the feeling the brand wants for its audience—whether set as a title or a paragraph.
 
 **Color**
 
-The palette is Light Gray, The Neon Green, and Black. Neon Green, a bright shade, symbolizes a focus on life. The color evokes a balanced life. Wearing the neon shade signifies determination towards the achievement of goals. The neon green highlights strong willpower, bravery, and attention towards achieving particular goals.
+The palette is Light Gray, The Neon Green, and Black. Neon Green, a bright shade, stands for a focus on life and a balanced life. It signals determination toward goals—willpower, bravery, and attention.
 
 ![Powder Therapy color palette blocks for Light Gray, The Neon Green, and Black](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-9.avif)
 
 **Applications**
 
-Packaging includes Full-body Matcha Latte in boxes of 10 sachet stick packs, plus single-serve sachets, cup sleeves, stickers, and business cards. One card shows the Instagram handle @powder.therapy. Web and social mockups show an Amazon-style listing grid and an Instagram profile. The profile bio repeats the brand line.
+The system lands on Full-body Matcha Latte boxes of 10 sachet stick packs, single-serve sachets, cup sleeves, stickers, and business cards—one showing the Instagram handle @powder.therapy. Web and social carry the same line: an Amazon-style listing grid and an Instagram profile whose bio repeats the brand promise.
 
 ![Open Powder Therapy product box for Full-body Matcha Latte, 10 sachet stick packs, with cream icons on the green interior flap](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-3.avif)
 
@@ -63,5 +63,3 @@ Packaging includes Full-body Matcha Latte in boxes of 10 sachet stick packs, plu
 ![Grid of Powder Therapy matcha boxes forming a continuous ring pattern, with one stick pack laid across the center](./wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-22.avif)
 
 ![Powder Therapy wordmark in distressed white serif type on a dark grain field, with a star inside the O](./ending.avif)
-
-TODO(Quang): slide 11 was missing from the source archive. Slides present are 1 to 10 and 12 to 22. Confirm whether anything from that slide should appear on this page.
