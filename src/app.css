@@ -263,6 +263,11 @@
 		border-top: var(--hair) solid var(--ink-25);
 	}
 
+	.gallery > h2 + p {
+		border-top: 0;
+		padding-top: 0;
+	}
+
 	.gallery > :last-child {
 		box-shadow: 0 var(--hair) 0 0 var(--ink-25);
 	}
