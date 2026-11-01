@@ -8,10 +8,6 @@ thumbnail: './wangrar-vietnamese-graphic-designer-brand-identity-design-powder-t
 
 A simple way to treat yourself better everyday.
 
-Powder Therapy is a Full-body Matcha Latte packaged as sachet stick packs. The brand asks for something light from day to night—simple enough for a daily ritual, clear enough to hold a shelf.
-
-The idea is the star. Powder is a dry bulk solid of very fine particles. A fine particle is like a star, and powder can feel like a sky full of them. The star stands for powder treatment and is meant to spark hope. It sits inside the O of a stacked serif wordmark; a 3D type treatment on the D gives the name a sense of depth.
-
 _Client: Powder Therapy · Project: Brand Identity & Packaging Design · Location: Canada · Time: 2020_
 
 **Logo**
@@ -26,7 +22,7 @@ The symbol series comes from the letter O and the star. Fine Particle is that O 
 
 **Type**
 
-Maison Neue, from Milieu Grotesque, carries the voice. Built with a stronger focus on optical criteria, it pays attention to harmony, rhythm, and flow. Neutral by design, it helps the eye relax—the feeling the brand wants for its audience—whether set as a title or a paragraph.
+Maison Neue, from [Milieu Grotesque](https://www.milieugrotesque.com/), carries the voice. Built with a stronger focus on optical criteria, it pays attention to harmony, rhythm, and flow. Neutral by design, it helps the eye relax—the feeling the brand wants for its audience—whether set as a title or a paragraph.
 
 **Color**
 
