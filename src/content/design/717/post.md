@@ -1,14 +1,14 @@
 ---
 title: "Bringing Simplicity and Sophistication to 717 Architects' Portfolio"
 description: 'Brand identity and editorial design for 717 Architects, an architecture, interior and lighting design company.'
-date: '2019-08-19'
+date: '2019-08-20'
 published: true
 thumbnail: './mockup-1.avif'
 ---
 
 717 Studio is an architecture, interior and lighting design company, was established by experienced architects who had worked for several global design firms. Their philosophy is very understandable: "Make thing simple, but not simpler"
 
-_Client: 717 Architects · Project: Editorial · Location: HCMC, Vietnam · Time: 2019-08-19_
+_Client: 717 Architects · Project: Editorial · Location: HCMC, Vietnam · Time: 2019-08-20_
 
 ![](./mockup-1.avif)
 

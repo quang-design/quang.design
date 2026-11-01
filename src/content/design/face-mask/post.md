@@ -1,7 +1,7 @@
 ---
 title: 'Responding to Urgent Need: Disposable Face Mask Packaging'
 description: 'Packaging design for disposable face masks, created in response to urgent public health needs during the pandemic.'
-date: '2020'
+date: '2021-06-20'
 published: true
 thumbnail: './web-1.avif'
 ---
@@ -10,7 +10,7 @@ When the COVID-19 pandemic hit in early 2020, there was an urgent need for suppl
 
 With only 2 days to deliver due to the pressing timeline, I came up with a streamlined design that organized all the necessary information in a clean, legible way. The front of the package features a large photo of the mask along with key details like "3-ply" and "BFE ≥ 95%" to showcase the quality and filtration effectiveness. The Vietnamese company name and brand are also prominently displayed.
 
-_Client: Kinh Bac - Thanh Nam Joint Stock Company · Project: Packaging · Location: Nam Dinh Province, Vietnam · Time: 2020_
+_Client: Kinh Bac - Thanh Nam Joint Stock Company · Project: Packaging · Location: Nam Dinh Province, Vietnam · Time: 2021-06-20_
 
 ![](./web-1.avif)
 

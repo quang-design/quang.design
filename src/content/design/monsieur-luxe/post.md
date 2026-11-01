@@ -1,7 +1,7 @@
 ---
 title: 'Discover the Flavors of Monsieur Luxe'
 description: 'Monsieur Luxe brand identity and packaging for dried fruits and snacks that keep fresh-picked flavor in every single bite.'
-date: '2018-12-18'
+date: '2018'
 published: true
 thumbnail: './001-1.avif'
 ---
@@ -10,7 +10,7 @@ At Monsieur Luxe, our passion is crafting delectable dried fruits and snacks tha
 
 The result is a collection of premium dried fruits and snacks bursting with flavors and aromas you won't find anywhere else. From juicy mango chips to chewy apricots and crunchy banana chips, our diverse offerings let you enjoy your favorites anytime.
 
-_Client: Monsieur Luxe · Project: Brand Identity, Design Consultant · Location: Vietnam · Time: 2018-12-18_
+_Client: Monsieur Luxe · Project: Brand Identity, Design Consultant · Location: Vietnam · Time: 2018_
 
 ![](./001-1.avif)
 

@@ -26,21 +26,25 @@ describe('publishedDateValue', () => {
 	it('orders newest first and breaks ties by slug', () => {
 		const posts = [
 			{ slug: 'powder-therapy', date: '2020-01-01' },
-			{ slug: 'face-mask', date: '2020' },
+			{ slug: 'face-mask', date: '2021-06-20' },
 			{ slug: 'dream-sweets', date: '2021-07-19' },
 			{ slug: 'peanut-planner', date: '2021-09-14' },
 			{ slug: 'suda', date: '2021-04-25' },
 			{ slug: 'her-kind', date: '2022-01-01' },
-			{ slug: 'dawg', date: '2020-03-29' }
+			{ slug: 'dawg', date: '2020-03-29' },
+			{ slug: 'namka', date: '2018' },
+			{ slug: 'monsieur-luxe', date: '2018' }
 		];
 		expect([...posts].sort(comparePublishedDesc).map((post) => post.slug)).toEqual([
 			'her-kind',
 			'peanut-planner',
 			'dream-sweets',
+			'face-mask',
 			'suda',
 			'dawg',
-			'face-mask',
-			'powder-therapy'
+			'powder-therapy',
+			'monsieur-luxe',
+			'namka'
 		]);
 	});
 
@@ -50,19 +54,19 @@ describe('publishedDateValue', () => {
 			'her-kind',
 			'metanoia',
 			'peanut-planner',
+			'face-mask',
 			'suda',
 			'powder-therapy',
 			'dawg',
-			'face-mask',
 			'wedding',
 			'717',
 			'simplex',
-			'monsieur-luxe',
-			'namka',
-			'xuan-loc-farm',
 			'doppio',
 			'fuck-go',
-			'alluvia'
+			'alluvia',
+			'monsieur-luxe',
+			'namka',
+			'xuan-loc-farm'
 		]);
 	});
 });
