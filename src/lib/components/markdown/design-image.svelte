@@ -5,20 +5,13 @@
 	const cleanAlt = $derived(alt === '2col' ? '' : alt || '');
 
 	const snapToGrid: Attachment<HTMLImageElement> = (node) => {
-		if (CSS.supports('height', 'calc-size(auto, round(nearest, size, 1px))')) return;
-
 		const gridPx = () => {
 			const raw = getComputedStyle(node).getPropertyValue('--grid').trim();
 			if (raw.endsWith('px')) {
 				const parsed = Number.parseFloat(raw);
 				if (parsed > 0) return parsed;
 			}
-			const probe = document.createElement('div');
-			probe.style.cssText = 'position:absolute;height:var(--grid);visibility:hidden';
-			(node.parentElement ?? document.body).append(probe);
-			const measured = probe.getBoundingClientRect().height;
-			probe.remove();
-			return measured || 24;
+			return 24;
 		};
 
 		const apply = () => {

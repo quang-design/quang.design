@@ -275,8 +275,6 @@
 	.gallery img {
 		display: block;
 		width: 100%;
-		height: auto;
-		height: calc-size(auto, round(nearest, size, var(--grid)));
 		object-fit: cover;
 	}
 
