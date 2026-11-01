@@ -55,7 +55,7 @@ describe('layoutGallery', () => {
 			cells: [
 				{
 					heading: 'Audience',
-					body: 'Regular gummy bears are mostly for kids. Dream Sweets is for ages 16 to 30, with a grown-up design. The packs use rounded type and periwinkle. The candy is sugar-free, at 60 calories per bag.',
+					body: "Dream Sweets is for ages 16 to 30. It is for people who don't want to give up their sweet tooth. Traditional gummy bears are sugar-filled. This one is the healthier, zero sugar, low calorie alternative.",
 					side: 0
 				},
 				{
