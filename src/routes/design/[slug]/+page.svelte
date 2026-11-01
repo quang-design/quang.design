@@ -52,7 +52,18 @@
 			<div class="flex min-w-0 flex-col gap-[var(--grid)]">
 				{#if introMd}
 					{#each introMd.split('\n\n') as paragraph (paragraph)}
-						<p class="m-0 text-base leading-[var(--grid)]">{paragraph}</p>
+						<p class="m-0 text-base leading-[var(--grid)]">
+							{#if paragraph === 'Illustration by Luong Doo'}
+								Illustration by <a
+									class="underline"
+									href="https://luongdoo.com"
+									target="_blank"
+									rel="noopener">Luong Doo</a
+								>
+							{:else}
+								{paragraph}
+							{/if}
+						</p>
 					{/each}
 				{/if}
 			</div>
@@ -65,7 +76,7 @@
 	</div>
 
 	{#if galleryMd}
-		<div class="gallery flex flex-col">
+		<div class={['gallery flex flex-col', page.params.slug === 'dream-sweets' && 'gallery-flat']}>
 			{#if galleryRows.length}
 				{#each galleryRows as row, i (i)}
 					{#if row.kind === 'media'}

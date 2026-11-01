@@ -84,32 +84,16 @@ export function layoutGallery(md: string): GalleryRow[] {
 
 	const rows: GalleryRow[] = [];
 	let side = 0;
-	let band: Extract<GalleryRow, { kind: 'text' }> | null = null;
-
-	const flush = () => {
-		if (!band) return;
-		rows.push(band);
-		band = null;
-	};
 
 	for (const item of items) {
 		if (item.kind === 'media') {
-			flush();
 			rows.push(item);
 			continue;
 		}
 		const cell: GalleryCell = { heading: item.heading, body: item.body, side: (side % 2) as 0 | 1 };
 		side += 1;
-		if (cell.side === 0) {
-			flush();
-			band = { kind: 'text', cells: [cell] };
-			continue;
-		}
-		if (band) band.cells.push(cell);
-		else band = { kind: 'text', cells: [cell] };
-		flush();
+		rows.push({ kind: 'text', cells: [cell] });
 	}
-	flush();
 
 	return rows;
 }
