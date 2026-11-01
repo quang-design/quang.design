@@ -14,7 +14,7 @@ _Client: Dream Sweets · Project: Naming, Logo, Branding & Packaging · Location
 
 **Logo**
 
-DREAM SWEETS is two lines of rounded type. A flat oval crosses the middle and inverts the letters inside it. Periwinkle type sits on a pale ground. White type sits on periwinkle.
+Dream Sweets is two lines of rounded type. A flat oval crosses the middle and inverts the letters inside it. Periwinkle type sits on a pale ground. White type sits on periwinkle.
 
 ![Dream Sweets wordmark in periwinkle on a pale ground and in white on periwinkle, two lines of rounded type with a flat oval inverting the letters](./dream-sweets-logo-variants.avif)
 
@@ -32,7 +32,7 @@ The bag stays simple. The box carries the full branding. Fronts show FRUITY GUMM
 
 **Audience**
 
-Candy packaging still targets kids. Dream Sweets is for ages 16 to 30. The packs are less kid-like than that market.
+Regular gummy bears are mostly for kids. Dream Sweets is for ages 16 to 30. The design is grown-up. Rounded type and periwinkle. Sugar-free, 60 calories per bag.
 
 **Applications**
 
@@ -40,6 +40,4 @@ The Instagram profile is dream.sweets. The avatar is the eye. The posts show the
 
 ![Instagram profile for dream.sweets with an eye avatar, posts of the box, the bag, and the wordmark, and a bio that reads A nice semblance of food and aesthetic](./dream-sweets-6.avif)
 
-![DREAM SWEETS wordmark in cream rounded type on charcoal, with a flat oval inverting the letters](./ending.avif)
-
-Have a nice day!
+![Dream Sweets wordmark in cream rounded type on charcoal, with a flat oval inverting the letters](./ending.avif)
