@@ -5,21 +5,37 @@
 	const cleanAlt = $derived(alt === '2col' ? '' : alt || '');
 
 	const snapToGrid: Attachment<HTMLImageElement> = (node) => {
-		const apply = () => {
-			const grid = Number.parseFloat(getComputedStyle(node).getPropertyValue('--grid')) || 24;
-			const { naturalWidth: nw, naturalHeight: nh, clientWidth: w } = node;
-			if (!nw || !nh || !w) return;
-			node.style.height = `${Math.round((w * nh) / nw / grid) * grid}px`;
+		if (CSS.supports('height', 'calc-size(auto, round(nearest, size, 1px))')) return;
+
+		const gridPx = () => {
+			const raw = getComputedStyle(node).getPropertyValue('--grid').trim();
+			if (raw.endsWith('px')) {
+				const parsed = Number.parseFloat(raw);
+				if (parsed > 0) return parsed;
+			}
+			const probe = document.createElement('div');
+			probe.style.cssText = 'position:absolute;height:var(--grid);visibility:hidden';
+			(node.parentElement ?? document.body).append(probe);
+			const measured = probe.getBoundingClientRect().height;
+			probe.remove();
+			return measured || 24;
 		};
 
-		const onLoad = () => apply();
+		const apply = () => {
+			const grid = gridPx();
+			const { naturalWidth, naturalHeight, clientWidth } = node;
+			if (!naturalWidth || !naturalHeight || !clientWidth || !grid) return;
+			const next = `${Math.round((clientWidth * naturalHeight) / naturalWidth / grid) * grid}px`;
+			if (node.style.height !== next) node.style.height = next;
+		};
+
+		node.addEventListener('load', apply);
 		if (node.complete) apply();
-		node.addEventListener('load', onLoad);
 		const ro = new ResizeObserver(apply);
-		ro.observe(node);
+		ro.observe(node.parentElement ?? node);
 
 		return () => {
-			node.removeEventListener('load', onLoad);
+			node.removeEventListener('load', apply);
 			ro.disconnect();
 		};
 	};
