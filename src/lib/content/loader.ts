@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import matter from 'gray-matter';
+import { comparePublishedDesc } from './published-date';
 import { designHref } from './slug';
 
 export interface PostMetadata {
@@ -83,7 +84,7 @@ function createContentParser(section: string, urlPrefix: string) {
 				.filter((p) => p.published);
 
 			if (posts.every((post) => post.date)) {
-				posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+				posts.sort(comparePublishedDesc);
 			}
 
 			return posts;

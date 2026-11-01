@@ -1,7 +1,7 @@
 ---
 title: "5 Years of Crafting Doppio Kaffè's Cozy Character"
 description: "As a designer and loyal patron, it's been my privilege to help shape the branding for Doppio Kaffè over the past 5 years."
-date: '2023-01-01'
+date: '2018-08-27'
 published: true
 thumbnail: './doppio_1.avif'
 ---
@@ -12,7 +12,7 @@ I wanted the branding to capture Doppio's cozy vibe - a welcoming oasis for savo
 
 As a regular, I often come here to recharge. It's a home away from home where you're always greeted with a smile. I'm honored my designs have helped this humble cafe share their passion over the years.
 
-_Client: Doppio Kaffè · Project: Brand Identity · Location: Hanoi, Vietnam · Time: 2018_
+_Client: Doppio Kaffè · Project: Brand Identity · Location: Hanoi, Vietnam · Time: 2018-08-27_
 
 ![](./doppio_1.avif)
 

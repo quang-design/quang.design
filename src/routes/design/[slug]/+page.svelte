@@ -5,6 +5,7 @@
 	import { page } from '$app/state';
 	import { Badge } from '$lib/components/ui/badge';
 	import { designHeadline } from '$lib/content/headline';
+	import { publishedDateValue } from '$lib/content/published-date';
 	import { designHref } from '$lib/content/slug';
 	import { absUrl } from '$lib/config/site';
 
@@ -28,7 +29,7 @@
 	canonical={href ? absUrl(href) : undefined}
 	image={data.meta.thumbnail ? absUrl(data.meta.thumbnail) : undefined}
 	type="article"
-	publishedTime={data.meta.date ? new Date(data.meta.date).toISOString() : undefined}
+	publishedTime={data.meta.date ? publishedDateValue(data.meta.date) : undefined}
 	author="Quang"
 />
 

@@ -1,7 +1,7 @@
 ---
 title: 'Responding to Urgent Need: Disposable Face Mask Packaging'
 description: 'Packaging design for disposable face masks, created in response to urgent public health needs during the pandemic.'
-date: '2020-01-01'
+date: '2020'
 published: true
 thumbnail: './web-1.avif'
 ---

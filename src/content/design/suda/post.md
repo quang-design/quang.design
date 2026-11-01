@@ -1,14 +1,14 @@
 ---
 title: 'Suda Coffee - Brewing Vietnamese Flavor in New York'
 description: 'Brand identity for Suda Coffee LLC, bringing authentic Vietnamese coffee culture to New York City.'
-date: '2022-01-01'
+date: '2021-04-25'
 published: true
 thumbnail: './suda-present-1.avif'
 ---
 
 When specialty coffee shop Suda Coffee LLC approached me to develop their brand identity, they wanted to share authentic Vietnamese-style coffee with New Yorkers in a way that would stand out from other coffee companies. Sourcing premium beans from Vietnam, Suda Coffee's mission is to provide an immersive, cultural coffee experience rooted in Vietnamese traditions.
 
-_Client: Suda Coffee LLC · Project: Brand Identity · Location: New York, USA · Time: 2020_
+_Client: Suda Coffee LLC · Project: Brand Identity · Location: New York, USA · Time: 2021-04-25_
 
 ![](./suda-present-1.avif)
 
