@@ -32,7 +32,7 @@ The bag stays simple. The box carries the full branding. Fronts show FRUITY GUMM
 
 **Audience**
 
-Regular gummy bears are mostly for kids. Dream Sweets is for ages 16 to 30. The design is grown-up. Rounded type and periwinkle. Sugar-free, 60 calories per bag.
+Regular gummy bears are mostly for kids. Dream Sweets is for ages 16 to 30, with a grown-up design. The packs use rounded type and periwinkle. The candy is sugar-free, at 60 calories per bag.
 
 **Applications**
 
