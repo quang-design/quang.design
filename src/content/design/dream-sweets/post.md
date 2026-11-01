@@ -20,7 +20,7 @@ DREAM SWEETS is two lines of rounded type. A flat oval crosses the middle and in
 
 **Packaging**
 
-The bag stays simple. The box carries the full branding. Fronts show FRUITY GUMMY BEARS, an iridescent bear, and SUGAR FREE. A French line sits under FRUITY GUMMY BEARS. Callouts read 60 Calories per bag and 0.77 oz / 22 g. The side shows the wordmark, an eye, and Made in Canada.
+The bag stays simple. The box carries the full branding. Fronts show FRUITY GUMMY BEARS, an iridescent bear, and SUGAR FREE. Callouts read 60 Calories per bag and 0.77 oz / 22 g. The side shows the wordmark, an eye, and Made in Canada.
 
 ![Dream Sweets bag front and side, with an iridescent bear, SUGAR FREE, 60 Calories per bag, 0.77 oz / 22 g, an eye, and Made in Canada](./dream-sweets-2.avif)
 
