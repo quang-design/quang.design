@@ -64,14 +64,14 @@ describe('publishedDateValue', () => {
 
 	it('lists the design catalog newest first', () => {
 		expect(getAllPosts().map((post) => post.slug)).toEqual([
-			'dream-sweets',
 			'her-kind',
 			'metanoia',
 			'peanut-planner',
+			'dream-sweets',
 			'face-mask',
 			'suda',
-			'powder-therapy',
 			'dawg',
+			'powder-therapy',
 			'wedding',
 			'717',
 			'simplex',

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { DesignMarkdown } from '$lib/components/markdown';
-	import { splitDesignContent } from '$lib/utils/design-content';
+	import { layoutGallery, splitDesignContent } from '$lib/utils/design-content';
 	import { page } from '$app/state';
 	import { Badge } from '$lib/components/ui/badge';
 	import { designHeadline } from '$lib/content/headline';
@@ -19,6 +19,7 @@
 	} = $props();
 
 	const { introMd, metaParts, galleryMd } = $derived(splitDesignContent(data.md));
+	const galleryRows = $derived(page.params.slug === 'dream-sweets' ? layoutGallery(galleryMd) : []);
 	const href = $derived(designHref(page.params.slug));
 	const headline = $derived(designHeadline(data.meta.title, page.params.slug ?? ''));
 </script>
@@ -52,7 +53,18 @@
 			<div class="flex min-w-0 flex-col gap-[var(--grid)]">
 				{#if introMd}
 					{#each introMd.split('\n\n') as paragraph (paragraph)}
-						<p class="m-0 text-base leading-[var(--grid)]">{paragraph}</p>
+						<p class="m-0 text-base leading-[var(--grid)]">
+							{#if paragraph === 'Illustration by Luong Doo'}
+								Illustration by <a
+									class="underline"
+									href="https://luongdoo.com"
+									target="_blank"
+									rel="noopener">Luong Doo</a
+								>
+							{:else}
+								{paragraph}
+							{/if}
+						</p>
 					{/each}
 				{/if}
 			</div>
@@ -66,9 +78,40 @@
 
 	{#if galleryMd}
 		<div
-			class={['gallery flex flex-col', { 'gallery-split': page.params.slug === 'powder-therapy' }]}
+			class={[
+				'gallery flex flex-col',
+				page.params.slug === 'powder-therapy' && 'gallery-split',
+				page.params.slug === 'dream-sweets' && 'gallery-flat'
+			]}
 		>
-			<DesignMarkdown md={galleryMd} />
+			{#if galleryRows.length}
+				{#each galleryRows as row, i (i)}
+					{#if row.kind === 'media'}
+						<DesignMarkdown md={row.md} />
+					{:else}
+						<div class="grid grid-cols-1 sm:grid-cols-2">
+							{#each row.cells as cell (cell.heading)}
+								<div class={cell.side === 1 ? 'sm:col-start-2' : ''}>
+									<h2 class="ink-h3 px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]">
+										{cell.heading}
+									</h2>
+									{#each cell.body.split('\n\n') as para, pi (pi)}
+										<p
+											class="ink-read px-[var(--grid)] pb-[var(--grid)] {pi === 0
+												? 'pt-0'
+												: 'pt-[var(--grid)]'}"
+										>
+											{para}
+										</p>
+									{/each}
+								</div>
+							{/each}
+						</div>
+					{/if}
+				{/each}
+			{:else}
+				<DesignMarkdown md={galleryMd} />
+			{/if}
 		</div>
 	{/if}
 </div>

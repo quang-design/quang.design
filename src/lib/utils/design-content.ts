@@ -42,3 +42,58 @@ export function splitDesignContent(md: string) {
 
 	return { introMd, metaParts, galleryMd };
 }
+
+export type GalleryCell = { heading: string; body: string; side: 0 | 1 };
+
+export type GalleryRow = { kind: 'text'; cells: GalleryCell[] } | { kind: 'media'; md: string };
+
+const sectionHeading = /^\*\*([^*]+)\*\*$/;
+
+export function layoutGallery(md: string): GalleryRow[] {
+	const chunks = md
+		.split(/\n\n+/)
+		.map((chunk) => chunk.trim())
+		.filter(Boolean);
+
+	type TextItem = { kind: 'text'; heading: string; body: string };
+	type MediaItem = { kind: 'media'; md: string };
+	const items: Array<TextItem | MediaItem> = [];
+	let open: { heading: string; paras: string[] } | null = null;
+
+	const close = () => {
+		if (!open) return;
+		items.push({ kind: 'text', heading: open.heading, body: open.paras.join('\n\n') });
+		open = null;
+	};
+
+	for (const chunk of chunks) {
+		const heading = chunk.match(sectionHeading);
+		if (heading) {
+			close();
+			open = { heading: heading[1].trim(), paras: [] };
+			continue;
+		}
+		if (chunk.startsWith('![')) {
+			close();
+			items.push({ kind: 'media', md: chunk });
+			continue;
+		}
+		if (open) open.paras.push(chunk);
+	}
+	close();
+
+	const rows: GalleryRow[] = [];
+	let side = 0;
+
+	for (const item of items) {
+		if (item.kind === 'media') {
+			rows.push(item);
+			continue;
+		}
+		const cell: GalleryCell = { heading: item.heading, body: item.body, side: (side % 2) as 0 | 1 };
+		side += 1;
+		rows.push({ kind: 'text', cells: [cell] });
+	}
+
+	return rows;
+}
