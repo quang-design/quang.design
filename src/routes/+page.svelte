@@ -32,7 +32,7 @@
 		<Markdown md={leadBody} />
 	</div>
 	<div class="ink-read pt-0 pb-[var(--grid)] md:py-[var(--grid)] [&_h3]:mb-0 [&_h4]:mb-0">
-		{#each sections.slice(1) as section, i (section)}
+		{#each sections.slice(1) as section (section)}
 			<Markdown md={section} />
 		{/each}
 	</div>

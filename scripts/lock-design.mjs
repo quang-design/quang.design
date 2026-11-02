@@ -256,11 +256,11 @@ function openCdp(url) {
 
 async function waitPage() {
 	for (let i = 0; i < 50; i++) {
-		try {
-			const list = await fetch(`http://127.0.0.1:${CDP_PORT}/json/list`).then((r) => r.json());
-			const page = list.find((t) => t.type === 'page' && t.webSocketDebuggerUrl);
-			if (page) return page;
-		} catch {}
+		const page = await fetch(`http://127.0.0.1:${CDP_PORT}/json/list`)
+			.then((response) => response.json())
+			.then((list) => list.find((target) => target.type === 'page' && target.webSocketDebuggerUrl))
+			.catch(() => undefined);
+		if (page) return page;
 		await sleep(150);
 	}
 	throw new Error('CDP page not ready');

@@ -12,7 +12,10 @@ describe('PreviewState', () => {
 		const pending = new Promise<Response>((resolve) => {
 			release = resolve;
 		});
-		vi.stubGlobal('fetch', vi.fn(() => pending));
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => pending)
+		);
 
 		const state = new PreviewState();
 		state.hoverLink(href, 'Young Lions');
