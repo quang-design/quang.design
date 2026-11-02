@@ -1,5 +1,5 @@
 const brands: Record<string, string> = {
-	doppio: 'Doppio Kaffè',
+	doppio: 'Doppio Caffe',
 	namka: 'Namka Coffee',
 	'monsieur-luxe': 'Monsieur Luxe',
 	'fuck-go': 'Fuck+Go',

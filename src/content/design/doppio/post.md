@@ -1,18 +1,18 @@
 ---
-title: "5 Years of Crafting Doppio Kaffè's Cozy Character"
-description: "As a designer and loyal patron, it's been my privilege to help shape the branding for Doppio Kaffè over the past 5 years."
+title: "5 Years of Crafting Doppio Caffe's Cozy Character"
+description: "As a designer and loyal patron, it's been my privilege to help shape the branding for Doppio Caffe over the past 5 years."
 date: '2018-08-27'
 published: true
 thumbnail: './doppio_1.avif'
 ---
 
-As a designer and loyal patron, it's been my privilege to help shape the branding for Doppio Kaffè over the past 5 years. This charming coffee shop in Hanoi holds a special place in my heart. Back in 2018, I designed their friendly logo featuring hot air balloons drifting over the name "Doppio," Italian for double. Their signature double shots epitomize the warm, generous spirit of this cafe.
+As a designer and loyal patron, it's been my privilege to help shape the branding for Doppio Caffe over the past 5 years. This charming coffee shop in Hanoi holds a special place in my heart. Back in 2018, I designed their friendly logo featuring hot air balloons drifting over the name "Doppio," Italian for double. Their signature double shots epitomize the warm, generous spirit of this cafe.
 
 I wanted the branding to capture Doppio's cozy vibe - a welcoming oasis for savoring a slowly-sipped coffee. Soft textures, earth tones and handwritten fonts create a relaxed, living room feel.
 
 As a regular, I often come here to recharge. It's a home away from home where you're always greeted with a smile. I'm honored my designs have helped this humble cafe share their passion over the years.
 
-_Client: Doppio Kaffè · Project: Brand Identity · Location: Hanoi, Vietnam · Time: 2018-08-27_
+_Client: Doppio Caffe · Project: Brand Identity · Location: Hanoi, Vietnam · Time: 2018-08-27_
 
 ![](./doppio_1.avif)
 
