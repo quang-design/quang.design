@@ -1,14 +1,14 @@
 ---
 title: 'Our Wedding Invitation - Celebrating 6 Years of Love and Commitment'
 description: 'Wedding invitation design celebrating 6 years of love and commitment, crafted with personal meaning and typographic care.'
-date: '2023-01-01'
+date: '2019-12-26'
 published: true
 thumbnail: './logo.avif'
 ---
 
 This project has been developed in 6 years of love, sweat & tears. By the time you're seeing this, we are so happy to announce that we got married just fine. Thank you!!!
 
-_Client: My Wife ❤️‍🔥 · Project: Wedding Invitation · Location: HCMC, Vietnam · Time: 2019_
+_Client: My Wife ❤️‍🔥 · Project: Wedding Invitation · Location: HCMC, Vietnam · Time: 2019-12-26_
 
 ![](./logo.avif)
 

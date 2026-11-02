@@ -1,6 +1,7 @@
 import type { RequestHandler } from './$types';
 import { getAllPosts as getAllBlogPosts } from '$lib/content/blog';
 import { getAllPosts as getAllDesignPosts } from '$lib/content/design';
+import { publishedDateValue } from '$lib/content/published-date';
 import { SITE_ORIGIN } from '$lib/config/site';
 import { designHref } from '$lib/content/slug';
 
@@ -32,7 +33,7 @@ export const GET: RequestHandler = async () => {
 			return url ? [{ ...post, url }] : [];
 		})
 	].map((post) => {
-		const lastmod = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
+		const lastmod = post.date ? publishedDateValue(post.date) : new Date().toISOString();
 		return {
 			url: post.url,
 			lastmod: Number.isNaN(new Date(lastmod).getTime()) ? new Date().toISOString() : lastmod,

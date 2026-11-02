@@ -4,6 +4,7 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { page } from '$app/state';
 	import { absUrl } from '$lib/config/site';
+	import { publishedDateValue } from '$lib/content/published-date';
 
 	let {
 		data
@@ -21,7 +22,7 @@
 	canonical={absUrl(`/blog/posts/${page.params.slug}`)}
 	image={data.meta.thumbnail ? absUrl(data.meta.thumbnail) : undefined}
 	type="article"
-	publishedTime={data.meta.date ? new Date(data.meta.date).toISOString() : undefined}
+	publishedTime={data.meta.date ? publishedDateValue(data.meta.date) : undefined}
 	author="Quang"
 />
 
