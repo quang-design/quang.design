@@ -1,6 +1,8 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { DesignMarkdown } from '$lib/components/markdown';
+	import { creditLink, type DesignFlags } from '$lib/content/design-flags';
+	import { setDesignView } from '$lib/content/design-view';
 	import { layoutGallery, splitDesignContent } from '$lib/utils/design-content';
 	import { page } from '$app/state';
 	import { Badge } from '$lib/components/ui/badge';
@@ -15,11 +17,21 @@
 		data: {
 			md: string;
 			meta: { title: string; description: string; thumbnail: string; date: string };
+			flags: DesignFlags;
 		};
 	} = $props();
 
+	setDesignView({
+		get layout() {
+			return data.flags.layout;
+		},
+		get credit() {
+			return data.flags.credit;
+		}
+	});
+
 	const { introMd, metaParts, galleryMd } = $derived(splitDesignContent(data.md));
-	const galleryRows = $derived(page.params.slug === 'dream-sweets' ? layoutGallery(galleryMd) : []);
+	const galleryRows = $derived(data.flags.layout === 'flat' ? layoutGallery(galleryMd) : []);
 	const href = $derived(designHref(page.params.slug));
 	const headline = $derived(designHeadline(data.meta.title, page.params.slug ?? ''));
 </script>
@@ -53,14 +65,12 @@
 			<div class="flex min-w-0 flex-col gap-[var(--grid)]">
 				{#if introMd}
 					{#each introMd.split('\n\n') as paragraph (paragraph)}
+						{@const link = creditLink(paragraph, data.flags.credit)}
 						<p class="m-0 text-base leading-[var(--grid)]">
-							{#if paragraph === 'Illustration by Luong Doo'}
-								Illustration by <a
-									class="underline"
-									href="https://luongdoo.com"
-									target="_blank"
-									rel="noopener">Luong Doo</a
-								>
+							{#if link}
+								{link.before}<a class="underline" href={link.href} target="_blank" rel="noopener"
+									>{link.label}</a
+								>{link.after}
 							{:else}
 								{paragraph}
 							{/if}
@@ -80,8 +90,8 @@
 		<div
 			class={[
 				'gallery flex flex-col',
-				page.params.slug === 'powder-therapy' && 'gallery-split',
-				page.params.slug === 'dream-sweets' && 'gallery-flat'
+				data.flags.layout === 'split' && 'gallery-split',
+				data.flags.layout === 'flat' && 'gallery-flat'
 			]}
 		>
 			{#if galleryRows.length}

@@ -3,6 +3,11 @@ title: 'Dream Sweets - Brand Identity and Packaging Design'
 description: 'Dream Sweets is a zero sugar, low calorie gummy bear for ages 16 to 30, a healthier alternative to sugar-filled gummies.'
 date: '2021-07-19'
 published: true
+layout: flat
+credit:
+  paragraph: Illustration by Luong Doo
+  label: Luong Doo
+  href: https://luongdoo.com
 thumbnail: './dream-sweets-3.avif'
 ---
 
