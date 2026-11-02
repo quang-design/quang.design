@@ -11,7 +11,7 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run",
+		"test": "vitest --run",
 		"test:e2e": "playwright test",
 		"test:lock": "node scripts/lock-design.mjs --assert",
 		"prepare": "husky"

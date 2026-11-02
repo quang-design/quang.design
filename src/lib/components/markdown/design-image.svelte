@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Attachment } from 'svelte/attachments';
-	import { page } from '$app/state';
+	import { getDesignView, hasDesignView } from '$lib/content/design-view';
 
 	let { alt, src }: { alt?: string; src?: string } = $props();
 	const cleanAlt = $derived(alt === '2col' ? '' : alt || '');
-	const snap = $derived(page.params.slug === 'dream-sweets');
+	const view = hasDesignView() ? getDesignView() : undefined;
+	const snap = $derived(view?.layout === 'flat');
 
 	const snapToGrid: Attachment<HTMLImageElement> = (node) => {
 		const gridPx = () => {

@@ -3,6 +3,7 @@ title: 'Powder Therapy - Brand Identity and Packaging Design'
 description: 'Powder Therapy treats an everyday matcha latte as a small act of care. The idea starts with the powder itself: fine particles'
 date: '2020-01-01'
 published: true
+layout: split
 thumbnail: './wangrar-vietnamese-graphic-designer-brand-identity-design-powder-therapy-3.avif'
 ---
 

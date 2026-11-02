@@ -39,8 +39,7 @@ export default ts.config(
 			}
 		},
 		rules: {
-			// Disable custom element warning - we're not building custom elements
-			'svelte/valid-compile': ['error', { ignoreWarnings: true }],
+			'svelte/valid-compile': 'error',
 			// Allow @html for structured data (JSON-LD) - used carefully
 			'svelte/no-at-html-tags': 'warn',
 			// Disable rules introduced in eslint-plugin-svelte v3

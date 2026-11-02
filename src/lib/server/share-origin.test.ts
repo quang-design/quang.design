@@ -2,7 +2,12 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { SITE_ORIGIN } from '$lib/config/site';
 import { shareOrigin } from './share-origin';
 
-const keys = ['VERCEL_ENV', 'VERCEL_PROJECT_PRODUCTION_URL', 'VERCEL_BRANCH_URL', 'VERCEL_URL'] as const;
+const keys = [
+	'VERCEL_ENV',
+	'VERCEL_PROJECT_PRODUCTION_URL',
+	'VERCEL_BRANCH_URL',
+	'VERCEL_URL'
+] as const;
 const previous = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
 
 afterEach(() => {
