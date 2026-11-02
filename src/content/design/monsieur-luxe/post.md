@@ -1,7 +1,7 @@
 ---
 title: 'Discover the Flavors of Monsieur Luxe'
 description: 'Monsieur Luxe brand identity and packaging for dried fruits and snacks that keep fresh-picked flavor in every single bite.'
-date: '2018-01-01'
+date: '2018'
 published: true
 thumbnail: './001-1.avif'
 ---

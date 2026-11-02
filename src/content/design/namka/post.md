@@ -1,7 +1,7 @@
 ---
 title: 'Crafting an Iconic Identity for Namka Coffee'
 description: 'Brand identity for Namka Coffee, a Vietnamese roaster focused on clean and high-quality coffee, from the farm to the cup.'
-date: '2018-01-01'
+date: '2018'
 published: true
 thumbnail: './cover.avif'
 ---

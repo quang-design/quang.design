@@ -1,8 +1,10 @@
 <script lang="ts">
 	import type { Attachment } from 'svelte/attachments';
+	import { page } from '$app/state';
 
 	let { alt, src }: { alt?: string; src?: string } = $props();
 	const cleanAlt = $derived(alt === '2col' ? '' : alt || '');
+	const snap = $derived(page.params.slug === 'dream-sweets');
 
 	const snapToGrid: Attachment<HTMLImageElement> = (node) => {
 		const gridPx = () => {
@@ -34,4 +36,8 @@
 	};
 </script>
 
-<img alt={cleanAlt} class="w-full object-cover" loading="lazy" {src} {@attach snapToGrid} />
+{#if snap}
+	<img alt={cleanAlt} class="w-full object-cover" loading="lazy" {src} {@attach snapToGrid} />
+{:else}
+	<img alt={cleanAlt} class="w-full" loading="lazy" {src} />
+{/if}

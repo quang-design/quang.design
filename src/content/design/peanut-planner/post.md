@@ -1,14 +1,14 @@
 ---
 title: 'Peanut Planner - Crafting a Playful, Passionate Brand Identity for Event Planners'
 description: 'Brand identity for Peanut Planner, a Saigon-based event and wedding planning brand.'
-date: '2022-01-01'
+date: '2021-09-14'
 published: true
 thumbnail: './pepl_2.avif'
 ---
 
 Peanut Planner is a Saigon-based event and wedding planners. Inspired by the idea of the "hidden" nutrition value inside the peanut itself, the team requested to sketch an identity that is both humble and shining in a friendly, elegant way.
 
-_Client: Peanut Planner · Project: Brand Identity · Location: HCMC, Vietnam · Time: 2021_
+_Client: Peanut Planner · Project: Brand Identity · Location: HCMC, Vietnam · Time: 2021-09-14_
 
 ![](./pepl_2.avif)
 

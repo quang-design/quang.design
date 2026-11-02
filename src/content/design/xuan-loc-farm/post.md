@@ -1,7 +1,7 @@
 ---
 title: 'Xuan Loc Farm - Cultivating an Authentic Brand Identity for Vietnamese Agriculture'
 description: 'Brand identity for Xuan Loc Farm, celebrating authentic Vietnamese agricultural heritage with a modern visual language.'
-date: '2022-01-01'
+date: '2018'
 published: true
 thumbnail: './cover.avif'
 ---

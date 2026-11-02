@@ -4,6 +4,7 @@
 	import EmptyState from '$lib/components/shared/empty-state.svelte';
 	import { IndexRow } from '$lib/components/layout';
 	import { designHeadline } from '$lib/content/headline';
+	import { publishedYear } from '$lib/content/published-date';
 	import { designHref } from '$lib/content/slug';
 	import type { PostMetadata } from './+page.server';
 
@@ -30,7 +31,7 @@
 						code="D{i + 1}"
 						title={headline.brand}
 						description={headline.line}
-						date={post.date}
+						date={publishedYear(post.date)}
 						thumbnail={post.thumbnail}
 						placeholder={!post.thumbnail}
 						thumb="wide"

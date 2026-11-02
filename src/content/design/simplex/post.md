@@ -1,7 +1,7 @@
 ---
 title: "Simplex Caffè - Crafting an Identity for Vietnam's Café Culture"
 description: "Brand identity for Simplex Caffè, a café concept celebrating the simplicity and richness of Vietnam's coffee culture."
-date: '2021-01-01'
+date: '2019'
 published: true
 thumbnail: './logo.avif'
 ---

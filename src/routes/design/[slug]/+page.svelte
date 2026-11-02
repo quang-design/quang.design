@@ -5,6 +5,7 @@
 	import { page } from '$app/state';
 	import { Badge } from '$lib/components/ui/badge';
 	import { designHeadline } from '$lib/content/headline';
+	import { publishedDateValue } from '$lib/content/published-date';
 	import { designHref } from '$lib/content/slug';
 	import { absUrl } from '$lib/config/site';
 
@@ -29,7 +30,7 @@
 	canonical={href ? absUrl(href) : undefined}
 	image={data.meta.thumbnail ? absUrl(data.meta.thumbnail) : undefined}
 	type="article"
-	publishedTime={data.meta.date ? new Date(data.meta.date).toISOString() : undefined}
+	publishedTime={data.meta.date ? publishedDateValue(data.meta.date) : undefined}
 	author="Quang"
 />
 
@@ -76,7 +77,13 @@
 	</div>
 
 	{#if galleryMd}
-		<div class={['gallery flex flex-col', page.params.slug === 'dream-sweets' && 'gallery-flat']}>
+		<div
+			class={[
+				'gallery flex flex-col',
+				page.params.slug === 'powder-therapy' && 'gallery-split',
+				page.params.slug === 'dream-sweets' && 'gallery-flat'
+			]}
+		>
 			{#if galleryRows.length}
 				{#each galleryRows as row, i (i)}
 					{#if row.kind === 'media'}
