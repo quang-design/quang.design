@@ -1,4 +1,8 @@
-import { sendSubscriptionNotification, SubscribeError } from '$lib/utils/resend';
+import {
+	saveGeneralContact,
+	sendSubscriptionNotification,
+	SubscribeError
+} from '$lib/utils/resend';
 import type { RequestHandler } from '@sveltejs/kit';
 import { z } from 'zod';
 
@@ -36,6 +40,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		const email = parsed.data.email.trim();
 
 		const result = await sendSubscriptionNotification(email);
+		await saveGeneralContact(email);
 		return new Response(JSON.stringify({ success: true, result }), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' }

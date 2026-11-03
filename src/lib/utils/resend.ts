@@ -2,7 +2,9 @@ import { env } from '$env/dynamic/private';
 import { Resend } from 'resend';
 
 let resend: Resend | null = null;
+let generalSegmentId: string | undefined;
 const defaultNotificationEmail = 'xinchao@quang.design';
+const generalSegmentName = 'General';
 
 export class SubscribeError extends Error {
 	statusCode: number;
@@ -32,8 +34,93 @@ function escapeHtml(value: string) {
 		.replaceAll("'", '&#39;');
 }
 
+function normalizeSubscriberEmail(email: string) {
+	return email.toLowerCase().trim();
+}
+
+function isAlreadyPresent(error: { message: string; name: string; statusCode: number | null }) {
+	const name = error.name.toLowerCase();
+	const message = error.message.toLowerCase();
+	return (
+		error.statusCode === 409 ||
+		name.includes('already') ||
+		name.includes('duplicate') ||
+		message.includes('already exist') ||
+		message.includes('already in')
+	);
+}
+
+function logContactFailure(email: string, error: unknown) {
+	console.error('Failed to save subscriber contact', email, error);
+}
+
+async function listSegments(client: Resend) {
+	const segments = [];
+	let after: string | undefined;
+
+	for (;;) {
+		const page = await client.segments.list(after ? { limit: 100, after } : { limit: 100 });
+		if (page.error) {
+			throw new Error(page.error.message);
+		}
+
+		segments.push(...page.data.data);
+		if (!page.data.has_more) return segments;
+
+		const cursor = page.data.data.at(-1)?.id;
+		if (!cursor || cursor === after) {
+			throw new Error('Segment list did not advance');
+		}
+		after = cursor;
+	}
+}
+
+async function resolveGeneralSegmentId(client: Resend) {
+	if (generalSegmentId) return generalSegmentId;
+
+	const matches = (await listSegments(client)).filter(
+		(segment) => segment.name === generalSegmentName
+	);
+	if (matches.length !== 1) {
+		throw new Error(`Expected one ${generalSegmentName} segment, found ${matches.length}`);
+	}
+
+	generalSegmentId = matches[0].id;
+	return generalSegmentId;
+}
+
+export async function saveGeneralContact(email: string) {
+	const subscriberEmail = normalizeSubscriberEmail(email);
+
+	try {
+		const client = getResendClient();
+		const segmentId = await resolveGeneralSegmentId(client);
+		const created = await client.contacts.create({
+			email: subscriberEmail,
+			segments: [{ id: segmentId }]
+		});
+
+		if (!created.error) return;
+
+		if (!isAlreadyPresent(created.error)) {
+			logContactFailure(subscriberEmail, created.error);
+			return;
+		}
+
+		const added = await client.contacts.segments.add({
+			email: subscriberEmail,
+			segmentId
+		});
+		if (!added.error || isAlreadyPresent(added.error)) return;
+
+		logContactFailure(subscriberEmail, added.error);
+	} catch (error) {
+		logContactFailure(subscriberEmail, error);
+	}
+}
+
 export async function sendSubscriptionNotification(email: string) {
-	const subscriberEmail = email.toLowerCase().trim();
+	const subscriberEmail = normalizeSubscriberEmail(email);
 	const notificationEmail = env.SUBSCRIBE_NOTIFICATION_TO || defaultNotificationEmail;
 	const sentAt = new Date().toISOString();
 	const safeEmail = escapeHtml(subscriberEmail);
