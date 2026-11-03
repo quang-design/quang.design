@@ -42,6 +42,25 @@ function rewriteRelativeAssetLinks(md: string, urlPrefix: string, slug: string) 
 	return md.replace(/\(\.\//g, `(${urlPrefix}/${slug}/`);
 }
 
+const imageFile = /\.(?:avif|gif|jpe?g|png|svg|webp)$/i;
+
+export function absoluteImageLinks(
+	markdown: string,
+	urlPrefix: string,
+	slug: string,
+	origin: string
+) {
+	const host = origin.replace(/\/$/, '');
+	const rewritten = rewriteRelativeAssetLinks(markdown, urlPrefix, slug);
+	return rewritten.replace(
+		/(!\[[^\]]*\]\()(\/[^)\s]+)(\s[^)]*)?\)/g,
+		(full, open: string, dest: string, title?: string) => {
+			if (!imageFile.test(dest.split(/[?#]/)[0])) return full;
+			return `${open}${host}${dest}${title ?? ''})`;
+		}
+	);
+}
+
 /**
  * Higher-level factory: pass the static glob result once and get ready-to-use
  * getAllPosts / getPost / getPostMatter functions back. Each content file only

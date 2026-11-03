@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getPostMatter } from '$lib/content/design';
+import { designAgentMarkdown } from '$lib/content/design';
 import { designHref } from '$lib/content/slug';
 
 export const prerender = false;
@@ -10,15 +10,14 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	const href = designHref(slug);
 	if (!href) throw error(404, 'Post not found');
 
-	let content: string;
+	const baseUrl = url.origin;
+	let markdown: string;
 	let data: Record<string, unknown>;
 	try {
-		({ content, data } = getPostMatter(slug));
+		({ markdown, data } = designAgentMarkdown(slug, baseUrl));
 	} catch {
 		throw error(404, 'Post not found');
 	}
-
-	const baseUrl = url.origin;
 	const postUrl = `${baseUrl}${href}`;
 	const postMdUrl = `${baseUrl}${href}/post.md`;
 
@@ -33,7 +32,7 @@ This is a design project from quang.design.
 **URL:** ${postUrl}
 
 ## Content
-${content}
+${markdown}
 
 ## Available formats
 - Web page: ${postUrl}
