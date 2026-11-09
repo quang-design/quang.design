@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  cookie: '>=0.7.0'
+  cookie: '>=0.7.0 <2'
   devalue: 5.9.3
   esbuild: '>=0.28.1'
   js-yaml@^3: 3.15.2
@@ -1242,9 +1242,9 @@ packages:
     resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  cookie@2.0.2:
-    resolution: {integrity: sha512-SL0cVuEdETEp7pN0FuZb01toc3vnODEfVUCooxG1SJN0yIirh7JMb9X9bvfCFf0vzzbT68RdbKDHYTiWy7a7iw==}
-    engines: {node: '>=22'}
+  cookie@1.1.1:
+    resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
+    engines: {node: '>=18'}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -3066,7 +3066,7 @@ snapshots:
       '@sveltejs/vite-plugin-svelte': 6.2.4(svelte@5.57.3(@typescript-eslint/types@8.72.1))(vite@7.3.7(@types/node@22.19.1)(jiti@2.7.0)(lightningcss@1.33.0)(yaml@2.8.3))
       '@types/cookie': 0.6.0
       acorn: 8.19.0
-      cookie: 2.0.2
+      cookie: 1.1.1
       devalue: 5.9.3
       esm-env: 1.2.2
       kleur: 4.1.5
@@ -3491,7 +3491,7 @@ snapshots:
 
   consola@3.4.2: {}
 
-  cookie@2.0.2: {}
+  cookie@1.1.1: {}
 
   cross-spawn@7.0.6:
     dependencies:
