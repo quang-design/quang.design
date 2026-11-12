@@ -17,6 +17,7 @@ type Frontmatter = {
 	thumbnail?: unknown;
 	date?: unknown;
 	published?: unknown;
+	unlisted?: unknown;
 };
 
 function slugFromKey(key: string, section: string) {
@@ -78,7 +79,9 @@ export function createSection(section: string, urlPrefix: string, modules: Recor
 function createContentParser(section: string, urlPrefix: string) {
 	return {
 		getAllPosts(modules: Record<string, string>): PostMetadata[] {
-			const posts: Array<PostMetadata & { published: boolean }> = Object.entries(modules)
+			const posts: Array<PostMetadata & { published: boolean; unlisted: boolean }> = Object.entries(
+				modules
+			)
 				.map(([key, md]) => {
 					const slug = slugFromKey(key, section);
 					if (!slug) return null;
@@ -88,6 +91,8 @@ function createContentParser(section: string, urlPrefix: string) {
 					const frontmatter = data as Frontmatter;
 					const published =
 						frontmatter.published === undefined ? true : Boolean(frontmatter.published);
+					const unlisted =
+						frontmatter.unlisted === undefined ? false : Boolean(frontmatter.unlisted);
 
 					return {
 						slug,
@@ -96,11 +101,12 @@ function createContentParser(section: string, urlPrefix: string) {
 						description: typeof frontmatter.description === 'string' ? frontmatter.description : '',
 						thumbnail: normalizeThumbnail(urlPrefix, slug, frontmatter.thumbnail),
 						date: typeof frontmatter.date === 'string' ? frontmatter.date : '',
-						published
+						published,
+						unlisted
 					};
 				})
-				.filter((p): p is PostMetadata & { published: boolean } => p !== null)
-				.filter((p) => p.published);
+				.filter((p): p is PostMetadata & { published: boolean; unlisted: boolean } => p !== null)
+				.filter((p) => p.published && !p.unlisted);
 
 			if (posts.every((post) => post.date)) {
 				posts.sort(comparePublishedDesc);

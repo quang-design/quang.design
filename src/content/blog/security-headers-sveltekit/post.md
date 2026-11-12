@@ -3,6 +3,7 @@ title: 'Why SvelteKit security headers failed on Vercel (and the 2-file fix that
 description: 'I went from D to A+ on securityheaders.com in three attempts. On Vercel, hooks.server.ts is not enough. Two files fix it.'
 date: '2025-10-12'
 published: true
+unlisted: true
 thumbnail: '/blog/posts/security-headers-sveltekit/security-headers-sveltekit.avif'
 ---
 
