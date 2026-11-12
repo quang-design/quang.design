@@ -1,37 +1,43 @@
 ---
 title: 'dev is strange'
-description: "A short journey through full-stack development, where things work until they don't, then work again for unknown reasons."
+description: 'doing this codecademy course. react, full-stack.'
 date: '2025-01-14'
 published: true
 thumbnail: '/blog/posts/dev-is-strange/dev-is-strange.avif'
 ---
 
-![dev is strange](/blog/posts/dev-is-strange/dev-is-strange.avif)
+doing this codecademy course. react, full-stack. building "jammming", an app that talks to spotify.
 
-full-stack learning path  
-react framework, codecademy  
-project "jammming" - basic app
+frontend is legos. everything snaps together. click, type, refresh, it works.
 
-front-end going great  
-everything just works
+backend is surgery with a blindfold on.
 
-it's back-end time!
+got to the spotify api part.
 
-Spotify API, auth, access token, callback  
-wrong redirect uri, it doesn't work  
-correct uri but it's localhost, it doesn't work  
-ngrok http 3000, it doesn't work  
-deployed on vercel, it doesn't work  
-missing a trailing slash (fuck! now i can feel it),  
-it's … still not work  
-correct uri, with trailing slash, it doesn't work
+"invalid redirect uri."
 
-got frustrated and quit  
-then coming back after a while,
+fixed the uri.
 
-it works!  
-wtf i don't get it  
-it works!!
+still broken.
 
-so things take time  
-and it works!!!
+deployed to vercel.
+
+still broken.
+
+ngrok.
+
+"invalid redirect uri."
+
+trailing slash?
+
+still. doesn't. work.
+
+rage quit. closed the laptop. walked away.
+
+came back a week later. changed nothing.
+
+it works.
+
+perfectly. like it was never broken.
+
+dev is strange.
