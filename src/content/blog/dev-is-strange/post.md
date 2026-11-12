@@ -1,43 +1,59 @@
 ---
 title: 'dev is strange'
-description: 'doing this codecademy course. react, full-stack.'
+description: 'So I’m doing this Codecademy course, right? React, full-stack, the whole deal.'
 date: '2025-01-14'
 published: true
 thumbnail: '/blog/posts/dev-is-strange/dev-is-strange.avif'
 ---
 
-doing this codecademy course. react, full-stack. building "jammming", an app that talks to spotify.
+So I’m doing this Codecademy course, right? React, full-stack, the whole deal. Building this “Jammming” app that connects to Spotify.
 
-frontend is legos. everything snaps together. click, type, refresh, it works.
+In case no one remembers what it’s like learning to code, frontend is like playing with Legos. Everything snaps together. Click here, type there, refresh browser - boom, it works.
 
-backend is surgery with a blindfold on.
+Backend is like performing surgery while blindfolded.
 
-got to the spotify api part.
+So I get to the Spotify API part. Time to make this thing actually do something real.
 
-"invalid redirect uri."
+And then, the errors start coming:
 
-fixed the uri.
+“Wrong redirect URI.”
 
-still broken.
+Okay, I fix the URI.
 
-deployed to vercel.
+“Still doesn’t work.”
 
-still broken.
+Maybe it’s the localhost thing? Let me deploy this to Vercel.
 
-ngrok.
+“Nope, still broken.”
 
-"invalid redirect uri."
+Fine, I’ll use ngrok. Tunnel this bad boy.
 
-trailing slash?
+“ERROR: Invalid redirect URI.”
 
-still. doesn't. work.
+Wait, maybe I need a trailing slash?
 
-rage quit. closed the laptop. walked away.
+“STILL. DOESN’T. WORK.”
 
-came back a week later. changed nothing.
+Why doesn’t my code make Spotify happy?
 
-it works.
+Maybe the API hates my project name.
 
-perfectly. like it was never broken.
+Maybe OAuth broke up with localhost last Tuesday.
+
+I don’t know, and who am I to judge?
+
+“My bad…” I mutter to my empty room. “I’m so… so sorry, computer.”
+
+I rage quit. Close laptop. Walk away.
+
+Come back a week later. Change absolutely nothing.
+
+It works.
+
+Not just works - works _perfectly_. Like it was never broken. Like the computer is mocking me.
+
+What can you do when your code can randomly decide to hate you, then love you again for no reason?
+
+It’s all your fault, developers.
 
 dev is strange.
