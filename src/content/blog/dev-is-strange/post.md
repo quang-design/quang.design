@@ -1,37 +1,45 @@
 ---
 title: 'dev is strange'
-description: "A short journey through full-stack development, where things work until they don't, then work again for unknown reasons."
+description: 'So I’m doing this Codecademy course, right? React, full-stack, the whole deal.'
 date: '2025-01-14'
 published: true
 thumbnail: '/blog/posts/dev-is-strange/dev-is-strange.avif'
 ---
 
-![dev is strange](/blog/posts/dev-is-strange/dev-is-strange.avif)
+So I’m doing this Codecademy course, right? React, full-stack, the whole deal. Building this “Jammming” app that connects to Spotify.
 
-full-stack learning path  
-react framework, codecademy  
-project "jammming" - basic app
+Frontend is like playing with Legos. Everything snaps together. Click here, type there, refresh browser, boom, it works.
 
-front-end going great  
-everything just works
+Backend is like performing surgery while blindfolded.
 
-it's back-end time!
+So I get to the Spotify API part. Time to make this thing actually do something real.
 
-Spotify API, auth, access token, callback  
-wrong redirect uri, it doesn't work  
-correct uri but it's localhost, it doesn't work  
-ngrok http 3000, it doesn't work  
-deployed on vercel, it doesn't work  
-missing a trailing slash (fuck! now i can feel it),  
-it's … still not work  
-correct uri, with trailing slash, it doesn't work
+And then, the errors start coming:
 
-got frustrated and quit  
-then coming back after a while,
+“Wrong redirect URI.”
 
-it works!  
-wtf i don't get it  
-it works!!
+Okay, I fix the URI.
 
-so things take time  
-and it works!!!
+“Still doesn’t work.”
+
+Maybe it’s the localhost thing? Let me deploy this to Vercel.
+
+“Nope, still broken.”
+
+Fine, I’ll use ngrok. Tunnel this bad boy.
+
+“ERROR: Invalid redirect URI.”
+
+Wait, maybe I need a trailing slash?
+
+“STILL. DOESN’T. WORK.”
+
+I rage quit. Close laptop. Walk away.
+
+Come back a week later. Change absolutely nothing.
+
+It works.
+
+Not just works, works _perfectly_. Like it was never broken. Like the computer is mocking me.
+
+dev is strange.
