@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import type { Snapshot } from '@sveltejs/kit';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
@@ -29,6 +30,7 @@
 	};
 
 	onMount(() => {
+		if (browser) void import('$lib/agent');
 		if (userLockedMode()) return;
 		const hour = new Date().getHours();
 		if (hour >= 6 && hour < 18) setMode('light');

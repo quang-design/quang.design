@@ -1,6 +1,13 @@
 <script lang="ts">
+	import { Button } from '@ui-sdk/svelte/button';
+	import {
+		createWordBoardController,
+		WordBoardRoot,
+		WordBoardWord
+	} from '$lib/components/primitives/telescopic';
+
 	let {
-		text,
+		text = $bindable(),
 		onTextChange,
 		onWordClick,
 		busy = false
@@ -11,63 +18,73 @@
 		busy?: boolean;
 	} = $props();
 
-	let isEditing = $state(false);
-	let isCopying = $state(false);
+	const board = createWordBoardController();
+	let editing = $state(false);
 	let words = $derived(text.split(' '));
 
-	function handleClick() {
-		isEditing = !isEditing;
-		if (!isEditing) {
-			onTextChange(text);
-		}
+	function toggleEditing() {
+		const next = !editing;
+		board.setEditing(next);
 	}
 
 	function handleCopy() {
-		isCopying = true;
-		navigator.clipboard.writeText(text);
-		setTimeout(() => {
-			isCopying = false;
-		}, 1000);
+		void board.copy();
 	}
 </script>
 
-<div class="flex w-full flex-col gap-[var(--grid)]">
-	<button
-		class="hair ink-invert flex h-[var(--grid)] w-full items-center justify-center {isEditing
-			? ''
-			: 'ink-active'}"
-		onclick={handleClick}
-	>
-		{isEditing ? 'Done' : 'Edit'}
-	</button>
-
-	{#if isEditing}
-		<div
-			contenteditable="true"
-			role="textbox"
-			aria-multiline="true"
-			aria-label="Telescopic text"
-			aria-busy={busy}
-			bind:textContent={text}
-			class="min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[var(--grid)] leading-[var(--grid)] shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]"
-		></div>
-	{:else}
-		<div
-			class="min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[var(--grid)] text-left leading-[var(--grid)] shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]"
-			aria-busy={busy}
+<WordBoardRoot
+	controller={board}
+	{text}
+	{busy}
+	{editing}
+	onEditingChange={(next) => {
+		editing = next;
+		if (!next) onTextChange(text);
+	}}
+	onExpand={onWordClick}
+	class="flex w-full flex-col gap-[var(--grid)]"
+>
+	{#snippet children(state)}
+		<Button
+			aria-label={state.editing ? 'Done editing' : 'Edit text'}
+			class="hair ink-invert flex h-[var(--grid)] w-full items-center justify-center {state.editing
+				? ''
+				: 'ink-active'}"
+			onclick={toggleEditing}
 		>
-			{#each words as word, i (`${i}:${word}`)}
-				<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(i)}>
-					{word}
-				</button>{i < words.length - 1 ? ' ' : ''}
-			{/each}
-		</div>
-	{/if}
+			{state.editing ? 'Done' : 'Edit'}
+		</Button>
 
-	<button
-		class="hair ink-invert flex h-[var(--grid)] w-full items-center justify-center bg-[var(--ink)] text-[var(--paper)]"
-		onclick={handleCopy}
-	>
-		{isCopying ? 'Copied' : 'Copy'}
-	</button>
-</div>
+		<div
+			class="min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[var(--grid)] leading-[var(--grid)] shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]"
+		>
+			{#if state.editing}
+				<div
+					contenteditable="true"
+					role="textbox"
+					aria-multiline="true"
+					aria-label="Telescopic text"
+					aria-busy={busy}
+					bind:textContent={text}
+					class="min-h-[calc(var(--grid)*3)] w-full leading-[var(--grid)] outline-none"
+				></div>
+			{:else}
+				<div aria-busy={busy}>
+					{#each words as word, i (`${i}:${word}`)}
+						<WordBoardWord index={i} class="ink-invert underline underline-offset-4">
+							{word}
+						</WordBoardWord>{i < words.length - 1 ? ' ' : ''}
+					{/each}
+				</div>
+			{/if}
+		</div>
+
+		<Button
+			aria-label="Copy text"
+			class="hair ink-invert flex h-[var(--grid)] w-full items-center justify-center bg-[var(--ink)] text-[var(--paper)]"
+			onclick={handleCopy}
+		>
+			{state.copying ? 'Copied' : 'Copy'}
+		</Button>
+	{/snippet}
+</WordBoardRoot>

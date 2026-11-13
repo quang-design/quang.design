@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Button } from '@ui-sdk/svelte/button';
+
 	let { onClick, rect }: { onClick: () => void; rect: DOMRect | null } = $props();
 
 	let buttonEl = $state<HTMLButtonElement | undefined>(undefined);
@@ -20,6 +22,13 @@
 		return { top, left };
 	});
 
+	function captureButton(el: HTMLButtonElement) {
+		buttonEl = el;
+		return () => {
+			if (buttonEl === el) buttonEl = undefined;
+		};
+	}
+
 	function handlePointerDown(event: PointerEvent) {
 		event.preventDefault();
 		onClick();
@@ -31,16 +40,17 @@
 	}
 </script>
 
-<button
-	bind:this={buttonEl}
-	type="button"
+<Button
+	aria-label="Zip up selection"
 	class="zip-up-enter hair ink-active fixed z-50 max-w-sm px-3 py-1.5 select-none"
 	style="top: {position?.top ?? -9999}px; left: {position?.left ?? -9999}px;"
 	onpointerdown={handlePointerDown}
 	onclick={handleClick}
 >
-	Zip up
-</button>
+	{#snippet render({ props })}
+		<button {...props} {@attach captureButton}>Zip up</button>
+	{/snippet}
+</Button>
 
 <style>
 	@keyframes zip-up-enter {

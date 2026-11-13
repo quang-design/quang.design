@@ -1,5 +1,6 @@
 <script lang="ts">
 	import anime from 'animejs';
+	import { Button } from '@ui-sdk/svelte/button';
 	import type { AnimateFn } from './animations';
 
 	let {
@@ -64,16 +65,20 @@
 	}
 </script>
 
-<button type="button" class="anim-card" onclick={play}>
-	<div class="anim-stage">
-		<div {@attach autoplay} class="anim-play"></div>
-	</div>
-	<div class="anim-copy">
-		<span class="ink-row-title">{title}</span>
-		<span class="ink-row-desc">{description}</span>
-		<span class="ink-label anim-hint">click to replay</span>
-	</div>
-</button>
+<Button aria-label={`Replay ${title} animation`} onclick={play}>
+	{#snippet render({ props })}
+		<button {...props} class={['anim-card', props.class]}>
+			<div class="anim-stage">
+				<div {@attach autoplay} class="anim-play"></div>
+			</div>
+			<div class="anim-copy">
+				<span class="ink-row-title">{title}</span>
+				<span class="ink-row-desc">{description}</span>
+				<span class="ink-label anim-hint">click to replay</span>
+			</div>
+		</button>
+	{/snippet}
+</Button>
 
 <style>
 	.anim-card {

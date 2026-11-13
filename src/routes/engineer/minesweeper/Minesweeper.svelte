@@ -1,110 +1,29 @@
 <script lang="ts">
-	import { SvelteSet } from 'svelte/reactivity';
 	import FlagIcon from '@lucide/svelte/icons/flag';
 	import BombIcon from '@lucide/svelte/icons/bomb';
 	import { Action, MicroLabel } from '$lib/components/primitives';
+	import {
+		SIZE,
+		MINE_COUNT,
+		createMinesweeperController,
+		MinesweeperBoardRoot,
+		MinesweeperBoardRow,
+		MinesweeperBoardCell,
+		type MinesweeperGameSnapshot
+	} from '$lib/components/primitives/minesweeper';
 
-	const SIZE = 9;
-	const MINE_COUNT = 10;
-	const TOTAL = SIZE * SIZE;
-	const cells = Array.from({ length: TOTAL }, (_, i) => i);
+	const board = createMinesweeperController();
+	const rows = Array.from({ length: SIZE }, (_, row) => row);
+	const cols = Array.from({ length: SIZE }, (_, col) => col);
 
-	let mines = $state<Set<number>>(new Set());
-	let numbers = $state<number[]>(Array(TOTAL).fill(0));
-	let revealed = new SvelteSet<number>();
-	let flagged = new SvelteSet<number>();
-	let exploded = $state<number | null>(null);
-	let started = $state(false);
+	let game = $state<MinesweeperGameSnapshot>({
+		status: 'playing',
+		minesLeft: MINE_COUNT,
+		over: false
+	});
 
-	const lost = $derived(exploded !== null);
-	const won = $derived(!lost && started && revealed.size === TOTAL - MINE_COUNT);
-	const over = $derived(lost || won);
-
-	function neighbors(index: number) {
-		const row = Math.floor(index / SIZE);
-		const col = index % SIZE;
-		const out: number[] = [];
-		for (let dr = -1; dr <= 1; dr++) {
-			for (let dc = -1; dc <= 1; dc++) {
-				if (dr === 0 && dc === 0) continue;
-				const r = row + dr;
-				const c = col + dc;
-				if (r < 0 || r >= SIZE || c < 0 || c >= SIZE) continue;
-				out.push(r * SIZE + c);
-			}
-		}
-		return out;
-	}
-
-	function placeMines(safeIndex: number) {
-		const forbidden = new Set([safeIndex, ...neighbors(safeIndex)]);
-		const next = new Set<number>();
-		while (next.size < MINE_COUNT) {
-			const n = Math.floor(Math.random() * TOTAL);
-			if (!forbidden.has(n) && !next.has(n)) next.add(n);
-		}
-		const counts = Array(TOTAL).fill(0);
-		for (const mine of next) {
-			for (const pos of neighbors(mine)) counts[pos]++;
-		}
-		mines = next;
-		numbers = counts;
-		started = true;
-	}
-
-	function revealFrom(index: number) {
-		if (revealed.has(index) || flagged.has(index) || over) return;
-		if (!started) placeMines(index);
-		if (mines.has(index)) {
-			exploded = index;
-			for (const mine of mines) revealed.add(mine);
-			return;
-		}
-		const stack = [index];
-		while (stack.length) {
-			const current = stack.pop()!;
-			if (revealed.has(current) || flagged.has(current) || mines.has(current)) continue;
-			revealed.add(current);
-			if (numbers[current] === 0) {
-				for (const pos of neighbors(current)) {
-					if (!revealed.has(pos)) stack.push(pos);
-				}
-			}
-		}
-	}
-
-	function toggleFlag(index: number) {
-		if (revealed.has(index) || over) return;
-		if (flagged.has(index)) flagged.delete(index);
-		else flagged.add(index);
-	}
-
-	function reset() {
-		if (!over) return;
-		mines = new Set();
-		numbers = Array(TOTAL).fill(0);
-		revealed.clear();
-		flagged.clear();
-		exploded = null;
-		started = false;
-	}
-
-	function cellLabel(index: number) {
-		const row = Math.floor(index / SIZE) + 1;
-		const col = (index % SIZE) + 1;
-		const pos = `Row ${row} column ${col}`;
-		if (flagged.has(index) && !revealed.has(index)) return `${pos}, flagged`;
-		if (!revealed.has(index)) return `${pos}, hidden`;
-		if (mines.has(index)) return `${pos}, mine`;
-		if (numbers[index] > 0) return `${pos}, ${numbers[index]} nearby`;
-		return `${pos}, empty`;
-	}
-
-	function onCellKey(event: KeyboardEvent, index: number) {
-		if (event.key === 'f' || event.key === 'F') {
-			event.preventDefault();
-			toggleFlag(index);
-		}
+	function cellIndex(row: number, col: number) {
+		return row * SIZE + col;
 	}
 </script>
 
@@ -112,40 +31,60 @@
 	<div class="flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
 		<div aria-live="polite" aria-atomic="true">
 			<MicroLabel>
-				{#if won}Cleared
-				{:else if lost}Mine
-				{:else}{MINE_COUNT - flagged.size} mines left{/if}
+				{#if game.status === 'won'}Cleared
+				{:else if game.status === 'lost'}Mine
+				{:else}{game.minesLeft} mines left{/if}
 			</MicroLabel>
 		</div>
-		<Action onclick={reset} disabled={!over}>Reset</Action>
+		<Action onclick={() => board.reset()} disabled={!game.over}>Reset</Action>
 		<span class="sr-only">Press F to flag a cell.</span>
 	</div>
-	<div class="grid w-fit grid-cols-[repeat(9,var(--grid))] grid-rows-[repeat(9,var(--grid))]">
-		{#each cells as i (i)}
-			<button
-				type="button"
-				aria-label={cellLabel(i)}
-				oncontextmenu={(e) => {
-					e.preventDefault();
-					toggleFlag(i);
-				}}
-				onkeydown={(e) => onCellKey(e, i)}
-				onclick={() => revealFrom(i)}
-				class={[
-					'flex size-[var(--grid)] items-center justify-center border-[length:var(--hair)] border-[var(--ink-25)]',
-					revealed.has(i) ? 'bg-[var(--paper)]' : 'ink-invert bg-[var(--ink-10)]',
-					lost && mines.has(i) && 'bg-red-600 text-white',
-					exploded === i && 'bg-red-700 text-white'
-				]}
-			>
-				{#if flagged.has(i) && !revealed.has(i)}
-					<FlagIcon class="size-3" />
-				{:else if revealed.has(i) && mines.has(i)}
-					<BombIcon class="size-3" />
-				{:else if revealed.has(i) && numbers[i] > 0}
-					<span class="ink-label">{numbers[i]}</span>
-				{/if}
-			</button>
+	<MinesweeperBoardRoot
+		controller={board}
+		onGameChange={(next) => {
+			game = next;
+		}}
+		class="flex w-fit flex-col"
+	>
+		{#each rows as row (row)}
+			<MinesweeperBoardRow {row} class="flex">
+				{#each cols as col (`${row}:${col}`)}
+					<MinesweeperBoardCell
+						{row}
+						{col}
+						oncontextmenu={(event) => {
+							event.preventDefault();
+							board.flag(cellIndex(row, col));
+						}}
+						onkeydown={(event) => {
+							if (event.key === 'f' || event.key === 'F') {
+								event.preventDefault();
+								board.flag(cellIndex(row, col));
+							}
+						}}
+					>
+						{#snippet render({ props, state: cell })}
+							<button
+								{...props}
+								class={[
+									'flex size-[var(--grid)] items-center justify-center border-[length:var(--hair)] border-[var(--ink-25)]',
+									cell.revealed ? 'bg-[var(--paper)]' : 'ink-invert bg-[var(--ink-10)]',
+									cell.revealed && cell.mine && 'bg-red-600 text-white',
+									cell.exploded && 'bg-red-700 text-white'
+								]}
+							>
+								{#if cell.flagged && !cell.revealed}
+									<FlagIcon class="size-3" />
+								{:else if cell.revealed && cell.mine}
+									<BombIcon class="size-3" />
+								{:else if cell.revealed && cell.number > 0}
+									<span class="ink-label">{cell.number}</span>
+								{/if}
+							</button>
+						{/snippet}
+					</MinesweeperBoardCell>
+				{/each}
+			</MinesweeperBoardRow>
 		{/each}
-	</div>
+	</MinesweeperBoardRoot>
 </div>
