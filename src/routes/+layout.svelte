@@ -41,7 +41,7 @@
 
 <ModeWatcher defaultMode="light" {themeColors} disableHeadScriptInjection={true} />
 
-<Toaster position="top-center" />
+<Toaster />
 
 <div class="site">
 	<Shell nav={data.nav}>

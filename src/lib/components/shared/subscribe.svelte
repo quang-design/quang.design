@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { toast } from 'svelte-sonner';
 	import MailIcon from '@lucide/svelte/icons/mail';
+	import { Field, FieldLabel } from '@ui-sdk/svelte/field';
+	import { Input } from '@ui-sdk/svelte/input';
+	import { Button } from '@ui-sdk/svelte/button';
 	import { apiPaths } from '$lib/config/api';
+	import { toast } from '$lib/toast';
 
 	let email = $state('');
 	let loading = $state(false);
@@ -33,27 +36,31 @@
 	};
 </script>
 
-<form
-	action=""
-	onsubmit={handleSubmit}
-	class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]"
->
-	<label class="ink-label block" for="subscribe-email">Email</label>
-	<div class="field">
-		<input
-			id="subscribe-email"
-			name="email"
-			type="email"
-			autocomplete="email"
-			placeholder="xinchao@quang.design"
-			bind:value={email}
-			required
-		/>
-		<button type="submit" disabled={loading}>
-			<MailIcon class="size-3.5" />
-			{loading ? 'Capturing...' : 'Subscribe'}
-		</button>
-	</div>
+<form action="" onsubmit={handleSubmit}>
+	<Field name="email" class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]">
+		<FieldLabel class="ink-label block">Email</FieldLabel>
+		<div class="field">
+			<Input
+				type="email"
+				autocomplete="email"
+				placeholder="xinchao@quang.design"
+				value={email}
+				onValueChange={(value) => {
+					email = value;
+				}}
+				required
+			/>
+			<Button
+				type="submit"
+				disabled={loading}
+				aria-label="Subscribe"
+				data-agent-confirm="Subscribes this email to the quang.design newsletter"
+			>
+				<MailIcon class="size-3.5" aria-hidden="true" />
+				Subscribe
+			</Button>
+		</div>
+	</Field>
 </form>
 
 <style>
@@ -65,8 +72,8 @@
 		align-items: stretch;
 	}
 
-	.field input,
-	.field button {
+	.field :global([data-slot='input']),
+	.field :global([data-slot='button']) {
 		height: 100%;
 		margin: 0;
 		border: 0;
@@ -81,14 +88,14 @@
 		outline: none;
 	}
 
-	.field input {
+	.field :global([data-slot='input']) {
 		min-width: 0;
 		padding: 0 calc(var(--spacing) * 3);
 		text-transform: none;
 		letter-spacing: var(--tracking-normal);
 	}
 
-	.field button {
+	.field :global([data-slot='button']) {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -101,13 +108,14 @@
 		cursor: pointer;
 	}
 
-	.field button:disabled {
+	.field :global([data-slot='button']:disabled),
+	.field :global([data-slot='button'][aria-disabled='true']) {
 		opacity: 0.5;
 		cursor: not-allowed;
 	}
 
-	.field input:focus-visible,
-	.field button:focus-visible {
+	.field :global([data-slot='input']:focus-visible),
+	.field :global([data-slot='button']:focus-visible) {
 		outline: var(--hair) solid var(--ink);
 		outline-offset: calc(var(--spacing) * -1);
 	}

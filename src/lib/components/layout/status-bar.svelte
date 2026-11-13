@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
 	import { onMount } from 'svelte';
-	import { toggleMode } from 'mode-watcher';
+	import { mode, setMode } from 'mode-watcher';
 	import { lockUserMode } from '$lib/config/theme';
 	import SunIcon from '@lucide/svelte/icons/sun';
 	import MoonIcon from '@lucide/svelte/icons/moon';
@@ -9,19 +9,18 @@
 	import XIcon from '@lucide/svelte/icons/x';
 	import HouseIcon from '@lucide/svelte/icons/house';
 	import { resolve } from '$app/paths';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
+	import { Toggle } from '@ui-sdk/svelte/toggle';
 	import { cn } from '$lib/utils';
 	import { StatCell } from '$lib/components/primitives';
 
 	let {
 		title = 'quang.design',
-		menuOpen = false,
-		onMenu,
+		menuOpen = $bindable(false),
 		class: className
 	}: {
 		title?: string;
 		menuOpen?: boolean;
-		onMenu?: () => void;
 		class?: string;
 	} = $props();
 
@@ -42,12 +41,20 @@
 	});
 
 	const localTime = $derived(date ? formatter.format(date) : '--:--:--');
+	const chromeToggleClass = cn(
+		buttonVariants({ variant: 'ghost', size: 'icon-lg' }),
+		'relative h-full w-[var(--chrome-btn)] rounded-none'
+	);
 	const statClass =
 		'stat-cell hair-l h-full w-[calc(var(--grid)*6)] shrink-0 justify-center px-[var(--grid)]';
 
-	function onToggleTheme() {
+	function themePressed() {
+		return mode.current === 'dark';
+	}
+
+	function setThemePressed(pressed: boolean) {
 		lockUserMode();
-		toggleMode();
+		setMode(pressed ? 'dark' : 'light');
 	}
 </script>
 
@@ -82,36 +89,33 @@
 		</div>
 	</div>
 	<div class="status-meta">
-		<Button
-			variant="ghost"
-			size="icon-lg"
-			onclick={onMenu}
-			aria-expanded={menuOpen}
+		<Toggle
+			bind:pressed={menuOpen}
+			aria-label="Site menu"
 			aria-controls="site-index"
-			class="hair-l h-full w-[var(--chrome-btn)] rounded-none lg:hidden"
+			aria-expanded={menuOpen}
+			class={cn(chromeToggleClass, 'hair-l lg:hidden')}
 		>
 			{#if menuOpen}
-				<XIcon class="size-4" />
-				<span class="sr-only">Close menu</span>
+				<XIcon class="size-4" aria-hidden="true" />
 			{:else}
-				<MenuIcon class="size-4" />
-				<span class="sr-only">Open menu</span>
+				<MenuIcon class="size-4" aria-hidden="true" />
 			{/if}
-		</Button>
-		<Button
-			variant="ghost"
-			size="icon-lg"
-			onclick={onToggleTheme}
-			class="hair-l h-full w-[var(--chrome-btn)] rounded-none"
+		</Toggle>
+		<Toggle
+			bind:pressed={themePressed, setThemePressed}
+			aria-label="Toggle theme"
+			class={cn(chromeToggleClass, 'hair-l')}
 		>
 			<SunIcon
 				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"
+				aria-hidden="true"
 			/>
 			<MoonIcon
 				class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all! dark:scale-100 dark:rotate-0"
+				aria-hidden="true"
 			/>
-			<span class="sr-only">Toggle theme</span>
-		</Button>
+		</Toggle>
 	</div>
 </header>
 

@@ -45,41 +45,55 @@
 </script>
 
 <script lang="ts">
+	import { Button as UiButton, type ButtonActionDetails } from '@ui-sdk/svelte/button';
+
 	let {
 		class: className,
 		variant = 'default',
 		size = 'default',
-		ref = $bindable(null),
+		ref: _ref = null,
 		href = undefined,
 		type = 'button',
 		disabled,
+		onclick,
 		children,
 		...restProps
 	}: ButtonProps = $props();
+
+	const classes = $derived(cn(buttonVariants({ variant, size }), className));
+	const isDisabled = $derived(Boolean(disabled));
+	const buttonType = $derived(type === 'submit' || type === 'reset' ? type : 'button');
+
+	function handleClick(event: MouseEvent, _details: ButtonActionDetails) {
+		onclick?.(event as Parameters<NonNullable<typeof onclick>>[0]);
+	}
 </script>
 
 {#if href}
-	<a
-		bind:this={ref}
-		data-slot="button"
-		class={cn(buttonVariants({ variant, size }), className)}
-		href={disabled ? undefined : href}
-		aria-disabled={disabled}
-		role={disabled ? 'link' : undefined}
-		tabindex={disabled ? -1 : undefined}
+	<UiButton
+		class={classes}
+		disabled={isDisabled}
+		onclick={onclick ? handleClick : undefined}
 		{...restProps}
 	>
-		{@render children?.()}
-	</a>
+		{#snippet render({ props })}
+			<a
+				{...props}
+				href={isDisabled ? undefined : href}
+				aria-disabled={isDisabled ? 'true' : undefined}
+			>
+				{@render children?.()}
+			</a>
+		{/snippet}
+	</UiButton>
 {:else}
-	<button
-		bind:this={ref}
-		data-slot="button"
-		class={cn(buttonVariants({ variant, size }), className)}
-		{type}
-		{disabled}
+	<UiButton
+		class={classes}
+		type={buttonType}
+		disabled={isDisabled}
+		onclick={onclick ? handleClick : undefined}
 		{...restProps}
 	>
 		{@render children?.()}
-	</button>
+	</UiButton>
 {/if}

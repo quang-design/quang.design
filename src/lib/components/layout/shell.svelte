@@ -27,7 +27,6 @@
 	const tree = $derived(buildIndexTree(nav, page.url.pathname));
 	const year = new Date().getFullYear();
 	let menuOpen = $state(false);
-	let menuOpener: HTMLElement | null = null;
 
 	function showShellTarget(hash: string) {
 		const shell = shellElement();
@@ -46,16 +45,10 @@
 
 	function closeMenu(restoreFocus = false) {
 		menuOpen = false;
-		if (restoreFocus) menuOpener?.focus();
-	}
-
-	function toggleMenu() {
-		if (menuOpen) {
-			closeMenu(true);
-			return;
+		if (restoreFocus) {
+			const el = document.querySelector('[aria-controls="site-index"]');
+			if (el instanceof HTMLElement) el.focus();
 		}
-		menuOpener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-		menuOpen = true;
 	}
 
 	function onKeydown(event: KeyboardEvent) {
@@ -74,7 +67,7 @@
 	</a>
 	<div class="shell-sheet">
 		<div class="shell-head">
-			<StatusBar {menuOpen} onMenu={toggleMenu} />
+			<StatusBar bind:menuOpen />
 		</div>
 		<div class="shell-body">
 			<div class="shell-index">
