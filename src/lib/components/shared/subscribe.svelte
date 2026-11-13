@@ -53,7 +53,6 @@
 			<Button
 				type="submit"
 				disabled={loading}
-				aria-label="Subscribe"
 				data-agent-confirm="Subscribes this email to the quang.design newsletter"
 			>
 				<MailIcon class="size-3.5" aria-hidden="true" />

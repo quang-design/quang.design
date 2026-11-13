@@ -1,5 +1,6 @@
 import { defineConfig, type UserConfig } from 'vite';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { svelteTesting } from '@testing-library/svelte/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { viteStaticCopy, type Target } from 'vite-plugin-static-copy';
 import fs from 'node:fs';
@@ -44,7 +45,7 @@ const config: UserConfig & {
 		include: string[];
 	};
 } = {
-	plugins: [sveltekit(), tailwindcss(), ...staticCopyPlugins],
+	plugins: [sveltekit(), svelteTesting(), tailwindcss(), ...staticCopyPlugins],
 
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']

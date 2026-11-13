@@ -24,8 +24,8 @@ const SHOTS = [
 	},
 	{ name: 'engineer-390', path: '/engineer', width: 390, height: 844, codes: ['E1', 'E7'] },
 	{ name: 'engineer-1440', path: '/engineer', width: 1440, height: 900, codes: ['H', 'E1', 'E7'] },
-	{ name: 'blog-390', path: '/blog', width: 390, height: 844, codes: ['B1', 'B2', 'B3'] },
-	{ name: 'blog-1440', path: '/blog', width: 1440, height: 900, codes: ['H', 'B1', 'B2', 'B3'] },
+	{ name: 'blog-390', path: '/blog', width: 390, height: 844, codes: ['B1', 'B2'] },
+	{ name: 'blog-1440', path: '/blog', width: 1440, height: 900, codes: ['H', 'B1', 'B2'] },
 	{ name: 'doppio-1440', path: '/design/doppio', width: 1440, height: 900, codes: ['H'] }
 ];
 
@@ -178,7 +178,7 @@ const PROBE = `(() => {
     shell: sr ? { x: sr.x, y: sr.y, w: sr.width, h: sr.height } : null,
     canvas: cr ? { x: cr.x, y: cr.y, w: cr.width, h: cr.height } : null,
     codes: Object.fromEntries(
-      ['H', 'D1', 'D10', 'D17', 'B1', 'B2', 'B3', 'E1', 'E7'].map((c) => [c, findCode(c)])
+      ['H', 'D1', 'D10', 'D17', 'B1', 'B2', 'E1', 'E7'].map((c) => [c, findCode(c)])
     ),
     listRows: [...document.querySelectorAll('.shell-canvas .stack > *')].map((el) => {
       const r = el.getBoundingClientRect();
