@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
 	import { MicroLabel } from '$lib/components/primitives';
 	import type { Preview } from '$lib/preview.svelte';
 
@@ -13,10 +12,10 @@
 </script>
 
 <article
-	class={cn(
+	class={[
 		'reading-pane flex min-h-0 flex-1 flex-col overflow-y-auto pt-[calc(var(--grid)*2)] pr-[calc(var(--grid)*2)] pb-[var(--grid)] pl-[var(--grid)]',
 		className
-	)}
+	]}
 >
 	{#if preview}
 		<div class="flex min-w-0 flex-col">

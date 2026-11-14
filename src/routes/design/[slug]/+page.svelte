@@ -5,7 +5,6 @@
 	import { setDesignView } from '$lib/content/design-view';
 	import { layoutGallery, splitDesignContent } from '$lib/utils/design-content';
 	import { page } from '$app/state';
-	import { Badge } from '$lib/components/ui/badge';
 	import { designHeadline } from '$lib/content/headline';
 	import { publishedDateValue } from '$lib/content/published-date';
 	import { designHref } from '$lib/content/slug';
@@ -50,11 +49,15 @@
 	<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
 		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
 			{#if href}
-				<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="{href}/llms.txt"
-					>llms.txt</Badge
+				<a
+					data-slot="badge"
+					class="inline-flex min-w-[calc(var(--grid)*5)] items-center justify-center px-[var(--grid)]"
+					href="{href}/llms.txt">llms.txt</a
 				>
-				<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="{href}/post.md"
-					>post.md</Badge
+				<a
+					data-slot="badge"
+					class="inline-flex min-w-[calc(var(--grid)*5)] items-center justify-center px-[var(--grid)]"
+					href="{href}/post.md">post.md</a
 				>
 			{/if}
 		</div>

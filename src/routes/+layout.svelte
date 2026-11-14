@@ -6,7 +6,7 @@
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	import { ModeWatcher, setMode } from 'mode-watcher';
-	import { Toaster } from '$lib/components/ui/sonner/index.js';
+	import Toaster from '$lib/components/shared/toaster.svelte';
 	import Shell, { shellElement } from '$lib/components/layout/shell.svelte';
 	import { userLockedMode } from '$lib/config/theme';
 	import type { EngineerProject } from '$lib/content/engineer';

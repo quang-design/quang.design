@@ -1,6 +1,5 @@
 @layer ui-sdk;
 @import 'tailwindcss';
-@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 

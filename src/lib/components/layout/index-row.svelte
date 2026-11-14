@@ -2,7 +2,6 @@
 	import { resolve } from '$app/paths';
 	import type { Snippet } from 'svelte';
 	import { getContext } from 'svelte';
-	import { cn } from '$lib/utils';
 	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import { KeySlot, Hatch } from '$lib/components/primitives';
 	import { PREVIEW_KEY, type Preview, type PreviewState } from '$lib/preview.svelte';
@@ -45,11 +44,13 @@
 		thumb === 'wide' ? { width: 72, height: 48 } : { width: 48, height: 48 }
 	);
 	const rowClass = $derived(
-		cn(
+		[
 			'ink-invert flex h-[calc(var(--grid)*2)] items-center',
 			external ? 'pr-0' : 'pr-[var(--grid)]',
 			className
-		)
+		]
+			.filter(Boolean)
+			.join(' ')
 	);
 	const route = $derived(!external && href.startsWith('/') ? href : null);
 

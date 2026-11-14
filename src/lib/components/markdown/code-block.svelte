@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
 
@@ -60,7 +59,7 @@
 </script>
 
 {#if !isBlock}
-	<code class={cn('ink-mark px-1 text-base', c)} {...rest}>
+	<code class={['ink-mark px-1 text-base', c]} {...rest}>
 		{@render children?.()}
 	</code>
 {:else}

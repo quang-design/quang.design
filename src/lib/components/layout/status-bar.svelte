@@ -9,9 +9,8 @@
 	import XIcon from '@lucide/svelte/icons/x';
 	import HouseIcon from '@lucide/svelte/icons/house';
 	import { resolve } from '$app/paths';
-	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
+	import { Button } from '@ui-sdk/svelte/button';
 	import { Toggle } from '@ui-sdk/svelte/toggle';
-	import { cn } from '$lib/utils';
 	import { StatCell } from '$lib/components/primitives';
 
 	let {
@@ -41,10 +40,8 @@
 	});
 
 	const localTime = $derived(date ? formatter.format(date) : '--:--:--');
-	const chromeToggleClass = cn(
-		buttonVariants({ variant: 'ghost', size: 'icon-lg' }),
-		'relative h-full w-[var(--chrome-btn)] rounded-none'
-	);
+	const chromeClass =
+		'relative inline-flex h-full w-[var(--chrome-btn)] shrink-0 cursor-pointer items-center justify-center rounded-none border-transparent bg-transparent outline-none select-none hover:bg-foreground hover:text-background [&_svg]:pointer-events-none [&_svg]:shrink-0';
 	const statClass =
 		'stat-cell hair-l h-full w-[calc(var(--grid)*6)] shrink-0 justify-center px-[var(--grid)]';
 
@@ -59,20 +56,18 @@
 </script>
 
 <header
-	class={cn(
+	class={[
 		'flex h-full w-full min-w-0 items-stretch overflow-hidden lg:grid lg:grid-cols-[var(--index-col)_minmax(0,1fr)_var(--reading-col)] lg:grid-rows-1',
 		className
-	)}
+	]}
 >
 	<div class="status-brand">
-		<Button
-			href={resolve('/')}
-			variant="ghost"
-			size="icon-lg"
-			class="hair-r h-full w-[var(--chrome-btn)] rounded-none"
-			aria-label="Go home"
-		>
-			<HouseIcon class="size-4" />
+		<Button class={['hair-r', chromeClass]} aria-label="Go home">
+			{#snippet render({ props })}
+				<a {...props} href={resolve('/')}>
+					<HouseIcon class="size-4" />
+				</a>
+			{/snippet}
 		</Button>
 		<div class="home-mark">
 			<span class="ink-label">Welcome to</span>
@@ -94,7 +89,7 @@
 			aria-label="Site menu"
 			aria-controls="site-index"
 			aria-expanded={menuOpen}
-			class={cn(chromeToggleClass, 'hair-l lg:hidden')}
+			class={[chromeClass, 'hair-l lg:hidden']}
 		>
 			{#if menuOpen}
 				<XIcon class="size-4" aria-hidden="true" />
@@ -105,7 +100,7 @@
 		<Toggle
 			bind:pressed={themePressed, setThemePressed}
 			aria-label="Toggle theme"
-			class={cn(chromeToggleClass, 'hair-l')}
+			class={[chromeClass, 'hair-l']}
 		>
 			<SunIcon
 				class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"

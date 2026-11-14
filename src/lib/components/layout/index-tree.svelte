@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { getContext } from 'svelte';
-	import { cn } from '$lib/utils';
 	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import { MicroLabel, KeySlot, Count } from '$lib/components/primitives';
 	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
@@ -16,7 +15,7 @@
 	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
 </script>
 
-<nav id="site-index" class={cn('flex flex-col', className)}>
+<nav id="site-index" class={['flex flex-col', className]}>
 	{#each groups as group (group.label)}
 		<div class="flex flex-col">
 			<MicroLabel class="px-[var(--grid)]">{group.label}</MicroLabel>
@@ -27,12 +26,12 @@
 						target={row.external ? '_blank' : undefined}
 						rel={row.external ? 'noopener noreferrer' : undefined}
 						aria-current={active === row.code && !row.external ? 'page' : undefined}
-						class={cn(
+						class={[
 							'ink-invert flex h-[var(--grid)] items-center',
 							row.nested ? 'pl-[calc(var(--grid)*2)]' : 'pl-[var(--grid)]',
 							row.external ? 'pr-0' : 'pr-[var(--grid)]',
 							active === row.code && 'ink-active'
-						)}
+						]}
 						onmouseenter={() => row.preview && preview?.setHover(row.preview)}
 						onmouseleave={() => preview?.clearHover()}
 						onfocus={() => row.preview && preview?.setHover(row.preview)}

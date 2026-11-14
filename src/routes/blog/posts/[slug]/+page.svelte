@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Markdown } from '$lib/components/markdown';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
-	import { Badge } from '$lib/components/ui/badge';
 	import { page } from '$app/state';
 	import { absUrl } from '$lib/config/site';
 	import { publishedDateValue } from '$lib/content/published-date';
@@ -29,15 +28,15 @@
 <div class="flex flex-col">
 	<div class="w-full max-w-[calc(var(--grid)*24)] px-[var(--grid)] py-[var(--grid)]">
 		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
-			<Badge
-				variant="outline"
-				class="min-w-[calc(var(--grid)*5)]"
-				href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</Badge
+			<a
+				data-slot="badge"
+				class="inline-flex min-w-[calc(var(--grid)*5)] items-center justify-center px-[var(--grid)]"
+				href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</a
 			>
-			<Badge
-				variant="outline"
-				class="min-w-[calc(var(--grid)*5)]"
-				href="/blog/posts/{page.params.slug}/post.md">post.md</Badge
+			<a
+				data-slot="badge"
+				class="inline-flex min-w-[calc(var(--grid)*5)] items-center justify-center px-[var(--grid)]"
+				href="/blog/posts/{page.params.slug}/post.md">post.md</a
 			>
 		</div>
 		<h1 class="ink-h1">{data.meta.title}</h1>

@@ -39,7 +39,7 @@ Now I'm building this site with SvelteKit, continuing to learn by doing. Every c
 - **Svelte 5 + SvelteKit 2** - Web framework with runes-based reactivity
 - **TypeScript** - Type safety throughout
 - **TailwindCSS v4** - Utility-first styling
-- **svelte-sonner** - Toast notifications
+- **@ui-sdk/svelte + @ui-sdk/core** - Headless UI behaviors (button, field, input, toast, agent)
 - **Shiki** - Syntax highlighting for code blocks
 - **svelte-exmarkdown** - Markdown rendering
 - **gray-matter** - Frontmatter parsing for content
@@ -56,8 +56,9 @@ src/
 ├── lib/
 │   ├── components/
 │   │   ├── markdown/ # Markdown renderer components
-│   │   ├── shared/   # SeoHead, Subscribe, EmptyState
-│   │   └── ui/       # Button, badge, toaster
+│   │   ├── shared/   # SeoHead, Subscribe, EmptyState, Toaster
+│   │   ├── layout/   # Shell, status bar, index
+│   │   └── primitives/ # Design primitives
 │   ├── content/      # Content loaders (blog.ts, design.ts)
 │   ├── server/       # Server-only integrations (LLM providers, prompts)
 │   └── utils/
