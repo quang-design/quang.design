@@ -31,4 +31,8 @@ test('an agent can find Minesweeper and operate cells', async () => {
 		steps: [{ ref: 'Minesweeper', action: 'flag', args: [1] }]
 	});
 	expect(flag.ok, flag.error?.message).toBe(true);
+
+	const snapshotJson = JSON.stringify(agent.snapshot());
+	expect(snapshotJson).not.toMatch(/"mines"\s*:/);
+	expect(snapshotJson).not.toMatch(/"numbers"\s*:/);
 });

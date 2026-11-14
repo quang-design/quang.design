@@ -25,7 +25,10 @@ test('an agent can find and fill the subscribe email field', async () => {
 	}
 	const labels = components.map((entry) => entry.label);
 	expect(labels, 'Email is missing from the snapshot').toContain('Email');
-	expect(labels, 'Subscribe is missing from the snapshot').toContain('Subscribe');
+	expect(
+		labels.some((label) => typeof label === 'string' && /\bSubscribe\b/.test(label)),
+		'Subscribe is missing from the snapshot'
+	).toBe(true);
 
 	const fill = await agent.act({
 		steps: [{ ref: 'Email', action: 'setValue', args: ['agent@quang.design'] }]

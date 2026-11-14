@@ -26,12 +26,15 @@ test('an agent can find chrome toggles and the home control', async () => {
 		expect(entry.label, `${entry.component} ${entry.ref} has no name`).toBeTruthy();
 	}
 	const labels = components.map((entry) => entry.label);
-	for (const label of ['Go home', 'Site menu', 'Toggle theme']) {
+	for (const label of ['Go home', 'Site menu', 'Dark mode']) {
 		expect(labels, `${label} is missing from the snapshot`).toContain(label);
 	}
 
+	const menu = components.find((entry) => entry.label === 'Site menu');
+	expect(menu?.component).toBe('button');
+
 	const openMenu = await agent.act({
-		steps: [{ ref: 'Site menu', action: 'setPressed', args: [true] }]
+		steps: [{ ref: 'Site menu', action: 'press' }]
 	});
 	expect(openMenu.ok, openMenu.error?.message).toBe(true);
 	expect(menuOpen).toBe(true);

@@ -7,36 +7,32 @@
 	import { toast } from '$lib/toast';
 
 	let email = $state('');
-	let loading = $state(false);
 
-	const handleSubmit = async (event: Event) => {
-		event.preventDefault();
-		if (loading) return;
-		loading = true;
-		try {
-			const form = event.target as HTMLFormElement;
-			const formData = new FormData(form);
-			formData.set('email', email);
+	async function subscribe() {
+		const formData = new FormData();
+		formData.set('email', email);
 
-			const res = await fetch(apiPaths.subscribe, {
-				method: 'POST',
-				body: formData
-			});
-			const data = await res.json().catch(() => null);
-			if (!res.ok) {
-				const errorMessage = data?.message || res.statusText;
-				toast.error(`Subscription failed: ${errorMessage}`);
-				return;
-			}
-			toast.success('Email captured. Thank you!');
-			email = '';
-		} finally {
-			loading = false;
+		const res = await fetch(apiPaths.subscribe, {
+			method: 'POST',
+			body: formData
+		});
+		const data = await res.json().catch(() => null);
+		if (!res.ok) {
+			const errorMessage = data?.message || res.statusText;
+			toast.error(`Subscription failed: ${errorMessage}`);
+			return;
 		}
-	};
+		toast.success('Email captured. Thank you!');
+		email = '';
+	}
 </script>
 
-<form action="" onsubmit={handleSubmit}>
+<form
+	action=""
+	onsubmit={(event) => {
+		event.preventDefault();
+	}}
+>
 	<Field name="email" class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]">
 		<FieldLabel class="ink-label block">Email</FieldLabel>
 		<div class="field">
@@ -51,12 +47,14 @@
 				required
 			/>
 			<Button
-				type="submit"
-				disabled={loading}
+				type="button"
+				pendingAnnouncement="Capturing"
 				data-agent-confirm="Subscribes this email to the quang.design newsletter"
+				onclick={subscribe}
 			>
-				<MailIcon class="size-3.5" aria-hidden="true" />
-				Subscribe
+				<MailIcon class="size-3.5" data-show="idle" aria-hidden="true" />
+				<span data-show="idle">Subscribe</span>
+				<span data-show="pending">Capturing…</span>
 			</Button>
 		</div>
 	</Field>
@@ -107,7 +105,12 @@
 		cursor: pointer;
 	}
 
-	.field :global([data-slot='button']:disabled),
+	.field :global([data-slot='button']:not([data-pending]) [data-show='pending']),
+	.field :global([data-slot='button'][data-pending] [data-show='idle']) {
+		display: none;
+	}
+
+	.field :global([data-slot='button'][data-pending]),
 	.field :global([data-slot='button'][aria-disabled='true']) {
 		opacity: 0.5;
 		cursor: not-allowed;

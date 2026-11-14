@@ -30,12 +30,12 @@
 		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
 			<a
 				data-slot="badge"
-				class="inline-flex min-w-[calc(var(--grid)*5)] items-center justify-center px-[var(--grid)]"
+				class="min-w-[calc(var(--grid)*5)]"
 				href="/blog/posts/{page.params.slug}/llms.txt">llms.txt</a
 			>
 			<a
 				data-slot="badge"
-				class="inline-flex min-w-[calc(var(--grid)*5)] items-center justify-center px-[var(--grid)]"
+				class="min-w-[calc(var(--grid)*5)]"
 				href="/blog/posts/{page.params.slug}/post.md">post.md</a
 			>
 		</div>

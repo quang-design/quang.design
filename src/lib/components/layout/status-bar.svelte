@@ -84,22 +84,24 @@
 		</div>
 	</div>
 	<div class="status-meta">
-		<Toggle
-			bind:pressed={menuOpen}
+		<Button
 			aria-label="Site menu"
 			aria-controls="site-index"
 			aria-expanded={menuOpen}
 			class={[chromeClass, 'hair-l lg:hidden']}
+			onclick={() => {
+				menuOpen = !menuOpen;
+			}}
 		>
 			{#if menuOpen}
 				<XIcon class="size-4" aria-hidden="true" />
 			{:else}
 				<MenuIcon class="size-4" aria-hidden="true" />
 			{/if}
-		</Toggle>
+		</Button>
 		<Toggle
 			bind:pressed={themePressed, setThemePressed}
-			aria-label="Toggle theme"
+			aria-label="Dark mode"
 			class={[chromeClass, 'hair-l']}
 		>
 			<SunIcon

@@ -95,13 +95,15 @@ function cellView(
 		exploded: number | null;
 	}
 ): CellView {
+	const revealed = state.revealed.includes(index);
 	return {
 		index,
-		revealed: state.revealed.includes(index),
+		revealed,
 		flagged: state.flagged.includes(index),
-		mine: state.mines.includes(index),
+		// Agents and snapshots must not learn about mines before reveal.
+		mine: revealed && state.mines.includes(index),
 		exploded: state.exploded === index,
-		number: state.numbers[index] ?? 0,
+		number: revealed ? (state.numbers[index] ?? 0) : 0,
 		label: cellLabel(index, state)
 	};
 }

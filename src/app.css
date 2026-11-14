@@ -617,6 +617,10 @@
 	}
 
 	.site [data-slot='badge'] {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding-inline: var(--grid);
 		border-radius: 0;
 		font-size: var(--text-base);
 		line-height: var(--grid);

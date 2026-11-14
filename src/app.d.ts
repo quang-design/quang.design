@@ -6,6 +6,12 @@ declare global {
 			shareOrigin: string;
 		}
 	}
+
+	interface Document {
+		modelContext?: {
+			registerTool?: (...args: unknown[]) => unknown;
+		};
+	}
 }
 
 export {};

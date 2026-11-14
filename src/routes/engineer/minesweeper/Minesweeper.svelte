@@ -21,10 +21,6 @@
 		minesLeft: MINE_COUNT,
 		over: false
 	});
-
-	function cellIndex(row: number, col: number) {
-		return row * SIZE + col;
-	}
 </script>
 
 <div class="flex flex-col gap-[var(--grid)]">
@@ -49,20 +45,7 @@
 		{#each rows as row (row)}
 			<MinesweeperBoardRow {row} class="flex">
 				{#each cols as col (`${row}:${col}`)}
-					<MinesweeperBoardCell
-						{row}
-						{col}
-						oncontextmenu={(event) => {
-							event.preventDefault();
-							board.flag(cellIndex(row, col));
-						}}
-						onkeydown={(event) => {
-							if (event.key === 'f' || event.key === 'F') {
-								event.preventDefault();
-								board.flag(cellIndex(row, col));
-							}
-						}}
-					>
+					<MinesweeperBoardCell {row} {col}>
 						{#snippet render({ props, state: cell })}
 							<button
 								{...props}

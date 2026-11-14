@@ -43,15 +43,11 @@
 	const thumbSize = $derived(
 		thumb === 'wide' ? { width: 72, height: 48 } : { width: 48, height: 48 }
 	);
-	const rowClass = $derived(
-		[
-			'ink-invert flex h-[calc(var(--grid)*2)] items-center',
-			external ? 'pr-0' : 'pr-[var(--grid)]',
-			className
-		]
-			.filter(Boolean)
-			.join(' ')
-	);
+	const rowClass = $derived([
+		'ink-invert flex h-[calc(var(--grid)*2)] items-center',
+		external ? 'pr-0' : 'pr-[var(--grid)]',
+		className
+	]);
 	const route = $derived(!external && href.startsWith('/') ? href : null);
 
 	function enter() {

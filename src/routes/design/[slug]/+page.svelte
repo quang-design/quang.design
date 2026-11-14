@@ -49,16 +49,8 @@
 	<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
 		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
 			{#if href}
-				<a
-					data-slot="badge"
-					class="inline-flex min-w-[calc(var(--grid)*5)] items-center justify-center px-[var(--grid)]"
-					href="{href}/llms.txt">llms.txt</a
-				>
-				<a
-					data-slot="badge"
-					class="inline-flex min-w-[calc(var(--grid)*5)] items-center justify-center px-[var(--grid)]"
-					href="{href}/post.md">post.md</a
-				>
+				<a data-slot="badge" class="min-w-[calc(var(--grid)*5)]" href="{href}/llms.txt">llms.txt</a>
+				<a data-slot="badge" class="min-w-[calc(var(--grid)*5)]" href="{href}/post.md">post.md</a>
 			{/if}
 		</div>
 		<h1 class="ink-h1 uppercase">{headline.brand}</h1>

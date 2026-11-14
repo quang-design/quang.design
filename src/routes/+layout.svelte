@@ -30,7 +30,14 @@
 	};
 
 	onMount(() => {
-		if (browser) void import('$lib/agent');
+		if (
+			browser &&
+			(import.meta.env.DEV ||
+				'modelContext' in document ||
+				typeof document.modelContext?.registerTool === 'function')
+		) {
+			void import('$lib/agent');
+		}
 		if (userLockedMode()) return;
 		const hour = new Date().getHours();
 		if (hour >= 6 && hour < 18) setMode('light');
