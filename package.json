@@ -52,8 +52,8 @@
 	"packageManager": "pnpm@10.12.3",
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.137.0",
-		"@ui-sdk/core": "0.1.0-beta.1",
-		"@ui-sdk/svelte": "0.1.0-beta.1",
+		"@ui-sdk/core": "0.1.0-beta.2",
+		"@ui-sdk/svelte": "0.1.0-beta.2",
 		"@vercel/analytics": "^1.6.1",
 		"@vercel/speed-insights": "^2.1.0",
 		"animejs": "3.2.2",

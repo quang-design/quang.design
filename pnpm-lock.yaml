@@ -30,11 +30,11 @@ importers:
         specifier: ^0.137.0
         version: 0.137.0(zod@4.6.7)
       '@ui-sdk/core':
-        specifier: 0.1.0-beta.1
-        version: 0.1.0-beta.1
+        specifier: 0.1.0-beta.2
+        version: 0.1.0-beta.2
       '@ui-sdk/svelte':
-        specifier: 0.1.0-beta.1
-        version: 0.1.0-beta.1(@ui-sdk/core@0.1.0-beta.1)(svelte@5.57.3(@typescript-eslint/types@8.72.1))
+        specifier: 0.1.0-beta.2
+        version: 0.1.0-beta.2(@ui-sdk/core@0.1.0-beta.2)(svelte@5.57.3(@typescript-eslint/types@8.72.1))
       '@vercel/analytics':
         specifier: ^1.6.1
         version: 1.6.1(@sveltejs/kit@2.70.4(@opentelemetry/api@1.10.0)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.57.3(@typescript-eslint/types@8.72.1))(vite@7.3.7(@types/node@22.19.1)(jiti@2.7.0)(lightningcss@1.33.0)(yaml@2.8.3)))(svelte@5.57.3(@typescript-eslint/types@8.72.1))(typescript@5.9.3)(vite@7.3.7(@types/node@22.19.1)(jiti@2.7.0)(lightningcss@1.33.0)(yaml@2.8.3)))(react@19.1.0)(svelte@5.57.3(@typescript-eslint/types@8.72.1))
@@ -1042,13 +1042,13 @@ packages:
     resolution: {integrity: sha512-SB8xqipSzZHUePCCLNeYxqnxq83X61/qzNhjQGbTfjxGZIeOEP7tBgWYX05Tcd6CgE02WdTJnh5b8kMZJ/+bnQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ui-sdk/core@0.1.0-beta.1':
-    resolution: {integrity: sha512-sWsZW8RN6Gviir7REQYuDIafm9hierHQE31OJ+2g+1Pp3lDVKp/dk0+0dxFvqOQRmBveRvlE9FiARgNlQ9dMFw==}
+  '@ui-sdk/core@0.1.0-beta.2':
+    resolution: {integrity: sha512-y89M4OKL2Oy1IvFS8FEozn/44BJD9FoRjfecWA4XwFhkSuQADcEcI+eoLdfRK1hkrJZhKkHvhJf4Jtfp1y7aJw==}
 
-  '@ui-sdk/svelte@0.1.0-beta.1':
-    resolution: {integrity: sha512-nQQaFKn7e/M87yj/ax7JgZc3uYjiacmKs05ljCIrdOiPbkiROGcbKHgngVZUF7x0GJWhGTDg67Yc28kirKUoLA==}
+  '@ui-sdk/svelte@0.1.0-beta.2':
+    resolution: {integrity: sha512-LhjaeAIHUNuwKbQoBLT0urV7MaHU2yJqB12S4Q24iPm6tORv9j+0ONaY34+pPz7DpjQs9b3JJovaqyRjcdn0Dg==}
     peerDependencies:
-      '@ui-sdk/core': ^0.1.0-beta.1
+      '@ui-sdk/core': ^0.1.0-beta.2
       svelte: '>=5.33'
 
   '@ungap/structured-clone@1.3.0':
@@ -3502,11 +3502,11 @@ snapshots:
       '@typescript-eslint/types': 8.72.1
       eslint-visitor-keys: 5.0.1
 
-  '@ui-sdk/core@0.1.0-beta.1': {}
+  '@ui-sdk/core@0.1.0-beta.2': {}
 
-  '@ui-sdk/svelte@0.1.0-beta.1(@ui-sdk/core@0.1.0-beta.1)(svelte@5.57.3(@typescript-eslint/types@8.72.1))':
+  '@ui-sdk/svelte@0.1.0-beta.2(@ui-sdk/core@0.1.0-beta.2)(svelte@5.57.3(@typescript-eslint/types@8.72.1))':
     dependencies:
-      '@ui-sdk/core': 0.1.0-beta.1
+      '@ui-sdk/core': 0.1.0-beta.2
       svelte: 5.57.3(@typescript-eslint/types@8.72.1)
 
   '@ungap/structured-clone@1.3.0': {}
