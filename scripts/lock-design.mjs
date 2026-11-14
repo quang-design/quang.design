@@ -207,8 +207,11 @@ const PROBE = `(() => {
 })()`;
 
 const FREEZE = `(() => {
-  document.documentElement.classList.remove('dark');
-  document.documentElement.classList.add('light');
+  localStorage.setItem('qd-user-mode', '1');
+  const html = document.documentElement;
+  html.classList.remove('dark');
+  html.classList.add('light');
+  html.style.colorScheme = 'light';
   let style = document.getElementById('lock-freeze');
   if (!style) {
     style = document.createElement('style');
@@ -324,12 +327,17 @@ export async function lockDesign() {
 				await sleep(100);
 			}
 			await session.send('Runtime.evaluate', { expression: FREEZE, awaitPromise: true });
-			await sleep(400);
+			await sleep(600);
 			await session.send('Runtime.evaluate', {
-				expression:
-					'document.documentElement.classList.remove("dark"); document.documentElement.classList.add("light");'
+				expression: `(() => {
+  localStorage.setItem('qd-user-mode', '1');
+  const html = document.documentElement;
+  html.classList.remove('dark');
+  html.classList.add('light');
+  html.style.colorScheme = 'light';
+})()`
 			});
-			await sleep(50);
+			await sleep(100);
 			const probed = await session.send('Runtime.evaluate', {
 				expression: PROBE,
 				returnByValue: true
