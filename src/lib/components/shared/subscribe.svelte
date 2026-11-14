@@ -31,6 +31,8 @@
 	action=""
 	onsubmit={(event) => {
 		event.preventDefault();
+		const submit = (event.currentTarget as HTMLFormElement).querySelector('[data-slot="button"]');
+		if (submit instanceof HTMLElement) submit.click();
 	}}
 >
 	<Field name="email" class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]">

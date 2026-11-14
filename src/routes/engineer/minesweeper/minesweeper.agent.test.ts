@@ -22,6 +22,11 @@ test('an agent can find Minesweeper and operate cells', async () => {
 	const board = components.find((entry) => entry.label === 'Minesweeper');
 	expect(board?.actions).toEqual(expect.arrayContaining(['reveal', 'flag', 'reset']));
 
+	const before = JSON.stringify(agent.snapshot());
+	expect(before).not.toMatch(/"mine"\s*:\s*true/);
+	expect(before).not.toMatch(/"mines"\s*:/);
+	expect(before).not.toMatch(/"numbers"\s*:/);
+
 	const reveal = await agent.act({
 		steps: [{ ref: 'Minesweeper', action: 'reveal', args: [0] }]
 	});
@@ -32,7 +37,7 @@ test('an agent can find Minesweeper and operate cells', async () => {
 	});
 	expect(flag.ok, flag.error?.message).toBe(true);
 
-	const snapshotJson = JSON.stringify(agent.snapshot());
-	expect(snapshotJson).not.toMatch(/"mines"\s*:/);
-	expect(snapshotJson).not.toMatch(/"numbers"\s*:/);
+	const after = JSON.stringify(agent.snapshot());
+	expect(after).not.toMatch(/"mines"\s*:/);
+	expect(after).not.toMatch(/"numbers"\s*:/);
 });

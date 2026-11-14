@@ -100,8 +100,7 @@ function cellView(
 		index,
 		revealed,
 		flagged: state.flagged.includes(index),
-		// Agents and snapshots must not learn about mines before reveal.
-		mine: revealed && state.mines.includes(index),
+		mine: revealed ? state.mines.includes(index) : false,
 		exploded: state.exploded === index,
 		number: revealed ? (state.numbers[index] ?? 0) : 0,
 		label: cellLabel(index, state)

@@ -35,11 +35,18 @@
 	} = $props();
 
 	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
-	const thumbClass = $derived(
+	const thumbClass = $derived([
+		'hair-r shrink-0 object-cover',
 		thumb === 'wide'
-			? 'hair-r h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0 object-cover'
-			: 'hair-r size-[calc(var(--grid)*2)] shrink-0 object-cover'
-	);
+			? 'h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)]'
+			: 'size-[calc(var(--grid)*2)]'
+	]);
+	const hatchClass = $derived([
+		'hair-r shrink-0',
+		thumb === 'wide'
+			? 'h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)]'
+			: 'size-[calc(var(--grid)*2)]'
+	]);
 	const thumbSize = $derived(
 		thumb === 'wide' ? { width: 72, height: 48 } : { width: 48, height: 48 }
 	);
@@ -77,11 +84,7 @@
 			{@render icon()}
 		</div>
 	{:else if placeholder}
-		<Hatch
-			class={thumb === 'wide'
-				? 'hair-r h-[calc(var(--grid)*2)] w-[calc(var(--grid)*3)] shrink-0'
-				: 'hair-r size-[calc(var(--grid)*2)] shrink-0'}
-		/>
+		<Hatch class={hatchClass} />
 	{/if}
 	<span class="flex min-w-0 grow flex-col pl-[var(--grid)]">
 		<span class="ink-row-title truncate">{title}</span>
