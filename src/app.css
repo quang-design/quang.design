@@ -562,17 +562,16 @@
 			row-gap: var(--grid);
 		}
 	}
+}
 
+@layer utilities {
 	@supports (text-box: trim-both cap alphabetic) {
 		.on-grid {
 			text-box: trim-both cap alphabetic;
-			padding-top: calc(round(up, 1cap, var(--grid)) - 1cap);
-		}
-
-		.on-grid:not(.pt-0) {
 			padding-top: calc(var(--grid) + round(up, 1cap, var(--grid)) - 1cap);
 		}
 
+		.on-grid.pt-0,
 		.gallery > h2 + p.on-grid {
 			padding-top: calc(round(up, 1cap, var(--grid)) - 1cap);
 		}

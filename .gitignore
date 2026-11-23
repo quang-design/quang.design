@@ -17,6 +17,7 @@ Thumbs.db
 !.env.test
 
 tests/lock-design/report.json
+tests/grid-measure/
 /test-results/
 /playwright-report/
 /blob-report/

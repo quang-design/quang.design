@@ -92,14 +92,14 @@
 						<div class="grid grid-cols-1 sm:grid-cols-2">
 							{#each row.cells as cell (cell.heading)}
 								<div class={cell.side === 1 ? 'sm:col-start-2' : ''}>
-									<h2 class="ink-h3 on-grid px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]">
+									<h2 class="ink-h3 on-grid px-[var(--grid)] pb-[var(--grid)]">
 										{cell.heading}
 									</h2>
 									{#each cell.body.split('\n\n') as para, pi (pi)}
 										<p
 											class="ink-read on-grid px-[var(--grid)] pb-[var(--grid)] {pi === 0
 												? 'pt-0'
-												: 'pt-[var(--grid)]'}"
+												: ''}"
 										>
 											{para}
 										</p>
