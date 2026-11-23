@@ -2,7 +2,6 @@
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { DesignMarkdown } from '$lib/components/markdown';
 	import { creditLink, type DesignFlags } from '$lib/content/design-flags';
-	import { setDesignView } from '$lib/content/design-view';
 	import { layoutGallery, splitDesignContent } from '$lib/utils/design-content';
 	import { page } from '$app/state';
 	import { Badge } from '$lib/components/ui/badge';
@@ -20,15 +19,6 @@
 			flags: DesignFlags;
 		};
 	} = $props();
-
-	setDesignView({
-		get layout() {
-			return data.flags.layout;
-		},
-		get credit() {
-			return data.flags.credit;
-		}
-	});
 
 	const { introMd, metaParts, galleryMd } = $derived(splitDesignContent(data.md));
 	const galleryRows = $derived(data.flags.layout === 'flat' ? layoutGallery(galleryMd) : []);
@@ -102,12 +92,12 @@
 						<div class="grid grid-cols-1 sm:grid-cols-2">
 							{#each row.cells as cell (cell.heading)}
 								<div class={cell.side === 1 ? 'sm:col-start-2' : ''}>
-									<h2 class="ink-h3 px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]">
+									<h2 class="ink-h3 on-grid px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]">
 										{cell.heading}
 									</h2>
 									{#each cell.body.split('\n\n') as para, pi (pi)}
 										<p
-											class="ink-read px-[var(--grid)] pb-[var(--grid)] {pi === 0
+											class="ink-read on-grid px-[var(--grid)] pb-[var(--grid)] {pi === 0
 												? 'pt-0'
 												: 'pt-[var(--grid)]'}"
 										>
