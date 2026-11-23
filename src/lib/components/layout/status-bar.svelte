@@ -42,8 +42,7 @@
 	});
 
 	const localTime = $derived(date ? formatter.format(date) : '--:--:--');
-	const statClass =
-		'stat-cell hair-l h-full w-[calc(var(--grid)*6)] shrink-0 justify-center px-[var(--grid)]';
+	const statClass = 'stat-cell hair-l h-full w-[calc(var(--grid)*6)] shrink-0 px-[var(--grid)]';
 
 	function onToggleTheme() {
 		lockUserMode();
@@ -69,7 +68,9 @@
 		</Button>
 		<div class="home-mark">
 			<span class="ink-label">Welcome to</span>
-			<span class="truncate">{title}</span>
+			<span class="min-w-0 overflow-x-clip overflow-y-visible text-ellipsis whitespace-nowrap"
+				>{title}</span
+			>
 		</div>
 	</div>
 	<div class="status-canvas">
@@ -117,12 +118,12 @@
 
 <style>
 	.home-mark {
-		display: flex;
+		display: grid;
 		min-width: 0;
 		height: 100%;
 		flex: 1 1 auto;
-		flex-direction: column;
-		justify-content: center;
+		grid-template-rows: var(--grid) var(--grid);
+		align-items: end;
 		padding-inline: var(--grid);
 		color: inherit;
 	}

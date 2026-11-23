@@ -38,7 +38,7 @@
 
 <div class="flex flex-col">
 	<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
-		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
+		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-end gap-[var(--grid)]">
 			{#if href}
 				<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="{href}/llms.txt"
 					>llms.txt</Badge
@@ -50,13 +50,13 @@
 		</div>
 		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
 		<div
-			class="grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
+			class="case-intro-grid grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
 		>
 			<div class="flex min-w-0 flex-col gap-[var(--grid)]">
 				{#if introMd}
 					{#each introMd.split('\n\n') as paragraph (paragraph)}
 						{@const link = creditLink(paragraph, data.flags.credit)}
-						<p class="m-0 text-base leading-[var(--grid)]">
+						<p class="ink-read m-0">
 							{#if link}
 								{link.before}<a class="underline" href={link.href} target="_blank" rel="noopener"
 									>{link.label}</a
@@ -70,7 +70,7 @@
 			</div>
 			<div class="min-w-0">
 				{#each metaParts as part (part)}
-					<p class="m-0 text-base leading-[var(--grid)]">{part}</p>
+					<p class="ink-read m-0">{part}</p>
 				{/each}
 			</div>
 		</div>

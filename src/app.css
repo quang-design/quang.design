@@ -262,25 +262,25 @@
 	}
 
 	.gallery {
-		border-top: var(--hair) solid var(--ink-25);
+		box-shadow: inset 0 var(--hair) 0 0 var(--ink-25);
 	}
 
 	.gallery > * + * {
-		border-top: var(--hair) solid var(--ink-25);
+		box-shadow: inset 0 var(--hair) 0 0 var(--ink-25);
 	}
 
 	.gallery > h2 + p {
-		border-top: 0;
+		box-shadow: none;
 		padding-top: 0;
 	}
 
 	.gallery.gallery-split {
-		border-top: 0;
+		box-shadow: none;
 	}
 
 	.gallery.gallery-split > h2,
 	.gallery.gallery-split > p {
-		border-top: 0;
+		box-shadow: none;
 	}
 
 	.gallery.gallery-split > :last-child {
@@ -290,6 +290,7 @@
 	@media (min-width: 640px) {
 		.gallery.gallery-split {
 			display: grid;
+			width: round(down, 100%, calc(var(--grid) * 2));
 			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 			column-gap: calc(var(--grid) * 2);
 			align-items: start;
@@ -313,15 +314,17 @@
 	}
 
 	.gallery > :last-child {
-		box-shadow: 0 var(--hair) 0 0 var(--ink-25);
+		box-shadow:
+			inset 0 var(--hair) 0 0 var(--ink-25),
+			0 var(--hair) 0 0 var(--ink-25);
 	}
 
 	.gallery.gallery-flat {
-		border-top: 0;
+		box-shadow: none;
 	}
 
 	.gallery.gallery-flat > * + * {
-		border-top: 0;
+		box-shadow: none;
 	}
 
 	.gallery.gallery-flat > :last-child {
@@ -354,17 +357,16 @@
 	}
 
 	.gallery .grid .design-media + .design-media {
-		border-top: var(--hair) solid var(--ink-25);
+		box-shadow: inset 0 var(--hair) 0 0 var(--ink-25);
 	}
 
 	@media (min-width: 768px) {
 		.gallery .grid .design-media + .design-media {
-			border-top: 0;
-			border-left: var(--hair) solid var(--ink-25);
+			box-shadow: inset var(--hair) 0 0 0 var(--ink-25);
 		}
 
 		.gallery .grid .design-media:first-child {
-			border-right: var(--hair) solid var(--ink-25);
+			box-shadow: inset calc(var(--hair) * -1) 0 0 0 var(--ink-25);
 		}
 	}
 
@@ -448,7 +450,7 @@
 	.ink-display,
 	.ink-h1 {
 		font-size: var(--text-h1);
-		line-height: calc(var(--grid) * 2);
+		line-height: calc(var(--grid) * 1.5);
 		font-weight: 700;
 		letter-spacing: var(--tracking-normal);
 		text-transform: none;
@@ -456,7 +458,7 @@
 
 	.ink-h2 {
 		font-size: var(--text-h2);
-		line-height: calc(var(--grid) * 2);
+		line-height: calc(var(--grid) * 1.5);
 		font-weight: 700;
 	}
 
@@ -561,13 +563,68 @@
 			column-gap: calc(var(--grid) * 2);
 			row-gap: var(--grid);
 		}
+
+		.case-intro-grid {
+			width: round(down, 100%, calc(var(--grid) * 2));
+		}
 	}
 }
 
 @layer utilities {
 	@supports (text-box: trim-both cap alphabetic) {
-		.on-grid {
+		body {
+			line-height: round(up, var(--grid), calc(var(--grid) / 2));
+		}
+
+		.ink-label,
+		.ink-row,
+		.ink-row-title,
+		.ink-row-meta,
+		.ink-row-desc {
 			text-box: trim-both cap alphabetic;
+			line-height: round(up, var(--grid), calc(var(--grid) / 2));
+		}
+
+		.ink-label,
+		.ink-row-desc,
+		.shell-foot blockquote {
+			padding-top: calc(round(up, 1cap, var(--grid)) - 1cap);
+		}
+
+		.shell-foot blockquote {
+			text-box: trim-both cap alphabetic;
+			line-height: round(up, var(--grid), calc(var(--grid) / 2));
+		}
+
+		.shell-index a .ink-label,
+		.shell-canvas .stack :is(.ink-label, .ink-row-desc),
+		.home-mark .ink-label,
+		.stat-cell .ink-label,
+		.shell-foot label.ink-label {
+			padding-top: 0;
+		}
+
+		.home-mark > span,
+		.stat-cell > span {
+			text-box: trim-both cap alphabetic;
+			line-height: round(up, var(--grid), calc(var(--grid) / 2));
+		}
+
+		.on-grid,
+		.ink-h1,
+		.ink-h2,
+		.ink-h3,
+		.ink-h4,
+		.ink-h5,
+		.ink-h6,
+		.ink-read,
+		.ink-read p,
+		.ink-read li {
+			text-box: trim-both cap alphabetic;
+			padding-top: calc(round(up, 1cap, var(--grid)) - 1cap);
+		}
+
+		.on-grid {
 			padding-top: calc(var(--grid) + round(up, 1cap, var(--grid)) - 1cap);
 		}
 
@@ -577,8 +634,19 @@
 		}
 
 		.ink-h1,
-		.ink-h2 {
-			line-height: round(up, calc(var(--grid) * 2), var(--grid));
+		.ink-h2,
+		.ink-display {
+			line-height: round(up, calc(var(--grid) * 1.5), calc(var(--grid) / 2));
+		}
+
+		.ink-h3,
+		.ink-h4,
+		.ink-h5,
+		.ink-h6,
+		.ink-read,
+		.ink-read p,
+		.ink-read li {
+			line-height: round(up, var(--grid), calc(var(--grid) / 2));
 		}
 	}
 }

@@ -104,14 +104,14 @@
 				<div
 					class="grid grid-cols-1 gap-x-[calc(var(--grid)*2)] px-[var(--grid)] py-[var(--grid)] sm:h-full sm:grid-cols-2 sm:py-0"
 				>
-					<div class="flex min-w-0 flex-col justify-center">
+					<div class="flex min-w-0 flex-col sm:grid sm:h-full sm:grid-rows-3 sm:items-end">
 						<blockquote class="italic">
 							"The best person ever to exist."
 							<a href="http://quang.urbanup.com/9858947">Urban Dictionary</a>
 						</blockquote>
 						<p class="ink-label">&copy; {year} Quang Design. All rights reserved.</p>
 					</div>
-					<div class="flex min-w-0 items-center">
+					<div class="flex min-w-0 items-end">
 						<Subscribe />
 					</div>
 				</div>

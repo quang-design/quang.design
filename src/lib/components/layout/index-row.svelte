@@ -46,7 +46,7 @@
 	);
 	const rowClass = $derived(
 		cn(
-			'ink-invert flex h-[calc(var(--grid)*2)] items-center',
+			'ink-invert flex h-[calc(var(--grid)*2)] items-end',
 			external ? 'pr-0' : 'pr-[var(--grid)]',
 			className
 		)
@@ -63,10 +63,9 @@
 </script>
 
 {#snippet body()}
-	<KeySlot
-		{code}
-		class="hair-r flex size-[calc(var(--grid)*2)] items-center justify-center text-center"
-	/>
+	<span class="hair-r flex size-[calc(var(--grid)*2)] shrink-0 items-end justify-center">
+		<KeySlot {code} class="text-center" />
+	</span>
 	{#if thumbnail}
 		<img
 			src={thumbnail}
@@ -76,7 +75,7 @@
 			class={thumbClass}
 		/>
 	{:else if icon}
-		<div class="hair-r flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center">
+		<div class="hair-r flex size-[calc(var(--grid)*2)] shrink-0 items-end justify-center">
 			{@render icon()}
 		</div>
 	{:else if placeholder}
@@ -87,13 +86,22 @@
 		/>
 	{/if}
 	<span class="flex min-w-0 grow flex-col pl-[var(--grid)]">
-		<span class="ink-row-title truncate">{title}</span>
-		{#if description}<span class="ink-row-desc line-clamp-1">{description}</span>{/if}
+		<span class="flex h-[var(--grid)] min-w-0 items-end">
+			<span class="ink-row-title min-w-0 truncate">{title}</span>
+		</span>
+		{#if description}
+			<span class="flex h-[var(--grid)] min-w-0 items-end">
+				<span
+					class="ink-row-desc min-w-0 overflow-x-clip overflow-y-visible text-ellipsis whitespace-nowrap"
+					>{description}</span
+				>
+			</span>
+		{/if}
 	</span>
 	{#if date}<span class="ink-row-meta shrink-0 pl-[var(--grid)]">{date}</span>{/if}
 	{#if external}
 		<span
-			class="hair-l flex size-[calc(var(--grid)*2)] shrink-0 items-center justify-center"
+			class="hair-l flex size-[calc(var(--grid)*2)] shrink-0 items-end justify-center"
 			aria-hidden="true"
 		>
 			<ArrowUpRightIcon class="size-4" />

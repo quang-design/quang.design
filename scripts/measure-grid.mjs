@@ -60,12 +60,70 @@ const PROBE = `(() => {
   const shellTop = shell.getBoundingClientRect().top;
   const scrollTop = shell.scrollTop || 0;
 
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  const alphabeticBaselines = (el) => {
+    const cs = getComputedStyle(el);
+    const tag = el.tagName;
+    if (tag === 'IMG' || tag === 'FIGURE' || tag === 'SVG' || tag === 'VIDEO') return [];
+    const text = (el.textContent || '').replace(/\\s+/g, ' ').trim();
+    if (!text) return [];
+    ctx.font = cs.font;
+    const tm = ctx.measureText('Hg');
+    const ascent =
+      tm.fontBoundingBoxAscent ??
+      tm.actualBoundingBoxAscent ??
+      parseFloat(cs.fontSize) * 0.8;
+    const fontSize = parseFloat(cs.fontSize) || 12;
+    const lineHeight = parseFloat(cs.lineHeight) || fontSize;
+    const padTop = parseFloat(cs.paddingTop) || 0;
+    const trim = (cs.textBoxTrim || cs.getPropertyValue('text-box-trim') || '').trim();
+    const trimmed = trim && trim !== 'none';
+
+    const range = document.createRange();
+    try {
+      range.selectNodeContents(el);
+    } catch {
+      return [];
+    }
+    const raw = [...range.getClientRects()].filter((r) => r.width > 1 && r.height > 1);
+    const lines = [];
+    for (const rect of raw) {
+      if (lines.some((l) => Math.abs(l.top - rect.top) < 1.5)) continue;
+      lines.push(rect);
+    }
+    if (!lines.length) return [];
+
+    const box = el.getBoundingClientRect();
+    const pageTop = box.top - shellTop + scrollTop;
+
+    if (trimmed) {
+      const capProbe = document.createElement('span');
+      capProbe.style.cssText =
+        'position:absolute;visibility:hidden;pointer-events:none;font:inherit;height:1cap;display:block';
+      el.appendChild(capProbe);
+      const cap = capProbe.getBoundingClientRect().height || fontSize * 0.7;
+      capProbe.remove();
+      const first = pageTop + padTop + cap;
+      return lines.map((_, i) => first + i * lineHeight);
+    }
+
+    return lines.map((rect) => {
+      const halfLeading = Math.max(0, (rect.height - fontSize) / 2);
+      return rect.top + halfLeading + ascent - shellTop + scrollTop;
+    });
+  };
+
   const selectors = [
     'img',
     'figure',
     'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'p', 'li', 'label',
     '.ink-h1', '.ink-h2', '.ink-h3', '.ink-h4', '.ink-h5', '.ink-h6',
-    '.ink-read', 'p.ink-read', '.gallery p', '.gallery h2'
+    '.ink-read', '.ink-label', '.ink-row', '.ink-row-title', '.ink-row-meta', '.ink-row-desc',
+    '.gallery p', '.gallery h2',
+    '.shell-head *', '.status-brand *', '.status-meta *'
   ];
   const seen = new Set();
   const els = [];
@@ -87,7 +145,9 @@ const PROBE = `(() => {
     const pageBottom = r.bottom - shellTop + scrollTop;
     const pageLeft = r.left;
     const tag = el.tagName.toLowerCase();
-    const cls = typeof el.className === 'string' ? el.className.trim().split(/\\s+/).slice(0, 3).join('.') : '';
+    const cls =
+      typeof el.className === 'string' ? el.className.trim().split(/\\s+/).slice(0, 3).join('.') : '';
+    const baselines = alphabeticBaselines(el);
     items.push({
       tag,
       cls,
@@ -96,10 +156,16 @@ const PROBE = `(() => {
       bottom: pageBottom,
       left: pageLeft,
       height: r.height,
-      width: r.width
+      width: r.width,
+      baselines
     });
   }
-  return { grid, rootFontSize: getComputedStyle(document.documentElement).fontSize, count: items.length, items };
+  return {
+    grid,
+    rootFontSize: getComputedStyle(document.documentElement).fontSize,
+    count: items.length,
+    items
+  };
 })()`;
 
 function summarize(items, grid) {
@@ -118,12 +184,31 @@ function summarize(items, grid) {
 		}
 	}
 	const checked = edges.length;
+
+	let baseChecked = 0;
+	let baseOff = 0;
+	let baseSum = 0;
+	let baseMax = 0;
+	for (const it of items) {
+		for (const y of it.baselines || []) {
+			const offPx = offsetFromGrid(y, grid);
+			baseChecked += 1;
+			baseSum += offPx;
+			if (offPx > baseMax) baseMax = offPx;
+			if (offPx > 0.5) baseOff += 1;
+		}
+	}
+
 	return {
 		elements: items.length,
 		edgesChecked: checked,
 		edgesOffGrid: off,
 		maxOffsetPx: Number(max.toFixed(3)),
-		meanOffsetPx: checked ? Number((sum / checked).toFixed(3)) : 0
+		meanOffsetPx: checked ? Number((sum / checked).toFixed(3)) : 0,
+		baselinesChecked: baseChecked,
+		baselinesOffGrid: baseOff,
+		baselineMaxOffsetPx: Number(baseMax.toFixed(3)),
+		baselineMeanOffsetPx: baseChecked ? Number((baseSum / baseChecked).toFixed(3)) : 0
 	};
 }
 
@@ -222,6 +307,17 @@ function aggregate(rows) {
 				(ok.reduce((a, r) => a + r.meanOffsetPx * r.edgesChecked, 0) / edgesChecked).toFixed(3)
 			)
 		: 0;
+	const baselinesChecked = ok.reduce((a, r) => a + (r.baselinesChecked || 0), 0);
+	const baselinesOffGrid = ok.reduce((a, r) => a + (r.baselinesOffGrid || 0), 0);
+	const baselineMaxOffsetPx = ok.reduce((a, r) => Math.max(a, r.baselineMaxOffsetPx || 0), 0);
+	const baselineMeanOffsetPx = baselinesChecked
+		? Number(
+				(
+					ok.reduce((a, r) => a + (r.baselineMeanOffsetPx || 0) * (r.baselinesChecked || 0), 0) /
+					baselinesChecked
+				).toFixed(3)
+			)
+		: 0;
 	return {
 		pages: ok.length,
 		errors: rows.length - ok.length,
@@ -230,7 +326,12 @@ function aggregate(rows) {
 		edgesOffGrid,
 		maxOffsetPx: Number(maxOffsetPx.toFixed(3)),
 		meanOffsetPx,
-		offGridRate: edgesChecked ? Number((edgesOffGrid / edgesChecked).toFixed(4)) : 0
+		offGridRate: edgesChecked ? Number((edgesOffGrid / edgesChecked).toFixed(4)) : 0,
+		baselinesChecked,
+		baselinesOffGrid,
+		baselineMaxOffsetPx: Number(baselineMaxOffsetPx.toFixed(3)),
+		baselineMeanOffsetPx,
+		baselineOffRate: baselinesChecked ? Number((baselinesOffGrid / baselinesChecked).toFixed(4)) : 0
 	};
 }
 
@@ -255,7 +356,7 @@ async function main() {
 		base: BASE,
 		rootFont: ROOT_FONT || 'browser-default',
 		measured:
-			'top/bottom/left edges and height of img, figure, heading, and text blocks; offset = distance in px to nearest multiple of --grid (resolved)',
+			'top/bottom/left/height of img/figure/heading/text; alphabetic baseline Y per text line (Canvas fontBoundingBoxAscent within each getClientRects line, or line-box bottom when text-box-trim is active); offset = distance in px to nearest multiple of resolved --grid',
 		how: 'Playwright Chromium+WebKit+Firefox; viewports 1440×900 and 390×844; home + every /design/<slug>; page coords via .shell scroll',
 		totals,
 		rows: all
