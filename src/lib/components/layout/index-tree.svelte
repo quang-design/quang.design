@@ -28,7 +28,7 @@
 						rel={row.external ? 'noopener noreferrer' : undefined}
 						aria-current={active === row.code && !row.external ? 'page' : undefined}
 						class={cn(
-							'ink-invert flex h-[var(--grid)] items-end',
+							'ink-invert flex h-[var(--grid)] items-center',
 							row.nested ? 'pl-[calc(var(--grid)*2)]' : 'pl-[var(--grid)]',
 							row.external ? 'pr-0' : 'pr-[var(--grid)]',
 							active === row.code && 'ink-active'
@@ -38,16 +38,14 @@
 						onfocus={() => row.preview && preview?.setHover(row.preview)}
 						onblur={() => preview?.clearHover()}
 					>
-						<span class="flex h-[var(--grid)] w-[calc(var(--grid)*2)] shrink-0 items-end">
-							<KeySlot code={row.code} />
-						</span>
+						<KeySlot code={row.code} />
 						<span class="ink-row grow truncate">{row.label}</span>
 						{#if row.count !== undefined}
 							<Count value={row.count} />
 						{/if}
 						{#if row.external}
 							<span
-								class="hair-l flex size-[var(--grid)] shrink-0 items-end justify-center"
+								class="hair-l flex size-[var(--grid)] shrink-0 items-center justify-center"
 								aria-hidden="true"
 							>
 								<ArrowUpRightIcon class="size-3" />

@@ -17,6 +17,7 @@
 	import Subscribe from '$lib/components/shared/subscribe.svelte';
 	import { buildIndexTree, type NavData } from '$lib/config/tree';
 	import { PreviewState, PREVIEW_KEY } from '$lib/preview.svelte';
+	import { gridOverlay } from '$lib/grid-overlay.svelte';
 
 	let { nav, children }: { nav: NavData; children: Snippet } = $props();
 
@@ -104,14 +105,14 @@
 				<div
 					class="grid grid-cols-1 gap-x-[calc(var(--grid)*2)] px-[var(--grid)] py-[var(--grid)] sm:h-full sm:grid-cols-2 sm:py-0"
 				>
-					<div class="flex min-w-0 flex-col sm:grid sm:h-full sm:grid-rows-3 sm:items-end">
-						<blockquote class="italic">
+					<div class="flex min-w-0 flex-col justify-center">
+						<blockquote class="ink-read italic">
 							"The best person ever to exist."
 							<a href="http://quang.urbanup.com/9858947">Urban Dictionary</a>
 						</blockquote>
 						<p class="ink-label">&copy; {year} Quang Design. All rights reserved.</p>
 					</div>
-					<div class="flex min-w-0 items-end">
+					<div class="flex min-w-0 items-center">
 						<Subscribe />
 					</div>
 				</div>
@@ -121,4 +122,7 @@
 		<div class="shell-rule shell-rule-index" aria-hidden="true"></div>
 		<div class="shell-rule shell-rule-reading" aria-hidden="true"></div>
 	</div>
+	{#if gridOverlay.enabled}
+		<div class="grid-overlay" aria-hidden="true"></div>
+	{/if}
 </div>

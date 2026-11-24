@@ -28,7 +28,7 @@
 
 <div class="flex flex-col">
 	<div class="w-full max-w-[calc(var(--grid)*24)] px-[var(--grid)] py-[var(--grid)]">
-		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-end gap-[var(--grid)]">
+		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
 			<Badge
 				variant="outline"
 				class="min-w-[calc(var(--grid)*5)]"

@@ -33,7 +33,34 @@ function designPaths() {
 		.filter((d) => d.isDirectory())
 		.map((d) => d.name)
 		.sort();
-	return ['/', ...slugs.map((s) => `/design/${s}`)];
+	return slugs.map((s) => `/design/${s}`);
+}
+
+function blogPaths() {
+	const dir = path.join(ROOT, 'src/content/blog');
+	try {
+		const slugs = readdirSync(dir, { withFileTypes: true })
+			.filter((d) => d.isDirectory())
+			.map((d) => d.name)
+			.sort();
+		return ['/blog', ...slugs.map((s) => `/blog/posts/${s}`)];
+	} catch {
+		return ['/blog'];
+	}
+}
+
+function measurePaths() {
+	return [
+		'/',
+		'/design',
+		...designPaths(),
+		'/engineer',
+		'/engineer/telescopic',
+		'/engineer/microscopic',
+		'/engineer/minesweeper',
+		'/engineer/animation-vocabulary',
+		...blogPaths()
+	];
 }
 
 function offsetFromGrid(value, grid) {
@@ -338,7 +365,7 @@ function aggregate(rows) {
 async function main() {
 	mkdirSync(OUT_DIR, { recursive: true });
 	if (SHOT_DIR) mkdirSync(SHOT_DIR, { recursive: true });
-	const paths = designPaths();
+	const paths = measurePaths();
 	const all = [];
 	for (const engine of ENGINES) {
 		try {
@@ -357,7 +384,7 @@ async function main() {
 		rootFont: ROOT_FONT || 'browser-default',
 		measured:
 			'top/bottom/left/height of img/figure/heading/text; alphabetic baseline Y per text line (Canvas fontBoundingBoxAscent within each getClientRects line, or line-box bottom when text-box-trim is active); offset = distance in px to nearest multiple of resolved --grid',
-		how: 'Playwright Chromium+WebKit+Firefox; viewports 1440×900 and 390×844; home + every /design/<slug>; page coords via .shell scroll',
+		how: 'Playwright Chromium+WebKit+Firefox; viewports 1440×900 and 390×844; home, design, engineer tools, blog; page coords via .shell scroll',
 		totals,
 		rows: all
 	};

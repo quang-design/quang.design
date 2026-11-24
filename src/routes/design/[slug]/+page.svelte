@@ -38,7 +38,7 @@
 
 <div class="flex flex-col">
 	<div class="flex flex-col px-[var(--grid)] py-[var(--grid)]">
-		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-end gap-[var(--grid)]">
+		<div class="mb-[var(--grid)] flex h-[var(--grid)] flex-wrap items-center gap-[var(--grid)]">
 			{#if href}
 				<Badge variant="outline" class="min-w-[calc(var(--grid)*5)]" href="{href}/llms.txt"
 					>llms.txt</Badge

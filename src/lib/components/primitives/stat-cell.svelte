@@ -11,7 +11,7 @@
 
 <div
 	class={cn(
-		'grid h-full min-h-0 grid-rows-[var(--grid)_var(--grid)] items-end overflow-x-clip',
+		'grid h-full min-h-0 grid-rows-[var(--grid)_var(--grid)] items-center overflow-x-clip',
 		className
 	)}
 >

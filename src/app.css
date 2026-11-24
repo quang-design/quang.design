@@ -54,6 +54,9 @@
 	--spacing: 0.25rem;
 	--grid: calc(var(--spacing) * 6);
 	--hair: 0.5px;
+	--font-cap-height: 0.7em;
+	--font-ascent: 0.9em;
+	--font-descent: 0.2em;
 	--index-col: calc(var(--grid) * 10);
 	--reading-col: calc(var(--grid) * 10);
 	--chrome-btn: calc(var(--grid) * 2);
@@ -236,25 +239,27 @@
 	}
 
 	.hair {
-		border: var(--hair) solid var(--ink-25);
+		box-shadow: inset 0 0 0 var(--hair) var(--ink-25);
 	}
 
 	.hair-x {
-		border-left: var(--hair) solid var(--ink-25);
-		border-right: var(--hair) solid var(--ink-25);
+		box-shadow:
+			inset var(--hair) 0 0 0 var(--ink-25),
+			inset calc(var(--hair) * -1) 0 0 0 var(--ink-25);
 	}
 
 	.hair-l {
-		border-left: var(--hair) solid var(--ink-25);
+		box-shadow: inset var(--hair) 0 0 0 var(--ink-25);
 	}
 
 	.hair-r {
-		border-right: var(--hair) solid var(--ink-25);
+		box-shadow: inset calc(var(--hair) * -1) 0 0 0 var(--ink-25);
 	}
 
 	.hair-y {
-		border-top: var(--hair) solid var(--ink-25);
-		border-bottom: var(--hair) solid var(--ink-25);
+		box-shadow:
+			inset 0 var(--hair) 0 0 var(--ink-25),
+			inset 0 calc(var(--hair) * -1) 0 0 var(--ink-25);
 	}
 
 	.hair-dashed {
@@ -534,7 +539,7 @@
 	}
 
 	.rule-b {
-		border-bottom: var(--hair) solid var(--ink-25);
+		box-shadow: inset 0 calc(var(--hair) * -1) 0 0 var(--ink-25);
 	}
 
 	.hatch {
@@ -571,42 +576,20 @@
 }
 
 @layer utilities {
+	.grid-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 99998;
+		pointer-events: none;
+		background-image:
+			linear-gradient(to right, rgb(255 0 80 / 0.28) var(--hair), transparent var(--hair)),
+			linear-gradient(to bottom, rgb(255 0 80 / 0.28) var(--hair), transparent var(--hair));
+		background-size: var(--grid) var(--grid);
+		background-position: 0 0;
+	}
+
 	@supports (text-box: trim-both cap alphabetic) {
 		body {
-			line-height: round(up, var(--grid), calc(var(--grid) / 2));
-		}
-
-		.ink-label,
-		.ink-row,
-		.ink-row-title,
-		.ink-row-meta,
-		.ink-row-desc {
-			text-box: trim-both cap alphabetic;
-			line-height: round(up, var(--grid), calc(var(--grid) / 2));
-		}
-
-		.ink-label,
-		.ink-row-desc,
-		.shell-foot blockquote {
-			padding-top: calc(round(up, 1cap, var(--grid)) - 1cap);
-		}
-
-		.shell-foot blockquote {
-			text-box: trim-both cap alphabetic;
-			line-height: round(up, var(--grid), calc(var(--grid) / 2));
-		}
-
-		.shell-index a .ink-label,
-		.shell-canvas .stack :is(.ink-label, .ink-row-desc),
-		.home-mark .ink-label,
-		.stat-cell .ink-label,
-		.shell-foot label.ink-label {
-			padding-top: 0;
-		}
-
-		.home-mark > span,
-		.stat-cell > span {
-			text-box: trim-both cap alphabetic;
 			line-height: round(up, var(--grid), calc(var(--grid) / 2));
 		}
 
@@ -617,20 +600,23 @@
 		.ink-h4,
 		.ink-h5,
 		.ink-h6,
+		.ink-display,
 		.ink-read,
 		.ink-read p,
 		.ink-read li {
 			text-box: trim-both cap alphabetic;
-			padding-top: calc(round(up, 1cap, var(--grid)) - 1cap);
+			padding-top: calc(round(up, var(--font-cap-height), var(--grid)) - var(--font-cap-height));
 		}
 
 		.on-grid {
-			padding-top: calc(var(--grid) + round(up, 1cap, var(--grid)) - 1cap);
+			padding-top: calc(
+				var(--grid) + round(up, var(--font-cap-height), var(--grid)) - var(--font-cap-height)
+			);
 		}
 
 		.on-grid.pt-0,
 		.gallery > h2 + p.on-grid {
-			padding-top: calc(round(up, 1cap, var(--grid)) - 1cap);
+			padding-top: calc(round(up, var(--font-cap-height), var(--grid)) - var(--font-cap-height));
 		}
 
 		.ink-h1,
@@ -647,6 +633,49 @@
 		.ink-read p,
 		.ink-read li {
 			line-height: round(up, var(--grid), calc(var(--grid) / 2));
+		}
+	}
+
+	@supports not (text-box: trim-both cap alphabetic) {
+		.on-grid,
+		.ink-h1,
+		.ink-h2,
+		.ink-h3,
+		.ink-h4,
+		.ink-h5,
+		.ink-h6,
+		.ink-display,
+		.ink-read,
+		.ink-read p,
+		.ink-read li {
+			padding-top: calc(round(up, var(--font-ascent), var(--grid)) - var(--font-ascent));
+		}
+
+		.on-grid {
+			padding-top: calc(
+				var(--grid) + round(up, var(--font-ascent), var(--grid)) - var(--font-ascent)
+			);
+		}
+
+		.on-grid.pt-0,
+		.gallery > h2 + p.on-grid {
+			padding-top: calc(round(up, var(--font-ascent), var(--grid)) - var(--font-ascent));
+		}
+
+		.ink-h1,
+		.ink-h2,
+		.ink-display {
+			line-height: calc(var(--grid) * 1.5);
+		}
+
+		.ink-h3,
+		.ink-h4,
+		.ink-h5,
+		.ink-h6,
+		.ink-read,
+		.ink-read p,
+		.ink-read li {
+			line-height: var(--grid);
 		}
 	}
 }
@@ -841,7 +870,6 @@
 		min-height: calc(var(--grid) * 2);
 		overflow-x: auto;
 		overflow-y: hidden;
-		border-bottom: var(--hair) solid var(--ink-25);
 		container-type: inline-size;
 		container-name: site-head;
 		background-color: var(--paper);
@@ -850,7 +878,8 @@
 		background-position: 0 0;
 		box-shadow:
 			inset var(--hair) 0 0 0 var(--ink-40),
-			inset calc(var(--hair) * -1) 0 0 0 var(--ink-40);
+			inset calc(var(--hair) * -1) 0 0 0 var(--ink-40),
+			inset 0 calc(var(--hair) * -1) 0 0 var(--ink-25);
 	}
 
 	.status-brand,
@@ -947,11 +976,11 @@
 		height: auto;
 		min-height: calc(var(--grid) * 3);
 		overflow: hidden;
-		border-top: var(--hair) solid var(--ink-25);
 		background-color: var(--paper);
 		background-image: var(--grid-bg-image);
 		background-size: var(--grid) var(--grid);
 		background-position: 0 0;
+		box-shadow: inset 0 var(--hair) 0 0 var(--ink-25);
 	}
 
 	@media (min-width: 640px) {

@@ -14,7 +14,7 @@
 <section
 	class="@container w-full space-y-[calc(var(--grid)*2)] p-[var(--grid)] sm:space-y-[calc(var(--grid)*3)]"
 >
-	<div>
+	<div class="ink-read space-y-[var(--grid)]">
 		<h1 class="ink-display uppercase">Animation Vocabulary</h1>
 		<p>Interactive visual glossary of animation terms.</p>
 		<p>
@@ -26,9 +26,9 @@
 	</div>
 	{#each sections as section (section.title)}
 		<div class="space-y-[var(--grid)]">
-			<div>
-				<h2 class="ink-label">{section.title}</h2>
-				<p class="text-muted-foreground text-sm">{section.description}</p>
+			<div class="ink-read">
+				<h2 class="ink-h3">{section.title}</h2>
+				<p class="text-muted-foreground">{section.description}</p>
 			</div>
 			<div class="grid grid-cols-1 gap-0 @[36rem]:grid-cols-2">
 				{#each section.items as item (item.title)}
