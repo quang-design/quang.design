@@ -42,7 +42,7 @@
 		</div>
 		<h1 class="ink-h1">{data.meta.title}</h1>
 		{#if data.meta.date}
-			<p class="ink-label">{data.meta.date}</p>
+			<p class="ink-label mt-[var(--grid)] mb-[var(--grid)]">{data.meta.date}</p>
 		{/if}
 		<div class="ink-read">
 			<Markdown md={data.md} />
