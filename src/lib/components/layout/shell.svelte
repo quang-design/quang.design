@@ -18,7 +18,6 @@
 	import { buildIndexTree, type NavData } from '$lib/config/tree';
 	import { PreviewState, PREVIEW_KEY } from '$lib/preview.svelte';
 	import { gridOverlay } from '$lib/grid-overlay.svelte';
-	import { mountGridEndSnap } from '$lib/grid-end-snap';
 
 	let { nav, children }: { nav: NavData; children: Snippet } = $props();
 
@@ -41,10 +40,8 @@
 
 		place();
 		window.addEventListener('resize', place);
-		const stopSnap = mountGridEndSnap();
 		return () => {
 			window.removeEventListener('resize', place);
-			stopSnap();
 		};
 	});
 

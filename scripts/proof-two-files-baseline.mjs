@@ -29,7 +29,7 @@ try {
 			document.documentElement.classList.remove('dark');
 			localStorage.setItem('qd-grid-overlay', '1');
 		});
-		await page.waitForTimeout(500);
+		await page.waitForTimeout(400);
 		await page.evaluate((y) => {
 			const shell = document.querySelector('.shell');
 			if (shell) shell.scrollTop = y;
@@ -59,28 +59,47 @@ try {
 				};
 			}
 			const origin = (overlay || sheet).getBoundingClientRect().top;
+			const st = shell.getBoundingClientRect().top;
+			const sc = shell.scrollTop || 0;
 			const baseline = (el) => {
 				const cs = getComputedStyle(el);
 				const r = el.getBoundingClientRect();
 				const pad = parseFloat(cs.paddingTop) || 0;
+				const lh = parseFloat(cs.lineHeight) || grid;
 				const cap = document.createElement('span');
 				cap.style.cssText =
 					'position:absolute;visibility:hidden;font:inherit;height:1cap;display:block';
 				el.appendChild(cap);
 				const ch = cap.getBoundingClientRect().height;
 				cap.remove();
-				const viewY = r.top + pad + ch;
-				const local = viewY - origin;
-				const mod = ((local % grid) + grid) % grid;
+				const first = r.top + pad + ch;
+				const range = document.createRange();
+				range.selectNodeContents(el);
+				const raw = [...range.getClientRects()].filter((rr) => rr.width > 1 && rr.height > 1);
+				const lines = [];
+				for (const rect of raw) {
+					if (lines.some((l) => Math.abs(l.top - rect.top) < 1.5)) continue;
+					lines.push(rect);
+				}
+				const offs = lines.map((_, i) => {
+					const viewY = first + i * lh;
+					const local = viewY - origin;
+					const mod = ((local % grid) + grid) % grid;
+					return Math.min(mod, grid - mod);
+				});
 				return {
-					off: Math.min(mod, grid - mod),
+					lh,
+					fontSize: cs.fontSize,
+					lineCount: lines.length,
+					maxOff: offs.length ? Math.max(...offs) : 99,
+					offs,
 					pb: el.style.paddingBottom || '',
-					h: r.height
+					h: r.height,
+					pageTop: r.top - st + sc
 				};
 			};
 			return {
 				scrollTop: shell.scrollTop,
-				overlay: !!overlay,
 				h2: baseline(h2),
 				two: baseline(two)
 			};
@@ -94,14 +113,21 @@ try {
 			continue;
 		}
 
-		const ok = result.two.off <= MAX_OFF;
+		const headingOk = result.h2.maxOff <= MAX_OFF && result.h2.lh === GRID;
+		const twoOk = result.two.maxOff <= MAX_OFF;
+		const ok = headingOk && twoOk;
 		console.log(
 			JSON.stringify({
 				viewport: `${c.width}x${c.height}`,
 				scroll: c.scroll,
-				h2Pb: result.h2.pb,
-				h2H: result.h2.h,
-				twoOff: +result.two.off.toFixed(3),
+				h2: {
+					lh: result.h2.lh,
+					fontSize: result.h2.fontSize,
+					lines: result.h2.lineCount,
+					maxOff: +result.h2.maxOff.toFixed(3),
+					pb: result.h2.pb
+				},
+				twoOff: +result.two.maxOff.toFixed(3),
 				ok
 			})
 		);
@@ -112,7 +138,7 @@ try {
 }
 
 if (failed) {
-	console.error('FAIL: Two files baseline off > 0.5px');
+	console.error('FAIL: heading lines or Two files baseline off > 0.5px');
 	process.exit(1);
 }
-console.log('PASS: Two files baseline on grid after TL;DR');
+console.log('PASS: 1× heading lines and Two files on grid');

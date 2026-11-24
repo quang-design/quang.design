@@ -64,6 +64,7 @@
 		linear-gradient(to right, var(--ink-10) var(--hair), transparent var(--hair)),
 		linear-gradient(to bottom, var(--ink-10) var(--hair), transparent var(--hair));
 
+	--type-ratio: 1.125;
 	--text-xs: 0.625rem;
 	--text-xs--line-height: var(--grid);
 	--text-sm: 0.75rem;
@@ -76,17 +77,17 @@
 	--text-h5: 0.875rem;
 	--text-h4: 1rem;
 	--text-h3: 1.125rem;
-	--text-h2: 1.375rem;
-	--text-h1: 2rem;
-	--text-xl: 2rem;
-	--text-xl--line-height: calc(var(--grid) * 2);
-	--text-2xl: 1.5rem;
-	--text-3xl: 1.5rem;
-	--text-4xl: 1.5rem;
-	--text-5xl: 1.5rem;
-	--text-6xl: 1.5rem;
-	--text-7xl: 1.5rem;
-	--text-8xl: 1.5rem;
+	--text-h2: 1.25rem;
+	--text-h1: 1.375rem;
+	--text-xl: 1.375rem;
+	--text-xl--line-height: var(--grid);
+	--text-2xl: 1.375rem;
+	--text-3xl: 1.375rem;
+	--text-4xl: 1.375rem;
+	--text-5xl: 1.375rem;
+	--text-6xl: 1.375rem;
+	--text-7xl: 1.375rem;
+	--text-8xl: 1.375rem;
 
 	--leading-tight: var(--grid);
 	--leading-snug: var(--grid);
@@ -457,7 +458,7 @@
 	.ink-display,
 	.ink-h1 {
 		font-size: var(--text-h1);
-		line-height: calc(var(--grid) * 1.5);
+		line-height: var(--grid);
 		font-weight: 700;
 		letter-spacing: var(--tracking-normal);
 		text-transform: none;
@@ -465,7 +466,7 @@
 
 	.ink-h2 {
 		font-size: var(--text-h2);
-		line-height: calc(var(--grid) * 1.5);
+		line-height: var(--grid);
 		font-weight: 700;
 	}
 
@@ -646,11 +647,7 @@
 
 		.ink-display,
 		.ink-h1,
-		.ink-h2 {
-			line-height: round(up, calc(var(--grid) * 1.5), calc(var(--grid) / 2));
-			text-wrap: balance;
-		}
-
+		.ink-h2,
 		.ink-h3,
 		.ink-h4,
 		.ink-h5,
@@ -659,6 +656,12 @@
 		.ink-read p,
 		.ink-read li:not(:has(p)) {
 			line-height: round(up, var(--grid), calc(var(--grid) / 2));
+		}
+
+		.ink-display,
+		.ink-h1,
+		.ink-h2 {
+			text-wrap: balance;
 		}
 	}
 
@@ -690,12 +693,9 @@
 			padding-top: calc(round(up, var(--font-ascent), var(--grid)) - var(--font-ascent));
 		}
 
+		.ink-display,
 		.ink-h1,
 		.ink-h2,
-		.ink-display {
-			line-height: calc(var(--grid) * 1.5);
-		}
-
 		.ink-h3,
 		.ink-h4,
 		.ink-h5,
