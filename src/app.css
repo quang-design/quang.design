@@ -573,6 +573,12 @@
 			row-gap: var(--grid);
 		}
 
+		.canvas-split > .ink-h1,
+		.canvas-split > .ink-h2,
+		.canvas-split > .ink-display {
+			grid-column: 1 / -1;
+		}
+
 		.case-intro-grid {
 			width: round(down, 100%, calc(var(--grid) * 2));
 		}
@@ -587,12 +593,8 @@
 		pointer-events: none;
 		--grid-line: 0.5px;
 		background-image:
-			linear-gradient(
-				to bottom,
-				rgb(255 0 80 / 0.28) var(--grid-line),
-				transparent var(--grid-line)
-			),
-			linear-gradient(to right, rgb(255 0 80 / 0.28) var(--grid-line), transparent var(--grid-line));
+			linear-gradient(to bottom, #ff0050 var(--grid-line), transparent var(--grid-line)),
+			linear-gradient(to right, #ff0050 var(--grid-line), transparent var(--grid-line));
 		background-size:
 			100% var(--grid),
 			var(--grid) 100%;
@@ -641,6 +643,7 @@
 		.ink-h1,
 		.ink-h2 {
 			line-height: round(up, calc(var(--grid) * 1.5), calc(var(--grid) / 2));
+			text-wrap: balance;
 		}
 
 		.ink-h3,

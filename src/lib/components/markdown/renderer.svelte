@@ -110,7 +110,7 @@
 	{/snippet}
 	{#snippet p(props)}
 		{@const { children, ...rest } = props}
-		<p {...rest} class={cn('my-[var(--grid)] first:mt-0', rest.class)}>
+		<p {...rest} class={cn('ink-read my-[var(--grid)] first:mt-0', rest.class)}>
 			{@render children?.()}
 		</p>
 	{/snippet}

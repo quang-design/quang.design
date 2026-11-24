@@ -142,6 +142,22 @@ const PROBE = `(() => {
     });
   };
 
+  const chromeSel =
+    '.shell-head, .shell-foot, .status-bar, nav, button, form, label, select, input, textarea, .ink-label, .ink-row, .ink-row-title, .ink-row-meta, .ink-row-desc, .stat-cell';
+  const flowingSel =
+    '.ink-h1, .ink-h2, .ink-h3, .ink-h4, .ink-h5, .ink-h6, .ink-display, .ink-read, .on-grid, .gallery p, .gallery h2, .shell-canvas h1, .shell-canvas h2, .shell-canvas h3, .shell-canvas h4, .shell-canvas p, .shell-canvas li, .markdown, .prose';
+
+  const classify = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (tag === 'img' || tag === 'figure' || tag === 'svg' || tag === 'video') return 'media';
+    if (el.closest(chromeSel)) return 'chrome';
+    if (el.matches(flowingSel) || el.closest(flowingSel)) return 'flowing';
+    if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li'].includes(tag) && el.closest('.shell-canvas, .shell-reading, main, article'))
+      return 'flowing';
+    if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li', 'label'].includes(tag)) return 'chrome';
+    return 'chrome';
+  };
+
   const selectors = [
     'img',
     'figure',
@@ -175,9 +191,13 @@ const PROBE = `(() => {
     const cls =
       typeof el.className === 'string' ? el.className.trim().split(/\\s+/).slice(0, 3).join('.') : '';
     const baselines = alphabeticBaselines(el);
+    const role = classify(el);
+    const trim = (cs.textBoxTrim || cs.getPropertyValue('text-box-trim') || '').trim();
     items.push({
       tag,
       cls,
+      role,
+      textBoxTrim: trim || 'none',
       src: el.getAttribute('src') || '',
       top: pageTop,
       bottom: pageBottom,
@@ -190,10 +210,35 @@ const PROBE = `(() => {
   return {
     grid,
     rootFontSize: getComputedStyle(document.documentElement).fontSize,
+    textBoxSupport: CSS.supports('text-box', 'trim-both cap alphabetic'),
     count: items.length,
     items
   };
 })()`;
+
+function summarizeBaselines(items, grid, roleFilter) {
+	let baseChecked = 0;
+	let baseOff = 0;
+	let baseSum = 0;
+	let baseMax = 0;
+	for (const it of items) {
+		if (roleFilter && it.role !== roleFilter) continue;
+		for (const y of it.baselines || []) {
+			const offPx = offsetFromGrid(y, grid);
+			baseChecked += 1;
+			baseSum += offPx;
+			if (offPx > baseMax) baseMax = offPx;
+			if (offPx > 0.5) baseOff += 1;
+		}
+	}
+	return {
+		baselinesChecked: baseChecked,
+		baselinesOffGrid: baseOff,
+		baselineMaxOffsetPx: Number(baseMax.toFixed(3)),
+		baselineMeanOffsetPx: baseChecked ? Number((baseSum / baseChecked).toFixed(3)) : 0,
+		baselineOffRate: baseChecked ? Number((baseOff / baseChecked).toFixed(4)) : 0
+	};
+}
 
 function summarize(items, grid) {
 	let off = 0;
@@ -211,20 +256,9 @@ function summarize(items, grid) {
 		}
 	}
 	const checked = edges.length;
-
-	let baseChecked = 0;
-	let baseOff = 0;
-	let baseSum = 0;
-	let baseMax = 0;
-	for (const it of items) {
-		for (const y of it.baselines || []) {
-			const offPx = offsetFromGrid(y, grid);
-			baseChecked += 1;
-			baseSum += offPx;
-			if (offPx > baseMax) baseMax = offPx;
-			if (offPx > 0.5) baseOff += 1;
-		}
-	}
+	const allBase = summarizeBaselines(items, grid, null);
+	const flowingBase = summarizeBaselines(items, grid, 'flowing');
+	const chromeBase = summarizeBaselines(items, grid, 'chrome');
 
 	return {
 		elements: items.length,
@@ -232,10 +266,13 @@ function summarize(items, grid) {
 		edgesOffGrid: off,
 		maxOffsetPx: Number(max.toFixed(3)),
 		meanOffsetPx: checked ? Number((sum / checked).toFixed(3)) : 0,
-		baselinesChecked: baseChecked,
-		baselinesOffGrid: baseOff,
-		baselineMaxOffsetPx: Number(baseMax.toFixed(3)),
-		baselineMeanOffsetPx: baseChecked ? Number((baseSum / baseChecked).toFixed(3)) : 0
+		baselinesChecked: allBase.baselinesChecked,
+		baselinesOffGrid: allBase.baselinesOffGrid,
+		baselineMaxOffsetPx: allBase.baselineMaxOffsetPx,
+		baselineMeanOffsetPx: allBase.baselineMeanOffsetPx,
+		baselineOffRate: allBase.baselineOffRate,
+		flowing: flowingBase,
+		chrome: chromeBase
 	};
 }
 
@@ -280,10 +317,42 @@ async function shotWithOverlay(page, filePath) {
 	await page.evaluate(() => document.getElementById('__grid_overlay__')?.remove());
 }
 
+function weightedBase(ok, key) {
+	const checked = ok.reduce((a, r) => a + ((r[key] && r[key].baselinesChecked) || 0), 0);
+	const off = ok.reduce((a, r) => a + ((r[key] && r[key].baselinesOffGrid) || 0), 0);
+	const max = ok.reduce((a, r) => Math.max(a, (r[key] && r[key].baselineMaxOffsetPx) || 0), 0);
+	const mean = checked
+		? Number(
+				(
+					ok.reduce(
+						(a, r) =>
+							a +
+							((r[key] && r[key].baselineMeanOffsetPx) || 0) *
+								((r[key] && r[key].baselinesChecked) || 0),
+						0
+					) / checked
+				).toFixed(3)
+			)
+		: 0;
+	return {
+		baselinesChecked: checked,
+		baselinesOffGrid: off,
+		baselineMaxOffsetPx: Number(max.toFixed(3)),
+		baselineMeanOffsetPx: mean,
+		baselineOffRate: checked ? Number((off / checked).toFixed(4)) : 0
+	};
+}
+
 async function runEngine(engine, paths) {
 	const browser = await engine.launcher.launch({ headless: true });
 	const results = [];
 	try {
+		const versionPage = await browser.newPage();
+		const browserInfo = await versionPage.evaluate(() => ({
+			ua: navigator.userAgent,
+			textBoxSupport: CSS.supports('text-box', 'trim-both cap alphabetic')
+		}));
+		await versionPage.close();
 		for (const vp of VIEWPORTS) {
 			for (const urlPath of paths) {
 				const context = await browser.newContext({
@@ -300,6 +369,8 @@ async function runEngine(engine, paths) {
 						path: urlPath,
 						gridPx: data.grid,
 						rootFontSize: data.rootFontSize,
+						textBoxSupport: data.textBoxSupport ?? browserInfo.textBoxSupport,
+						ua: browserInfo.ua,
 						...summary
 					});
 					if (SHOTS && SHOT_DIR) {
@@ -358,7 +429,11 @@ function aggregate(rows) {
 		baselinesOffGrid,
 		baselineMaxOffsetPx: Number(baselineMaxOffsetPx.toFixed(3)),
 		baselineMeanOffsetPx,
-		baselineOffRate: baselinesChecked ? Number((baselinesOffGrid / baselinesChecked).toFixed(4)) : 0
+		baselineOffRate: baselinesChecked
+			? Number((baselinesOffGrid / baselinesChecked).toFixed(4))
+			: 0,
+		flowing: weightedBase(ok, 'flowing'),
+		chrome: weightedBase(ok, 'chrome')
 	};
 }
 
@@ -378,14 +453,38 @@ async function main() {
 		}
 	}
 	const totals = aggregate(all);
+	const byEngine = {};
+	for (const name of ['chromium', 'webkit', 'firefox']) {
+		const rows = all.filter((r) => r.engine === name && !r.error);
+		if (!rows.length) continue;
+		byEngine[name] = {
+			...aggregate(rows),
+			textBoxSupport: rows[0].textBoxSupport,
+			ua: rows[0].ua
+		};
+	}
+	const routeGroup = (path) => {
+		if (path === '/') return 'home';
+		if (path.startsWith('/design')) return 'design';
+		if (path.startsWith('/engineer')) return 'engineer';
+		if (path.startsWith('/blog')) return 'blog';
+		return 'other';
+	};
+	const byRoute = {};
+	for (const g of ['home', 'design', 'engineer', 'blog']) {
+		const rows = all.filter((r) => !r.error && routeGroup(r.path) === g);
+		if (rows.length) byRoute[g] = aggregate(rows);
+	}
 	const payload = {
 		label: LABEL,
 		base: BASE,
 		rootFont: ROOT_FONT || 'browser-default',
 		measured:
-			'top/bottom/left/height of img/figure/heading/text; alphabetic baseline Y per text line (Canvas fontBoundingBoxAscent within each getClientRects line, or line-box bottom when text-box-trim is active); offset = distance in px to nearest multiple of resolved --grid',
+			'top/bottom/left/height of img/figure/heading/text; alphabetic baseline Y per text line (Canvas fontBoundingBoxAscent within each getClientRects line, or padTop+1cap when text-box-trim is active); offset = distance in px to nearest multiple of resolved --grid. Every element kept; baselines also split into flowing vs chrome roles.',
 		how: 'Playwright Chromium+WebKit+Firefox; viewports 1440×900 and 390×844; home, design, engineer tools, blog; page coords via .shell scroll',
 		totals,
+		byEngine,
+		byRoute,
 		rows: all
 	};
 	const outFile = path.join(OUT_DIR, `${LABEL}.json`);
