@@ -25,7 +25,7 @@
 <Markdown {md} plugins={[gfmPlugin()]}>
 	{#snippet ol(props)}
 		{@const { children, ...rest } = props}
-		<ol {...rest} class={cn('ml-6 list-outside list-decimal', rest.class)}>
+		<ol {...rest} class={cn('ml-6 list-outside list-decimal [&_p]:my-0', rest.class)}>
 			{@render children?.()}
 		</ol>
 	{/snippet}

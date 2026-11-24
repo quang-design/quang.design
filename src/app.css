@@ -587,7 +587,7 @@
 
 @layer utilities {
 	.grid-overlay {
-		position: fixed;
+		position: absolute;
 		inset: 0;
 		z-index: 80;
 		pointer-events: none;
@@ -598,8 +598,13 @@
 		background-size:
 			100% var(--grid),
 			var(--grid) 100%;
-		background-position: var(--grid-origin-x, 0px) var(--grid-origin-y, 0px);
+		background-position: 0 0;
 		background-repeat: repeat;
+	}
+
+	.shell-pane-inner {
+		position: relative;
+		min-height: 100%;
 	}
 
 	@supports (text-box: trim-both cap alphabetic) {
@@ -623,7 +628,7 @@
 		.ink-h6,
 		.ink-read:not(:has(p, li, h1, h2, h3, h4, h5, h6)),
 		.ink-read p,
-		.ink-read li {
+		.ink-read li:not(:has(p)) {
 			text-box: trim-both cap alphabetic;
 			padding-top: calc(round(up, 1cap, var(--grid)) - 1cap);
 		}
@@ -652,7 +657,7 @@
 		.ink-h6,
 		.ink-read,
 		.ink-read p,
-		.ink-read li {
+		.ink-read li:not(:has(p)) {
 			line-height: round(up, var(--grid), calc(var(--grid) / 2));
 		}
 	}
@@ -668,7 +673,7 @@
 		.ink-display,
 		.ink-read:not(:has(p, li, h1, h2, h3, h4, h5, h6)),
 		.ink-read p,
-		.ink-read li {
+		.ink-read li:not(:has(p)) {
 			padding-top: calc(round(up, var(--font-ascent), var(--grid)) - var(--font-ascent));
 		}
 
@@ -697,7 +702,7 @@
 		.ink-h6,
 		.ink-read,
 		.ink-read p,
-		.ink-read li {
+		.ink-read li:not(:has(p)) {
 			line-height: var(--grid);
 		}
 	}

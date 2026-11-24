@@ -96,6 +96,10 @@ const PROBE = `(() => {
     if (tag === 'IMG' || tag === 'FIGURE' || tag === 'SVG' || tag === 'VIDEO') return [];
     const text = (el.textContent || '').replace(/\\s+/g, ' ').trim();
     if (!text) return [];
+    const childBlocks = el.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,.ink-h1,.ink-h2,.ink-h3,.ink-h4,.ink-h5,.ink-h6,.ink-read,.ink-display');
+    if (childBlocks.length && [...childBlocks].some((child) => child !== el && el.contains(child))) {
+      return [];
+    }
     ctx.font = cs.font;
     const tm = ctx.measureText('Hg');
     const ascent =
@@ -298,6 +302,7 @@ async function measurePage(page, urlPath) {
 		if (shell) shell.scrollTop = 0;
 		await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 	});
+	await page.waitForTimeout(350);
 	return page.evaluate(PROBE);
 }
 
