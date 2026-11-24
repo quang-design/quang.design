@@ -7,7 +7,7 @@
 
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { setContext } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 	import StatusBar from './status-bar.svelte';
@@ -29,6 +29,33 @@
 	const year = new Date().getFullYear();
 	let menuOpen = $state(false);
 	let menuOpener: HTMLElement | null = null;
+	let gridLine = $state('0.5px');
+	let gridOriginX = $state('0px');
+	let gridOriginY = $state('0px');
+
+	onMount(() => {
+		gridOverlay.hydrate();
+		const shell = shellElement();
+		if (!shell) return;
+
+		const place = () => {
+			const dpr = window.devicePixelRatio || 1;
+			const rect = shell.getBoundingClientRect();
+			const snap = (value: number) => Math.round(value * dpr) / dpr;
+			gridLine = `${1 / dpr}px`;
+			gridOriginX = `${snap(rect.left)}px`;
+			gridOriginY = `${snap(rect.top)}px`;
+		};
+
+		place();
+		const observer = new ResizeObserver(place);
+		observer.observe(shell);
+		window.addEventListener('resize', place);
+		return () => {
+			observer.disconnect();
+			window.removeEventListener('resize', place);
+		};
+	});
 
 	function showShellTarget(hash: string) {
 		const shell = shellElement();
@@ -123,6 +150,12 @@
 		<div class="shell-rule shell-rule-reading" aria-hidden="true"></div>
 	</div>
 	{#if gridOverlay.enabled}
-		<div class="grid-overlay" aria-hidden="true"></div>
+		<div
+			class="grid-overlay"
+			style:--grid-line={gridLine}
+			style:--grid-origin-x={gridOriginX}
+			style:--grid-origin-y={gridOriginY}
+			aria-hidden="true"
+		></div>
 	{/if}
 </div>

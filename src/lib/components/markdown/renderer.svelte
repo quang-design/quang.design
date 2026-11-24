@@ -6,6 +6,7 @@
 	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
 	import { isExternalHref } from '$lib/config/site';
 	import CodeBlock from './code-block.svelte';
+	import DesignImage from './design-image.svelte';
 	let { md }: { md: string } = $props();
 
 	const preview = getContext<PreviewState | undefined>(PREVIEW_KEY);
@@ -115,17 +116,30 @@
 	{/snippet}
 	{#snippet blockquote(props)}
 		{@const { children, ...rest } = props}
-		<blockquote {...rest} class={cn('hair-dashed my-4 px-4 py-3 italic', rest.class)}>
+		<blockquote
+			{...rest}
+			class={cn(
+				'my-[var(--grid)] px-[var(--grid)] py-[var(--grid)] italic shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]',
+				rest.class
+			)}
+		>
 			{@render children?.()}
 		</blockquote>
 	{/snippet}
 	{#snippet pre(props)}
 		{@const { children } = props}
-		<div class="not-prose my-4">
-			<div class="hair ink-code overflow-x-auto p-3">
+		<div class="not-prose my-[var(--grid)]">
+			<div class="hair overflow-x-auto">
 				{@render children?.()}
 			</div>
 		</div>
+	{/snippet}
+	{#snippet img(props)}
+		{@const { alt, src } = props}
+		<DesignImage
+			alt={typeof alt === 'string' ? alt : ''}
+			src={typeof src === 'string' ? src : undefined}
+		/>
 	{/snippet}
 	{#snippet code(props)}
 		{@const { children, class: className, ...rest } = props}

@@ -13,14 +13,14 @@ function write(value: boolean) {
 	try {
 		localStorage.setItem(KEY, value ? '1' : '0');
 	} catch {
-		/* ignore */
+		return;
 	}
 }
 
 class GridOverlayState {
 	enabled = $state(false);
 
-	constructor() {
+	hydrate() {
 		this.enabled = read();
 	}
 
