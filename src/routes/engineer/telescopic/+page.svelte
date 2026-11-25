@@ -52,12 +52,12 @@
 
 <div class="canvas-split">
 	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to AI Telescopic Text</h1>
-	<div class="flex min-w-0 flex-col gap-[var(--grid)] sm:col-start-1">
-		<p class="ink-read m-0">
+	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
+		<p>
 			Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to
 			progressively expand simple sentences into more detailed narratives.
 		</p>
-		<p class="ink-read m-0">
+		<p>
 			Click on <span class="underline underline-offset-4">underlined</span> words to see them expand into
 			richer descriptions, transforming basic statements into vivid, detailed passages.
 		</p>

@@ -24,8 +24,8 @@ const SHOTS = [
 	},
 	{ name: 'engineer-390', path: '/engineer', width: 390, height: 844, codes: ['E1', 'E7'] },
 	{ name: 'engineer-1440', path: '/engineer', width: 1440, height: 900, codes: ['H', 'E1', 'E7'] },
-	{ name: 'blog-390', path: '/blog', width: 390, height: 844, codes: ['B1', 'B2'] },
-	{ name: 'blog-1440', path: '/blog', width: 1440, height: 900, codes: ['H', 'B1', 'B2'] },
+	{ name: 'blog-390', path: '/blog', width: 390, height: 844, codes: ['B1', 'B2', 'B3'] },
+	{ name: 'blog-1440', path: '/blog', width: 1440, height: 900, codes: ['H', 'B1', 'B2', 'B3'] },
 	{ name: 'doppio-1440', path: '/design/doppio', width: 1440, height: 900, codes: ['H'] }
 ];
 
@@ -217,19 +217,14 @@ const FREEZE = `(() => {
   }
   style.textContent = '.status-time .truncate { font-size: 0; } .status-time .truncate::after { content: "12:00:00"; font-size: var(--text-base); letter-spacing: var(--tracking-widest); }';
   return document.fonts.ready.then(() =>
-    Promise.race([
-      Promise.all(
-        [...document.images].map((img) =>
-          img.complete
-            ? null
-            : new Promise((res) => {
-                img.onload = res;
-                img.onerror = res;
-              })
-        )
-      ),
-      new Promise((res) => setTimeout(res, 5000))
-    ])
+    Promise.all(
+      [...document.images].map((img) =>
+        img.complete ? null : new Promise((res) => {
+          img.onload = res;
+          img.onerror = res;
+        })
+      )
+    )
   );
 })()`;
 

@@ -1,37 +1,44 @@
 <script lang="ts">
-	import imageSizes from 'virtual:image-sizes';
+	import type { Attachment } from 'svelte/attachments';
+	import { getDesignView, hasDesignView } from '$lib/content/design-view';
 
 	let { alt, src }: { alt?: string; src?: string } = $props();
-
 	const cleanAlt = $derived(alt === '2col' ? '' : alt || '');
-	const contain = $derived(/logo|diagram|wordmark|symbol/i.test(`${src ?? ''} ${cleanAlt}`));
-	const size = $derived.by(() => {
-		if (!src) return;
-		let pathname = src;
-		if (src.startsWith('http://') || src.startsWith('https://')) {
-			try {
-				pathname = new URL(src).pathname;
-			} catch {
-				return;
+	const view = hasDesignView() ? getDesignView() : undefined;
+	const snap = $derived(view?.layout === 'flat');
+
+	const snapToGrid: Attachment<HTMLImageElement> = (node) => {
+		const gridPx = () => {
+			const raw = getComputedStyle(node).getPropertyValue('--grid').trim();
+			if (raw.endsWith('px')) {
+				const parsed = Number.parseFloat(raw);
+				if (parsed > 0) return parsed;
 			}
-		}
-		pathname = pathname.split(/[?#]/)[0];
-		try {
-			pathname = decodeURIComponent(pathname);
-		} catch {
-			return;
-		}
-		return imageSizes[pathname];
-	});
+			return 24;
+		};
+
+		const apply = () => {
+			const grid = gridPx();
+			const { naturalWidth, naturalHeight, clientWidth } = node;
+			if (!naturalWidth || !naturalHeight || !clientWidth || !grid) return;
+			const next = `${Math.round((clientWidth * naturalHeight) / naturalWidth / grid) * grid}px`;
+			if (node.style.height !== next) node.style.height = next;
+		};
+
+		node.addEventListener('load', apply);
+		if (node.complete) apply();
+		const ro = new ResizeObserver(apply);
+		ro.observe(node.parentElement ?? node);
+
+		return () => {
+			node.removeEventListener('load', apply);
+			ro.disconnect();
+		};
+	};
 </script>
 
-<div class={['design-media', { 'design-media--contain': contain }]}>
-	<img
-		alt={cleanAlt}
-		{src}
-		width={size?.w}
-		height={size?.h}
-		style={size ? `--ratio: ${size.w}/${size.h}` : undefined}
-		loading="lazy"
-	/>
-</div>
+{#if snap}
+	<img alt={cleanAlt} class="w-full object-cover" loading="lazy" {src} {@attach snapToGrid} />
+{:else}
+	<img alt={cleanAlt} class="w-full" loading="lazy" {src} />
+{/if}
