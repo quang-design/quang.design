@@ -115,10 +115,10 @@
 
 <svelte:document onselectionchange={updateSelection} />
 
-<div class="hair w-full">
+<div class="hair w-full p-3">
 	<div
 		bind:this={editorEl}
-		class="ink-read px-[var(--grid)] pb-[var(--grid)] whitespace-pre-wrap selection:bg-[var(--ink)] selection:text-[var(--paper)]"
+		class="mb-4 p-1 whitespace-pre-wrap selection:bg-[var(--ink)] selection:text-[var(--paper)]"
 		style="-webkit-user-select: text; user-select: text;"
 		role="textbox"
 		aria-multiline="true"

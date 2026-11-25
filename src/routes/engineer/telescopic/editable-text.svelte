@@ -14,8 +14,6 @@
 	let isEditing = $state(false);
 	let isCopying = $state(false);
 	let words = $derived(text.split(' '));
-	const boxClass =
-		'ink-read on-grid min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] pb-[var(--grid)] shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]';
 
 	function handleClick() {
 		isEditing = !isEditing;
@@ -51,15 +49,15 @@
 			aria-label="Telescopic text"
 			aria-busy={busy}
 			bind:textContent={text}
-			class={boxClass}
+			class="min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[var(--grid)] leading-[var(--grid)] shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]"
 		></div>
 	{:else}
-		<div class="{boxClass} text-left" aria-busy={busy}>
+		<div
+			class="min-h-[calc(var(--grid)*3)] w-full px-[var(--grid)] py-[var(--grid)] text-left leading-[var(--grid)] shadow-[inset_0_0_0_var(--hair)_var(--ink-25)]"
+			aria-busy={busy}
+		>
 			{#each words as word, i (`${i}:${word}`)}
-				<button
-					class="ink-invert inline border-0 bg-transparent p-0 underline underline-offset-4"
-					onclick={() => onWordClick(i)}
-				>
+				<button class="ink-invert underline underline-offset-4" onclick={() => onWordClick(i)}>
 					{word}
 				</button>{i < words.length - 1 ? ' ' : ''}
 			{/each}

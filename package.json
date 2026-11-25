@@ -14,7 +14,6 @@
 		"test": "vitest --run",
 		"test:e2e": "playwright test",
 		"test:lock": "node scripts/lock-design.mjs --assert",
-		"measure:grid": "node scripts/measure-grid.mjs",
 		"prepare": "husky"
 	},
 	"devDependencies": {

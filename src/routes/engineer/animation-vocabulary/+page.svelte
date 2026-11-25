@@ -14,10 +14,10 @@
 <section
 	class="@container w-full space-y-[calc(var(--grid)*2)] p-[var(--grid)] sm:space-y-[calc(var(--grid)*3)]"
 >
-	<div class="flex flex-col gap-[var(--grid)]">
+	<div>
 		<h1 class="ink-display uppercase">Animation Vocabulary</h1>
-		<p class="ink-read m-0">Interactive visual glossary of animation terms.</p>
-		<p class="ink-read m-0">
+		<p>Interactive visual glossary of animation terms.</p>
+		<p>
 			Inspired by <a
 				class="underline decoration-[var(--ink-40)] underline-offset-4"
 				href="https://animations.dev/vocabulary">animations.dev/vocabulary</a
@@ -26,9 +26,9 @@
 	</div>
 	{#each sections as section (section.title)}
 		<div class="space-y-[var(--grid)]">
-			<div class="flex flex-col gap-[var(--grid)]">
-				<h2 class="ink-h3">{section.title}</h2>
-				<p class="ink-read m-0">{section.description}</p>
+			<div>
+				<h2 class="ink-label">{section.title}</h2>
+				<p class="text-muted-foreground text-sm">{section.description}</p>
 			</div>
 			<div class="grid grid-cols-1 gap-0 @[36rem]:grid-cols-2">
 				{#each section.items as item (item.title)}

@@ -46,7 +46,6 @@
 					const cleaned = styles
 						.replace(/overflow[^;]*;?/gi, '')
 						.replace(/background-color[^;]*;?/gi, '')
-						.replace(/line-height[^;]*;?/gi, '')
 						.trim();
 					return cleaned ? `style="${cleaned}"` : '';
 				});
@@ -66,16 +65,11 @@
 	</code>
 {:else}
 	{#if highlightedCode}
-		<div
-			class="ink-code p-[var(--grid)] [&_code]:block [&_pre]:m-0 [&_pre]:p-0 [&_span]:!filter-none"
-		>
+		<div class="ink-code p-3 [&_code]:block [&_pre]:m-0 [&_pre]:p-0 [&_span]:!filter-none">
 			{@html highlightedCode}
 		</div>
 	{/if}
-	<pre
-		{...rest}
-		class="ink-code w-full p-[var(--grid)] text-base"
-		class:hidden={highlightedCode}><code bind:this={codeElement}
-			>{text || ''}{@render children?.()}</code
+	<pre {...rest} class="ink-code w-full p-3 text-base" class:hidden={highlightedCode}><code
+			bind:this={codeElement}>{text || ''}{@render children?.()}</code
 		></pre>
 {/if}

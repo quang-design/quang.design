@@ -4,7 +4,6 @@ import tailwindcss from '@tailwindcss/vite';
 import { viteStaticCopy, type Target } from 'vite-plugin-static-copy';
 import fs from 'node:fs';
 import path from 'node:path';
-import { imageSizesPlugin } from './scripts/image-sizes';
 
 function buildAssetCopyTargets(section: string, urlPrefix: string): Target[] {
 	const contentDir = path.resolve(`src/content/${section}`);
@@ -45,7 +44,7 @@ const config: UserConfig & {
 		include: string[];
 	};
 } = {
-	plugins: [imageSizesPlugin(), sveltekit(), tailwindcss(), ...staticCopyPlugins],
+	plugins: [sveltekit(), tailwindcss(), ...staticCopyPlugins],
 
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
