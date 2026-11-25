@@ -16,12 +16,12 @@
 
 <div class="canvas-split">
 	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to AI Microscopic Text</h1>
-	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
-		<p>
+	<div class="flex min-w-0 flex-col gap-[var(--grid)] sm:col-start-1">
+		<p class="ink-read m-0">
 			Another tool inspired by <a href={resolve('/engineer/telescopic')}>AI Telescopic Text</a>,
 			this tool uses AI to zip up long texts into short, concise words.
 		</p>
-		<p>
+		<p class="ink-read m-0">
 			Select <span class="underline underline-offset-4">text</span> to see them zip up into concise words.
 		</p>
 	</div>

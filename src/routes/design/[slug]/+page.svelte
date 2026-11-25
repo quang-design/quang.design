@@ -2,7 +2,6 @@
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { DesignMarkdown } from '$lib/components/markdown';
 	import { creditLink, type DesignFlags } from '$lib/content/design-flags';
-	import { setDesignView } from '$lib/content/design-view';
 	import { layoutGallery, splitDesignContent } from '$lib/utils/design-content';
 	import { page } from '$app/state';
 	import { Badge } from '$lib/components/ui/badge';
@@ -20,15 +19,6 @@
 			flags: DesignFlags;
 		};
 	} = $props();
-
-	setDesignView({
-		get layout() {
-			return data.flags.layout;
-		},
-		get credit() {
-			return data.flags.credit;
-		}
-	});
 
 	const { introMd, metaParts, galleryMd } = $derived(splitDesignContent(data.md));
 	const galleryRows = $derived(data.flags.layout === 'flat' ? layoutGallery(galleryMd) : []);
@@ -60,13 +50,13 @@
 		</div>
 		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
 		<div
-			class="grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
+			class="case-intro-grid grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
 		>
 			<div class="flex min-w-0 flex-col gap-[var(--grid)]">
 				{#if introMd}
 					{#each introMd.split('\n\n') as paragraph (paragraph)}
 						{@const link = creditLink(paragraph, data.flags.credit)}
-						<p class="m-0 text-base leading-[var(--grid)]">
+						<p class="ink-read m-0">
 							{#if link}
 								{link.before}<a class="underline" href={link.href} target="_blank" rel="noopener"
 									>{link.label}</a
@@ -80,7 +70,7 @@
 			</div>
 			<div class="min-w-0">
 				{#each metaParts as part (part)}
-					<p class="m-0 text-base leading-[var(--grid)]">{part}</p>
+					<p class="ink-read m-0">{part}</p>
 				{/each}
 			</div>
 		</div>
@@ -102,14 +92,14 @@
 						<div class="grid grid-cols-1 sm:grid-cols-2">
 							{#each row.cells as cell (cell.heading)}
 								<div class={cell.side === 1 ? 'sm:col-start-2' : ''}>
-									<h2 class="ink-h3 px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]">
+									<h2 class="ink-h3 on-grid px-[var(--grid)] pb-[var(--grid)]">
 										{cell.heading}
 									</h2>
 									{#each cell.body.split('\n\n') as para, pi (pi)}
 										<p
-											class="ink-read px-[var(--grid)] pb-[var(--grid)] {pi === 0
+											class="ink-read on-grid px-[var(--grid)] pb-[var(--grid)] {pi === 0
 												? 'pt-0'
-												: 'pt-[var(--grid)]'}"
+												: ''}"
 										>
 											{para}
 										</p>

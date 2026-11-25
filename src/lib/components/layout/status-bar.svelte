@@ -8,10 +8,13 @@
 	import MenuIcon from '@lucide/svelte/icons/menu';
 	import XIcon from '@lucide/svelte/icons/x';
 	import HouseIcon from '@lucide/svelte/icons/house';
+	import Grid3x3Icon from '@lucide/svelte/icons/grid-3x3';
+	import SquareIcon from '@lucide/svelte/icons/square';
 	import { resolve } from '$app/paths';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils';
 	import { StatCell } from '$lib/components/primitives';
+	import { gridOverlay } from '$lib/grid-overlay.svelte';
 
 	let {
 		title = 'quang.design',
@@ -42,8 +45,7 @@
 	});
 
 	const localTime = $derived(date ? formatter.format(date) : '--:--:--');
-	const statClass =
-		'stat-cell hair-l h-full w-[calc(var(--grid)*6)] shrink-0 justify-center px-[var(--grid)]';
+	const statClass = 'stat-cell hair-l h-full w-[calc(var(--grid)*6)] shrink-0 px-[var(--grid)]';
 
 	function onToggleTheme() {
 		lockUserMode();
@@ -69,7 +71,9 @@
 		</Button>
 		<div class="home-mark">
 			<span class="ink-label">Welcome to</span>
-			<span class="truncate">{title}</span>
+			<span class="min-w-0 overflow-x-clip overflow-y-visible text-ellipsis whitespace-nowrap"
+				>{title}</span
+			>
 		</div>
 	</div>
 	<div class="status-canvas">
@@ -101,6 +105,21 @@
 		<Button
 			variant="ghost"
 			size="icon-lg"
+			onclick={() => gridOverlay.toggle()}
+			aria-pressed={gridOverlay.enabled}
+			aria-label={gridOverlay.enabled ? 'Hide grid overlay' : 'Show grid overlay'}
+			class="hair-l h-full w-[var(--chrome-btn)] rounded-none"
+		>
+			{#if gridOverlay.enabled}
+				<Grid3x3Icon class="h-[1.2rem] w-[1.2rem]" />
+			{:else}
+				<SquareIcon class="h-[1.2rem] w-[1.2rem]" />
+			{/if}
+			<span class="sr-only">{gridOverlay.enabled ? 'Hide grid overlay' : 'Show grid overlay'}</span>
+		</Button>
+		<Button
+			variant="ghost"
+			size="icon-lg"
 			onclick={onToggleTheme}
 			class="hair-l h-full w-[var(--chrome-btn)] rounded-none"
 		>
@@ -117,12 +136,12 @@
 
 <style>
 	.home-mark {
-		display: flex;
+		display: grid;
 		min-width: 0;
 		height: 100%;
 		flex: 1 1 auto;
-		flex-direction: column;
-		justify-content: center;
+		grid-template-rows: var(--grid) var(--grid);
+		align-items: center;
 		padding-inline: var(--grid);
 		color: inherit;
 	}

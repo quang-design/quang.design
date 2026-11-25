@@ -36,7 +36,7 @@
 <form
 	action=""
 	onsubmit={handleSubmit}
-	class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)]"
+	class="grid h-full w-full grid-rows-[var(--grid)_calc(var(--grid)*2)] items-center"
 >
 	<label class="ink-label block" for="subscribe-email">Email</label>
 	<div class="field">

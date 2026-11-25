@@ -7,7 +7,7 @@
 
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { setContext } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 	import StatusBar from './status-bar.svelte';
@@ -17,6 +17,7 @@
 	import Subscribe from '$lib/components/shared/subscribe.svelte';
 	import { buildIndexTree, type NavData } from '$lib/config/tree';
 	import { PreviewState, PREVIEW_KEY } from '$lib/preview.svelte';
+	import { gridOverlay } from '$lib/grid-overlay.svelte';
 
 	let { nav, children }: { nav: NavData; children: Snippet } = $props();
 
@@ -28,6 +29,21 @@
 	const year = new Date().getFullYear();
 	let menuOpen = $state(false);
 	let menuOpener: HTMLElement | null = null;
+	let gridLine = $state('0.5px');
+
+	onMount(() => {
+		gridOverlay.hydrate();
+		const place = () => {
+			const dpr = window.devicePixelRatio || 1;
+			gridLine = `${1 / dpr}px`;
+		};
+
+		place();
+		window.addEventListener('resize', place);
+		return () => {
+			window.removeEventListener('resize', place);
+		};
+	});
 
 	function showShellTarget(hash: string) {
 		const shell = shellElement();
@@ -78,22 +94,32 @@
 		</div>
 		<div class="shell-body">
 			<div class="shell-index">
-				<IndexTree groups={tree.groups} active={tree.active} />
+				<div class="shell-pane-inner">
+					{#if gridOverlay.enabled}
+						<div class="grid-overlay" style:--grid-line={gridLine} aria-hidden="true"></div>
+					{/if}
+					<IndexTree groups={tree.groups} active={tree.active} />
+				</div>
 			</div>
 			<main id="main-content" class="shell-canvas" tabindex="-1">
 				{@render children()}
 			</main>
 			<div class="shell-reading">
-				{#if current}
-					<ReadingPane preview={current} />
-				{:else}
-					<div
-						class="reading-pane flex h-full min-h-[calc(var(--grid)*2)] flex-col p-[var(--grid)]"
-					>
-						<MicroLabel>Detail</MicroLabel>
-						<p class="ink-row-desc">Hover a row or a link to preview.</p>
-					</div>
-				{/if}
+				<div class="shell-pane-inner">
+					{#if gridOverlay.enabled}
+						<div class="grid-overlay" style:--grid-line={gridLine} aria-hidden="true"></div>
+					{/if}
+					{#if current}
+						<ReadingPane preview={current} />
+					{:else}
+						<div
+							class="reading-pane flex h-full min-h-[calc(var(--grid)*2)] flex-col p-[var(--grid)]"
+						>
+							<MicroLabel>Detail</MicroLabel>
+							<p class="ink-row-desc">Hover a row or a link to preview.</p>
+						</div>
+					{/if}
+				</div>
 			</div>
 		</div>
 		<footer class="shell-foot">
@@ -105,7 +131,7 @@
 					class="grid grid-cols-1 gap-x-[calc(var(--grid)*2)] px-[var(--grid)] py-[var(--grid)] sm:h-full sm:grid-cols-2 sm:py-0"
 				>
 					<div class="flex min-w-0 flex-col justify-center">
-						<blockquote class="italic">
+						<blockquote class="ink-read italic">
 							"The best person ever to exist."
 							<a href="http://quang.urbanup.com/9858947">Urban Dictionary</a>
 						</blockquote>
@@ -120,5 +146,8 @@
 		</footer>
 		<div class="shell-rule shell-rule-index" aria-hidden="true"></div>
 		<div class="shell-rule shell-rule-reading" aria-hidden="true"></div>
+		{#if gridOverlay.enabled}
+			<div class="grid-overlay" style:--grid-line={gridLine} aria-hidden="true"></div>
+		{/if}
 	</div>
 </div>

@@ -24,10 +24,10 @@
 <div
 	class="flex flex-col px-[var(--grid)] md:grid md:min-h-full md:grid-cols-2 md:content-start md:gap-x-[calc(var(--grid)*2)]"
 >
-	<div class="ink-read py-[var(--grid)] [&_p:last-child]:mb-0">
+	<div class="ink-read on-grid py-[var(--grid)] [&_p:last-child]:mb-0">
 		<h1 class="sr-only">Quang</h1>
 		{#if leadHeading}
-			<h2 class="ink-h3 mt-0 mb-[var(--grid)]">{leadHeading}</h2>
+			<h2 class="ink-h3 on-grid mt-0 mb-[var(--grid)]">{leadHeading}</h2>
 		{/if}
 		<Markdown md={leadBody} />
 	</div>
