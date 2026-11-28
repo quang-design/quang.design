@@ -6,6 +6,8 @@ published: true
 thumbnail: '/blog/posts/dev-is-strange/dev-is-strange.avif'
 ---
 
+![dev is strange](/blog/posts/dev-is-strange/dev-is-strange.avif)
+
 So I’m doing this Codecademy course, right? React, full-stack, the whole deal. Building this “Jammming” app that connects to Spotify.
 
 Frontend is like playing with Legos. Everything snaps together. Click here, type there, refresh browser, boom, it works.
