@@ -4,3 +4,4 @@ export { default as KeySlot } from './key-slot.svelte';
 export { default as Count } from './count.svelte';
 export { default as Action } from './action.svelte';
 export { default as Hatch } from './hatch.svelte';
+export { default as Heading } from './heading.svelte';

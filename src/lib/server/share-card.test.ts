@@ -6,8 +6,8 @@ const titles = [
 	['/design', 'Design'],
 	['/engineer', 'Engineer'],
 	['/blog', 'Blog'],
-	['/design/simplex', 'SIMPLEX CAFFÈ'],
-	['/blog/posts/dev-is-strange', 'dev is strange'],
+	['/design/simplex', 'Simplex Caffè'],
+	['/blog/posts/dev-is-strange', 'Dev Is Strange'],
 	['/engineer/telescopic', 'AI Telescopic Text'],
 	['/engineer/microscopic', 'AI Microscopic Text'],
 	['/engineer/minesweeper', 'Minesweeper'],
@@ -26,7 +26,7 @@ describe('shareCard', () => {
 
 	it('uses the design brand and the post description', () => {
 		expect(shareCard('/design/simplex')).toMatchObject({
-			heading: 'SIMPLEX CAFFÈ',
+			heading: 'Simplex Caffè',
 			path: '/design/simplex'
 		});
 		expect(shareCard('/design/simplex')?.body).toContain('Simplex');
@@ -34,7 +34,7 @@ describe('shareCard', () => {
 
 	it('names a blog post from its title', () => {
 		expect(shareCard('/blog/posts/dev-is-strange')).toMatchObject({
-			heading: 'dev is strange',
+			heading: 'Dev Is Strange',
 			path: '/blog/posts/dev-is-strange'
 		});
 	});

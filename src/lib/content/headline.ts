@@ -11,8 +11,8 @@ const brands: Record<string, string> = {
 export function designHeadline(title: string, slug: string) {
 	const parts = title.split(/\s[-–—]\s/);
 	if (parts.length >= 2) {
-		return { brand: parts[0].toUpperCase(), line: parts.slice(1).join(' — ') };
+		return { brand: parts[0], line: parts.slice(1).join(' — ') };
 	}
-	const brand = (brands[slug] ?? slug.replace(/-/g, ' ')).toUpperCase();
+	const brand = brands[slug] ?? slug.replace(/-/g, ' ');
 	return { brand, line: title };
 }

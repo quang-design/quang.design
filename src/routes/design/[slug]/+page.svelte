@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Heading } from '$lib/components/primitives';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { DesignMarkdown } from '$lib/components/markdown';
 	import { creditLink, type DesignFlags } from '$lib/content/design-flags';
@@ -58,7 +59,7 @@
 				>
 			{/if}
 		</div>
-		<h1 class="ink-h1 uppercase">{headline.brand}</h1>
+		<Heading level={1} class="ink-h1 uppercase" text={headline.brand} />
 		<div
 			class="grid grid-cols-1 items-start gap-[var(--grid)] sm:grid-cols-2 sm:gap-x-[calc(var(--grid)*2)]"
 		>
@@ -102,9 +103,11 @@
 						<div class="grid grid-cols-1 sm:grid-cols-2">
 							{#each row.cells as cell (cell.heading)}
 								<div class={cell.side === 1 ? 'sm:col-start-2' : ''}>
-									<h2 class="ink-h3 px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]">
-										{cell.heading}
-									</h2>
+									<Heading
+										level={2}
+										class="ink-h3 px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]"
+										text={cell.heading}
+									/>
 									{#each cell.body.split('\n\n') as para, pi (pi)}
 										<p
 											class="ink-read px-[var(--grid)] pb-[var(--grid)] {pi === 0

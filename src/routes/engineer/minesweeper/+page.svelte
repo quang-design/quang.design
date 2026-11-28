@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { Heading } from '$lib/components/primitives';
 	import { pages } from '$lib/seo/copy';
 	import Minesweeper from './Minesweeper.svelte';
 </script>
@@ -11,7 +12,7 @@
 />
 
 <div class="canvas-split">
-	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to Minesweeper</h1>
+	<Heading level={1} class="ink-h1 uppercase sm:col-start-1" text="Welcome to Minesweeper" />
 	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
 		<p>A simple minesweeper game built with SvelteKit and TailwindCSS.</p>
 		<p>Click on a cell to reveal what's underneath. If it's a mine, you lose!</p>

@@ -4,6 +4,7 @@ import { engineerProjects } from '$lib/content/engineer';
 import { designHeadline } from '$lib/content/headline';
 import { designHref } from '$lib/content/slug';
 import { pages, searchDescription } from '$lib/seo/copy';
+import { titleCase } from '$lib/title-case';
 import homeContent from '../../routes/content.md?raw';
 
 export type ShareCard = {
@@ -52,26 +53,30 @@ export function normalizeSharePath(input: string) {
 	return decoded.length ? `/${decoded.join('/')}` : '/';
 }
 
+function withHeading(path: string, heading: string, body: string): ShareCard {
+	return { path, heading: titleCase(heading), body };
+}
+
 export function shareCard(pathname: string): ShareCard | null {
 	const path = normalizeSharePath(pathname);
 	if (!path) return null;
 
 	const index = indexes[path];
-	if (index) return { path, ...index };
+	if (index) return withHeading(path, index.heading, index.body);
 
 	const project = engineerProjects.find((item) => item.href === path && !item.external);
-	if (project) return { path, heading: project.title, body: toolBody[path] ?? project.description };
+	if (project) return withHeading(path, project.title, toolBody[path] ?? project.description);
 
 	if (path.startsWith('/design/')) {
 		const slug = path.slice('/design/'.length);
 		if (!designHref(slug)) return null;
 		const post = getDesignPosts().find((item) => item.slug === slug);
 		if (!post) return null;
-		return {
+		return withHeading(
 			path,
-			heading: designHeadline(post.title, slug).brand,
-			body: searchDescription(post.description)
-		};
+			designHeadline(post.title, slug).brand,
+			searchDescription(post.description)
+		);
 	}
 
 	if (path.startsWith('/blog/posts/')) {
@@ -79,7 +84,7 @@ export function shareCard(pathname: string): ShareCard | null {
 		if (!slug || slug.includes('/')) return null;
 		const post = getBlogPosts().find((item) => item.slug === slug);
 		if (!post) return null;
-		return { path, heading: post.title, body: searchDescription(post.description) };
+		return withHeading(path, post.title, searchDescription(post.description));
 	}
 
 	return null;

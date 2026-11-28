@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { Heading } from '$lib/components/primitives';
 	import { pages } from '$lib/seo/copy';
 	import TextEditor from './text-editor.svelte';
 
@@ -15,7 +16,11 @@
 />
 
 <div class="canvas-split">
-	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to AI Microscopic Text</h1>
+	<Heading
+		level={1}
+		class="ink-h1 uppercase sm:col-start-1"
+		text="Welcome to AI Microscopic Text"
+	/>
 	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
 		<p>
 			Another tool inspired by <a href={resolve('/engineer/telescopic')}>AI Telescopic Text</a>,

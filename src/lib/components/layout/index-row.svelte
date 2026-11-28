@@ -5,6 +5,7 @@
 	import { cn } from '$lib/utils';
 	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import { KeySlot, Hatch } from '$lib/components/primitives';
+	import { titleCase } from '$lib/title-case';
 	import { PREVIEW_KEY, type Preview, type PreviewState } from '$lib/preview.svelte';
 
 	let {
@@ -87,7 +88,7 @@
 		/>
 	{/if}
 	<span class="flex min-w-0 grow flex-col pl-[var(--grid)]">
-		<span class="ink-row-title truncate">{title}</span>
+		<span class="ink-row-title truncate">{titleCase(title)}</span>
 		{#if description}<span class="ink-row-desc line-clamp-1">{description}</span>{/if}
 	</span>
 	{#if date}<span class="ink-row-meta shrink-0 pl-[var(--grid)]">{date}</span>{/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Heading } from '$lib/components/primitives';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { pages } from '$lib/seo/copy';
 	import EmptyState from '$lib/components/shared/empty-state.svelte';
@@ -17,7 +18,7 @@
 />
 
 <div class="min-w-0">
-	<h1 class="sr-only">Blog</h1>
+	<Heading level={1} class="sr-only" text="Blog" />
 	{#if posts && posts.length > 0}
 		<div class="stack stack-flush flex flex-col">
 			{#each posts as post, i (post.slug)}

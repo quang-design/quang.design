@@ -4,6 +4,7 @@
 	import { cn } from '$lib/utils';
 	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
 	import { MicroLabel, KeySlot, Count } from '$lib/components/primitives';
+	import { titleCase } from '$lib/title-case';
 	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
 	import type { TreeGroup } from '$lib/config/tree';
 
@@ -19,7 +20,7 @@
 <nav id="site-index" class={cn('flex flex-col', className)}>
 	{#each groups as group (group.label)}
 		<div class="flex flex-col">
-			<MicroLabel class="px-[var(--grid)]">{group.label}</MicroLabel>
+			<MicroLabel class="px-[var(--grid)]">{titleCase(group.label)}</MicroLabel>
 			<div class="stack stack-flush flex flex-col">
 				{#each group.rows as row (row.code)}
 					<a
@@ -39,7 +40,7 @@
 						onblur={() => preview?.clearHover()}
 					>
 						<KeySlot code={row.code} />
-						<span class="ink-row grow truncate">{row.label}</span>
+						<span class="ink-row grow truncate">{titleCase(row.label)}</span>
 						{#if row.count !== undefined}
 							<Count value={row.count} />
 						{/if}

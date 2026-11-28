@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { Heading } from '$lib/components/primitives';
 	import { pages } from '$lib/seo/copy';
 	import AnimationCard from './AnimationCard.svelte';
 	import { sections } from './animations';
@@ -15,7 +16,7 @@
 	class="@container w-full space-y-[calc(var(--grid)*2)] p-[var(--grid)] sm:space-y-[calc(var(--grid)*3)]"
 >
 	<div>
-		<h1 class="ink-display uppercase">Animation Vocabulary</h1>
+		<Heading level={1} class="ink-display uppercase" text="Animation Vocabulary" />
 		<p>Interactive visual glossary of animation terms.</p>
 		<p>
 			Inspired by <a
@@ -27,7 +28,7 @@
 	{#each sections as section (section.title)}
 		<div class="space-y-[var(--grid)]">
 			<div>
-				<h2 class="ink-label">{section.title}</h2>
+				<Heading level={2} class="ink-label" text={section.title} />
 				<p class="text-muted-foreground text-sm">{section.description}</p>
 			</div>
 			<div class="grid grid-cols-1 gap-0 @[36rem]:grid-cols-2">

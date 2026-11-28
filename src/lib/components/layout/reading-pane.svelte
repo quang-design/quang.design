@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
 	import { MicroLabel } from '$lib/components/primitives';
+	import { titleCase } from '$lib/title-case';
 	import type { Preview } from '$lib/preview.svelte';
 
 	let {
@@ -24,7 +25,7 @@
 				<MicroLabel>{preview.eyebrow}</MicroLabel>
 			{/if}
 			{#if preview.title}
-				<p class="ink-h4 mt-[var(--hair)]">{preview.title}</p>
+				<p class="ink-h4 mt-[var(--hair)]">{titleCase(preview.title)}</p>
 			{/if}
 			{#if preview.thumbnail}
 				<img src={preview.thumbnail} alt="" class="mt-[var(--grid)] w-full object-cover" />
