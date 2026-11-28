@@ -6,6 +6,7 @@
 	import UserIcon from '@lucide/svelte/icons/user';
 	import CloudIcon from '@lucide/svelte/icons/cloud';
 	import GlobeIcon from '@lucide/svelte/icons/globe';
+	import { Heading } from '$lib/components/primitives';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { pages } from '$lib/seo/copy';
 	import { IndexRow } from '$lib/components/layout';
@@ -30,7 +31,7 @@
 />
 
 <div class="min-w-0">
-	<h1 class="sr-only">Engineer</h1>
+	<Heading level={1} class="sr-only" text="Engineer" />
 	<div class="stack stack-flush flex flex-col">
 		{#each engineerProjects as project, i (project.href)}
 			{@const Icon = icons[project.href as keyof typeof icons]}

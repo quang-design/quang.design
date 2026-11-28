@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Markdown } from '$lib/components/markdown';
+	import { Heading } from '$lib/components/primitives';
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import { page } from '$app/state';
@@ -40,7 +41,7 @@
 				href="/blog/posts/{page.params.slug}/post.md">post.md</Badge
 			>
 		</div>
-		<h1 class="ink-h1">{data.meta.title}</h1>
+		<Heading level={1} class="ink-h1" text={data.meta.title} />
 		{#if data.meta.date}
 			<p class="ink-label">{data.meta.date}</p>
 		{/if}

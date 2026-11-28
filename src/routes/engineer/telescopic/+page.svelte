@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/shared/seo-head.svelte';
+	import { Heading } from '$lib/components/primitives';
 	import { pages } from '$lib/seo/copy';
 	import { apiPaths } from '$lib/config/api';
 	import EditableText from './editable-text.svelte';
@@ -51,7 +52,7 @@
 />
 
 <div class="canvas-split">
-	<h1 class="ink-h1 uppercase sm:col-start-1">Welcome to AI Telescopic Text</h1>
+	<Heading level={1} class="ink-h1 uppercase sm:col-start-1" text="Welcome to AI Telescopic Text" />
 	<div class="ink-read space-y-[var(--grid)] sm:col-start-1">
 		<p>
 			Inspired by <a href="https://www.telescopictext.org">Telescopic Text</a>, this tool uses AI to

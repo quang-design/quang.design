@@ -2,6 +2,7 @@
 	import Markdown from 'svelte-exmarkdown';
 	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
 	import type { Plugin } from 'svelte-exmarkdown';
+	import { titleCaseHeadings } from '$lib/title-case';
 	import DesignParagraph from './design-paragraph.svelte';
 	import DesignImage from './design-image.svelte';
 
@@ -15,4 +16,4 @@
 	};
 </script>
 
-<Markdown {md} plugins={[gfmPlugin(), designPlugin]} />
+<Markdown {md} plugins={[gfmPlugin(), { remarkPlugin: titleCaseHeadings }, designPlugin]} />

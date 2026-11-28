@@ -1,3 +1,5 @@
+import { titleCase } from '$lib/title-case';
+
 export const siteName = 'quang.design';
 
 export const pages = {
@@ -52,12 +54,12 @@ const titleSuffixes = [
 
 export function documentTitle(name: string) {
 	const clean = name.trim();
-	if (clean.length >= 50) return clean;
+	if (clean.length >= 50) return titleCase(clean);
 	for (const suffix of titleSuffixes) {
 		const next = `${clean}${suffix}`;
-		if (next.length >= 50 && next.length <= 60) return next;
+		if (next.length >= 50 && next.length <= 60) return titleCase(next);
 	}
-	return clean;
+	return titleCase(clean);
 }
 
 const DESCRIPTION_MIN = 120;

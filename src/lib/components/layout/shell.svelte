@@ -15,6 +15,7 @@
 	import ReadingPane from './reading-pane.svelte';
 	import MicroLabel from '$lib/components/primitives/micro-label.svelte';
 	import Subscribe from '$lib/components/shared/subscribe.svelte';
+	import { titleCase } from '$lib/title-case';
 	import { buildIndexTree, type NavData } from '$lib/config/tree';
 	import { PreviewState, PREVIEW_KEY } from '$lib/preview.svelte';
 
@@ -90,7 +91,7 @@
 					<div
 						class="reading-pane flex h-full min-h-[calc(var(--grid)*2)] flex-col p-[var(--grid)]"
 					>
-						<MicroLabel>Detail</MicroLabel>
+						<MicroLabel>{titleCase('Detail')}</MicroLabel>
 						<p class="ink-row-desc">Hover a row or a link to preview.</p>
 					</div>
 				{/if}

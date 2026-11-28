@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { getAstNode } from 'svelte-exmarkdown';
+	import type { HastNode } from 'svelte-exmarkdown';
 	import type { Snippet } from 'svelte';
+	import { Heading } from '$lib/components/primitives';
 
 	let { children, ...rest }: { children?: Snippet; [key: string]: unknown } = $props();
 
@@ -25,6 +27,17 @@
 			node?.children?.[0]?.type === 'element' &&
 			node?.children?.[0]?.tagName === 'strong'
 	);
+
+	const headingText = $derived(strongText(node));
+
+	function strongText(current: HastNode | undefined) {
+		const strong = current?.children?.[0];
+		if (!strong || strong.type !== 'element' || strong.tagName !== 'strong') return '';
+		return strong.children
+			.filter((child) => child.type === 'text')
+			.map((child) => child.value)
+			.join('');
+	}
 </script>
 
 {#if is2col}
@@ -36,9 +49,11 @@
 		{@render children?.()}
 	</div>
 {:else if isHeading}
-	<h2 class="ink-h3 px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]" {...rest}>
-		{@render children?.()}
-	</h2>
+	<Heading
+		level={2}
+		class="ink-h3 px-[var(--grid)] pt-[var(--grid)] pb-[var(--grid)]"
+		text={headingText}
+	/>
 {:else}
 	<p class="ink-read px-[var(--grid)] py-[var(--grid)]" {...rest}>
 		{@render children?.()}

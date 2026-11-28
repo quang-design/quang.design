@@ -3,6 +3,7 @@
 	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
 	import { getContext } from 'svelte';
 	import { cn } from '$lib/utils';
+	import { titleCaseHeadings } from '$lib/title-case';
 	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
 	import { isExternalHref } from '$lib/config/site';
 	import CodeBlock from './code-block.svelte';
@@ -21,7 +22,7 @@
 	}
 </script>
 
-<Markdown {md} plugins={[gfmPlugin()]}>
+<Markdown {md} plugins={[gfmPlugin(), { remarkPlugin: titleCaseHeadings }]}>
 	{#snippet ol(props)}
 		{@const { children, ...rest } = props}
 		<ol {...rest} class={cn('ml-6 list-outside list-decimal', rest.class)}>

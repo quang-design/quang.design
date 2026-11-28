@@ -1,6 +1,7 @@
 <script lang="ts">
 	import anime from 'animejs';
 	import type { AnimateFn } from './animations';
+	import { titleCase } from '$lib/title-case';
 
 	let {
 		title,
@@ -69,7 +70,7 @@
 		<div {@attach autoplay} class="anim-play"></div>
 	</div>
 	<div class="anim-copy">
-		<span class="ink-row-title">{title}</span>
+		<span class="ink-row-title">{titleCase(title)}</span>
 		<span class="ink-row-desc">{description}</span>
 		<span class="ink-label anim-hint">click to replay</span>
 	</div>
