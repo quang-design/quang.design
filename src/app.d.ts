@@ -1,11 +1,11 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
-declare global {
-	namespace App {
-		interface PageData {
-			shareOrigin: string;
-		}
+declare namespace App {
+	interface PageData {
+		shareOrigin: string;
 	}
 }
 
-export {};
+declare module '@gouch/to-title-case' {
+	export function toTitleCase(value: string): string;
+}
