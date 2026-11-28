@@ -470,6 +470,12 @@
 		line-height: var(--grid);
 	}
 
+	.ink-read p.ink-caption {
+		margin-top: 0;
+		font-size: var(--text-xs);
+		color: var(--muted-foreground);
+	}
+
 	.ink-code {
 		background-color: var(--ink-10);
 		background-image: none;

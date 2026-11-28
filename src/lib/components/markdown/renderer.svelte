@@ -5,6 +5,7 @@
 	import { cn } from '$lib/utils';
 	import { PREVIEW_KEY, type PreviewState } from '$lib/preview.svelte';
 	import { isExternalHref } from '$lib/config/site';
+	import type { HastNode } from 'svelte-exmarkdown';
 	import CodeBlock from './code-block.svelte';
 	let { md }: { md: string } = $props();
 
@@ -19,9 +20,46 @@
 	function leave() {
 		preview?.clearHover();
 	}
+
+	function plainText(node: HastNode): string {
+		if (node.type === 'text' || node.type === 'raw') return node.value;
+		if (node.type === 'element' || node.type === 'root')
+			return node.children.map(plainText).join('');
+		return '';
+	}
+
+	function isImageParagraph(node: HastNode) {
+		if (node.type !== 'element' || node.tagName !== 'p') return false;
+		const elements = node.children.filter((child) => child.type === 'element');
+		return elements.length === 1 && elements[0].tagName === 'img';
+	}
+
+	function previousElement(children: HastNode[], index: number) {
+		for (let i = index - 1; i >= 0; i--) {
+			const child = children[i];
+			if (child.type === 'text' && child.value.trim() === '') continue;
+			return child;
+		}
+	}
+
+	function imageCredit() {
+		return (tree: HastNode) => {
+			if (tree.type !== 'root') return;
+			for (let i = 1; i < tree.children.length; i++) {
+				const node = tree.children[i];
+				const previous = previousElement(tree.children, i);
+				if (node.type !== 'element' || node.tagName !== 'p' || !previous) continue;
+				if (!isImageParagraph(previous)) continue;
+				if (!plainText(node).startsWith('Image:')) continue;
+				const properties = (node.properties ??= {});
+				const current = Array.isArray(properties.className) ? properties.className : [];
+				properties.className = [...current, 'ink-caption'];
+			}
+		};
+	}
 </script>
 
-<Markdown {md} plugins={[gfmPlugin()]}>
+<Markdown {md} plugins={[gfmPlugin(), { rehypePlugin: imageCredit }]}>
 	{#snippet ol(props)}
 		{@const { children, ...rest } = props}
 		<ol {...rest} class={cn('ml-6 list-outside list-decimal', rest.class)}>
