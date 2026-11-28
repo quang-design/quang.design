@@ -6,7 +6,7 @@ published: true
 thumbnail: '/blog/posts/the-beauty-of-function/the-beauty-of-function.avif'
 ---
 
-![The beauty of function](/blog/posts/the-beauty-of-function/the-beauty-of-function.avif)
+![Beijing Subway Line 12 icon by TONY LU, public domain, via Wikimedia Commons](/blog/posts/the-beauty-of-function/the-beauty-of-function.avif)
 
 Image: Beijing Subway Line 12 icon by TONY LU, public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:BJS_Line_12_icon.svg)
 
